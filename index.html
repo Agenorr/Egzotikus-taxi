@@ -1,124 +1,269 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--Stylesheet-->
-    <link rel="stylesheet" href="index.css">
-    <!--Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!--Ikonok css-je-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exotic - Kezdőlap</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>Exotic - Kezdőlap</title>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <style>
+        /* Navbar styling */
+        .navbar-custom {
+            background-color: #1a1a1a;
+            padding: 10px 20px;
+        }
+
+        .navbar-custom .navbar-brand img {
+            height: 40px;
+        }
+
+        .navbar-custom .navbar-nav a {
+            color: white;
+            margin-left: 20px;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 20px;
+            z-index: 1;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar-close {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+        }
+
+        .sidebar-close i {
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        .sidebar-logo {
+            height: 100px;
+            margin-right: 15px;
+        }
+
+        .sidebar-close span {
+            font-size: 24px;
+            color: white;
+        }
+
+        /* Adjust the content when the sidebar is open */
+        .open-sidebar {
+            width: 30%;
+        }
+
+        .hamburger-icon {
+            cursor: pointer;
+            font-size: 30px;
+            color: white;
+        }
+
+        .navbar-custom .nav-item a {
+            color: white !important;
+        }
+
+        /* Style for the image container above the footer */
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            background-color: #f8f9fa;
+        }
+
+        .image-box {
+            position: relative;
+            width: 30%;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: auto;
+            transition: opacity 0.5s ease, background-color 0.5s ease;
+        }
+
+        .image-box .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s ease, opacity 0.5s ease;
+        }
+
+        .image-box:hover .image-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 1;
+        }
+
+        .image-box .image-button {
+            background-color: #ffc107;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .image-box:hover .image-button {
+            opacity: 1;
+        }
+
+        .image-button:hover {
+            background-color: #ffc107;
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* Slideshow styling */
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
-          <a class="navbar-brand">Exotic</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.html">Kezdőlap</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Szolgáltatások
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="autoberles.html">Autóbérlés</a></li>
-                  <li><a class="dropdown-item" href="taxiszolgalat.html">Taxi szolgálat</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Placeholder</a></li>
-                </ul>
+            <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
+            <a class="navbar-brand ms-3" href="#">
+                <img src="img/Exotic_logo.png" alt="Logo">
+            </a>
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="rolunk.html">Rólunk</a>
+                    <a class="nav-link" href="#">Belépés | Regisztráció</a>
                 </li>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="galeria.html">Galéria</a>
-              </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
         </div>
-      </nav>
-      <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="row kepek">
-                <div class="carousel-item active kep">
-                    <img src="img/ferrari1.jpg" class="d-block w-100" alt="...">
-                    <div class="centered">Üdvözlés <br> <p class="udvozlo">Lorem ipsum dolor sit amet.</p></div>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/Vintage-Shop-Header.webp" class="d-block w-100" alt="...">
-                    <div class="centered">Üdvözlés <br> <p class="udvozlo">Lorem ipsum dolor sit amet.</p></div>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/What-is-horsepower-3.webp" class="d-block w-100" alt="...">
-                    <div class="centered">Üdvözlés <br> <p class="udvozlo">Lorem ipsum dolor sit amet.</p></div>
-                </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-close">
+            <div style="display: flex; align-items: center;">
+                <img src="img/Exotic_logo.png" alt="Logo" class="sidebar-logo">
+                <span>Menu</span>
             </div>
+            <i class="fa fa-times" onclick="toggleSidebar()"></i>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="row bemutatkozas">
-        <div class="col-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima voluptates possimus odit! Id hic accusantium provident reprehenderit, quidem aliquid? Quia iure rem praesentium corrupti cumque, eveniet dicta itaque, nisi ex, atque aliquam harum ipsum necessitatibus! Sed in dolor recusandae velit harum, est obcaecati non vero beatae numquam ea, odio minima.</div>
-        <div class="col-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate rem velit deleniti reprehenderit cum iste aspernatur dolor? Ratione facere reprehenderit harum sed nobis commodi. Deleniti soluta quae autem doloribus, doloremque provident in voluptates officia nemo iste error sunt ex veritatis facere similique odit modi dolores tempore nihil molestias voluptatem? Quidem.</div>
-      </div>
-      <div class="row newsrow">
-        <h1 id="ujdonsagok">Újdonságok</h1>
-        <!--A link az autók alatt az Autóbérléses oldarra visz.-->
-        <div class="col-4">
-          <img src="img/arGiulia.png" class="news" alt="">
-          <p class="kezdolapauto">autó neve <br> <a href="placeholder">Irány a bérléshez!</a></p>
-        </div>
-        <div class="col-4"><img src="placeholder" class="news" alt="">
-          <img src="img/arGiulia.png" class="news" alt="">
-          <p class="kezdolapauto">autó neve <br> <a href="placeholder">Irány a bérléshez!</a></p></div>
-        <div class="col-4"><img src="placeholder" class="news" alt="">
-          <img src="img/arGiulia.png" class="news" alt="">
-          <p class="kezdolapauto">autó neve <br> <a href="placeholder">Irány a bérléshez!</a></p></div>
-      </div>
+        <a href="#">Item 1</a>
+        <a href="#">Item 2</a>
     </div>
 
-    
+    <!-- Slideshow -->
+    <div id="carSlideshow" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/ferrari1.jpg" alt="Car 1">
+            </div>
+            <div class="carousel-item">
+                <img src="img/Vintage-Shop-Header.webp" alt="Car 2">
+            </div>
+            <div class="carousel-item">
+                <img src="img/What-is-horsepower-3.webp" alt="Car 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carSlideshow" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carSlideshow" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Images above the footer -->
+    <div class="image-container">
+        <div class="image-box">
+            <img src="img/p_carrera.webp" alt="Car 1">
+            <div class="image-overlay">
+                <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+            </div>
+        </div>
+        <div class="image-box">
+            <img src="img/p_carrera.webp" alt="Car 2">
+            <div class="image-overlay">
+                <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+            </div>
+        </div>
+        <div class="image-box">
+            <img src="img/p_carrera.webp" alt="Car 3">
+            <div class="image-overlay">
+                <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS for sidebar toggling -->
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "0px" || sidebar.style.width === "") {
+                sidebar.style.width = "20%";
+            } else {
+                sidebar.style.width = "0";
+            }
+        }
+    </script>
 
     <footer>
         <div class="row footer">
-          <div class="col-3">
-            <p class="footerleft"><i class="fa fa-instagram" style="font-size:20px;color:black">:</i> ExoticCarDealership</p>
-            <p class="footerleft"><i class="fa fa-envelope" style="font-size:20px;color:black">:</i> Exotic@gmail.com</p>
-            <p class="footerleft">Ügyfélszolgálat: +36300000000</p>
-            <p class="footerleft">Székhely: cím</p>
-          </div>
-          <!--Valami designos logo kéne ide-->
-          <div class="col-6"><h1>Exotic</h1></div>
-          <!--Ide még nem tudom mi kéne-->
-          <div class="col-3"></div>
+            <div class="col-3">
+                <p class="footerleft"><i class="fa fa-instagram" style="font-size:20px;color:black">:</i> ExoticCarDealership</p>
+                <p class="footerleft"><i class="fa fa-envelope" style="font-size:20px;color:black">:</i> Exotic@gmail.com</p>
+                <p class="footerleft">Ügyfélszolgálat: +36300000000</p>
+                <p class="footerleft">Székhely: cím</p>
+            </div>
+            <div class="col-6">
+                <h1>Exotic</h1>
+            </div>
+            <div class="col-3"></div>
         </div>
     </footer>
-  </body>
+
+</body>
+
 </html>
