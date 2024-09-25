@@ -88,6 +88,65 @@
         .navbar-custom .nav-item a {
             color: white !important;
         }
+
+        /* Style for the image container above the footer */
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            background-color: #f8f9fa;
+        }
+
+        .image-box {
+            position: relative;
+            width: 30%;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: auto;
+            transition: opacity 0.5s ease, background-color 0.5s ease;
+        }
+
+        .image-box .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s ease, opacity 0.5s ease;
+        }
+
+        .image-box:hover .image-overlay {
+            background-color: rgba(0, 0, 0, 0.5); /* Dark fade */
+            opacity: 1;
+        }
+
+        .image-box .image-button {
+            background-color: #ffc107;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .image-box:hover .image-button {
+            opacity: 1; /* Button appears in the center */
+        }
+
+        .image-button:hover {
+            background-color: #ffc107;
+            color: #000;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -162,23 +221,39 @@
           </div>
           <div class="row bemutatkozas">
             <div class="col-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima voluptates possimus odit! Id hic accusantium provident reprehenderit, quidem aliquid? Quia iure rem praesentium corrupti cumque, eveniet dicta itaque, nisi ex, atque aliquam harum ipsum necessitatibus! Sed in dolor recusandae velit harum, est obcaecati non vero beatae numquam ea, odio minima.</div>
-            <div class="col-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate rem velit deleniti reprehenderit cum iste aspernatur dolor? Ratione facere reprehenderit harum sed nobis commodi. Deleniti soluta quae autem doloribus, doloremque provident in voluptates officia nemo iste error sunt ex veritatis facere similique odit modi dolores tempore nihil molestias voluptatem? Quidem.</div>
-          </div>
-          <div class="row newsrow">
-            <h1 id="ujdonsagok">Újdonságok</h1>
-            <!--A link az autók alatt az Autóbérléses oldarra visz.-->
-            <div class="col-4">
-              <img src="img/arGiulia.png" class="news" alt="">
-              <p class="kezdolapauto">autó neve <br> <a href="placeholder">Irány a bérléshez!</a></p>
-            </div>
-            <div class="col-4"><img src="placeholder" class="news" alt="">
-              <img src="img/arGiulia.png" class="news" alt="">
-              <p class="kezdolapauto">autó neve <br> <a href="placeholder">Irány a bérléshez!</a></p></div>
-            <div class="col-4"><img src="placeholder" class="news" alt="">
-              <img src="img/arGiulia.png" class="news" alt="">
-              <p class="kezdolapauto">autó neve <br> <a href="placeholder">Irány a bérléshez!</a></p></div>
+            <div class="col-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate rem velit deleniti reprehenderit cum iste aspernatur dolor? Ratione facere reprehenderit harum dolorum quas excepturi veritatis a esse suscipit. Ut dolores necessitatibus soluta quam voluptate cupiditate.</div>
           </div>
         </div>
+</div>
+
+<!-- Images above the footer -->
+<div class="image-container">
+    <div class="image-box">
+        <img src="./1993-toyota-supra-fast-and-the-furious.jpg" alt="Car 1">
+        <div class="image-overlay">
+            <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+        </div>
+    </div>
+    <div class="image-box">
+        <img src="./1993-toyota-supra-fast-and-the-furious.jpg" alt="Car 2">
+        <div class="image-overlay">
+            <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+        </div>
+    </div>
+    <div class="image-box">
+        <img src="./1993-toyota-supra-fast-and-the-furious.jpg" alt="Car 3">
+        <div class="image-overlay">
+            <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">Place your footer content here.</span>
+    </div>
+</footer>
 
 <!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -194,6 +269,21 @@
         }
     }
 </script>
+
+<footer>
+    <div class="row footer">
+      <div class="col-3">
+        <p class="footerleft"><i class="fa fa-instagram" style="font-size:20px;color:black">:</i> ExoticCarDealership</p>
+        <p class="footerleft"><i class="fa fa-envelope" style="font-size:20px;color:black">:</i> Exotic@gmail.com</p>
+        <p class="footerleft">Ügyfélszolgálat: +36300000000</p>
+        <p class="footerleft">Székhely: cím</p>
+      </div>
+      <!--Valami designos logo kéne ide-->
+      <div class="col-6"><h1>Exotic</h1></div>
+      <!--Ide még nem tudom mi kéne-->
+      <div class="col-3"></div>
+    </div>
+</footer>
 
 </body>
 </html>
