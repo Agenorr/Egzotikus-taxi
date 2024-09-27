@@ -196,9 +196,11 @@ footer .social-icons i {
     color: white;
 }
 
-footer p {
+footer p{
     font-size: 14px;
-}
+    color: white !important;
+    }
+
 
 /* Features section styling */
 .container .row .col-md-4 {
