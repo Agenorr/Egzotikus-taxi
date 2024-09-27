@@ -1,3 +1,22 @@
+/* Center the navbar title */
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.navbar-title {
+    font-family: 'Monsieur La Doulaise', cursive; /* Handwritten font */
+    font-size: 2rem; /* Larger font size for prominence */
+    color: #DAA520; /* Luxurious gold color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    letter-spacing: 2px; /* Elegant letter spacing */
+    white-space: nowrap;
+}
+
+
+
 /* Navbar styling */
 .navbar-custom {
     background-color: #1a1a1a;
