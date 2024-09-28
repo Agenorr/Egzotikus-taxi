@@ -1,564 +1,134 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/alap.css">
+    <link rel="stylesheet" href="rolunk.css">
+    <script src="rolunk.js"></script>
+    <script src="/alap.js"></script>
     <title>Exotic - Rólunk</title>
-    <style>
-        body {
-            text-align: justify; /* Justify text for better alignment */
-        }
-        .carousel-item img {
-            width: 100%; /* Responsive image */
-            max-width: 500px; /* Set max width for slideshow images */
-            margin: auto; /* Center the image */
-        }
-        .carousel {
-            display: flex;
-            justify-content: center; /* Center the carousel */
-            align-items: center;
-            margin: 20px 0;
-        }
-        .text-left {
-            text-align: left; /* Left-align text for the "Rólunk" section */
-        }
-        .section-spacing {
-            margin-bottom: 1.5cm; /* Spacing between sections */
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-    <div class="container-fluid text-center">
-        <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Exotic</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="index.html">Kezdőlap</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Szolgáltatások
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="autoberles.html">Autóbérlés</a></li>
-                                <li><a class="dropdown-item" href="taxiszolgalat.html">Taxi szolgálat</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="rolunk.html">Rólunk</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="galeria.html">Galéria</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
+            <a class="navbar-brand ms-3" href="#">
+                <img src="/img/Exotic_logo.png" alt="Logo">
+            </a>
+    
+            <!-- Title in the center of the navbar -->
+            <div class="navbar-center">
+                <span class="navbar-title">Exotic</span>
             </div>
-        </nav>
-
-        <!-- Image Section -->
-        <div class="row mt-4 justify-content-center section-spacing">
-            <div class="col-md-6">
-                <img src="./miniature.webp" alt="Descriptive Alt Text" class="img-fluid">
+    
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Belépés | Regisztráció</a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
+        <div class="sidebar-close">
+            <div style="display: flex; align-items: center;">
+                <img src="/img/Exotic_logo.png" alt="Logo" class="sidebar-logo">
+                <a href="index.html" class="dropdown-item">Kezdőlap</a>
             </div>
-            <div class="col-md-6 text-left">
-                <h2>Rólunk</h2>
-                <p>Rövid bemutatkozás.</p>
-            </div>
+            <i class="fa fa-times" onclick="toggleSidebar()"></i>
         </div>
 
-        <!-- Long Text Section -->
-        <div class="mt-4 section-spacing">
-            <p>Ide jön a cégnek a szövege!</p>
+        <!-- Sidebar links -->
+        <div class="dropdown">
+            <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center" id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; text-decoration: none;">
+                Autóbérlés
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
+                <li><a class="dropdown-item" href="#">Tovább a bérléshez</a></li>
+                <li><a class="dropdown-item" href="#">Bérlési feltételek</a></li>
+            </ul>
         </div>
-
-        <!-- Slideshow Section -->
-        <div id="carouselExample" class="carousel slide mt-4 section-spacing" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="./miniature.webp" class="d-block" alt="Image 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Slideshow 1. kép</h5>
-                        <p>helosziahelo</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./miniature (1).webp" class="d-block" alt="Image 2">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Abelka</h5>
-                        <p>agenort szereti</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./általános-modern-autó-betonfal-előtt.webp" class="d-block" alt="Image 3">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Rolika</h5>
-                        <p>Legnagyobb kiraj</p>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-        <footer class="text-center mt-4">
-            <p>footer helye</p>
-            <p><a href="#">placeholder</a></p>
-        </footer>
+        <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
+        <a href="galeria.html" style="color: white;">Galéria</a>
+        <a href="rolunk.html" style="color: white;">Rólunk</a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
-    <title>Exotic - Rólunk</title>
-    <style>
-        body {
-            text-align: justify; /* Justify text for better alignment */
-        }
-        .carousel-item img {
-            width: 100%; /* Responsive image */
-            max-width: 500px; /* Set max width for slideshow images */
-            margin: auto; /* Center the image */
-        }
-        .carousel {
-            display: flex;
-            justify-content: center; /* Center the carousel */
-            align-items: center;
-            margin: 20px 0;
-        }
-        .text-left {
-            text-align: left; /* Left-align text for the "Rólunk" section */
-        }
-        .section-spacing {
-            margin-bottom: 1.5cm; /* Spacing between sections */
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container-fluid text-center">
-        <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Exotic</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="index.html">Kezdőlap</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Szolgáltatások
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="autoberles.html">Autóbérlés</a></li>
-                                <li><a class="dropdown-item" href="taxiszolgalat.html">Taxi szolgálat</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="rolunk.html">Rólunk</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="galeria.html">Galéria</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+    <div class="container container-custom">
+        <!-- Main Content -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="main-image">
+                    <p class="text-center">Alapítókról/Rólunk kép</p>
                 </div>
             </div>
-        </nav>
-
-        <!-- Image Section -->
-        <div class="row mt-4 justify-content-center section-spacing">
-            <div class="col-md-6">
-                <img src="./miniature.webp" alt="Descriptive Alt Text" class="img-fluid">
-            </div>
-            <div class="col-md-6 text-left">
-                <h2>Rólunk</h2>
-                <p>Rövid bemutatkozás.</p>
+            <div class="col-md-4">
+                <div class="slideshow">
+                    <p class="text-center">Slideshow képek</p>
+                </div>
+                <div class="slideshow-text">
+                    <p class="text-center">Slideshow szöveg</p>
+                </div>
             </div>
         </div>
 
-        <!-- Long Text Section -->
-        <div class="mt-4 section-spacing">
-            <p>Ide jön a cégnek a szövege!</p>
-        </div>
-
-        <!-- Slideshow Section -->
-        <div id="carouselExample" class="carousel slide mt-4 section-spacing" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="./miniature.webp" class="d-block" alt="Image 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Slideshow 1. kép</h5>
-                        <p>helosziahelo</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./miniature (1).webp" class="d-block" alt="Image 2">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Abelka</h5>
-                        <p>agenort szereti</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./általános-modern-autó-betonfal-előtt.webp" class="d-block" alt="Image 3">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Rolika</h5>
-                        <p>Legnagyobb kiraj</p>
-                    </div>
-                </div>
+        <!-- Info Section -->
+        <div class="row info-section">
+            <div class="col-md-12">
+                <h4>Mikor kezdtük el, és milyen problémát oldunk meg ezzel</h4>
+                <p>Ide jön a szöveg, amely leírja a cég indulásának történetét, és hogy milyen problémákat oldottak meg.</p>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
 
-        <footer class="text-center mt-4">
-            <p>footer helye</p>
-            <p><a href="#">placeholder</a></p>
-        </footer>
+        <div class="row info-section">
+            <div class="col-md-12">
+                <h4>Mit szeretnénk elérni a jövőben, hová akarunk bővíteni a céget</h4>
+                <p>Ide jön a szöveg, amely leírja a cég jövőbeni terveit és céljait.</p>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</body>
+    <!-- Footer -->
+<footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
+    <div class="container">
+        <div class="row">
+            <!-- Logo and Title -->
+            <div class="col-md-4 d-flex flex-column align-items-center">
+                <img src="/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
+            </div>
 
-</html>
-<!doctype html>
-<html lang="en">
+            <!-- Contact Information -->
+            <div class="col-md-4 text-center">
+                <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i> ExoticCarDealership</p>
+                <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i> Exotic@gmail.com</p>
+                <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
+                <p style="margin: 5px 0;">Székhely: cím</p>
+            </div>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
-    <title>Exotic - Rólunk</title>
-    <style>
-        body {
-            text-align: justify; /* Justify text for better alignment */
-        }
-        .carousel-item img {
-            width: 100%; /* Responsive image */
-            max-width: 500px; /* Set max width for slideshow images */
-            margin: auto; /* Center the image */
-        }
-        .carousel {
-            display: flex;
-            justify-content: center; /* Center the carousel */
-            align-items: center;
-            margin: 20px 0;
-        }
-        .text-left {
-            text-align: left; /* Left-align text for the "Rólunk" section */
-        }
-        .section-spacing {
-            margin-bottom: 1.5cm; /* Spacing between sections */
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container-fluid text-center">
-        <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Exotic</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="index.html">Kezdőlap</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Szolgáltatások
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="autoberles.html">Autóbérlés</a></li>
-                                <li><a class="dropdown-item" href="taxiszolgalat.html">Taxi szolgálat</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="rolunk.html">Rólunk</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="galeria.html">Galéria</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+            <!-- Social Media Links -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div>
+                    <h5 style="margin-bottom: 10px;">Follow us</h5>
+                    <a href="#" class="me-3"><i class="fa fa-facebook-square" style="font-size: 25px; color: white;"></i></a>
+                    <a href="#"><i class="fa fa-twitter-square" style="font-size: 25px; color: white;"></i></a>
+                    <a href="#"><i class="fa fa-instagram" style="font-size: 25px; color: white;"></i></a>
                 </div>
-            </div>
-        </nav>
-
-        <!-- Image Section -->
-        <div class="row mt-4 justify-content-center section-spacing">
-            <div class="col-md-6">
-                <img src="./miniature.webp" alt="Descriptive Alt Text" class="img-fluid">
-            </div>
-            <div class="col-md-6 text-left">
-                <h2>Rólunk</h2>
-                <p>Rövid bemutatkozás.</p>
             </div>
         </div>
 
-        <!-- Long Text Section -->
-        <div class="mt-4 section-spacing">
-            <p>Ide jön a cégnek a szövege!</p>
-        </div>
-
-        <!-- Slideshow Section -->
-        <div id="carouselExample" class="carousel slide mt-4 section-spacing" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="./miniature.webp" class="d-block" alt="Image 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Slideshow 1. kép</h5>
-                        <p>helosziahelo</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./miniature (1).webp" class="d-block" alt="Image 2">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Abelka</h5>
-                        <p>agenort szereti</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./általános-modern-autó-betonfal-előtt.webp" class="d-block" alt="Image 3">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Rolika</h5>
-                        <p>Legnagyobb kiraj</p>
-                    </div>
-                </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <p style="font-size: 12px; margin: 0;">&copy; 2024 Exotic. All rights reserved.</p>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
-
-        <footer class="text-center mt-4">
-            <p>footer helye</p>
-            <p><a href="#">placeholder</a></p>
-        </footer>
     </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
 </body>
-
-</html>
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
-    <title>Exotic - Rólunk</title>
-    <style>
-        body {
-            text-align: justify; /* Justify text for better alignment */
-        }
-        .carousel-item img {
-            width: 100%; /* Responsive image */
-            max-width: 500px; /* Set max width for slideshow images */
-            margin: auto; /* Center the image */
-        }
-        .carousel {
-            display: flex;
-            justify-content: center; /* Center the carousel */
-            align-items: center;
-            margin: 20px 0;
-        }
-        .text-left {
-            text-align: left; /* Left-align text for the "Rólunk" section */
-        }
-        .section-spacing {
-            margin-bottom: 1.5cm; /* Spacing between sections */
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container-fluid text-center">
-        <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Exotic</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="index.html">Kezdőlap</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Szolgáltatások
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="autoberles.html">Autóbérlés</a></li>
-                                <li><a class="dropdown-item" href="taxiszolgalat.html">Taxi szolgálat</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="rolunk.html">Rólunk</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="galeria.html">Galéria</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Image Section -->
-        <div class="row mt-4 justify-content-center section-spacing">
-            <div class="col-md-6">
-                <img src="./miniature.webp" alt="Descriptive Alt Text" class="img-fluid">
-            </div>
-            <div class="col-md-6 text-left">
-                <h2>Rólunk</h2>
-                <p>Rövid bemutatkozás.</p>
-            </div>
-        </div>
-
-        <!-- Long Text Section -->
-        <div class="mt-4 section-spacing">
-            <p>Ide jön a cégnek a szövege!</p>
-        </div>
-
-        <!-- Slideshow Section -->
-        <div id="carouselExample" class="carousel slide mt-4 section-spacing" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="./miniature.webp" class="d-block" alt="Image 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Slideshow 1. kép</h5>
-                        <p>helosziahelo</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./miniature (1).webp" class="d-block" alt="Image 2">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Abelka</h5>
-                        <p>agenort szereti</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="./általános-modern-autó-betonfal-előtt.webp" class="d-block" alt="Image 3">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Rolika</h5>
-                        <p>Legnagyobb kiraj</p>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-        <footer class="text-center mt-4">
-            <p>footer helye</p>
-            <p><a href="#">placeholder</a></p>
-        </footer>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</body>
-
 </html>
