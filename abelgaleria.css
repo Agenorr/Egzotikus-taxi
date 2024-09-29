@@ -1,53 +1,264 @@
-body {
-    background-color: #000; /* Fekete háttér */
-    color: #fff; /* Fehér szöveg */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* A test minimum magassága 100vh */
-  }
-  .highlight-text {
-    color: #ffc107; /* Citromsárga szín */
-    font-size: 1.5rem; /* Nagyobb betűméret */
-    font-style: italic; /* Dőlt betű */
-    text-decoration: underline; /* Aláhúzás */
-    margin-bottom: 20px;
-  }
-  .btn-warning {
-    background-color: #ffc107; /* Citromsárga gomb */
-    color: #000; /* Fekete szöveg a gombon */
-  }
-  .info-text {
-    color: #ffc107; /* Citromsárga szín */
-    font-weight: bold; /* Félkövér */
-    text-align: center; /* Középre igazítás */
-    margin-top: 20px; /* Térköz a szöveg és az előző tartalom között */
-    margin-bottom: 20px; /* Térköz a szöveg és az alatta lévő tartalom között */
-  }
-  .container {
-    flex: 1; /* A konténer tölti ki a rendelkezésre álló helyet */
-  }
-  .extra-container {
-    display: flex;
-    justify-content: space-around;
-    background-color: #222; /* Háttér szín */
-    padding: 50px;
-    border-radius: 0px;
-    margin-bottom: 1px;
-  }
-  .extra-item {
-    text-align: center;
-    max-width: 300px;
-  }
-  .extra-icon {
-    font-size: 30px;
-    margin-bottom: 10px;
-    color: #ffc107; /* Citromsárga ikonok */
-  }
-  .extra-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #ffc107;
-  }
-  .extra-description {
-    color: #ddd;
-  }
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exotic - Galéria</title>
+  <link rel="stylesheet" href="./alap.css">
+  <link rel="stylesheet" href="./abelgaleria.css">
+  <script src="./galeria.js"></script>
+  <script src="./alap.js"></script>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
+      <a class="navbar-brand ms-3" href="#">
+        <img src="/img/Exotic_logo.png" alt="Logo">
+      </a>
+
+      <!-- Title in the center of the navbar -->
+      <div class="navbar-center">
+        <span class="navbar-title">Exotic</span>
+      </div>
+
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Belépés | Regisztráció</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
+    <div class="sidebar-close">
+      <div style="display: flex; align-items: center;">
+        <span class="navbar-title drdown">Exotic</span>
+        <!-- This will now match the style in the center of the navbar -->
+      </div>
+      <i class="fa fa-times" onclick="toggleSidebar()"></i>
+    </div>
+
+    <!-- First item with dropdown and link -->
+    <div class="dropdown">
+      <!-- Main link (with dropdown toggle applied directly to the link) -->
+      <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center"
+        id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+        style="color: white; text-decoration: none;">
+        Autóbérlés
+      </a>
+
+      <!-- Dropdown menu -->
+      <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
+        <li><a class="dropdown-item" href="#">Tovább a bérléshez</a></li>
+        <li><a class="dropdown-item" href="#">Bérlési feltételek</a></li>
+      </ul>
+    </div>
+
+    <!-- Other sidebar items -->
+    <a href="/public/index/index.html" style="color: white">Kezdőlap</a>
+    <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
+    <a href="/public/galeria/galeria.html" style="color: white;">Galéria</a>
+    <a href="#" style="color: white;">FAQ</a>
+    <a href="/public/rolunk/rolunk.html" style="color: white;">Rólunk</a>
+  </div>
+
+  <div class="container my-5">
+    <!-- Élményképek szöveg -->
+    <div class="row">
+      <div class="col-12">
+        <p class="highlight-text text-start">Élményképek</p>
+      </div>
+    </div>
+
+    <!-- Élményképek szekció (3 sor, soronként 4 kép) -->
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 1">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 2">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 3">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 4">
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 5">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 6">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 7">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 8">
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 9">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 10">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 11">
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Élménykép 12">
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container mt-5 mb-5">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+          <h5>Különleges flotta</h5>
+          <p>Magas minőségű kabrióktól a hyperautókig</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
+          <h5>Rugalmas ügyfélszolgálat</h5>
+          <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+          <h5>Kivételes szolgáltatás</h5>
+          <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Képek az Autókról szöveg -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <p class="highlight-text text-start">Képek az Autókról</p>
+      </div>
+    </div>
+
+    <!-- Képek az Autókról szekció (2 sor, soronként 4 kép és gomb) -->
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 1">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 2">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 3">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 4">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+    </div>
+
+
+
+    <div class="row mt-4">
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 5">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 6">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 7">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+      <div class="col-md-3 text-center">
+        <img src="./letöltés.jfif" class="img-fluid" alt="Autó 8">
+        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
+          a bérléshez!</button>
+      </div>
+    </div>
+
+    <!-- Információs szöveg -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <p class="info-text">
+          Áraink az áfát nem tartalmazzák!<br>
+          Napi km limit 400km/nap. Ennél hosszabb táv megtétele esetén 80 Ft/km kerül kiszámlázásra.<br>
+          <br>
+          A bérlőknek biztosítjuk:
+          <br>
+          - Ingyenes autópálya matrica Magyarország területén.<br>
+          - CASCO, utas-, és poggyászbiztosítás az utazás idejére.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
+    <div class="container">
+      <div class="row">
+        <!-- Logo and Title -->
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <img src="/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
+        </div>
+
+        <!-- Contact Information -->
+        <div class="col-md-4 text-center">
+          <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i>
+            ExoticCarDealership</p>
+          <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i>
+            Exotic@gmail.com</p>
+          <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
+          <p style="margin: 5px 0;">Székhely: cím</p>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="col-md-4 d-flex justify-content-center">
+          <div>
+            <h5 style="margin-bottom: 10px;">Follow us</h5>
+            <a href="#" class="me-3"><i class="fa fa-facebook-square" style="font-size: 25px; color: white;"></i></a>
+            <a href="#"><i class="fa fa-twitter-square" style="font-size: 25px; color: white;"></i></a>
+            <a href="#"><i class="fa fa-instagram" style="font-size: 25px; color: white;"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <p style="font-size: 12px; margin: 0;">&copy; 2024 Exotic. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
