@@ -29,10 +29,11 @@ footer .social-icons i {
     color: white;
 }
 
-footer p{
+footer p {
     font-size: 14px;
     color: white !important;
-    }
+}
+
 /* Center the navbar title */
 .navbar-center {
     position: absolute;
@@ -44,13 +45,17 @@ footer p{
 .navbar-title {
     font-family: 'Monsieur La Doulaise', cursive; /* Handwritten font */
     font-size: 2rem; /* Larger font size for prominence */
-    color: #DAA520; /* Luxurious gold color */
+    color: #DAA520 !important; /* Luxurious gold color */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
     letter-spacing: 2px; /* Elegant letter spacing */
     white-space: nowrap;
 }
-
-
+/* Sidebar Exotic text */
+.sidebar .navbar-title {
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 2.5rem; /* Adjust the size here */
+    color: orange;
+}
 
 /* Navbar styling */
 .navbar-custom {
@@ -65,6 +70,27 @@ footer p{
 .navbar-custom .navbar-nav a {
     color: white;
     margin-left: 20px;
+    position: relative;
+    padding-bottom: 5px; /* Adds space for the line */
+    text-decoration: none; /* Removes underline */
+}
+
+/* Line effect for all navbar and sidebar links */
+.navbar-custom .navbar-nav a::after,
+.sidebar a::after {
+    content: '';
+    display: block;
+    width: 50px; /* Short line */
+    height: 4px; /* Thickness of the line */
+    background-color: white; /* Line color */
+    margin-top: 5px;
+    transition: width 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect: expand line to full width */
+.navbar-custom .navbar-nav a:hover::after,
+.sidebar a:hover::after {
+    width: 100%; /* Line expands to full width */
 }
 
 /* Sidebar styles */
@@ -88,6 +114,8 @@ footer p{
     color: white;
     display: block;
     transition: 0.3s;
+    position: relative;
+    padding-bottom: 5px; /* Adds space for the line */
 }
 
 .sidebar a:hover {
@@ -132,12 +160,40 @@ footer p{
 .sidebar .dropdown-menu .dropdown-item {
     color: white;
     padding: 10px 15px;
+    position: relative;
+    padding-bottom: 5px; /* Adds space for the line */
 }
+
+/* Line effect for all navbar and sidebar links */
+.navbar-custom .navbar-nav a::after,
+.sidebar a::after {
+    content: '';
+    display: block;
+    width: 50px; /* Short line */
+    height: 4px; /* Thickness of the line */
+    background-color: #DAA520 !important; /* Set your desired color here */
+    margin-top: 5px;
+    transition: width 0.3s ease, background-color 0.3s ease; /* Transition for width and color */
+}
+
+/* Hover effect: expand line to full width */
+.navbar-custom .navbar-nav a:hover::after,
+.sidebar a:hover::after {
+    width: 100%; /* Line expands to full width */
+    background-color: #DAA520 !important; /* Ensure the color remains on hover */
+}
+
 
 .sidebar .dropdown-menu .dropdown-item:hover {
     background-color: #575757;
 }
 
+/* Remove line effect for "Autóbérlés" link */
+.sidebar .dropdown-toggle::after {
+    content: none; /* Disables the line */
+}
+
+/* Toggle indicator for dropdown */
 .dropdown-toggle-indicator {
     color: white;
     margin-left: 10px;
@@ -148,6 +204,7 @@ footer p{
     color: #ffc107;
 }
 
+/* Hamburger icon styling */
 .hamburger-icon {
     cursor: pointer;
     font-size: 30px;
