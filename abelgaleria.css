@@ -1,0 +1,53 @@
+body {
+    background-color: #000; /* Fekete háttér */
+    color: #fff; /* Fehér szöveg */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* A test minimum magassága 100vh */
+  }
+  .highlight-text {
+    color: #ffc107; /* Citromsárga szín */
+    font-size: 1.5rem; /* Nagyobb betűméret */
+    font-style: italic; /* Dőlt betű */
+    text-decoration: underline; /* Aláhúzás */
+    margin-bottom: 20px;
+  }
+  .btn-warning {
+    background-color: #ffc107; /* Citromsárga gomb */
+    color: #000; /* Fekete szöveg a gombon */
+  }
+  .info-text {
+    color: #ffc107; /* Citromsárga szín */
+    font-weight: bold; /* Félkövér */
+    text-align: center; /* Középre igazítás */
+    margin-top: 20px; /* Térköz a szöveg és az előző tartalom között */
+    margin-bottom: 20px; /* Térköz a szöveg és az alatta lévő tartalom között */
+  }
+  .container {
+    flex: 1; /* A konténer tölti ki a rendelkezésre álló helyet */
+  }
+  .extra-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: #222; /* Háttér szín */
+    padding: 50px;
+    border-radius: 0px;
+    margin-bottom: 1px;
+  }
+  .extra-item {
+    text-align: center;
+    max-width: 300px;
+  }
+  .extra-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #ffc107; /* Citromsárga ikonok */
+  }
+  .extra-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffc107;
+  }
+  .extra-description {
+    color: #ddd;
+  }
