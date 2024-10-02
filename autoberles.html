@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./alap.css">
-    <script src="./alap.js"></script>
-    <title>Exotic - Autóbérlés</title>
+    <title>Exotic - Kezdőlap</title>
+    <link rel="stylesheet" href="/alap.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <script src="/alap.js"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -96,7 +107,6 @@
         }
     </script>
 </head>
-<body>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid d-flex justify-content-between align-items-center">
@@ -139,7 +149,7 @@
 
       <!-- Dropdown menu -->
       <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
-        <li><a class="dropdown-item" href="#">Tovább a bérléshez</a></li>
+        <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
         <li><a class="dropdown-item" href="#">Bérlési feltételek</a></li>
       </ul>
     </div>
@@ -155,7 +165,7 @@
     <div class="filter">
         <label for="car-type">Szűrés autótípus szerint:</label>
         <select id="car-type" onchange="filterCars()">
-            <option value="all">All Cars</option>
+            <option value="all">Minden Autó</option>
             <option value="sedan">Sedan</option>
             <option value="suv">SUV</option>
             <option value="luxury">Luxury</option>
@@ -170,17 +180,17 @@
             <div class="car" data-type="sedan">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Toyota Camry">
                 <h3>Sedan - Toyota Camry</h3>
-                <p>Atuo leiras</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Ford Explorer">
                 <h3>SUV - Ford Explorer</h3>
-                <p>Atuo leiras</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="BMW 5 Series">
                 <h3>Luxury - BMW 5 Series</h3>
-                <p>Atuo leiras</p>
+                <p>Auto leiras</p>
             </div>
         </div>
 
@@ -189,17 +199,17 @@
             <div class="car" data-type="compact">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Honda Civic">
                 <h3>Compact - Honda Civic</h3>
-                <p>A reliable compact car for everyday driving needs.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Mazda MX-5">
                 <h3>Luxury - Mazda MX-5</h3>
-                <p>Enjoy the open road with the wind in your hair in this convertible.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Chrysler Pacifica">
                 <h3>SUV - Chrysler Pacifica</h3>
-                <p>Spacious and family-friendly, perfect for long road trips.</p>
+                <p>Auto leiras</p>
             </div>
         </div>
 
@@ -208,17 +218,17 @@
             <div class="car" data-type="electric">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Tesla Model 3">
                 <h3>Electric - Tesla Model 3</h3>
-                <p>Eco-friendly and innovative electric vehicle with top-notch tech.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="truck">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Ford F-150">
                 <h3>Truck - Ford F-150</h3>
-                <p>A robust pickup truck that handles tough tasks effortlessly.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="compact">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Volkswagen Golf">
                 <h3>Compact - Volkswagen Golf</h3>
-                <p>A compact yet versatile hatchback for city driving.</p>
+                <p>Auto leiras</p>
             </div>
         </div>
 
@@ -227,17 +237,17 @@
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Nissan Rogue">
                 <h3>SUV - Nissan Rogue</h3>
-                <p>A compact crossover offering a balance of comfort and utility.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Porsche 911">
                 <h3>Luxury - Porsche 911</h3>
-                <p>A high-performance sports car for the ultimate driving thrill.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="electric">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Toyota Prius">
                 <h3>Electric - Toyota Prius</h3>
-                <p>A fuel-efficient hybrid with a proven track record of reliability.</p>
+                <p>Auto leiras</p>
             </div>
         </div>
 
@@ -246,17 +256,17 @@
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Range Rover">
                 <h3>Luxury SUV - Range Rover</h3>
-                <p>A premium SUV blending luxury and off-road capabilities.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="economy">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Kia Rio">
                 <h3>Economy - Kia Rio</h3>
-                <p>Budget-friendly car that's light on fuel, perfect for the city.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="full-size">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Chevrolet Impala">
                 <h3>Full-Size - Chevrolet Impala</h3>
-                <p>A spacious and powerful full-size sedan for long drives.</p>
+                <p>Auto leiras</p>
             </div>
         </div>
 
@@ -265,17 +275,17 @@
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Jeep Wrangler">
                 <h3>4x4 - Jeep Wrangler</h3>
-                <p>A rugged 4x4 perfect for off-road exploration and adventure.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Audi A5">
                 <h3>Luxury Convertible - Audi A5</h3>
-                <p>Style and sophistication in a luxury convertible.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Hyundai Tucson">
                 <h3>Compact SUV - Hyundai Tucson</h3>
-                <p>Compact SUV with a balance of size, comfort, and capability.</p>
+                <p>Auto leiras</p>
             </div>
         </div>
 
@@ -284,24 +294,56 @@
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Mercedes-Benz E-Class">
                 <h3>Luxury Sedan - Mercedes-Benz E-Class</h3>
-                <p>High-class luxury sedan combining comfort and performance.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="economy">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Toyota Yaris">
                 <h3>Economy - Toyota Yaris</h3>
-                <p>A compact and economical choice for city commuters.</p>
+                <p>Auto leiras</p>
             </div>
             <div class="car" data-type="sedan">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Honda Accord">
                 <h3>Sedan - Honda Accord</h3>
-                <p>A refined and comfortable sedan for your daily commutes.</p>
+                <p>Auto leiras</p>
             </div>
         </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2024 XYZ Car Rentals. All Rights Reserved.</p>
+<!-- Footer -->
+<footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
+    <div class="container">
+        <div class="row">
+            <!-- Logo and Title -->
+            <div class="col-md-4 d-flex flex-column align-items-center">
+                <img src="/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="col-md-4 text-center">
+                <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i> ExoticCarDealership</p>
+                <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i> contact@exotic.com</p>
+                <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
+                <p style="margin: 5px 0;">Székhely: Miskolc</p>
+            </div>
+            
+            <!-- Social Media Links -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div>
+                    <h5 style="margin-bottom: 10px;">Follow us</h5>
+                    <a href="#" class="me-3"><i class="fa fa-facebook-square" style="font-size: 25px; color: white;"></i></a>
+                    <a href="#"><i class="fa fa-twitter-square" style="font-size: 25px; color: white;"></i></a>
+                    <a href="#"><i class="fa fa-instagram" style="font-size: 25px; color: white;"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <p style="font-size: 12px; margin: 0;">&copy; 2024 Exotic. Minden jog fenntartva</p>
+            </div>
+        </div>
     </div>
+</footer>
 
 </body>
 </html>
