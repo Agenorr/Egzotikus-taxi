@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,31 +29,92 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 20px;
-        }
-
-        /* About Us Section */
-        .about-section {
-            flex: 2; /* Increase the flex-grow value to make this section wider */
-            background-color: white;
             padding: 2rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Árnyék */
+            background-color: white;
             border-radius: 10px;
-            margin-right: 1rem; /* Add margin to the right */
+            max-width: 1200px;
+            /* Max szélesség beállítása */
         }
 
-        .about-section h2 {
-            font-size: 2rem;
-            color: #004643;
-            margin-bottom: 1.5rem;
+        /* Jobb oldal: Kép és szöveg */
+        .founders-section {
+            flex: 1;
+            /* Jobb oldal kitöltése */
+            text-align: center;
+            margin-right: 7rem;
+            /* Távolság a bal oldaltól */
         }
 
-        .founders img {
+        .founders-section img {
             border-radius: 10px;
             width: 100%;
             height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .founders-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            border: 2px solid white;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 4px 15px gray;
+            justify-content: center;
+        }
+
+        .founders-member {
+            margin: 0 3rem;
+            /* Margó a tagok között */
+            text-align: center;
+            /* Középre igazítás */
+        }
+
+        .founders-member h3 {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 0;
+            /* Nincs alsó margó a név alatt */
+        }
+
+        .founders-member p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        /* New Style for Founders Text */
+        .founders-text {
+            display: inline-block;
+            /* Ensure the background wraps around the text */
+            padding: 1rem 1.5rem;
+            /* Add padding around the text */
+            background-color: white;
+            /* Background color */
+            border-radius: 15px;
+            /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            /* Darker shadow */
+            margin-top: 1.5rem;
+            /* Space above the text block */
+        }
+
+        /* Bal oldal: About Us és Our Plans for the Future */
+        .about-section {
+            flex: 1;
+            /* Bal oldal kitöltése */
+            margin-left: 7rem;
+            /* Távolság a jobb oldaltól */
+        }
+
+        .about-section h2,
+        .about-section h3 {
+            font-size: 2rem;
+            color: #004643;
             margin-bottom: 1.5rem;
         }
 
@@ -63,18 +125,28 @@
             line-height: 1.8;
         }
 
-        .founders {
-            text-align: center;
-            margin-bottom: 2rem;
+        /* Footer stílus */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px 0;
+            margin-top: 2rem;
+            /* Margin a tartalom és a footer között */
         }
 
-        .founders h3 {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 0.5rem;
+        footer .container {
+            max-width: 1200px;
+            /* Max szélesség beállítása a footer containernek */
+        }
+
+        /* Style for the black icons */
+        .founder-icon {
+            color: black; /* Set icon color to black */
+            margin-right: 5px; /* Space between icon and text */
         }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -97,72 +169,54 @@
         </div>
     </nav>
 
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
-        <div class="sidebar-close">
-            <div style="display: flex; align-items: center;">
-                <img src="/img/Exotic_logo.png" alt="Logo" class="sidebar-logo">
-                <a href="/index/index.html" class="dropdown-item">Kezdőlap</a>
-            </div>
-            <i class="fa fa-times" onclick="toggleSidebar()"></i>
-        </div>
-
-        <!-- First item with dropdown and link -->
-        <div class="dropdown">
-            <!-- Main link (with dropdown toggle applied directly to the link) -->
-            <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center"
-                id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                style="color: white; text-decoration: none;">
-                Autóbérlés
-            </a>
-
-            <!-- Dropdown menu -->
-            <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
-                <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
-                <li><a class="dropdown-item" href="#">Bérlési feltételek</a></li>
-            </ul>
-        </div>
-
-        <!-- Other sidebar items -->
-        <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
-        <a href="galeria.html" style="color: white;">Galéria</a>
-        <a href="rolunk.html" style="color: white;">Rólunk</a>
-    </div>
-
     <!-- Main Content Container -->
     <div class="container">
 
-        <!-- About Us Section -->
-        <section class="about-section">
-            <h2>About Us</h2>
-            <p class="about-text">
-                DriveEasy was founded in 2015 by three passionate car enthusiasts: John Doe, Jane Smith, and David Lee. 
-                We started with a small fleet of just 5 cars, but we had a vision to create a car rental service that would provide 
-                flexibility, affordability, and a wide range of options to suit everyone from the casual traveler to the business executive.
-            </p>
-
-            <div class="founders">
-                <img src="./rolunk kozos kep.jpg" alt="Founders Group Photo">
-                <h3>John Doe, Jane Smith, David Lee</h3>
-                <p>CEO & Founder | Operations Manager & Co-Founder | Marketing Director & Co-Founder</p>
+        <!-- Founders Section (bal oldal) -->
+        <section class="founders-section">
+            <img src="./image0.jpg" alt="Founders Group Photo">
+            <div class="founders-wrapper">
+                <div class="founders-member">
+                    <h3>Márton Roland</h3>
+                    <p><i class="fa fa-user fa-briefcase"></i> Vezérigazgató és alapító <i class="fa fa-user fa-briefcase"></i></p>
+                </div>
+                <div class="founders-member">
+                    <h3> Futó Ábel</h3>
+                    <p><i class="fa fa-user fa-briefcase"></i> Operatív igazgató és társalapító <i class="fa fa-user fa-briefcase"></i></p>
+                </div>
+                <div class="founders-member">
+                    <h3>Baráth Agenor</h3>
+                    <p><i class="fa fa-user fa-briefcase"></i> Marketing igazgató és társalapító <i class="fa fa-user fa-briefcase"></i></p>
+                </div>
             </div>
+        </section>
 
+        <!-- About Us Section (jobb oldal) -->
+        <section class="about-section">
+            <h2>Rólunk</h2>
             <p class="about-text">
-                Over the years, our fleet has grown to include over 200 vehicles, ranging from economy cars to luxury sedans, SUVs, and electric vehicles. 
-                We've been proud to serve thousands of satisfied customers, offering top-notch customer service and 24/7 support to ensure a smooth and hassle-free rental experience.
+                DriveEasy was founded in 2015 by three passionate car enthusiasts: John Doe, Jane Smith, and David Lee.
+                We started with a small fleet of just 5 cars, but we had a vision to create a car rental service that
+                would provide
+                flexibility, affordability, and a wide range of options to suit everyone from the casual traveler to the
+                business executive.
             </p>
 
-            <h3>Our Plans for the Future</h3>
+            <h3>Terveink a jövőben</h3>
             <p class="about-text">
-                Looking ahead, we plan to expand our operations to new cities, and we are particularly excited about the introduction of a fully electric fleet in the coming years. 
-                Additionally, we are developing a mobile app that will allow customers to easily book, manage, and track their rentals from anywhere in the world. 
-                Our goal is to make car rentals as seamless and eco-friendly as possible, while continuing to offer competitive prices and exceptional service.
+                Looking ahead, we plan to expand our operations to new cities, and we are particularly excited about the
+                introduction of a fully electric fleet in the coming years.
+                Additionally, we are developing a mobile app that will allow customers to easily book, manage, and track
+                their rentals from anywhere in the world.
+                Our goal is to make car rentals as seamless and eco-friendly as possible, while continuing to offer
+                competitive prices and exceptional service.
             </p>
         </section>
+
     </div>
 
     <!-- Footer -->
-    <footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
+    <footer>
         <div class="container">
             <div class="row">
                 <!-- Logo and Title -->
@@ -201,4 +255,5 @@
     </footer>
 
 </body>
+
 </html>
