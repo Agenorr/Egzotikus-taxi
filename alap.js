@@ -15,3 +15,5 @@ document.getElementById('rentalDropdown').addEventListener('click', function (ev
     let dropdown = new bootstrap.Dropdown(dropdownElement);
     dropdown.toggle(); // Toggle the dropdown visibility
 });
+
+// szijamija
