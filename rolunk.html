@@ -5,146 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exotic - Rólunk</title>
-    <link rel="stylesheet" href="/alap.css">
+    <link rel="stylesheet" href="alap.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="rolunk.css">
     <script src="index.js"></script>
-    <script src="/alap.js"></script>
+    <script src="alap.js"></script>
+    <script src="rolunk.js"></script>
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Container */
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin: 2rem auto;
-            padding: 2rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Árnyék */
-            background-color: white;
-            border-radius: 10px;
-            max-width: 1200px;
-            /* Max szélesség beállítása */
-        }
-
-        /* Jobb oldal: Kép és szöveg */
-        .founders-section {
-            flex: 1;
-            /* Jobb oldal kitöltése */
-            text-align: center;
-            margin-right: 7rem;
-            /* Távolság a bal oldaltól */
-        }
-
-        .founders-section img {
-            border-radius: 10px;
-            width: 100%;
-            height: auto;
-            margin-bottom: 1.5rem;
-        }
-
-        .founders-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            border: 2px solid white;
-            border-radius: 20px;
-            padding: 10px;
-            background-color: white;
-            box-shadow: 0 4px 15px gray;
-            justify-content: center;
-        }
-
-        .founders-member {
-            margin: 0 3rem;
-            /* Margó a tagok között */
-            text-align: center;
-            /* Középre igazítás */
-        }
-
-        .founders-member h3 {
-            font-size: 1.5rem;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 0;
-            /* Nincs alsó margó a név alatt */
-        }
-
-        .founders-member p {
-            color: #555;
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-
-        /* New Style for Founders Text */
-        .founders-text {
-            display: inline-block;
-            /* Ensure the background wraps around the text */
-            padding: 1rem 1.5rem;
-            /* Add padding around the text */
-            background-color: white;
-            /* Background color */
-            border-radius: 15px;
-            /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            /* Darker shadow */
-            margin-top: 1.5rem;
-            /* Space above the text block */
-        }
-
-        /* Bal oldal: About Us és Our Plans for the Future */
-        .about-section {
-            flex: 1;
-            /* Bal oldal kitöltése */
-            margin-left: 7rem;
-            /* Távolság a jobb oldaltól */
-        }
-
-        .about-section h2,
-        .about-section h3 {
-            font-size: 2rem;
-            color: #004643;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-text {
-            margin-bottom: 2rem;
-            font-size: 1rem;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        /* Footer stílus */
-        footer {
-            background-color: #1a1a1a;
-            color: white;
-            padding: 20px 0;
-            margin-top: 2rem;
-            /* Margin a tartalom és a footer között */
-        }
-
-        footer .container {
-            max-width: 1200px;
-            /* Max szélesség beállítása a footer containernek */
-        }
-
-        /* Style for the black icons */
-        .founder-icon {
-            color: black; /* Set icon color to black */
-            margin-right: 5px; /* Space between icon and text */
-        }
-    </style>
+   
 </head>
 
 <body>
@@ -174,7 +47,7 @@
 
         <!-- Founders Section (bal oldal) -->
         <section class="founders-section">
-            <img src="./image0.jpg" alt="Founders Group Photo">
+            <img src="/kepek/image0.jpg" alt="Founders Group Photo">
             <div class="founders-wrapper">
                 <div class="founders-member">
                     <h3>Márton Roland</h3>
@@ -189,28 +62,68 @@
                     <p><i class="fa fa-user fa-briefcase"></i> Marketing igazgató és társalapító <i class="fa fa-user fa-briefcase"></i></p>
                 </div>
             </div>
+
+            
+                
+                
+                
+                
+              
         </section>
 
         <!-- About Us Section (jobb oldal) -->
         <section class="about-section">
             <h2>Rólunk</h2>
             <p class="about-text">
-                DriveEasy was founded in 2015 by three passionate car enthusiasts: John Doe, Jane Smith, and David Lee.
-                We started with a small fleet of just 5 cars, but we had a vision to create a car rental service that
-                would provide
-                flexibility, affordability, and a wide range of options to suit everyone from the casual traveler to the
-                business executive.
+                Az Exoticot 2015-ben alapította három szenvedélyes autórajongó: Márton Roland, Futó Ábel és Baráth Agenor.
+                Egy kis, mindössze 5 autóból álló flottával kezdtük, de volt egy olyan elképzelésünk, hogy olyan autókölcsönző szolgáltatást hozunk létre, amely
+                amely rugalmasságot, megfizethetőséget és a lehetőségek széles skáláját kínálja, hogy az alkalmi utazóktól kezdve az utazni vágyókig mindenkinek megfeleljen.
+                üzleti vezetőig.
             </p>
 
             <h3>Terveink a jövőben</h3>
             <p class="about-text">
-                Looking ahead, we plan to expand our operations to new cities, and we are particularly excited about the
-                introduction of a fully electric fleet in the coming years.
-                Additionally, we are developing a mobile app that will allow customers to easily book, manage, and track
-                their rentals from anywhere in the world.
-                Our goal is to make car rentals as seamless and eco-friendly as possible, while continuing to offer
-                competitive prices and exceptional service.
+                Előre tekintve, tervezzük, hogy új városokra terjeszkedünk, és különösen izgatottak vagyunk a
+                teljesen elektromos flotta bevezetése az elkövetkező években.
+                Emellett egy olyan mobilalkalmazást fejlesztünk, amely lehetővé teszi majd az ügyfelek számára, hogy könnyedén foglalhassanak, kezelhessenek és nyomon követhessék a fuvarokat.
+                bérlésüket a világ bármely pontjáról.
+                Célunk, hogy az autóbérlést a lehető legzökkenőmentesebbé és környezetbarátabbá tegyük, miközben továbbra is a következőket kínáljuk
+                versenyképes árakat és kivételes szolgáltatást kínálunk.
             </p>
+
+
+            
+            <h2>Automatic Slideshow</h2>
+            <p>Change image every 2 seconds:</p>
+        
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <div class="numbertext">1 / 3</div>
+                    <img src="/kepek/rolunkplaceholder1.jpg" style="width:50%">
+                    <div class="text">Márton Roland</div>
+                </div>
+                
+                <div class="mySlides fade">
+                    <div class="numbertext">2 / 3</div>
+                    <img src="/kepek/rolunkplaceholder2.jpg" style="width:50%">
+                    <div class="text">Futó Ábel</div>
+                </div>
+                
+                <div class="mySlides fade">
+                    <div class="numbertext">3 / 3</div>
+                    <img src="/kepek/rolunkplaceholder3.jpg" style="width:50%">
+                    <div class="text">Baráth Agenor</div>
+                </div>
+            </div>
+            <br>
+        
+            <div style="text-align:center">
+                <span class="dot"></span> 
+                <span class="dot"></span> 
+                <span class="dot"></span> 
+            </div>
+
+            
         </section>
 
     </div>
