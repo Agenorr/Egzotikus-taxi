@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="hu">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="./alap.js"></script>
+    <title>Exotic | Bérlési Feltételek</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Header */
+        header {
+            background: #333;
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        header .logo {
+            width: 150px;
+            float: left;
+        }
+
+        header nav ul {
+            list-style: none;
+            float: right;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-left: 15px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('kepek/9154-car-gray-wet-night-rain-4k.jpg') no-repeat center center/cover;
+            height: 500px;
+            font-size: 1.2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .hero-content h1 {
+            font-size: 2.7rem;
+            margin-bottom: 10px;
+        }
+
+        /* Policies Section */
+        .policies {
+            padding: 50px 0;
+        }
+
+        .policies h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .policy {
+            background: #f4f4f4;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #333;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 50px 0;
+            background: #f9f9f9;
+        }
+
+        .contact h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .container .row .col-md-4 {
+            padding: 20px;
+        }
+
+        .container .row .col-md-4 i {
+            color: #333;
+        }
+
+        .container .row .col-md-4 h5 {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .container .row .col-md-4 p {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
+            <a class="navbar-brand ms-3" href="#">
+                <img src="/img/Exotic_logo.png" alt="Logo">
+            </a>
+
+            <!-- Title in the center of the navbar -->
+            <div class="navbar-center">
+                <span class="navbar-title">Exotic</span>
+            </div>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Belépés | Regisztráció</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
+        <div class="sidebar-close">
+            <div style="display: flex; align-items: center;">
+                <img src="/img/Exotic_logo.png" alt="Logo" class="sidebar-logo">
+                <a href="/index/index.html" class="dropdown-item">Kezdőlap</a>
+            </div>
+            <i class="fa fa-times" onclick="toggleSidebar()"></i>
+        </div>
+
+        <!-- First item with dropdown and link -->
+        <div class="dropdown">
+            <!-- Main link (with dropdown toggle applied directly to the link) -->
+            <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center"
+                id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                style="color: white; text-decoration: none;">
+                Autóbérlés
+            </a>
+
+            <!-- Dropdown menu -->
+            <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
+                <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
+                <li><a class="dropdown-item" href="#">Bérlési feltételek</a></li>
+            </ul>
+        </div>
+
+        <!-- Other sidebar items -->
+        <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
+        <a href="galeria.html" style="color: white;">Galéria</a>
+        <a href="rolunk.html" style="color: white;">Rólunk</a>
+    </div>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Bérlési Feltételek</h1>
+            <br>
+            <p>Rugalmas és megbízható autóbérlési lehetőségek az Ön igényeire szabva.</p>
+        </div>
+    </section>
+
+    <!-- Policies Section -->
+    <section id="policies" class="policies">
+        <div class="container">
+            <h2>Bérlési Szabályzat</h2>
+
+            <div class="policy">
+                <i class="fa-solid fa-address-card"></i>
+                <h3>Korcsoport és Jogosítvány</h3>
+                <p>A bérlőnek legalább 18 évesnek kell lennie, és érvényes jogosítvánnyal kell rendelkeznie, amelyet
+                    legalább 1 éve birtokol.</p>
+            </div>
+
+            <div class="policy">
+                <i class="fa-solid fa-clock"></i>
+                <h3>Bérleti Időtartam</h3>
+                <p>Az autóbérlés minimális időtartama 1 óra. Az időtartam meghosszabbítása esetén előzetes értesítést
+                    kérünk.</p>
+            </div>
+
+            <div class="policy">
+                <i class="fa-solid fa-gas-pump"></i>
+                <h3>Üzemanyag</h3>
+                <p>A gépjárművek tele tankkal kerülnek kiadásra, és tele tankkal kell visszaszolgáltatni őket. Eltérés
+                    esetén tankolási díjat számolunk fel.</p>
+            </div>
+
+            <div class="policy">
+                <i class="fa-solid fa-shield"></i>
+                <h3>Biztosítás és Kaució</h3>
+                <p>Minden autóbérlés tartalmaz alapvető biztosítást. A bérlés megkezdése előtt kauciót kell letétbe
+                    helyezni, amelyet a jármű visszaadásakor visszatérítünk.</p>
+            </div>
+
+            <div class="policy">
+                <i class="fa-solid fa-bell"></i>
+                <h3>Büntetések és Késedelmi Díjak</h3>
+                <p>Bármilyen közlekedési szabálysértésért a bérlő felelős. A késedelmes visszajuttatás esetén óránkénti
+                    késedelmi díjat számolunk fel.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-5 mb-5">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Különleges flotta</h5>
+                <p>Magas minőségű kabrióktól a hyperautókig</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Rugalmas ügyfélszolgálat</h5>
+                <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Kivételes szolgáltatás</h5>
+                <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
+        <div class="container">
+            <div class="row">
+                <!-- Logo and Title -->
+                <div class="col-md-4 d-flex flex-column align-items-center">
+                    <img src="/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
+                </div>
+
+                <!-- Contact Information -->
+                <div class="col-md-4 text-center">
+                    <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i>
+                        ExoticCarDealership</p>
+                    <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i>
+                        contact@exotic.com</p>
+                    <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
+                    <p style="margin: 5px 0;">Székhely: Miskolc</p>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="col-md-4 d-flex justify-content-center">
+                    <div>
+                        <h5 style="margin-bottom: 10px;">Follow us</h5>
+                        <a href="#" class="me-3"><i class="fa fa-facebook-square"
+                                style="font-size: 25px; color: white;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size: 25px; color: white;"></i></a>
+                        <a href="#"><i class="fa fa-instagram" style="font-size: 25px; color: white;"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <p style="font-size: 12px; margin: 0;">&copy; 2024 Exotic. Minden jog fenntartva</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
