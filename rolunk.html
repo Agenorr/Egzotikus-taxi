@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exotic - Rólunk</title>
+    <title>Exotic | Rólunk</title>
     <link rel="stylesheet" href="alap.css">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="rolunk.css">
     <script src="index.js"></script>
     <script src="alap.js"></script>
     <script src="rolunk.js"></script>
-
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
@@ -21,7 +19,6 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
@@ -29,7 +26,6 @@
                 <img src="/img/Exotic_logo.png" alt="Logo">
             </a>
 
-            <!-- Title in the center of the navbar -->
             <div class="navbar-center">
                 <span class="navbar-title">Exotic</span>
             </div>
@@ -42,12 +38,10 @@
         </div>
     </nav>
 
-    <!-- Main Content Container -->
     <div class="container">
 
-        <!-- Founders Section (bal oldal) -->
         <section class="founders-section">
-            <img src="/kepek/image0.jpg" alt="Founders Group Photo">
+            <img src="/kepek/rolunkfokep.jpg" alt="Alapítók Kép">
             <div class="founders-wrapper">
                 <div class="founders-member">
                     <h3>Márton Roland</h3>
@@ -62,16 +56,9 @@
                     <p><i class="fa fa-user fa-briefcase"></i> Marketing igazgató és társalapító <i class="fa fa-user fa-briefcase"></i></p>
                 </div>
             </div>
-
-            
-                
-                
-                
-                
               
         </section>
 
-        <!-- About Us Section (jobb oldal) -->
         <section class="about-section">
             <h2>Rólunk</h2>
             <p class="about-text">
@@ -80,7 +67,46 @@
                 amely rugalmasságot, megfizethetőséget és a lehetőségek széles skáláját kínálja, hogy az alkalmi utazóktól kezdve az utazni vágyókig mindenkinek megfeleljen.
                 üzleti vezetőig.
             </p>
-
+        
+            <!-- Slideshow -->
+            <div id="aboutCarousel" class="carousel slide my-4" data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <img src="kepek/rolunkslideshowagenor.jpg" class="d-block w-100 carousel-img-small" style="height: 250px; border-radius: 15px;" alt="First Slide Image">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Baráth Agenor</h5>
+                            <p>"Life is too short to drive a boring car."</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <img src="kepek/rolunkslideshowabel.jpg" class="d-block w-100 carousel-img-small" style="height: 250px; border-radius: 15px;" alt="Second Slide Image">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Futó Ábel</h5>
+                            <p>"A car is like a mother-in-law - if you let it, it will rule your life."</p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <img src="kepek/rolunkslideshowroli.png" class="d-block w-100" style="height: 250px; border-radius: 15px;" alt="Third Slide Image">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Márton Roland</h5>
+                            <p>"The cars we drive say a lot about us."</p>
+                        </div>
+                    </div>
+                </div>
+        
+                <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Előző</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Következő</span>
+                </button>
+            </div>
+        
             <h3>Terveink a jövőben</h3>
             <p class="about-text">
                 Előre tekintve, tervezzük, hogy új városokra terjeszkedünk, és különösen izgatottak vagyunk a
@@ -90,54 +116,36 @@
                 Célunk, hogy az autóbérlést a lehető legzökkenőmentesebbé és környezetbarátabbá tegyük, miközben továbbra is a következőket kínáljuk
                 versenyképes árakat és kivételes szolgáltatást kínálunk.
             </p>
-
-
-            
-            <h2>Automata Slideshow</h2>
-            <p>szöveg</p>
-        
-            <div class="slideshow-container">
-                <div class="mySlides fade">
-                    <div class="numbertext">1 / 3</div>
-                    <img src="/kepek/rolunkplaceholder1.jpg" style="width:50%">
-                    <div class="text">Márton Roland</div>
-                </div>
-                
-                <div class="mySlides fade">
-                    <div class="numbertext">2 / 3</div>
-                    <img src="/kepek/rolunkplaceholder2.jpg" style="width:50%">
-                    <div class="text">Futó Ábel</div>
-                </div>
-                
-                <div class="mySlides fade">
-                    <div class="numbertext">3 / 3</div>
-                    <img src="/kepek/rolunkplaceholder3.jpg" style="width:50%">
-                    <div class="text">Baráth Agenor</div>
-                </div>
-            </div>
-            <br>
-        
-            <div style="text-align:center">
-                <span class="dot"></span> 
-                <span class="dot"></span> 
-                <span class="dot"></span> 
-            </div>
-
-            
         </section>
-
     </div>
 
-    <!-- Footer -->
+    <div class="container mt-5 mb-5">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Különleges flotta</h5>
+                <p>Magas minőségű kabrióktól a hyperautókig</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Rugalmas ügyfélszolgálat</h5>
+                <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Kivételes szolgáltatás</h5>
+                <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <div class="row">
-                <!-- Logo and Title -->
                 <div class="col-md-4 d-flex flex-column align-items-center">
                     <img src="/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
                 </div>
 
-                <!-- Contact Information -->
                 <div class="col-md-4 text-center">
                     <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i>
                         ExoticCarDealership</p>
@@ -147,7 +155,6 @@
                     <p style="margin: 5px 0;">Székhely: Miskolc</p>
                 </div>
 
-                <!-- Social Media Links -->
                 <div class="col-md-4 d-flex justify-content-center">
                     <div>
                         <h5 style="margin-bottom: 10px;">Follow us</h5>
@@ -166,7 +173,5 @@
             </div>
         </div>
     </footer>
-
 </body>
-
 </html>
