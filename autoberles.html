@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exotic - Autóbérlés</title>
+    <title>Exotic | Autóbérlés</title>
     <link rel="stylesheet" href="/alap.css">
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
     <script src="/alap.js"></script>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
@@ -84,8 +83,6 @@
             color: #fff;
             margin-top: 20px;
         }
-
-        /* Hide all cars initially, then show based on filter */
         .car.hidden {
             display: none;
         }
@@ -115,7 +112,6 @@
         <img src="/img/Exotic_logo.png" alt="Logo">
       </a>
 
-      <!-- Title in the center of the navbar -->
       <div class="navbar-center">
         <span class="navbar-title">Exotic</span>
       </div>
@@ -133,14 +129,11 @@
     <div class="sidebar-close">
       <div style="display: flex; align-items: center;">
         <span class="navbar-title drdown">Exotic</span>
-        <!-- This will now match the style in the center of the navbar -->
       </div>
       <i class="fa fa-times" onclick="toggleSidebar()"></i>
     </div>
 
-    <!-- First item with dropdown and link -->
     <div class="dropdown">
-      <!-- Main link (with dropdown toggle applied directly to the link) -->
       <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center"
         id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false"
         style="color: white; text-decoration: none;">
@@ -154,7 +147,6 @@
       </ul>
     </div>
 
-    <!-- Other sidebar items -->
     <a href="/public/index/index.html" style="color: white">Kezdőlap</a>
     <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
     <a href="/public/galeria/galeria.html" style="color: white;">Galéria</a>
@@ -175,7 +167,6 @@
     </div>
 
     <div class="container">
-        <!-- Row 1 -->
         <div class="car-row">
             <div class="car" data-type="sedan">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Toyota Camry">
@@ -194,7 +185,6 @@
             </div>
         </div>
 
-        <!-- Row 2 -->
         <div class="car-row">
             <div class="car" data-type="compact">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Honda Civic">
@@ -213,7 +203,6 @@
             </div>
         </div>
 
-        <!-- Row 3 -->
         <div class="car-row">
             <div class="car" data-type="electric">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Tesla Model 3">
@@ -232,7 +221,6 @@
             </div>
         </div>
 
-        <!-- Row 4 -->
         <div class="car-row">
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Nissan Rogue">
@@ -251,7 +239,6 @@
             </div>
         </div>
 
-        <!-- Row 5 -->
         <div class="car-row">
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Range Rover">
@@ -270,7 +257,6 @@
             </div>
         </div>
 
-        <!-- Row 6 -->
         <div class="car-row">
             <div class="car" data-type="suv">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Jeep Wrangler">
@@ -289,7 +275,6 @@
             </div>
         </div>
 
-        <!-- Row 7 -->
         <div class="car-row">
             <div class="car" data-type="luxury">
                 <img src="./Aston-Martin-Vanquish-V12-Volante.jpg" alt="Mercedes-Benz E-Class">
@@ -309,24 +294,40 @@
         </div>
     </div>
 
-<!-- Footer -->
+    <div class="container mt-5 mb-5">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Különleges flotta</h5>
+                <p>Magas minőségű kabrióktól a hyperautókig</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Rugalmas ügyfélszolgálat</h5>
+                <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+                <h5>Kivételes szolgáltatás</h5>
+                <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+            </div>
+        </div>
+    </div>
+
 <footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
     <div class="container">
         <div class="row">
-            <!-- Logo and Title -->
             <div class="col-md-4 d-flex flex-column align-items-center">
                 <img src="/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
             </div>
             
-            <!-- Contact Information -->
             <div class="col-md-4 text-center">
                 <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i> ExoticCarDealership</p>
                 <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i> contact@exotic.com</p>
                 <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
                 <p style="margin: 5px 0;">Székhely: Miskolc</p>
             </div>
-            
-            <!-- Social Media Links -->
+
             <div class="col-md-4 d-flex justify-content-center">
                 <div>
                     <h5 style="margin-bottom: 10px;">Follow us</h5>
@@ -344,6 +345,5 @@
         </div>
     </div>
 </footer>
-
 </body>
 </html>
