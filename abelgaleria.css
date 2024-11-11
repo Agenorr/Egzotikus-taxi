@@ -1,30 +1,30 @@
 body {
-    background-color: white; /* Fehér háttér */
-    color: #fff; /* Fehér szöveg */
+    background-color: white;
+    color: #fff;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* A test minimum magassága 100vh */
+    min-height: 100vh;
   }
   .highlight-text {
-    color: black; /* Fekete szín */
+    color: black;
     font-family: 'georgia';
-    font-weight: bold; /* Félkövér */
-    font-size: 1.5rem; /* Nagyobb betűméret */
-    font-style: italic; /* Dőlt betű */
-    text-decoration: underline; /* Aláhúzás */
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-style: italic;
+    text-decoration: underline;
     margin-bottom: 20px;
   }
   .btn-warning {
-    background-color: #ffc107; /* Citromsárga gomb */
-    color: #000; /* Fekete szöveg a gombon */
+    background-color: #ffc107;
+    color: #000;
   }
   .info-text {
-    color: black; /* Fekete szín */
-    font-weight: bold; /* Félkövér */
-    text-align: center; /* Középre igazítás */
-    margin-top: 20px; /* Térköz a szöveg és az előző tartalom között */
-    margin-bottom: 20px; /* Térköz a szöveg és az alatta lévő tartalom között */
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   .container {
-    flex: 1; /* A konténer tölti ki a rendelkezésre álló helyet */
+    flex: 1;
   }
