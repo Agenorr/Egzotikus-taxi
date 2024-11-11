@@ -1,13 +1,11 @@
-/* Footer styling */
 footer {
     background-color: #1a1a1a;
     color: white;
     padding: 40px 0;
     width: 100%;
     height: 300px;
-    /* Stick footer to the bottom */
     position: relative;
-    margin-top: auto;  /* This ensures the footer stays at the bottom */
+    margin-top: auto;
 }
 
 footer .col-md-4 {
@@ -34,7 +32,6 @@ footer p {
     color: white !important;
 }
 
-/* Center the navbar title */
 .navbar-center {
     position: absolute;
     left: 50%;
@@ -43,21 +40,19 @@ footer p {
 }
 
 .navbar-title {
-    font-family: 'Monsieur La Doulaise', cursive; /* Handwritten font */
-    font-size: 2rem; /* Larger font size for prominence */
-    color: #DAA520 !important; /* Luxurious gold color */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-    letter-spacing: 2px; /* Elegant letter spacing */
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 2rem;
+    color: #DAA520 !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
     white-space: nowrap;
 }
-/* Sidebar Exotic text */
 .sidebar .navbar-title {
     font-family: 'Monsieur La Doulaise', cursive;
-    font-size: 2.5rem; /* Adjust the size here */
+    font-size: 2.5rem;
     color: orange;
 }
 
-/* Navbar styling */
 .navbar-custom {
     background-color: #1a1a1a;
     padding: 10px 20px;
@@ -71,29 +66,26 @@ footer p {
     color: white;
     margin-left: 20px;
     position: relative;
-    padding-bottom: 5px; /* Adds space for the line */
-    text-decoration: none; /* Removes underline */
+    padding-bottom: 5px;
+    text-decoration: none;
 }
 
-/* Line effect for all navbar and sidebar links */
 .navbar-custom .navbar-nav a::after,
 .sidebar a::after {
     content: '';
     display: block;
-    width: 50px; /* Short line */
-    height: 4px; /* Thickness of the line */
-    background-color: white; /* Line color */
+    width: 50px;
+    height: 4px;
+    background-color: white;
     margin-top: 5px;
-    transition: width 0.3s ease; /* Smooth transition on hover */
+    transition: width 0.3s ease;
 }
 
-/* Hover effect: expand line to full width */
 .navbar-custom .navbar-nav a:hover::after,
 .sidebar a:hover::after {
-    width: 100%; /* Line expands to full width */
+    width: 100%;
 }
 
-/* Sidebar styles */
 .sidebar {
     height: 100%;
     width: 0;
@@ -115,7 +107,7 @@ footer p {
     display: block;
     transition: 0.3s;
     position: relative;
-    padding-bottom: 5px; /* Adds space for the line */
+    padding-bottom: 5px;
 }
 
 .sidebar a:hover {
@@ -150,7 +142,6 @@ footer p {
     width: 30%;
 }
 
-/* Sidebar dropdown styles */
 .sidebar .dropdown-menu {
     background-color: black;
     border: none;
@@ -161,26 +152,24 @@ footer p {
     color: white;
     padding: 10px 15px;
     position: relative;
-    padding-bottom: 5px; /* Adds space for the line */
+    padding-bottom: 5px;
 }
 
-/* Line effect for all navbar and sidebar links */
 .navbar-custom .navbar-nav a::after,
 .sidebar a::after {
     content: '';
     display: block;
-    width: 50px; /* Short line */
-    height: 4px; /* Thickness of the line */
-    background-color: #DAA520 !important; /* Set your desired color here */
+    width: 50px;
+    height: 4px;
+    background-color: #DAA520 !important;
     margin-top: 5px;
-    transition: width 0.3s ease, background-color 0.3s ease; /* Transition for width and color */
+    transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-/* Hover effect: expand line to full width */
 .navbar-custom .navbar-nav a:hover::after,
 .sidebar a:hover::after {
-    width: 100%; /* Line expands to full width */
-    background-color: #DAA520 !important; /* Ensure the color remains on hover */
+    width: 100%;
+    background-color: #DAA520 !important; 
 }
 
 
@@ -188,12 +177,10 @@ footer p {
     background-color: #575757;
 }
 
-/* Remove line effect for "Autóbérlés" link */
 .sidebar .dropdown-toggle::after {
-    content: none; /* Disables the line */
+    content: none;
 }
 
-/* Toggle indicator for dropdown */
 .dropdown-toggle-indicator {
     color: white;
     margin-left: 10px;
@@ -204,7 +191,6 @@ footer p {
     color: #ffc107;
 }
 
-/* Hamburger icon styling */
 .hamburger-icon {
     cursor: pointer;
     font-size: 30px;
