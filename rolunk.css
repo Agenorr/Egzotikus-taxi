@@ -7,14 +7,49 @@ body {
   line-height: 1.6;
 }
 
-.container {
+footer {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 40px 0;
+  width: 100%;
+  height: 300px;
+  /* Stick footer to the bottom */
+  position: relative;
+  margin-top: auto;  /* This ensures the footer stays at the bottom */
+}
+
+footer .col-md-4 {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer h5 {
+  margin-bottom: 15px;
+}
+
+footer .me-3 {
+  margin-right: 15px;
+}
+
+footer .social-icons i {
+  font-size: 30px;
+  color: white;
+}
+
+footer p {
+  font-size: 14px;
+  color: white !important;
+}
+
+.weblapminden {
+  display: flex;
+  background-color: white;
   justify-content: space-between;
   align-items: flex-start;
   margin: 2rem auto;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: white;
   border-radius: 10px;
   max-width: 1200px;
 }
