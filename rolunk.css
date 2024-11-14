@@ -13,9 +13,8 @@ footer {
   padding: 40px 0;
   width: 100%;
   height: 300px;
-  /* Stick footer to the bottom */
   position: relative;
-  margin-top: auto;  /* This ensures the footer stays at the bottom */
+  margin-top: auto;
 }
 
 footer .col-md-4 {
