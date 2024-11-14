@@ -5,195 +5,229 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Exotic | Galéria</title>
-  <link rel="stylesheet" href="./alap.css">
-  <link rel="stylesheet" href="./abelgaleria.css">
-  <script src="./galeria.js"></script>
-  <script src="./alap.js"></script>
+  <link rel="stylesheet" href="/abelgaleria.css">
+  <link rel="stylesheet" href="/alap.css">
+  <script src="/alap.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-        <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
-        <a class="navbar-brand ms-3" href="#">
-            <img src="kepek/img/Exotic_logo.png" alt="Logo">
-        </a>
+      <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
+      <a class="navbar-brand ms-3" href="#">
+        <img src="kepek/img/Exotic_logo.png" alt="Logo">
+      </a>
 
-        <div class="navbar-center">
-            <span class="navbar-title">Exotic</span>
-        </div>
+      <div class="navbar-center">
+        <span class="navbar-title">Exotic</span>
+      </div>
 
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </a>
-            </li>
-        </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+          </a>
+        </li>
+      </ul>
     </div>
-</nav>
+  </nav>
 
-<!-- Sidebar -->
-<div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
     <div class="sidebar-close">
-        <div style="display: flex; align-items: center;">
-            <span class="navbar-title drdown">Exotic</span>
-        </div>
-        <i class="fa fa-times" onclick="toggleSidebar()"></i>
+      <div style="display: flex; align-items: center;">
+        <span class="navbar-title drdown">Exotic</span>
+      </div>
+      <i class="fa fa-times" onclick="toggleSidebar()"></i>
     </div>
     <a href="index.html" style="color: white">Kezdőlap</a>
     <div class="dropdown">
-        <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center" id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; text-decoration: none;">
-            Autóbérlés
-        </a>
+      <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center"
+        id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+        style="color: white; text-decoration: none;">
+        Autóbérlés
+      </a>
 
-        <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
-            <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
-            <li><a class="dropdown-item" href="berlesifeltetelek.html">Bérlési feltételek</a></li>
-        </ul>
+      <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
+        <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
+        <li><a class="dropdown-item" href="berlesifeltetelek.html">Bérlési feltételek</a></li>
+      </ul>
     </div>
 
     <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
     <a href="abelgaleria.html" style="color: white;">Galéria</a>
     <a href="rolunk.html" style="color: white;">Rólunk</a>
-</div>
+  </div>
+
+  <section class="title">
+    <h1 class="highlight-text">Flottánk</h1>
+    <p>Böngésszen és válassza ki a tökéletes autót az utazásához.</p>
+  </section>
+
+  <section class="gallery">
+    <div class="car-card">
+      <img src="kepek/galeriasedan.jpg" alt="Sedan">
+      <div class="car-info">
+        <h2>Sedan</h2>
+        <p>Kényelmes és elegáns a városi utazásokhoz.</p>
+      </div>
+      <div class="overlay">
+        <button onclick="window.location.href='autoberles.html'">Bérlés</button>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <img src="kepek/galerialuxury.jpg" alt="Luxury">
+      <div class="car-info">
+        <h2>Luxury</h2>
+        <p>Az elegancia, a kényelem és a legmodernebb technológiák tökéletes ötvözete.</p>
+      </div>
+      <div class="overlay">
+        <button onclick="window.location.href='autoberles.html'">Bérlés</button>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <img src="kepek/galeriacompact.webp" alt="Compact">
+      <div class="car-info">
+        <h2>Compact</h2>
+        <p>Tökéletes ahhoz, hogy stílusosan és könnyedén száguldozz a városi dzsungelben.</p>
+      </div>
+      <div class="overlay">
+        <button onclick="window.location.href='autoberles.html'">Bérlés</button>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <img src="kepek/galeriasuv.jpg" alt="SUV">
+      <div class="car-info">
+        <h2>SUV</h2>
+        <p>Tágas és erőteljes családi utazásokhoz.</p>
+      </div>
+      <div class="overlay">
+        <button onclick="window.location.href='autoberles.html'">Bérlés</button>
+      </div>
+    </div>
+    <div class="car-card">
+      <img src="kepek/galeriaeconomy.jpg" alt="Economy">
+      <div class="car-info">
+        <h2>Electric</h2>
+        <p>Környezetbarát a modern városi közlekedéshez.</p>
+      </div>
+      <div class="overlay">
+        <button onclick="window.location.href='autoberles.html'">Bérlés</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mt-5 mb-5">
+    <div class="row text-center">
+      <div class="col-md-4">
+        <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+        <h5>Különleges flotta</h5>
+        <p>Magas minőségű kabrióktól a hyperautókig</p>
+      </div>
+      <div class="col-md-4">
+        <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
+        <h5>Rugalmas ügyfélszolgálat</h5>
+        <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+      </div>
+      <div class="col-md-4">
+        <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+        <h5>Kivételes szolgáltatás</h5>
+        <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+      </div>
+    </div>
+  </div>
 
   <div class="container my-5">
-    <div class="row">
-      <div class="col-12">
-        <p class="highlight-text text-start">Élményképek</p>
+    <h1 class="highlight-text">Élményképek</h1>
+
+    <div class="gallery-container">
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+      
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
+      </div>
+
+      <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal"
+        data-img="kepek/galeriaideigleneskep.webp">
+        <img src="kepek/galeriaideigleneskep.webp" alt="Gallery Image 1">
+        <div class="gallery-overlay">Kép megnézése</div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 1">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 2">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 3">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 4">
-      </div>
+    <div class="cta-container">
+      <button class="cta-btn" onclick="window.location.href='autoberles.html'">Tovább a bérléshez</button>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 5">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 6">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 7">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 8">
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 9">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 10">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 11">
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Élménykép 12">
-      </div>
-    </div>
-
-    <div class="container mt-5 mb-5">
-      <div class="row text-center">
-        <div class="col-md-4">
-          <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
-          <h5>Különleges flotta</h5>
-          <p>Magas minőségű kabrióktól a hyperautókig</p>
-        </div>
-        <div class="col-md-4">
-          <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
-          <h5>Rugalmas ügyfélszolgálat</h5>
-          <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
-        </div>
-        <div class="col-md-4">
-          <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
-          <h5>Kivételes szolgáltatás</h5>
-          <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-5">
-      <div class="col-12">
-        <p class="highlight-text text-start">Képek az Autókról</p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 1">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 2">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 3">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 4">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-    </div>
-
-
-
-    <div class="row mt-4">
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 5">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 6">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 7">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-      <div class="col-md-3 text-center">
-        <img src="kepek/galeriaideigleneskep.webp" class="img-fluid" alt="Autó 8">
-        <button class="btn btn-warning btn-sm mt-2 text-dark" onclick="window.location.href='autoberles.html'">Kattints
-          a bérléshez!</button>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-12">
         <p class="info-text">
-          Áraink az áfát nem tartalmazzák!<br>
-          Napi km limit 400km/nap. Ennél hosszabb táv megtétele esetén 80 Ft/km kerül kiszámlázásra.<br>
+          Áraink az áfát tartalmazzák!<br>
+          Napi km limit 400km/nap. Ennél hosszabb táv megtétele esetén 200 Ft/km kerül kiszámlázásra.<br>
           <br>
           A bérlőknek biztosítjuk:
           <br>
@@ -201,44 +235,60 @@
           - CASCO, utas-, és poggyászbiztosítás az utazás idejére.
         </p>
       </div>
+
+  <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <img src="" alt="Nagyított Galéria Kép" id="modalImage">
+        </div>
+      </div>
     </div>
   </div>
 
   <footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
     <div class="container">
-        <div class="row">
-          
-            <div class="col-md-4 d-flex flex-column align-items-center">
-                <img src="kepek/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
-            </div>
+      <div class="row">
 
-            <div class="col-md-4 text-center">
-                <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i> ExoticCarDealership</p>
-                <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i> Exotic@gmail.com</p>
-                <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
-                <p style="margin: 5px 0;">Székhely: cím</p>
-            </div>
-
-            <div class="col-md-4 d-flex justify-content-center">
-                <div>
-                    <h5 style="margin-bottom: 10px;">Follow us</h5>
-                    <a href="#" class="me-3"><i class="fa fa-facebook-square" style="font-size: 25px; color: white;"></i></a>
-                    <a href="#"><i class="fa fa-twitter-square" style="font-size: 25px; color: white;"></i></a>
-                    <a href="#"><i class="fa fa-instagram" style="font-size: 25px; color: white;"></i></a>
-                </div>
-            </div>
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <img src="kepek/img/Exotic_logo.png" alt="Exotic Logo" style="width: 150px; margin-bottom: 10px;">
         </div>
 
-        <div class="row mt-3">
-            <div class="col-12 text-center">
-                <p style="font-size: 12px; margin: 0;">&copy; 2024 Exotic. All rights reserved.</p>
-            </div>
+        <div class="col-md-4 text-center">
+          <p style="margin: 5px 0;"><i class="fa fa-instagram" style="font-size: 20px; color: white;"></i>
+            ExoticCarDealership</p>
+          <p style="margin: 5px 0;"><i class="fa fa-envelope" style="font-size: 20px; color: white;"></i>
+            Exotic@gmail.com</p>
+          <p style="margin: 5px 0;">Ügyfélszolgálat: +36 30 000 0000</p>
+          <p style="margin: 5px 0;">Székhely: cím</p>
         </div>
+
+        <div class="col-md-4 d-flex justify-content-center">
+          <div>
+            <h5 style="margin-bottom: 10px; color: white;">Follow us</h5>
+            <a href="#" class="me-3"><i class="fa fa-facebook-square" style="font-size: 25px; color: white;"></i></a>
+            <a href="#"><i class="fa fa-twitter-square" style="font-size: 25px; color: white;"></i></a>
+            <a href="#"><i class="fa fa-instagram" style="font-size: 25px; color: white;"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <p style="font-size: 12px; margin: 0;">&copy; 2024 Exotic. All rights reserved.</p>
+        </div>
+      </div>
     </div>
-</footer>
+  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', function () {
+        const imgSrc = this.getAttribute('data-img');
+        document.getElementById('modalImage').src = imgSrc;
+      });
+    });
+  </script>
+
 </body>
 </html>
