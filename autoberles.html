@@ -37,73 +37,132 @@
             color: #fff;
         }
 
-        .filter {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .filter select {
-            padding: 10px;
-            font-size: 16px;
-        }
-
         .car-row {
             display: flex;
             justify-content: space-between;
+            gap: 1.5rem;
             margin: 20px 0;
-            flex-wrap: wrap;
         }
 
-        .car {
-            width: 30%;
-            background-color: #fff;
-            padding: 10px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+        .car-card {
+            position: relative;
+            overflow: hidden;
+            flex: 1 1 calc(33.33% - 1rem); /* Ensures three cards per row */
+            border-radius: 8px;
+            background-color: #dedede;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
 
-        .car img {
+        .car-card:hover {
+            transform: scale(1.03);
+        }
+
+        .car-card img {
             width: 100%;
-            height: auto;
+            height: 200px;
+            object-fit: cover;
         }
 
-        .car h3 {
-            margin: 10px 0 5px 0;
-        }
-
-        .car p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .footer {
+        .car-card .car-info {
+            padding: 1.5rem;
             text-align: center;
-            padding: 20px;
-            background-color: #333;
+        }
+
+        .car-card .car-info h2 {
+            font-size: 1.5rem;
+            color: black;
+        }
+
+        .car-card .car-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .car-card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             color: #fff;
-            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .car.hidden {
-            display: none;
+
+        .car-card:hover .overlay {
+            opacity: 1;
         }
+
+        .overlay button {
+            padding: 0.5rem 1rem;
+            background-color: #ff8c00; 
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .overlay button:hover {
+            background-color: #ffc107;
+        }
+        .filter {
+        text-align: center;
+        margin: 20px 0;
+        background-color: #f0f0f0;
+        padding: 15px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter label {
+        font-weight: bold;
+        font-size: 18px;
+        color: #ff8c00;
+    }
+
+    .filter select {
+        padding: 10px;
+        font-size: 16px;
+        background-color: #e0e0e0;
+        border: 2px solid #999;
+        border-radius: 5px;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .filter select:hover {
+        background-color: #d6d6d6;
+        border-color: #666;
+    }
+
+    .hidden {
+        display: none;
+    }
     </style>
-    <script>
-        function filterCars() {
-            var filter = document.getElementById("car-type").value;
-            var cars = document.getElementsByClassName("car");
-            
-            for (var i = 0; i < cars.length; i++) {
-                if (filter === "all") {
-                    cars[i].classList.remove("hidden");
-                } else if (cars[i].dataset.type === filter) {
-                    cars[i].classList.remove("hidden");
-                } else {
-                    cars[i].classList.add("hidden");
-                }
+<script>
+    function filterCars() {
+        var filter = document.getElementById("car-type").value;
+        var cars = document.getElementsByClassName("car-card");
+
+        for (var i = 0; i < cars.length; i++) {
+            if (filter === "all") {
+                cars[i].classList.remove("hidden");
+            } else if (cars[i].dataset.type === filter) {
+                cars[i].classList.remove("hidden");
+            } else {
+                cars[i].classList.add("hidden");
             }
         }
-    </script>
+    }
+</script>
 </head>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom">
@@ -151,186 +210,263 @@
     <a href="rolunk.html" style="color: white;">Rólunk</a>
 </div>
 
-    <div class="filter">
-        <label for="car-type">Szűrés autótípus szerint:</label>
-        <select id="car-type" onchange="filterCars()">
-            <option value="all">Minden Autó</option>
-            <option value="sedan">Sedan</option>
-            <option value="suv">SUV</option>
-            <option value="luxury">Luxury</option>
-            <option value="compact">Compact</option>
-            <option value="electric">Electric</option>
-        </select>
-    </div>
+<div class="filter">
+    <label for="car-type">Szűrés autótípus szerint:</label>
+    <select id="car-type" onchange="filterCars()">
+        <option value="all">Minden Autó</option>
+        <option value="sedan">Sedan</option>
+        <option value="suv">SUV</option>
+        <option value="luxury">Luxury</option>
+        <option value="compact">Compact</option>
+        <option value="electric">Electric</option>
+    </select>
+</div>
 
     <div class="container">
         <div class="car-row">
-            <div class="car" data-type="sedan">
-                <a href="autoberles_reszletek/toyota-camry.html" style="color: black; text-decoration: none;">
+            <div class="car-card" data-type="sedan">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Toyota Camry">
-                <h3>Sedan - Toyota Camry</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Sedan - Toyota Camry</h2>
+                    <p>Kényelmes és elegáns a városi utazásokhoz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/toyota-camry.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="suv">
-                <a href="autoberles_reszletek/ford-explorer.html" style="color: black; text-decoration: none;">
+
+            <div class="car-card"data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Ford Explorer">
-                <h3>SUV - Ford Explorer</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Ford Explorer</h2>
+                    <p>Tökéletes terepre és nagyobb csomagokhoz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/ford-explorer.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="luxury">
-                <a href="autoberles_reszletek/bmw-5-series.html" style="color: black; text-decoration: none;">
+
+            <div class="car-card" data-type="luxury">
                 <img src="kepek/autoberlesideigleneskep.png" alt="BMW 5 Series">
-                <h3>Luxury - BMW 5 Series</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Luxury - BMW 5 Series</h2>
+                    <p>Luxus kényelem és elegancia minden úton.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/bmw-5-series.html'">Bérlés</button>
+                </div>
             </div>
         </div>
 
         <div class="car-row">
-            <div class="car" data-type="compact">
-                <a href="autoberles_reszletek/honda-civic.html" style="color: black; text-decoration: none;">
+            <div class="car-card" data-type="compact">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Honda Civic">
-                <h3>Compact - Honda Civic</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Compact - Honda Civic</h2>
+                    <p>Egy stílusos és megbízható autó, ideális városi utakra.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/honda-civic.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="luxury">
-                <a href="autoberles_reszletek/mazda-mx5.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="luxury">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Mazda MX-5">
-                <h3>Luxury - Mazda MX-5</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Luxury - Mazda MX-5</h2>
+                    <p>Sportos élmény, amely minden vezetést emlékezetessé tesz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/mazda-mx5.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="suv">
-                <a href="autoberles_reszletek/chrysler-pacifica.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Chrysler Pacifica">
-                <h3>SUV - Chrysler Pacifica</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Chrysler Pacifica</h2>
+                    <p>Praktikus és tágas, tökéletes családi utazásokhoz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/chrysler-pacifica.html'">Bérlés</button>
+                </div>
             </div>
         </div>
-
+        
         <div class="car-row">
-            <div class="car" data-type="electric">
-                <a href="autoberles_reszletek/tesla-model-3.html" style="color: black; text-decoration: none;">
+            <div class="car-card" data-type="electric">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Tesla Model 3">
-                <h3>Electric - Tesla Model 3</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Electric - Tesla Model 3</h2>
+                    <p>Környezetbarát és modern autó a fenntartható utazásért.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/tesla-model-3.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="truck">
-                <a href="autoberles_reszletek/ford-f-150.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Ford F-150">
-                <h3>Truck - Ford F-150</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Ford F-150</h2>
+                    <p>Erőteljes és megbízható, ideális nehezebb feladatokhoz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/ford-f-150.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="compact">
-                <a href="autoberles_reszletek/volkswagen-golf.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="compact">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Volkswagen Golf">
-                <h3>Compact - Volkswagen Golf</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Compact - Volkswagen Golf</h2>
+                    <p>Egyensúly a kényelmes vezetés és a gazdaságos fogyasztás között.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/volkswagen-golf.html'">Bérlés</button>
+                </div>
             </div>
         </div>
-
+        
         <div class="car-row">
-            <div class="car" data-type="suv">
-                <a href="autoberles_reszletek/nissan-rogue.html" style="color: black; text-decoration: none;">
+            <div class="car-card" data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Nissan Rogue">
-                <h3>SUV - Nissan Rogue</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Nissan Rogue</h2>
+                    <p>Modern design és nagy tárolókapacitás a kalandokhoz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/nissan-rogue.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="luxury">
-                <a href="autoberles_reszletek/porsche-911.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="luxury">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Porsche 911">
-                <h3>Luxury - Porsche 911</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Luxury - Porsche 911</h2>
+                    <p>Lenyűgöző teljesítmény és ikonikus megjelenés.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/porsche-911.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="electric">
-                <a href="autoberles_reszletek/toyota-prius.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="electric">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Toyota Prius">
-                <h3>Electric - Toyota Prius</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Electric - Toyota Prius</h2>
+                    <p>Praktikus és energiatakarékos megoldás mindennapi utakhoz.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/toyota-prius.html'">Bérlés</button>
+                </div>
             </div>
         </div>
-
+        
         <div class="car-row">
-            <div class="car" data-type="luxury">
-                <a href="autoberles_reszletek/range-rover.html" style="color: black; text-decoration: none;">
+            <div class="car-card" data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Range Rover">
-                <h3>Luxury SUV - Range Rover</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Range Rover</h2>
+                    <p>Luxus és teljesítmény tökéletes egyensúlya.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/range-rover.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="economy">
-                <a href="autoberles_reszletek/kia-rio.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="economy">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Kia Rio">
-                <h3>Economy - Kia Rio</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Economy - Kia Rio</h2>
+                    <p>Gazdaságos és könnyen kezelhető kisautó.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/kia-rio.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="full-size">
-                <a href="autoberles_reszletek/chevrolet-impala.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card"  data-type="compact">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Chevrolet Impala">
-                <h3>Full-Size - Chevrolet Impala</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Compact - Chevrolet Impala</h2>
+                    <p>Tágas és kényelmes autó hosszú utakra.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/chevrolet-impala.html'">Bérlés</button>
+                </div>
             </div>
         </div>
-
+        
         <div class="car-row">
-            <div class="car" data-type="suv">
-                <a href="autoberles_reszletek/jeep-wrangler.html" style="color: black; text-decoration: none;">
+            <div class="car-card" data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Jeep Wrangler">
-                <h3>4x4 - Jeep Wrangler</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Jeep Wrangler</h2>
+                    <p>Kalandvágyóknak tervezett terepjáró.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/jeep-wrangler.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="luxury">
-                <a href="autoberles_reszletek/audi-a5.html" style="color: black; text-decoration: none;">
+        
+            <div class="car-card" data-type="luxury">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Audi A5">
-                <h3>Luxury Convertible - Audi A5</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>Luxury - Audi A5</h2>
+                    <p>Elegancia és teljesítmény nyitott tetős vezetéshez.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/audi-a5.html'">Bérlés</button>
+                </div>
             </div>
-            <div class="car" data-type="suv">
-                <a href="autoberles_reszletek/hyundai-tucson.html" style="color: black; text-decoration: none;">
+
+            <div class="car-card" data-type="suv">
                 <img src="kepek/autoberlesideigleneskep.png" alt="Hyundai Tucson">
-                <h3>Compact SUV - Hyundai Tucson</h3>
-                <p>Auto leiras</p>
-            </a>
+                <div class="car-info">
+                    <h2>SUV - Hyundai Tucson</h2>
+                    <p>Praktikus és modern városi terepjáró.</p>
+                </div>
+                <div class="overlay">
+                    <button onclick="window.location.href='autoberles_reszletek/hyundai-tucson.html'">Bérlés</button>
+                </div>
             </div>
         </div>
 
-        <div class="car-row">
-            <div class="car" data-type="luxury">
-                <a href="autoberles_reszletek/mercedes-benz-e-class.html" style="color: black; text-decoration: none;">
-                <img src="kepek/autoberlesideigleneskep.png" alt="Mercedes-Benz E-Class">
-                <h3>Luxury Sedan - Mercedes-Benz E-Class</h3>
-                <p>Auto leiras</p>
-            </a>
+            <div class="car-row">
+                <div class="car-card" data-type="luxury">
+                    <img src="kepek/autoberlesideigleneskep.png" alt="Mercedes-Benz E-Class">
+                    <div class="car-info">
+                        <h2>Luxury - Mercedes-Benz E-Class</h2>
+                        <p>Elegancia és csúcstechnológia kombinációja.</p>
+                    </div>
+                    <div class="overlay">
+                        <button onclick="window.location.href='autoberles_reszletek/mercedes-benz-e-class.html'">Bérlés</button>
+                    </div>
+                </div>
+            
+                <div class="car-card" data-type="economy">
+                    <img src="kepek/autoberlesideigleneskep.png" alt="Toyota Yaris">
+                    <div class="car-info">
+                        <h2>Economy - Toyota Yaris</h2>
+                        <p>Gazdaságos városi autó.</p>
+                    </div>
+                    <div class="overlay">
+                        <button onclick="window.location.href='autoberles_reszletek/toyota-yaris.html'">Bérlés</button>
+                    </div>
+                </div>
+            
+                <div class="car-card" data-type="sedan">
+                    <img src="kepek/autoberlesideigleneskep.png" alt="Honda Accord">
+                    <div class="car-info">
+                        <h2>Sedan - Honda Accord</h2>
+                        <p>Megbízhatóság és kényelem minden napra.</p>
+                    </div>
+                    <div class="overlay">
+                        <button onclick="window.location.href='autoberles_reszletek/honda-accord.html'">Bérlés</button>
+                    </div>
+                </div>
             </div>
-            <div class="car" data-type="economy">
-                <a href="autoberles_reszletek/toyota-yaris.html" style="color: black; text-decoration: none;">
-                <img src="kepek/autoberlesideigleneskep.png" alt="Toyota Yaris">
-                <h3>Economy - Toyota Yaris</h3>
-                <p>Auto leiras</p>
-            </a>
-            </div>
-            <div class="car" data-type="sedan">
-                <a href="autoberles_reszletek/honda-accord.html" style="color: black; text-decoration: none;">
-                <img src="kepek/autoberlesideigleneskep.png" alt="Honda Accord">
-                <h3>Sedan - Honda Accord</h3>
-                <p>Auto leiras</p>
-            </a>
-            </div>
-        </div>
     </div>
 
     <div class="container mt-5 mb-5">
