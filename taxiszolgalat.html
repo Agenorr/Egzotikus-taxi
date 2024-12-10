@@ -7,161 +7,15 @@
     <title>Exotic | Taxiszolgálat</title>
     <link rel="stylesheet" href="/alap.css">
     <link rel="stylesheet" href="index.css">
-    <script src="index.js"></script>
+    <link rel="stylesheet" href="taxiszolgalat.css">
+    <script src="taxiszolgalat.js"></script>
     <script src="/alap.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header .logo {
-            font-size: 24px;
-        }
-
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-
-        .taxi-order {
-            padding: 50px 20px;
-            background-color: white;
-        }
-
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #f9f9f9;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="time"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .car-selection {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .car-option {
-            background-color: #fff;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            flex: 1;
-        }
-
-        .car-option img {
-            max-width: 100%;
-            height: 150px;
-            border-radius: 8px;
-        }
-
-        .car-option h3 {
-            font-size: 20px;
-            margin-top: 10px;
-        }
-
-        .car-option p {
-            font-size: 16px;
-        }
-
-        .car-option button {
-            background-color: #ff8c00;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .car-option button:hover {
-            background-color: #ffc107;
-        }
-
-        .order-button {
-            display: block;
-            width: 100%;
-            background-color: #ff8c00;
-            color: #000;
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .order-button:hover {
-            background-color: #ffc107;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -211,49 +65,36 @@
             <a href="rolunk.html" style="color: white;">Rólunk</a>
         </div>
 
-    <section class="taxi-order">
-        <div class="form-container">
-            <h2>1. Lépés: Hova szeretne taxit rendelni?</h2>
-            <form action="#">
-                <label for="pickup-location">Írja be az utca nevét</label>
-                <input type="text" id="pickup-location" placeholder="pl.: Miskolc, Arany János utca 8">
-
-                <label for="pickup-time">Felvétel ideje</label>
-                <input type="time" id="pickup-time">
-
-                <h2>2. Lépés: Válassza ki hogy milyen autóval vegyék fel</h2>
-
-                <div class="car-selection">
-                    <div class="car-option">
-                        <img src="kepek/taxiszolgalatsedan.png" alt="Sedan">
-                        <h3>Sedan</h3>
-                        <p>4 férőhely</p>
-                        <p>Ár: 600ft/km</p>
-                        <button>Kiválasztom <br> a Sedan-t</button>
-                    </div>
-
-                    <div class="car-option">
-                        <img src="kepek/taxiszolgalatsuv.png" alt="SUV">
-                        <h3>SUV</h3>
-                        <p>6 férőhely</p>
-                        <p>Ár: 800ft/km</p>
-                        <button>Kiválasztom <br> az SUV-t</button>
-                    </div>
-
-                    <div class="car-option">
-                        <img src="kepek/taxiszolgalatsupercar.png" alt="Supercar">
-                        <h3>Supercar</h3>
-                        <p>1-3 férőhely</p>
-                        <p>Ár: 1200ft/km</p>
-                        <button>Kiválasztom <br> a Supercar-t</button>
-                    </div>
-                </div>
-
-
-                <button type="submit" class="order-button">Taxi megrendelése</button>
-            </form>
-        </div>
-    </section>
+        <section class="taxi-order">
+            <div class="form-container">
+                <h2>1. Lépés: Hova szeretne taxit rendelni?</h2>
+                <form action="#">
+                    <label for="pickup-location">Írja be az utca nevét</label>
+                    <input type="text" id="pickup-location" placeholder="pl.: Miskolc, Arany János utca 8">
+    
+                    <label for="pickup-time">Felvétel ideje</label>
+                    <input type="time" id="pickup-time">
+    
+                    <h2>2. Lépés: Válassza ki hogy milyen autóval vegyék fel</h2>
+    
+                    <label for="car-type">Autó típus</label>
+                    <select id="car-type" class="form-select">
+                        <option value="">-- Válasszon típust --</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="supercar">Supercar</option>
+                    </select>
+    
+                    <label for="car-model">Autó modell</label>
+                    <select id="car-model" class="form-select" disabled>
+                        <option value="">-- Először válasszon típust --</option>
+                    </select>
+    
+                    <div id="car-image" style="margin-top: 20px; text-align: center;"></div>
+    
+                    <div id="car-details" style="margin-top: 10px; text-align: left;"></div>
+    
+                    <button type="submit" class="order-button">Taxi megrendelése</button>
 
     <div class="container mt-5 mb-5">
         <div class="row text-center">
