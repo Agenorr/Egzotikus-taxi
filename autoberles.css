@@ -1,0 +1,126 @@
+#calendar {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px; /* Limit max width for larger screens */
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+  margin-bottom: 30px; /* Adds space below header */
+}
+
+.filter {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.filter select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.filter select:focus {
+  border-color: #007bff; /* Highlight on focus */
+}
+
+.car-card {
+width: 200px;
+height: 300px;
+padding: 10px;
+border: 1px solid #ddd;
+background-color: #fff;
+border-radius: 5px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+text-align: center;
+margin: 10px;
+position: relative; /* For button positioning */
+}
+
+.car-card img {
+width: 100%;
+height: auto;
+border-radius: 5px;
+}
+
+.car-container {
+display: flex;
+flex-wrap: wrap;
+gap: 15px;
+justify-content: center;
+}
+
+.car-card h3 {
+  margin: 12px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.car-card p {
+  margin: 8px 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.car-card .btn {
+  display: inline-block;
+  position: absolute; /* Button fixed at bottom */
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background-color: #ff8307;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none; /* Ensure there is no border */
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.car-card .btn:hover {
+  background-color: #ffc107; /* Darker yellow on hover */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .car-container {
+      justify-content: space-around; /* Adjust card layout on small screens */
+  }
+
+  .car-card {
+      width: 160px;
+      height: 280px;
+  }
+
+  #calendar {
+      max-width: 100%; /* Full width calendar on small screens */
+      margin: 20px auto;
+  }
+}
