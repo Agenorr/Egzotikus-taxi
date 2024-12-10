@@ -86,7 +86,7 @@ body {
   }
 
   .cta-btn {
-    background-color: #ffc107;
+    background-color: #ff8c00;
     color: #000;
     font-weight: bold;
     padding: 10px 20px;
@@ -97,7 +97,7 @@ body {
   }
 
   .cta-btn:hover {
-    background-color: #ff8c00;
+    background-color: #ffc107;
     color: #000;
     font-weight: bold;
   }
@@ -192,7 +192,7 @@ body {
   }
 
   .overlay button:hover {
-    background-color: #ff6500;
+    background-color: #ffc107;
   }
 
   .title {
