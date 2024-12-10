@@ -42,7 +42,7 @@
 }
 
 .image-box .image-button {
-    background-color: #ffc107;
+    background-color: #ff8c00;
     color: #000;
     font-weight: bold;
     border: none;
@@ -57,7 +57,7 @@
 }
 
 .image-button:hover {
-    background-color: #ff8c00;
+    background-color: #ffc107;
     color: #000;
     font-weight: bold;
 }
