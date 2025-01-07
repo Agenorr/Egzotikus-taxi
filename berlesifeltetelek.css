@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 15px 0;
+}
+
+header .logo {
+    width: 150px;
+    float: left;
+}
+
+header nav ul {
+    list-style: none;
+    float: right;
+}
+
+header nav ul li {
+    display: inline;
+    margin-left: 15px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    background: url('kepek/berlesifeltetelekkep.jpg') no-repeat center center/cover;
+    height: 500px;
+    font-size: 1.2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+}
+
+.hero-content h1 {
+    font-size: 2.7rem;
+    margin-bottom: 10px;
+}
+
+.policies {
+    padding: 50px 0;
+}
+
+.policies h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.policy {
+    background: #f4f4f4;
+    padding: 20px;
+    margin: 15px 0;
+    border-left: 5px solid #ff8c00;
+}
+
+.contact {
+    padding: 50px 0;
+    background: #f9f9f9;
+}
+
+.contact h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.container .row .col-md-4 {
+    padding: 20px;
+}
+
+.container .row .col-md-4 i {
+    color: #333;
+}
+
+.container .row .col-md-4 h5 {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.container .row .col-md-4 p {
+    color: #555;
+}
