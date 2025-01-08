@@ -12,110 +12,128 @@
     <script src="/alap.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
 </head>
 
 <body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-custom">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
-                <a class="navbar-brand ms-3" href="#">
-                    <img src="kepek/img/Exotic_logo.png" alt="Logo">
-                </a>
-    
-                <div class="navbar-center">
-                    <span class="navbar-title">Exotic</span>
-                </div>
-    
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </a>
-                    </li>
-                </ul>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <span class="hamburger-icon" onclick="toggleSidebar()">&#9776;</span>
+            <a class="navbar-brand ms-3" href="#">
+                <img src="kepek/img/Exotic_logo.png" alt="Logo" style="width: 100px;">
+            </a>
+
+            <div class="navbar-center">
+                <span class="navbar-title" style="font-family: 'Monsieur La Doulaise', cursive; font-size: 2rem;">Exotic</span>
             </div>
-        </nav>
-    
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
-            <div class="sidebar-close">
-                <div style="display: flex; align-items: center;">
-                    <span class="navbar-title drdown">Exotic</span>
-                </div>
-                <i class="fa fa-times" onclick="toggleSidebar()"></i>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar" style="width: 0; background-color: #333; padding: 10px;">
+        <div class="sidebar-close">
+            <div style="display: flex; align-items: center;">
+                <span class="navbar-title drdown text-light">Exotic</span>
             </div>
-            <a href="index.html" style="color: white">Kezdőlap</a>
-            <div class="dropdown">
-                <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center" id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; text-decoration: none;">
-                    Autóbérlés
-                </a>
-    
-                <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
-                    <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
-                    <li><a class="dropdown-item" href="berlesifeltetelek.html">Bérlési feltételek</a></li>
-                </ul>
-            </div>
-    
-            <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
-            <a href="abelgaleria.html" style="color: white;">Galéria</a>
-            <a href="rolunk.html" style="color: white;">Rólunk</a>
+            <i class="fa fa-times text-light" onclick="toggleSidebar()"></i>
+        </div>
+        <a href="index.html" style="color: white; text-decoration: none;">Kezdőlap</a>
+        <div class="dropdown">
+            <a href="autoberles.html" class="dropdown-toggle d-flex justify-content-between align-items-center" id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; text-decoration: none;">
+                Autóbérlés
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="rentalDropdown">
+                <li><a class="dropdown-item" href="autoberles.html">Tovább a bérléshez</a></li>
+                <li><a class="dropdown-item" href="berlesifeltetelek.html">Bérlési feltételek</a></li>
+            </ul>
         </div>
 
-        <section class="taxi-order">
-            <div class="form-container">
-                <h2>1. Lépés: Hova szeretne taxit rendelni?</h2>
-                <form action="#">
-                    <label for="pickup-location">Írja be az utca nevét</label>
-                    <input type="text" id="pickup-location" placeholder="pl.: Miskolc, Arany János utca 8">
-    
-                    <label for="pickup-time">Felvétel ideje</label>
-                    <input type="time" id="pickup-time">
-    
-                    <h2>2. Lépés: Válassza ki hogy milyen autóval vegyék fel</h2>
-    
-                    <label for="car-type">Autó típus</label>
-                    <select id="car-type" class="form-select">
-                        <option value="">-- Válasszon típust --</option>
-                        <option value="sedan">Sedan</option>
-                        <option value="suv">SUV</option>
-                        <option value="supercar">Supercar</option>
-                    </select>
-    
-                    <label for="car-model">Autó modell</label>
-                    <select id="car-model" class="form-select" disabled>
-                        <option value="">-- Először válasszon típust --</option>
-                    </select>
-    
-                    <div id="car-image" style="margin-top: 20px; text-align: center;"></div>
-    
-                    <div id="car-details" style="margin-top: 10px; text-align: left;"></div>
-    
-                    <button type="submit" class="order-button">Taxi megrendelése</button>
+        <a href="taxiszolgalat.html" style="color: white;">Taxi szolgálat</a>
+        <a href="abelgaleria.html" style="color: white;">Galéria</a>
+        <a href="rolunk.html" style="color: white;">Rólunk</a>
+    </div>
 
+    <!-- Hero Section -->
+    <section class="hero mb-5">
+        <div class="container text-center">
+            <h1>Taxi Szolgálat</h1>
+            <p>Gyors, megbízható és kényelmes taxi rendelés.</p>
+        </div>
+    </section>
+
+    <!-- Taxi Order Section -->
+    <section class="taxi-order">
+        <div class="form-container">
+            <h2>1. Lépés: Hova szeretne taxit rendelni?</h2>
+            <form action="#">
+                <label for="pickup-location">Írja be az utca nevét</label>
+                <input type="text" id="pickup-location" placeholder="pl.: Miskolc, Arany János utca 8">
+
+                <label for="pickup-time">Felvétel ideje</label>
+                <input type="time" id="pickup-time">
+
+                <h2>2. Lépés: Válassza ki hogy milyen autóval vegyék fel</h2>
+
+                <label for="car-type">Autó típus</label>
+                <select id="car-type" class="form-select">
+                    <option value="">-- Válasszon típust --</option>
+                    <option value="sedan">Sedan</option>
+                    <option value="suv">SUV</option>
+                    <option value="supercar">Supercar</option>
+                </select>
+
+                <label for="car-model">Autó modell</label>
+                <select id="car-model" class="form-select" disabled>
+                    <option value="">-- Először válasszon típust --</option>
+                </select>
+
+                <div id="car-image" style="margin-top: 20px; text-align: center;"></div>
+
+                <div id="car-details" style="margin-top: 10px; text-align: left;"></div>
+
+                <button type="submit" class="order-button">Taxi megrendelése</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Cards Section -->
     <div class="container mt-5 mb-5">
         <div class="row text-center">
             <div class="col-md-4">
-                <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
-                <h5>Különleges flotta</h5>
-                <p>Magas minőségű kabrióktól a hyperautókig</p>
+                <div class="card p-3 border-0 shadow">
+                    <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+                    <h5>Különleges flotta</h5>
+                    <p>Magas minőségű kabrióktól a hyperautókig</p>
+                </div>
             </div>
             <div class="col-md-4">
-                <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
-                <h5>Rugalmas ügyfélszolgálat</h5>
-                <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+                <div class="card p-3 border-0 shadow">
+                    <i class="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
+                    <h5>Rugalmas ügyfélszolgálat</h5>
+                    <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+                </div>
             </div>
             <div class="col-md-4">
-                <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
-                <h5>Kivételes szolgáltatás</h5>
-                <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+                <div class="card p-3 border-0 shadow">
+                    <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+                    <h5>Kivételes szolgáltatás</h5>
+                    <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer style="background-color: #1a1a1a; color: white; padding: 20px 0;">
         <div class="container">
             <div class="row">
@@ -150,6 +168,3 @@
             </div>
         </div>
     </footer>
-    
-</body>
-</html>
