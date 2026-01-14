@@ -167,17 +167,34 @@ footer p {
 }
 
 /* Sidebar dropdown styles */
-.sidebar .dropdown-menu {
-    background-color: black;
+.sidebar .dropdown-menu{
+    background-color: #333;
+    color: white;
     border: none;
     padding: 0;
 }
-
-.sidebar .dropdown-menu .dropdown-item {
+ .dropdown-item{
     color: white;
-    padding: 10px 15px;
-    position: relative;
-    padding-bottom: 5px; /* Adds space for the line */
+ }
+ .dropdown-item:hover{
+    color: white;
+ }
+
+
+/* Apply the gold line to dropdown items like sidebar-item */
+.sidebar .dropdown-menu .dropdown-item::after {
+    content: '';                /* Makes the pseudo-element exist */
+    display: block;             /* Behaves like a block under the text */
+    width: 50px;                /* Short line */
+    height: 4px;                /* Thickness of the line */
+    background-color: #DAA520;  /* Gold color */
+    margin-top: 5px;            /* Space below text */
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+/* Expand the line on hover */
+.sidebar .dropdown-menu .dropdown-item:hover::after {
+    width: 100%;                /* Expand to full width */
+    background-color: #DAA520;  /* Keep gold on hover */
 }
 
 /* Line effect for all navbar and sidebar links */
