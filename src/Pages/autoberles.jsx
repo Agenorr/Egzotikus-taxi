@@ -17,7 +17,6 @@ export default function Autoberles() {
   return (
     <div>
       <Navbar />
-
       <div className="container car-container mt-5">
         <div className="row">
           {cars.map((car, index) => (
@@ -53,7 +52,6 @@ export default function Autoberles() {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
