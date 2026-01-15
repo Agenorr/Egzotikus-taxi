@@ -63,6 +63,15 @@ margin: 10px;
 position: relative; /* For button positioning */
 }
 
+.car-card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
 .car-card img {
 width: 100%;
 height: auto;

@@ -6,35 +6,63 @@ import Footer from "../Components/footer";
 import "../autoberles.css";
 
 const categories = [
-  {name: "All", label: "Összes autó", image: "/images/all.jpg"},
-  { name: "Hatchback", label: "Hatchback", image: "/images/hatchback.jpg" },
-  { name: "SUV", label: "SUV", image: "/images/suv.jpg" },
-  { name: "Sedan", label: "Sedan", image: "/images/sedan.jpg" }
+  {
+    name: "All",
+    label: "Összes autó",
+    images: ["/images/all1.jpg", "/images/all2.jpg", "/images/all3.jpg"]
+  },
+  {
+    name: "Hatchback",
+    label: "Hatchback",
+    images: ["/images/hatchback1.jpg", "/images/hatchback2.jpg", "/images/hatchback3.jpg"]
+  },
+  {
+    name: "SUV",
+    label: "SUV",
+    images: ["	https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+  },
+  {
+    name: "Sedan",
+    label: "Sedan",
+    images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
+  }
 ];
 
 export default function Autoberles() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [imageIndexes, setImageIndexes] = useState(categories.map(() => 0));
 
+  // ================= FETCH CARS =================
   useEffect(() => {
-  if (selectedCategory === null) return;
+    if (selectedCategory === null) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  // If "All" is selected, don't pass category
-  const url =
-    selectedCategory === "All"
-      ? "http://localhost:5183/api/vehicles"
-      : `http://localhost:5183/api/vehicles?category=${selectedCategory}`;
+    // If "All" is selected, don't pass category
+    const url =
+      selectedCategory === "All"
+        ? "http://localhost:5183/api/vehicles"
+        : `http://localhost:5183/api/vehicles?category=${selectedCategory}`;
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => setCars(data))
-    .catch(err => console.error("Fetch error:", err))
-    .finally(() => setLoading(false));
-}, [selectedCategory]);
+    fetch(url)
+      .then(res => res.json())
+      .then(data => setCars(data))
+      .catch(err => console.error("Fetch error:", err))
+      .finally(() => setLoading(false));
+  }, [selectedCategory]);
 
+  // ================= ROTATE CATEGORY IMAGES =================
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setImageIndexes(prev =>
+        prev.map((idx, i) => (idx + 1) % categories[i].images.length)
+      );
+    }, 3000); // change image every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div>
@@ -43,32 +71,32 @@ export default function Autoberles() {
       {/* ================= CATEGORY SCREEN ================= */}
       {!selectedCategory && (
         <div className="container mt-5">
-          <div className="row">
-            {categories.map(cat => (
-              <div className="col-md-4 mb-4" key={cat.name}>
+          <div className="row g-0">
+            {categories.map((cat, i) => (
+              <div
+                className="car-card car-card-hover position-relative text-white col-md-4 mb-2" key={cat.name}
+                style={{
+                  height: "250px",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                  backgroundImage: `url(${cat.images[imageIndexes[i]]})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease"
+                }}
+
+                onClick={() => setSelectedCategory(cat.name)}
+              >
                 <div
-                  className="car-card position-relative text-white"
                   style={{
-                    height: "250px",
-                    borderRadius: "0.5rem",
-                    cursor: "pointer",
-                    backgroundImage: `url(${cat.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center"
+                    position: "absolute",
+                    inset: 0,
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    borderRadius: "0.5rem"
                   }}
-                  onClick={() => setSelectedCategory(cat.name)}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      backgroundColor: "rgba(0,0,0,0.5)",
-                      borderRadius: "0.5rem"
-                    }}
-                  />
-                  <div className="position-absolute top-50 start-50 translate-middle">
-                    <h2>{cat.label}</h2>
-                  </div>
+                />
+                <div className="position-absolute top-50 start-50 translate-middle">
+                  <h2>{cat.label}</h2>
                 </div>
               </div>
             ))}
@@ -89,7 +117,7 @@ export default function Autoberles() {
             ← Vissza a kategóriákhoz
           </button>
 
-          <h2 className="mb-4">{selectedCategory}</h2>
+          <h2 className="mb-4">{selectedCategory === "All" ? "Összes autó" : selectedCategory}</h2>
 
           {loading && <p>Kérjök várjon...</p>}
 
@@ -100,9 +128,9 @@ export default function Autoberles() {
               return (
                 <div className="col-md-4 mb-4" key={car.id}>
                   <div
-                    className="car-card position-relative text-white"
+                    className="car-card car-card-hover position-relative text-white col-md-4 mb-4"
                     style={{
-                      height: "300px",
+                      height: "300px",               // slightly taller than category cards
                       borderRadius: "0.5rem",
                       overflow: "hidden",
                       backgroundImage: primaryImage
@@ -112,6 +140,7 @@ export default function Autoberles() {
                       backgroundPosition: "center"
                     }}
                   >
+
                     <div
                       style={{
                         position: "absolute",
