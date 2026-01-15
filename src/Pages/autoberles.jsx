@@ -6,10 +6,10 @@ import Footer from "../Components/footer";
 import "../autoberles.css";
 
 const categories = [
-  {name: "All", image: "/images/all.jpg"},
-  { name: "Hatchback", image: "/images/hatchback.jpg" },
-  { name: "SUV", image: "/images/suv.jpg" },
-  { name: "Sedan", image: "/images/sedan.jpg" }
+  {name: "All", label: "Összes autó", image: "/images/all.jpg"},
+  { name: "Hatchback", label: "Hatchback", image: "/images/hatchback.jpg" },
+  { name: "SUV", label: "SUV", image: "/images/suv.jpg" },
+  { name: "Sedan", label: "Sedan", image: "/images/sedan.jpg" }
 ];
 
 export default function Autoberles() {
@@ -67,7 +67,7 @@ export default function Autoberles() {
                     }}
                   />
                   <div className="position-absolute top-50 start-50 translate-middle">
-                    <h2>{cat.name}</h2>
+                    <h2>{cat.label}</h2>
                   </div>
                 </div>
               </div>
@@ -91,7 +91,7 @@ export default function Autoberles() {
 
           <h2 className="mb-4">{selectedCategory}</h2>
 
-          {loading && <p>Betöltés...</p>}
+          {loading && <p>Kérjök várjon...</p>}
 
           <div className="row">
             {cars.map(car => {
