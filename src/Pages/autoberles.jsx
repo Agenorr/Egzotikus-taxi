@@ -3,12 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
+import '../autoberles.css';
 
 export default function Autoberles() {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    fetch("/car-cards.json") // file in public/
+    fetch('http://localhost:5183/api/vehicles') // file in public/
       .then((res) => res.json())
       .then((data) => setCars(data))
       .catch((err) => console.error("Fetch error:", err));
@@ -19,19 +20,56 @@ export default function Autoberles() {
       <Navbar />
       <div className="container car-container mt-5">
         <div className="row">
-          {cars.map((car, index) => (
-            <div className="col-md-4 mb-4" key={index}>
-              <div className="card">
-                <img src={car.image} className="card-img-top" alt={car.name} />
-                <div className="card-body">
-                  <h5 className="card-title">{car.name}</h5>
-                  <p className="card-text">{car.description}</p>
+          {cars.map(car => {
+            const primaryImage = car.images.find(img => img.isPrimary);
+
+            return (
+              <div className="col-md-4 mb-4" key={car.id}>
+                <div
+                  className="car-card position-relative text-white"
+                  style={{
+                    height: "300px", // adjust as needed
+                    borderRadius: "0.5rem",
+                    overflow: "hidden",
+                    backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : undefined,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat"
+                  }}
+                >
+                  {/* Optional dark overlay for readability */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: "rgba(0, 0, 0, 0.4)"
+                    }}
+                  />
+
+                  {/* Card content */}
+                  <div
+                    className="card-content position-absolute bottom-0 p-3"
+                    style={{ zIndex: 2 }}
+                  >
+                    <h3>{car.brand} {car.model}</h3>
+                    <p>{car.description}</p>
+                    <a href={`/cars/${car.id}`} className="btn btn-primary">
+                      Részletek
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+
+
+
 
       <div className="container mt-5 mb-5">
         <div className="row text-center">
