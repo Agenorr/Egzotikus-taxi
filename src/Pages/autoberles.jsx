@@ -41,11 +41,13 @@ export default function Autoberles() {
                   <div
                     style={{
                       position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      backgroundColor: "rgba(0, 0, 0, 0.4)"
+                      top: "50%",
+                      left: "50%",
+                      width: "90%",
+                      height: "90%",
+                      backgroundColor: "rgba(0, 0, 0, 0.4)",
+                      transform: "translate(-50%, -50%)", // perfectly centers both vertically and horizontally
+                      borderRadius: "0.5rem" // optional, matches card rounding
                     }}
                   />
 
