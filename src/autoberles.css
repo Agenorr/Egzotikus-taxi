@@ -79,11 +79,12 @@ border-radius: 5px;
 }
 
 .car-container {
-display: flex;
-flex-wrap: wrap;
-gap: 15px;
-justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
 }
+
 
 .car-card h3 {
   margin: 12px 0;

@@ -107,70 +107,44 @@ export default function Autoberles() {
       {/* ================= CAR LIST SCREEN ================= */}
       {selectedCategory && (
         <div className="container car-container mt-5">
-          <button
-            className="btn btn-outline-secondary mb-4"
-            onClick={() => {
-              setSelectedCategory(null);
-              setCars([]);
-            }}
-          >
-            ← Vissza a kategóriákhoz
-          </button>
+          <button className="btn btn-outline-secondary mb-4 car-card car-card-hover" onClick={() => { setSelectedCategory(null); setCars([]); }} > ← Vissza a kategóriákhoz </button>
+          {cars.map(car => {
+            const primaryImage = car.images.find(img => img.isPrimary);
 
-          <h2 className="mb-4">{selectedCategory === "All" ? "Összes autó" : selectedCategory}</h2>
-
-          {loading && <p>Kérjök várjon...</p>}
-
-          <div className="row">
-            {cars.map(car => {
-              const primaryImage = car.images.find(img => img.isPrimary);
-
-              return (
-                <div className="col-md-4 mb-4" key={car.id}>
-                  <div
-                    className="car-card car-card-hover position-relative text-white col-md-4 mb-4"
-                    style={{
-                      height: "300px",               // slightly taller than category cards
-                      borderRadius: "0.5rem",
-                      overflow: "hidden",
-                      backgroundImage: primaryImage
-                        ? `url(${primaryImage.imageUrl})`
-                        : undefined,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center"
-                    }}
-                  >
-
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        width: "90%",
-                        height: "90%",
-                        backgroundColor: "rgba(0,0,0,0.4)",
-                        transform: "translate(-50%, -50%)",
-                        borderRadius: "0.5rem"
-                      }}
-                    />
-
-                    <div
-                      className="card-content position-absolute bottom-0 p-3"
-                      style={{ zIndex: 2 }}
-                    >
-                      <h3>{car.brand} {car.model}</h3>
-                      <p>{car.description}</p>
-                      <a href={`/cars/${car.id}`} className="btn btn-primary">
-                        Részletek
-                      </a>
-                    </div>
-                  </div>
+            return (
+              <div className="car-card car-card-hover position-relative text-white" key={car.id}
+                style={{
+                  height: "300px",
+                  backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : undefined,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    width: "90%",
+                    height: "90%",
+                    backgroundColor: "rgba(0,0,0,0.4)",
+                    transform: "translate(-50%, -50%)",
+                    borderRadius: "0.5rem"
+                  }}
+                />
+                <div
+                  className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3"
+                  style={{ zIndex: 2 }}
+                >
+                  <h3 style={{ margin: "0px 0px 50px 0px" }}>{car.brand} {car.model}</h3>
+                  <a href={`/cars/${car.id}`} className="btn btn-primary">Részletek</a>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       )}
+
 
       {/* ================= INFO SECTION ================= */}
       <div className="container mt-5 mb-5">
