@@ -1,26 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
+﻿using ExoticBackend.Data;
 
 namespace ExoticBackend.Models
 {
     public class Vehicle
     {
-        public int id { get; set; }
-        public string category { get; set; }
-        public string brand { get; set; }
-        public string model { get; set; }
-        public int year { get; set; }
-        public int weight { get; set; }
-        public int doors { get; set; }
-        public int drive { get; set; }
-        public string description { get; set; }
-        public decimal price_per_day { get; set; }
-        public int status { get; set; } // 1=available, 2=rented, 3=maintenance
-        public int times_rented { get; set; }
+        public int Id { get; set; }
 
-        // Navigation properties
-        public List<Order> Orders { get; set; } = new List<Order>();
-        public List<VehicleImage> VehicleImages { get; set; } = new List<VehicleImage>();
+        public string? Category { get; set; }
+        public string? Brand { get; set; }
+        public string? Model { get; set; }
+        public int? Year { get; set; }
+        public int? Weight { get; set; }
+        public int? Doors { get; set; }
+        public string? Drive { get; set; }
+        public decimal Price_Per_Day { get; set; }
+        public string? Description { get; set; }
+        public int Times_Rented { get; set; }
+        public int Status { get; set; }
+        public DateTime Created_At { get; set; }
+
+        // 🔥 MUST be plural
+        public ICollection<VehicleImage> VehicleImages { get; set; } = new List<VehicleImage>();
+
+        // existing
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

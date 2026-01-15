@@ -1,4 +1,5 @@
 using ExoticBackend.Data;
+using ExoticBackend.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,7 +65,24 @@ namespace ExoticBackEnd
             {
                 try
                 {
-                    var vehicles = await db.Vehicles.AsNoTracking().ToListAsync();
+                    var vehicles = await db.Vehicles
+                    .Include(v => v.VehicleImages)
+                    .AsNoTracking()
+                    .Select(v => new VehicleDto
+                    {
+                        Id = v.Id,
+                        Brand = v.Brand,
+                        Model = v.Model,
+                        Description = v.Description,
+                        Images = v.VehicleImages.Select(i => new VehicleImageDto
+                        {
+                            Id = i.Id,
+                            ImageUrl = i.Image_Url,
+                            IsPrimary = i.Is_Primary
+                        }).ToList()
+                    })
+                    .ToListAsync();
+
                     return Results.Ok(vehicles);
                 }
                 catch (Exception ex)

@@ -19,7 +19,22 @@ namespace ExoticBackend.Data
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<Vehicle>().ToTable("vehicles");
             modelBuilder.Entity<Order>().ToTable("orders");      // "Order" is a C# class, table is "orders"
-            modelBuilder.Entity<VehicleImage>().ToTable("vehicle_images");
+            modelBuilder.Entity<VehicleImage>(entity =>
+            {
+                entity.ToTable("vehicle_images");
+
+                entity.Property(e => e.VehicleId)
+                      .HasColumnName("vehicle_id");
+
+                entity.Property(e => e.Image_Url)
+                      .HasColumnName("image_url");
+
+                entity.Property(e => e.Is_Primary)
+                      .HasColumnName("is_primary");
+
+                entity.Property(e => e.Created_At)
+                      .HasColumnName("created_at");
+            });
 
             // Relationships
             modelBuilder.Entity<User>()
