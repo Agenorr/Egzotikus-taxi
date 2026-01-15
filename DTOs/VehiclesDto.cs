@@ -6,6 +6,7 @@
         public string? Brand { get; set; }
         public string? Model { get; set; }
         public string? Description { get; set; }
+        public string? Category { get; set; }
         public List<VehicleImageDto> Images { get; set; } = new();
     }
 }

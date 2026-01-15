@@ -61,36 +61,46 @@ namespace ExoticBackEnd
                 Timestamp = DateTime.Now
             });
 
-            app.MapGet("/api/vehicles", async (ExoticDbContext db) =>
+            app.MapGet("/api/vehicles", async (string? category, ExoticDbContext db) =>
             {
                 try
                 {
-                    var vehicles = await db.Vehicles
-                    .Include(v => v.VehicleImages)
-                    .AsNoTracking()
-                    .Select(v => new VehicleDto
+                    var query = db.Vehicles
+                        .Include(v => v.VehicleImages)
+                        .AsNoTracking()
+                        .AsQueryable();
+
+                    if (!string.IsNullOrWhiteSpace(category))
                     {
-                        Id = v.Id,
-                        Brand = v.Brand,
-                        Model = v.Model,
-                        Description = v.Description,
-                        Images = v.VehicleImages.Select(i => new VehicleImageDto
+                        query = query.Where(v => v.Category == category);
+                    }
+
+                    var vehicles = await query
+                        .Select(v => new VehicleDto
                         {
-                            Id = i.Id,
-                            ImageUrl = i.Image_Url,
-                            IsPrimary = i.Is_Primary
-                        }).ToList()
-                    })
-                    .ToListAsync();
+                            Id = v.Id,
+                            Brand = v.Brand,
+                            Model = v.Model,
+                            Description = v.Description,
+                            Category = v.Category,
+                            Images = v.VehicleImages.Select(i => new VehicleImageDto
+                            {
+                                Id = i.Id,
+                                ImageUrl = i.Image_Url,
+                                IsPrimary = i.Is_Primary
+                            }).ToList()
+                        })
+                        .ToListAsync();
 
                     return Results.Ok(vehicles);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error fetching vehicles: {ex}");
-                    return Results.Problem(ex.Message); // <-- show full exception in Swagger
+                    return Results.Problem(ex.Message);
                 }
             });
+
 
             app.Run();
         }
