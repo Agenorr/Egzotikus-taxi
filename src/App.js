@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Pages/home';
 import Autoberles from './Pages/autoberles'
 import "font-awesome/css/font-awesome.min.css";
+import CarCategories from './Pages/CarCategories';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
