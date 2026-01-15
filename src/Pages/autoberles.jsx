@@ -31,14 +31,12 @@ const categories = [
 export default function Autoberles() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [cars, setCars] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [imageIndexes, setImageIndexes] = useState(categories.map(() => 0));
 
   // ================= FETCH CARS =================
   useEffect(() => {
     if (selectedCategory === null) return;
 
-    setLoading(true);
 
     // If "All" is selected, don't pass category
     const url =
@@ -50,7 +48,6 @@ export default function Autoberles() {
       .then(res => res.json())
       .then(data => setCars(data))
       .catch(err => console.error("Fetch error:", err))
-      .finally(() => setLoading(false));
   }, [selectedCategory]);
 
   // ================= ROTATE CATEGORY IMAGES =================
