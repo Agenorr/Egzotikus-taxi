@@ -16,7 +16,7 @@ export default function Navbar() {
     return (
         <div>
             {/* Main Navbar */}
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     {/* Hamburger Icon calls our toggle function */}
                     <span className="hamburger-icon text-white" style={{ cursor: 'pointer', fontSize: '24px' }} onClick={toggleSidebar}>
@@ -29,7 +29,7 @@ export default function Navbar() {
 
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Logout</Link>
+                            <Link className="nav-link" to="/" style={{color: "white"}}>Logout</Link>
                         </li>
                     </ul>
                 </div>
