@@ -7,11 +7,55 @@ import '../Base.css'
 export default function Navbar() {
     // 1. Create a "State" to track if the sidebar is open
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     // 2. Function to flip the state between true/false
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+    const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+        const response = await fetch('https://localhost:7065/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Success:", data);
+
+            // 1. Update the UI state
+            setIsLoggedIn(true);
+            
+            // 2. Close the dropdown after a brief moment or immediately
+            setIsAccountOpen(false);
+
+            // 3. Optional: Save user info to LocalStorage so they stay logged in
+            localStorage.setItem('user', JSON.stringify(data));
+            
+            alert(`Welcome back, ${data.username}!`);
+        } else {
+            // This catches the "Results.Unauthorized()" from your C# code
+            alert("Hibás email vagy jelszó!"); 
+        }
+    } catch (error) {
+        console.error("Network error:", error);
+        alert("A szerver nem elérhető.");
+    }
+};
 
     return (
         <div>
@@ -27,11 +71,55 @@ export default function Navbar() {
                         <span className="navbar-title h1 mb-0">Exotic</span>
                     </div>
 
-                    <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/" style={{color: "white"}}>Logout</Link>
-                        </li>
-                    </ul>
+                    <div className="nav-item dropdown">
+                        <button
+                            className="btn btn-outline-light dropdown-toggle"
+                            onClick={() => setIsAccountOpen(!isAccountOpen)}
+                        >
+                            {isLoggedIn ? "Profil" : "Bejelentkezés"}
+                        </button>
+
+                        {/* Conditional Dropdown Content */}
+                        {isAccountOpen && (
+                            <div className="dropdown-menu show dropdown-menu-end p-4" style={{ width: '280px', right: 0, left: 'auto' }}>
+                                {!isLoggedIn ? (
+                                    <form onSubmit={handleLogin}>
+                                        <div className="mb-3">
+                                            <label className="form-label">Email</label>
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                placeholder="email@example.com"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Jelszó</label>
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <button type="submit" className="w-100">Bejelentkezés</button>
+                                        <div className="dropdown-divider"></div>
+                                        <Link className="dropdown-item text-center p-0 mt-2 text-black" to="/Register" onClick={() => setIsAccountOpen(false)}>
+                                            Nincsen még fiókod? Regisztrálj!
+                                        </Link>
+                                    </form>
+                                ) : (
+                                    <div>
+                                        <p className="text-center">Üdvözlünk!</p>
+                                        <button className="btn btn-danger w-100" onClick={() => setIsLoggedIn(false)}>Logout</button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </nav>
 
