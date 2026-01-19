@@ -52,3 +52,4 @@ C:\Users\Ábel\source\repos\ExoticBackEnd\ExoticBackend\bin\Debug\net8.0\Swashbu
 C:\Users\Ábel\source\repos\ExoticBackEnd\ExoticBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Ábel\source\repos\ExoticBackEnd\ExoticBackend\obj\Debug\net8.0\ExoticBackend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Ábel\source\repos\ExoticBackEnd\ExoticBackend\obj\Debug\net8.0\ExoticBackend.sourcelink.json
+C:\Users\Ábel\source\repos\ExoticBackEnd\ExoticBackend\bin\Debug\net8.0\BCrypt.Net-Next.dll

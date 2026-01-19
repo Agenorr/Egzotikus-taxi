@@ -1,11 +1,13 @@
 using ExoticBackend.Data;
 using ExoticBackend.DTOs;
+using ExoticBackend.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging; 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExoticBackEnd
 {
@@ -115,6 +117,36 @@ namespace ExoticBackEnd
 
                     return Results.Problem("An internal error occurred.");
                 }
+            });
+
+
+            app.MapPost("/api/register", async (RegisterDto dto, ExoticDbContext db) =>
+            {
+                // 1. Check if user already exists
+                if (await db.Users.AnyAsync(u => u.Email == dto.Email))
+                {
+                    return Results.BadRequest("User with this email already exists.");
+                }
+
+                // 2. Hash the password
+                string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password, salt);
+
+                // 3. Save to database
+                var user = new User
+                {
+                    Username = dto.Username,
+                    Password = passwordHash,
+                    Email = dto.Email,
+                    PhoneNumber = dto.PhoneNumber,
+                    Created_At = DateTime.UtcNow,
+                    Clearance = 1
+                };
+
+                db.Users.Add(user);
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "User registered successfully!" });
             });
 
             app.Run();

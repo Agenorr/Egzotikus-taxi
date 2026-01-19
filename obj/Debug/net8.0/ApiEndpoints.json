@@ -1,6 +1,28 @@
 [
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_4",
+    "RelativePath": "api/register",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ExoticBackend.DTOs.RegisterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
     "Method": "\u003CMain\u003Eb__0_2",
     "RelativePath": "api/status",
     "HttpMethod": "GET",
