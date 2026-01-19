@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging; 
 using System;
 
 namespace ExoticBackEnd
@@ -14,54 +15,60 @@ namespace ExoticBackEnd
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // -------------------------
-            // Add services first
-            // -------------------------
+            
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            // Enable CORS
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowReact",
-                    policy => policy.AllowAnyOrigin()
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader());
-            });
-
-            // DbContext
             builder.Services.AddDbContext<ExoticDbContext>(options =>
                 options.UseMySql(
-                    "server=localhost;database=exotic_rentals;user=root;password=;", // empty password example
+                    connectionString,
                     new MySqlServerVersion(new Version(8, 0, 32))
                 )
             );
 
-            // Swagger
+           //CORS
+            var allowedOrigins = "_myAllowSpecificOrigins";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: allowedOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // -------------------------
-            // Middleware
-            // -------------------------
-            app.UseCors("AllowReact");
+            //MIDDLEWARE
+
+            //HTTPS REDIRECT
+            app.UseHttpsRedirection();
+
+            app.UseCors(allowedOrigins);
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();           // Generates swagger.json
-                app.UseSwaggerUI();         // Interactive UI at /swagger
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+            else
+            {
+                app.UseHsts();
             }
 
-            // -------------------------
-            // API Endpoints
-            // -------------------------
+            //API
             app.MapGet("/api/status", () => new
             {
                 Message = "Backend is running",
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.UtcNow 
             });
 
-            app.MapGet("/api/vehicles", async (string? category, ExoticDbContext db) =>
+            
+            app.MapGet("/api/vehicles", async (string? category, ExoticDbContext db, ILogger<Program> logger) =>
             {
                 try
                 {
@@ -96,13 +103,22 @@ namespace ExoticBackEnd
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error fetching vehicles: {ex}");
-                    return Results.Problem(ex.Message);
+                    logger.LogError(ex, "An error occurred while fetching vehicles.");
+
+                    if (ex.InnerException is MySqlConnector.MySqlException mysqlEx)
+                    {
+                        return Results.Problem(
+                            detail: "The database service is currently unavailable. Please ensure MySQL is started.",
+                            statusCode: 503 
+                        );
+                    }
+
+                    return Results.Problem("An internal error occurred.");
                 }
             });
-
 
             app.Run();
         }
     }
 }
+
