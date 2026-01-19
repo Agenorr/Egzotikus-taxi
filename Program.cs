@@ -149,6 +149,31 @@ namespace ExoticBackEnd
                 return Results.Ok(new { message = "User registered successfully!" });
             });
 
+            app.MapPost("/api/login", async (LoginDto dto, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+                if (user == null)
+                {
+                    return Results.Unauthorized();
+                }
+
+                
+                bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
+
+                if (!isValid)
+                {
+                    return Results.Unauthorized(); 
+                }
+
+                return Results.Ok(new
+                {
+                    message = "Login successful!",
+                    username = user.Username,
+                    clearance = user.Clearance
+                });
+            });
+
             app.Run();
         }
     }
