@@ -61,19 +61,17 @@ const Home = ({ serverData }) => {
         <div className="image-box">
             <img src="/Assets/mclaren1.jpg" alt="Car 1"/>
             <div className="image-overlay">
-                <button className="image-button" onClick="window.location.href='autoberles.html'">Béreld ki!</button>
             </div>
         </div>
         <div className="image-box">
             <img src="/Assets/mclaren1.jpg" alt="Car 2"/>
             <div className="image-overlay">
-                <button className="image-button" onClick="window.location.href='autoberles.html'">Béreld ki!</button>
             </div>
         </div>
         <div className="image-box">
             <img src="/Assets/mclaren1.jpg" alt="Car 3"/>
             <div className="image-overlay">
-                <button className="image-button" onClick="window.location.href='autoberles.html'">Béreld ki!</button>
+                <button className="image-button">Béreld ki!</button>
             </div>
         </div>
     </div>
