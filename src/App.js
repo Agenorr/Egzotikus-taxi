@@ -13,7 +13,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5183/api/status')
+    fetch('https://localhost:7065/api/status')
       .then(res => {
         if (!res.ok) throw new Error();
         return res.json();

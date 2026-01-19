@@ -41,8 +41,8 @@ export default function Autoberles() {
     // If "All" is selected, don't pass category
     const url =
       selectedCategory === "All"
-        ? "http://localhost:5183/api/vehicles"
-        : `http://localhost:5183/api/vehicles?category=${selectedCategory}`;
+        ? "https://localhost:7065/api/vehicles"
+        : `https://localhost:7065/api/vehicles?category=${selectedCategory}`;
 
     fetch(url)
       .then(res => res.json())

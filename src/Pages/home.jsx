@@ -10,70 +10,70 @@ const Home = ({ serverData }) => {
   return (
     <div>
       <Navbar/>
-      <div id="carSlideshow" class="carousel slide fade-bottom-white" data-bs-ride="carousel" data-bs-interval="3000">
-        <div class="greeting-text">
+      <div id="carSlideshow" className="carousel slide fade-bottom-white" data-bs-ride="carousel" data-bs-interval="3000">
+        <div className="greeting-text">
             <h1>Üdvözlünk az Exotic világában!</h1>
             <p>Vezess álmaid autóját – Stílus, Sebesség, Szenvedély.</p>
         </div>
 
-        <div class="carousel-inner">
-            <div class="carousel-item active">
+        <div className="carousel-inner">
+            <div className="carousel-item active">
                 <img src="/Assets/mclaren1.jpg" alt="Car 1"/>
             </div>
-            <div class="carousel-item">
+            <div className="carousel-item">
                 <img src="/Assets/mclaren2.jpg" alt="Car 2"/>
             </div>
-            <div class="carousel-item">
+            <div className="carousel-item">
                 <img src="/Assets/mclaren3.jpg" alt="Car 3"/>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carSlideshow" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+        <button className="carousel-control-prev" type="button" data-bs-target="#carSlideshow" data-bs-slide="prev">
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carSlideshow" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+        <button className="carousel-control-next" type="button" data-bs-target="#carSlideshow" data-bs-slide="next">
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Next</span>
         </button>
     </div>
 
-    <div class="container mt-5 mb-5">
-        <div class="row text-center">
-            <div class="col-md-4">
-                <i class="fa fa-globe fa-3x mb-3" aria-hidden="true"></i>
+    <div className="container mt-5 mb-5">
+        <div className="row text-center">
+            <div className="col-md-4">
+                <i className="fa fa-globe fa-3x mb-3" aria-hidden="true"></i>
                 <h5>Globális elérhetőség</h5>
                 <p>Több mint 1 000 Exotic állomás több mint 40 országban</p>
             </div>
-            <div class="col-md-4">
-                <i class="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+            <div className="col-md-4">
+                <i className="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
                 <h5>Különleges flotta</h5>
                 <p>Magas minőségű kabrióktól a hyperautókig</p>
             </div>
-            <div class="col-md-4">
-                <i class="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+            <div className="col-md-4">
+                <i className="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
                 <h5>Kivételes szolgáltatás</h5>
                 <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
             </div>
         </div>
     </div>
 
-    <div class="image-container">
-        <div class="image-box">
+    <div className="image-container">
+        <div className="image-box">
             <img src="/Assets/mclaren1.jpg" alt="Car 1"/>
-            <div class="image-overlay">
-                <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+            <div className="image-overlay">
+                <button className="image-button" onClick="window.location.href='autoberles.html'">Béreld ki!</button>
             </div>
         </div>
-        <div class="image-box">
+        <div className="image-box">
             <img src="/Assets/mclaren1.jpg" alt="Car 2"/>
-            <div class="image-overlay">
-                <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+            <div className="image-overlay">
+                <button className="image-button" onClick="window.location.href='autoberles.html'">Béreld ki!</button>
             </div>
         </div>
-        <div class="image-box">
+        <div className="image-box">
             <img src="/Assets/mclaren1.jpg" alt="Car 3"/>
-            <div class="image-overlay">
-                <button class="image-button" onclick="window.location.href='autoberles.html'">Béreld ki!</button>
+            <div className="image-overlay">
+                <button className="image-button" onClick="window.location.href='autoberles.html'">Béreld ki!</button>
             </div>
         </div>
     </div>
