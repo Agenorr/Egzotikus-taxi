@@ -12,7 +12,7 @@ function App() {
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
   //Ahoz hogy backend nélkül elinduljon a frontend, innentől ki kell kommentelni 
-  useEffect(() => {
+  /*useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
         if (!res.ok) throw new Error();
@@ -53,6 +53,7 @@ function App() {
       </div>
     );
   }
+    */
 //idáig kell kikommentelni
   return (
     <BrowserRouter>
