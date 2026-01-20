@@ -11,7 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
-
+  //Ahoz hogy backend nélkül elinduljon a frontend, innentől ki kell kommentelni 
   useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
@@ -53,7 +53,7 @@ function App() {
       </div>
     );
   }
-
+//idáig kell kikommentelni
   return (
     <BrowserRouter>
       <div className="app-layout">
