@@ -54,7 +54,7 @@ function App() {
     );
   }
     */
-//idáig kell kikommentelni ni
+//idáig kell kikommentelni
   return (
     <BrowserRouter>
       <div className="app-layout">
