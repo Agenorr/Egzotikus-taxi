@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Pages/home';
 import Autoberles from './Pages/autoberles'
+import Register from './Pages/register'
 import "font-awesome/css/font-awesome.min.css";
 
 
@@ -62,6 +63,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home serverData={data} />} />
             <Route path="/Autoberles" element={<Autoberles />} />
+            <Route path="/Register" element={<Register/>}/>
           </Routes>
         </main>
       </div>
