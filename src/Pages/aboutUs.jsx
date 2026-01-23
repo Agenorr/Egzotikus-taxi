@@ -4,6 +4,10 @@ import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../Css/AboutUs.css";
+import rolunkKep from '../Img/rolunkfokep.jpg';
+import rolunkSlideshowAgenor from '../Img/rolunkslideshowagenor.jpg';
+import rolunkSlideshowAbel from '../Img/rolunkslideshowabel.jpg';
+import rolunkSlideshowRoli from '../Img/rolunkslideshowroli.png';
 
 export default function AboutUs() {
   return (
@@ -12,7 +16,7 @@ export default function AboutUs() {
 
       <div className="container weblapminden">
         <section className="founders-section">
-          <img src="/kepek/rolunkfokep.jpg" alt="Alapítók Kép" className="img-fluid" />
+          <img src={rolunkKep} alt="Alapítók Kép" className="img-fluid" />
           <div className="founders-wrapper">
             <div className="founders-member">
               <h3 style={{ color: "#ff8c00" }}>Márton Roland</h3>
@@ -51,7 +55,7 @@ export default function AboutUs() {
           <div id="aboutCarousel" className="carousel slide my-4" data-bs-ride="carousel" data-bs-interval="4000">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <img src="kepek/rolunkslideshowagenor.jpg" className="d-block w-100 carousel-img-small"
+                <img src={rolunkSlideshowAgenor} className="d-block w-100 carousel-img-small"
                   style={{ height: "250px", borderRadius: "15px", objectFit: "cover" }} alt="First Slide" />
                 <div className="carousel-caption d-none d-md-block">
                   <h5 style={{ color: "#ff8c00" }}>Baráth Agenor</h5>
@@ -59,7 +63,7 @@ export default function AboutUs() {
                 </div>
               </div>
               <div className="carousel-item">
-                <img src="kepek/rolunkslideshowabel.jpg" className="d-block w-100 carousel-img-small"
+                <img src={rolunkSlideshowAbel} className="d-block w-100 carousel-img-small"
                   style={{ height: "250px", borderRadius: "15px", objectFit: "cover" }} alt="Second Slide" />
                 <div className="carousel-caption d-none d-md-block">
                   <h5 style={{ color: "#ff8c00" }}>Futó Ábel</h5>
@@ -67,7 +71,7 @@ export default function AboutUs() {
                 </div>
               </div>
               <div className="carousel-item">
-                <img src="kepek/rolunkslideshowroli.png" className="d-block w-100"
+                <img src={rolunkSlideshowRoli} className="d-block w-100"
                   style={{ height: "250px", borderRadius: "15px", objectFit: "cover" }} alt="Third Slide" />
                 <div className="carousel-caption d-none d-md-block">
                   <h5 style={{ color: "#ff8c00" }}>Márton Roland</h5>
