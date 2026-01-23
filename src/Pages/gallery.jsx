@@ -4,6 +4,11 @@ import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../Css/Gallery.css"; 
+import galeriasedan from "../Img/gallery/galeriasedan.jpg";
+import galerialuxury from "../Img/gallery/galerialuxury.jpg";
+import galeriacompact from "../Img/gallery/galeriacompact.webp";
+import galeriasuv from "../Img/gallery/galeriasuv.jpg";
+import galeriaeconomy from "../Img/gallery/galeriaeconomy.jpg";
 
 export default function Gallery() {
   const [modalImg, setModalImg] = useState("");
@@ -21,7 +26,7 @@ export default function Gallery() {
 
       <section className="gallery">
         <div className="car-card">
-          <img src="kepek/galeriasedan.jpg" alt="Sedan" />
+          <img src={galeriasedan} alt="Sedan" />
           <div className="car-info">
             <h2>Sedan</h2>
             <p>Kényelmes és elegáns a városi utazásokhoz.</p>
@@ -32,7 +37,7 @@ export default function Gallery() {
         </div>
 
         <div className="car-card">
-          <img src="kepek/galerialuxury.jpg" alt="Luxury" />
+          <img src={galerialuxury} alt="Luxury" />
           <div className="car-info">
             <h2>Luxury</h2>
             <p>Az elegancia, a kényelem és a legmodernebb technológiák tökéletes ötvözete.</p>
@@ -43,7 +48,7 @@ export default function Gallery() {
         </div>
 
         <div className="car-card">
-          <img src="kepek/galeriacompact.webp" alt="Compact" />
+          <img src={galeriacompact} alt="Compact" />
           <div className="car-info">
             <h2>Compact</h2>
             <p>Tökéletes ahhoz, hogy stílusosan és könnyedén száguldozz a városi dzsungelben.</p>
@@ -54,7 +59,7 @@ export default function Gallery() {
         </div>
 
         <div className="car-card">
-          <img src="kepek/galeriasuv.jpg" alt="SUV" />
+          <img src={galeriasuv} alt="SUV" />
           <div className="car-info">
             <h2>SUV</h2>
             <p>Tágas és erőteljes családi utazásokhoz.</p>
@@ -65,7 +70,7 @@ export default function Gallery() {
         </div>
 
         <div className="car-card">
-          <img src="kepek/galeriaeconomy.jpg" alt="Economy" />
+          <img src={galeriaeconomy} alt="Economy" />
           <div className="car-info">
             <h2>Electric</h2>
             <p>Környezetbarát a modern városi közlekedéshez.</p>

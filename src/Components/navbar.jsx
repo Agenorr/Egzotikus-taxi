@@ -93,7 +93,9 @@ export default function Navbar() {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 required
+                                                
                                             />
+
                                         </div>
                                         <div className="mb-3">
                                             <label className="form-label">Jelszó</label>
