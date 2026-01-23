@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // This makes dropdowns work!
-import '../Base.css'
+import '../Css/Base.css';
 
 export default function Navbar() {
     // 1. Create a "State" to track if the sidebar is open
