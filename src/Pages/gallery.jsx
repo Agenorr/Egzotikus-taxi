@@ -4,11 +4,6 @@ import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../Css/Gallery.css"; 
-import galeriasedan from "../Img/gallery/galeriasedan.jpg";
-import galerialuxury from "../Img/gallery/galerialuxury.jpg";
-import galeriacompact from "../Img/gallery/galeriacompact.webp";
-import galeriasuv from "../Img/gallery/galeriasuv.jpg";
-import galeriaeconomy from "../Img/gallery/galeriaeconomy.jpg";
 
 export default function Gallery() {
   const [modalImg, setModalImg] = useState("");
@@ -23,64 +18,6 @@ export default function Gallery() {
         <h1 className="highlight-text">Flottánk</h1>
         <p>Böngésszen és válassza ki a tökéletes autót az utazásához.</p>
       </section>
-
-      <section className="gallery">
-        <div className="car-card">
-          <img src={galeriasedan} alt="Sedan" />
-          <div className="car-info">
-            <h2>Sedan</h2>
-            <p>Kényelmes és elegáns a városi utazásokhoz.</p>
-          </div>
-          <div className="overlay">
-            <button onClick={() => (window.location.href = "autoberles.html")}>Bérlés</button>
-          </div>
-        </div>
-
-        <div className="car-card">
-          <img src={galerialuxury} alt="Luxury" />
-          <div className="car-info">
-            <h2>Luxury</h2>
-            <p>Az elegancia, a kényelem és a legmodernebb technológiák tökéletes ötvözete.</p>
-          </div>
-          <div className="overlay">
-            <button onClick={() => (window.location.href = "autoberles.html")}>Bérlés</button>
-          </div>
-        </div>
-
-        <div className="car-card">
-          <img src={galeriacompact} alt="Compact" />
-          <div className="car-info">
-            <h2>Compact</h2>
-            <p>Tökéletes ahhoz, hogy stílusosan és könnyedén száguldozz a városi dzsungelben.</p>
-          </div>
-          <div className="overlay">
-            <button onClick={() => (window.location.href = "autoberles.html")}>Bérlés</button>
-          </div>
-        </div>
-
-        <div className="car-card">
-          <img src={galeriasuv} alt="SUV" />
-          <div className="car-info">
-            <h2>SUV</h2>
-            <p>Tágas és erőteljes családi utazásokhoz.</p>
-          </div>
-          <div className="overlay">
-            <button onClick={() => (window.location.href = "autoberles.html")}>Bérlés</button>
-          </div>
-        </div>
-
-        <div className="car-card">
-          <img src={galeriaeconomy} alt="Economy" />
-          <div className="car-info">
-            <h2>Electric</h2>
-            <p>Környezetbarát a modern városi közlekedéshez.</p>
-          </div>
-          <div className="overlay">
-            <button onClick={() => (window.location.href = "autoberles.html")}>Bérlés</button>
-          </div>
-        </div>
-      </section>
-
       
       <div className="container mt-5 mb-5">
         <div className="row text-center">
