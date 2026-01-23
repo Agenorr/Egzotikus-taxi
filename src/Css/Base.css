@@ -255,3 +255,65 @@ footer p {
 .dropdown-toggle::after {
     display: none !important;
 }
+
+
+/* Login Dropdown konténer stílus */
+.nav-item.dropdown .dropdown-menu.show {
+    background-color: #1a1a1a; /* Sötét háttér */
+    border: 1px solid #DAA520; /* Arany szegély */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: white;
+    animation: fadeIn 0.3s ease; /* Finom megjelenés */
+}
+
+/* Input mezők designja a dropdownon belül */
+.nav-item.dropdown .form-control {
+    background-color: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 6px;
+    transition: border-color 0.3s;
+}
+
+.nav-item.dropdown .form-control:focus {
+    border-color: #DAA520;
+    background-color: #444;
+    box-shadow: none;
+    color: white;
+}
+
+/* A bejelentkezés gomb egyedi stílusa */
+.nav-item.dropdown form button[type="submit"] {
+    background-color: #DAA520;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.nav-item.dropdown form button[type="submit"]:hover {
+    background-color: #b8860b;
+    transform: translateY(-2px);
+}
+
+/* Regisztráció link stílusa */
+.nav-item.dropdown .dropdown-item.text-black {
+    color: #DAA520 !important; /* Aranyra váltunk a fekete helyett */
+    font-size: 0.85rem;
+    transition: color 0.3s;
+}
+
+.nav-item.dropdown .dropdown-item:hover {
+    background: transparent !important;
+    color: white !important;
+    text-decoration: underline;
+}
+
+/* Finom animáció */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

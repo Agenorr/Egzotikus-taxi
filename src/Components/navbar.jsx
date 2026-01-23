@@ -107,7 +107,7 @@ export default function Navbar() {
                                         </div>
                                         <button type="submit" className="w-100">Bejelentkezés</button>
                                         <div className="dropdown-divider"></div>
-                                        <Link className="dropdown-item text-center p-0 mt-2 text-black" to="/Register" onClick={() => setIsAccountOpen(false)}>
+                                        <Link className="dropdown-item text-center p-0 mt-2" to="/Register" onClick={() => setIsAccountOpen(false)}>
                                             Nincsen még fiókod? Regisztrálj!
                                         </Link>
                                     </form>
