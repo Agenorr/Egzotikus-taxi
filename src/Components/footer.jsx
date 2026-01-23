@@ -31,7 +31,7 @@ export default function Footer() {
 
           <div className="col-md-4 d-flex justify-content-center">
             <div>
-              <h5 style={{ marginBottom: '10px' }}>Follow us</h5>
+              <h5 style={{ marginBottom: '10px', color: 'white' }}>Follow us</h5>
               <a href="#" className="me-3">
                 <i className="fa fa-facebook-square" style={{ fontSize: '25px', color: 'white' }} />
               </a>
