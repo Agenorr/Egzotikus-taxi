@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Pages/home';
-import CarRental from './Pages/carRental'
+import CarRental from './Pages/CarRental';
 import RentingInfo from './Pages/rentingInfo';
 import Register from './Pages/register'
 import Taxi from './Pages/taxi';

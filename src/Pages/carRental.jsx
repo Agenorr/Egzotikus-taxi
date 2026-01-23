@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
-import "../Css/carrental.css";
+import "../Css/CarRental.css";
 
 const categories = [
   {
