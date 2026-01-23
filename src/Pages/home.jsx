@@ -74,20 +74,20 @@ const Home = ({ serverData }) => {
             </div>
 
             <div className="image-container">
-                    {vehicles.map((car) => {
-                        const primaryImage = car.images?.find(img => img.isPrimary)?.imageUrl
-                            || car.images?.[0]?.imageUrl
-                            || 'https://via.placeholder.com/300';
+                {vehicles.map((car) => {
+                    const primaryImage = car.images?.find(img => img.isPrimary)?.imageUrl
+                        || car.images?.[0]?.imageUrl
+                        || 'https://via.placeholder.com/300';
 
-                        return (
-                            <div key={car.id} className="image-box">
-                                <img src={primaryImage.trim()} alt={`${car.brand} ${car.model}`} />
-                                <div className="image-overlay">
-                                    <button className="image-button">Béreld ki!</button>
-                                </div>
+                    return (
+                        <div key={car.id} className="image-box">
+                            <img src={primaryImage.trim()} alt={`${car.brand} ${car.model}`} />
+                            <div className="image-overlay">
+                                <button className="image-button">Béreld ki!</button>
                             </div>
-                        );
-                    })}
+                        </div>
+                    );
+                })}
             </div>
             <Footer />
         </div>
