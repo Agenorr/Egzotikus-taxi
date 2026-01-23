@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
-import "../autoberles.css";
+import "../Css/CarRental.css";
 
 const categories = [
   {
@@ -28,7 +28,7 @@ const categories = [
   }
 ];
 
-export default function Autoberles() {
+export default function CarRental() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [cars, setCars] = useState([]);
   const [imageIndexes, setImageIndexes] = useState(categories.map(() => 0));

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // This makes dropdowns work!
-import '../Base.css'
+import '../Css/Base.css';
 
 export default function Navbar() {
     // 1. Create a "State" to track if the sidebar is open
@@ -160,14 +160,14 @@ export default function Navbar() {
                             id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false">Autóbérlés
                         </button>
                         <ul className="dropdown-menu shadow" aria-labelledby="rentalDropdown">
-                            <li><Link className="dropdown-item" to="/Autoberles" onClick={toggleSidebar}>Tovább a bérléshez</Link></li>
-                            <li><Link className="dropdown-item" to="/Berlesi-feltetelek" onClick={toggleSidebar}>Bérlési feltételek</Link></li>
+                            <li><Link className="dropdown-item" to="/CarRental" onClick={toggleSidebar}>Tovább a bérléshez</Link></li>
+                            <li><Link className="dropdown-item" to="/RentingInfo" onClick={toggleSidebar}>Bérlési feltételek</Link></li>
                         </ul>
                     </div>
 
-                    <Link to="/Taxiszolgalat" className="sidebar-item" onClick={toggleSidebar}>Taxi szolgálat</Link>
-                    <Link to="/Galeria" className="sidebar-item" onClick={toggleSidebar}>Galéria</Link>
-                    <Link to="/Rolunk" className="sidebar-item" onClick={toggleSidebar}>Rólunk</Link>
+                    <Link to="/Taxi" className="sidebar-item" onClick={toggleSidebar}>Taxi szolgálat</Link>
+                    <Link to="/Gallery" className="sidebar-item" onClick={toggleSidebar}>Galéria</Link>
+                    <Link to="/AboutUs" className="sidebar-item" onClick={toggleSidebar}>Rólunk</Link>
                 </div>
             </div>
 
