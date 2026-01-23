@@ -7,40 +7,6 @@ body {
   line-height: 1.6;
 }
 
-footer {
-  background-color: #1a1a1a;
-  color: white;
-  padding: 40px 0;
-  width: 100%;
-  height: 300px;
-  position: relative;
-  margin-top: auto;
-}
-
-footer .col-md-4 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-footer h5 {
-  margin-bottom: 15px;
-}
-
-footer .me-3 {
-  margin-right: 15px;
-}
-
-footer .social-icons i {
-  font-size: 30px;
-  color: white;
-}
-
-footer p {
-  font-size: 14px;
-  color: white !important;
-}
-
 .weblapminden {
   display: flex;
   background-color: white;
@@ -123,18 +89,3 @@ footer p {
   line-height: 1.8;
 }
 
-footer {
-  background-color: #1a1a1a;
-  color: white;
-  padding: 20px 0;
-  margin-top: 2rem;
-}
-
-footer .container {
-  max-width: 1200px;
-}
-
-.founder-icon {
-  color: black;
-  margin-right: 5px;
-}
