@@ -9,6 +9,7 @@ import Register from './Pages/register'
 import Taxi from './Pages/taxi';
 import Gallery from './Pages/gallery';
 import AboutUs from './Pages/aboutUs'
+import Profile from './Pages/profile';
 import "font-awesome/css/font-awesome.min.css";
 
 
@@ -17,7 +18,7 @@ function App() {
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
   //Ahoz hogy backend nélkül elinduljon a frontend, innentől ki kell kommentelni
-  /* 
+  
   useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
@@ -59,7 +60,7 @@ function App() {
       </div>
     );
   }
-    */
+    
   //idáig kell kikommentelni
   return (
     <BrowserRouter>
@@ -73,6 +74,7 @@ function App() {
             <Route path="/Taxi" element={<Taxi />} />
             <Route path="/Gallery" element={<Gallery />} />
             <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/Profile" element={<Profile />} />
           </Routes>
         </main>
       </div>

@@ -8,7 +8,10 @@ export default function Navbar() {
     // 1. Create a "State" to track if the sidebar is open
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        // Check if user data exists in localStorage on initial load
+        return localStorage.getItem('user') !== null;
+    });
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,43 +22,43 @@ export default function Navbar() {
     };
 
     const handleLogin = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    try {
-        const response = await fetch('https://localhost:7065/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            }),
-        });
+        try {
+            const response = await fetch('https://localhost:7065/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+            });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Success:", data);
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Success:", data);
 
-            // 1. Update the UI state
-            setIsLoggedIn(true);
-            
-            // 2. Close the dropdown after a brief moment or immediately
-            setIsAccountOpen(false);
+                // 1. Update the UI state
+                setIsLoggedIn(true);
 
-            // 3. Optional: Save user info to LocalStorage so they stay logged in
-            localStorage.setItem('user', JSON.stringify(data));
-            
-            alert(`Welcome back, ${data.username}!`);
-        } else {
-            // This catches the "Results.Unauthorized()" from your C# code
-            alert("Hibás email vagy jelszó!"); 
+                // 2. Close the dropdown after a brief moment or immediately
+                setIsAccountOpen(false);
+
+                // 3. Optional: Save user info to LocalStorage so they stay logged in
+                localStorage.setItem('user', JSON.stringify(data));
+
+                alert(`Welcome back, ${data.username}!`);
+            } else {
+                // This catches the "Results.Unauthorized()" from your C# code
+                alert("Hibás email vagy jelszó!");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            alert("A szerver nem elérhető.");
         }
-    } catch (error) {
-        console.error("Network error:", error);
-        alert("A szerver nem elérhető.");
-    }
-};
+    };
 
     return (
         <div>
@@ -93,7 +96,7 @@ export default function Navbar() {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 required
-                                                
+
                                             />
 
                                         </div>
@@ -116,7 +119,11 @@ export default function Navbar() {
                                 ) : (
                                     <div>
                                         <p className="text-center">Üdvözlünk!</p>
-                                        <button className="btn btn-danger w-100" onClick={() => setIsLoggedIn(false)}>Logout</button>
+                                        <Link to="/Profile" className="btn btn-primary w-100 mb-2" onClick={() => setIsAccountOpen(false)}>Profilom</Link>
+                                        <button className="btn btn-danger w-100" onClick={() => {
+                                            localStorage.removeItem('user'); // Remove the data
+                                            setIsLoggedIn(false);            // Update UI
+                                        }}>Logout</button>
                                     </div>
                                 )}
                             </div>
