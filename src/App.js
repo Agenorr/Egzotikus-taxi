@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './Context/AuthContext';
 import Home from './Pages/home';
 import CarRental from './Pages/CarRental';
 import RentingInfo from './Pages/rentingInfo';
@@ -18,7 +19,7 @@ function App() {
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
   //Ahoz hogy backend nélkül elinduljon a frontend, innentől ki kell kommentelni
-  
+
   useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
@@ -60,25 +61,27 @@ function App() {
       </div>
     );
   }
-    
+
   //idáig kell kikommentelni
   return (
-    <BrowserRouter>
-      <div className="app-layout">
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home serverData={data} />} />
-            <Route path="/CarRental" element={<CarRental />} />
-            <Route path="/RentingInfo" element={<RentingInfo />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/Taxi" element={<Taxi />} />
-            <Route path="/Gallery" element={<Gallery />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/Profile" element={<Profile />} />
-          </Routes>
-        </main>
-      </div>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="app-layout">
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home serverData={data} />} />
+              <Route path="/CarRental" element={<CarRental />} />
+              <Route path="/RentingInfo" element={<RentingInfo />} />
+              <Route path="/Register" element={<Register />} />
+              <Route path="/Taxi" element={<Taxi />} />
+              <Route path="/Gallery" element={<Gallery />} />
+              <Route path="/AboutUs" element={<AboutUs />} />
+              <Route path="/Profile" element={<Profile />} />
+            </Routes>
+          </main>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

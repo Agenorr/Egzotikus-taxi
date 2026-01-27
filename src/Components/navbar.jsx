@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // This makes dropdowns work!
 import '../Css/Base.css';
+import { AuthContext, AuthProvider } from '../Context/AuthContext';
 
 export default function Navbar() {
+
+    const { user, isLoggedIn, login, logout } = useContext(AuthContext);
     // 1. Create a "State" to track if the sidebar is open
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(() => {
-        // Check if user data exists in localStorage on initial load
-        return localStorage.getItem('user') !== null;
-    });
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -41,14 +40,10 @@ export default function Navbar() {
                 console.log("Success:", data);
 
                 // 1. Update the UI state
-                setIsLoggedIn(true);
+                login(data);
 
                 // 2. Close the dropdown after a brief moment or immediately
                 setIsAccountOpen(false);
-
-                // 3. Optional: Save user info to LocalStorage so they stay logged in
-                localStorage.setItem('user', JSON.stringify(data));
-
                 alert(`Welcome back, ${data.username}!`);
             } else {
                 // This catches the "Results.Unauthorized()" from your C# code
@@ -65,65 +60,38 @@ export default function Navbar() {
             {/* Main Navbar */}
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid d-flex justify-content-between align-items-center">
-                    {/* Hamburger Icon calls our toggle function */}
-                    <span className="hamburger-icon text-white" style={{ cursor: 'pointer', fontSize: '24px' }} onClick={toggleSidebar}>
-                        &#9776;
-                    </span>
+                    <span className="hamburger-icon text-white" style={{ cursor: 'pointer', fontSize: '24px' }} onClick={toggleSidebar}>&#9776;</span>
 
                     <div className="navbar-center mx-auto">
                         <span className="navbar-title h1 mb-0">Exotic</span>
                     </div>
 
                     <div className="nav-item dropdown">
-                        <button
-                            className="btn btn-outline-light dropdown-toggle"
-                            onClick={() => setIsAccountOpen(!isAccountOpen)}
-                        >
+                        <button className="btn btn-outline-light dropdown-toggle" onClick={() => setIsAccountOpen(!isAccountOpen)}>
                             {isLoggedIn ? "Profil" : "Bejelentkezés"}
                         </button>
 
-                        {/* Conditional Dropdown Content */}
                         {isAccountOpen && (
-                            <div className="dropdown-menu show dropdown-menu-end p-4" style={{ width: '280px', right: 0, left: 'auto' }}>
+                            <div className="dropdown-menu show dropdown-menu-end p-4" style={{ width: '280px', right: 0 }}>
                                 {!isLoggedIn ? (
                                     <form onSubmit={handleLogin}>
                                         <div className="mb-3">
                                             <label className="form-label">Email</label>
-                                            <input
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="email@example.com"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                required
-
-                                            />
-
+                                            <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
                                         </div>
                                         <div className="mb-3">
                                             <label className="form-label">Jelszó</label>
-                                            <input
-                                                type="password"
-                                                className="form-control"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                required
-                                            />
+                                            <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
                                         </div>
-                                        <button type="submit" className="w-100">Bejelentkezés</button>
+                                        <button type="submit" className="w-100 btn btn-primary">Bejelentkezés</button>
                                         <div className="dropdown-divider"></div>
-                                        <Link className="dropdown-item text-center p-0 mt-2" to="/Register" onClick={() => setIsAccountOpen(false)}>
-                                            Nincsen még fiókod? Regisztrálj!
-                                        </Link>
+                                        <Link className="dropdown-item text-center p-0 mt-2" to="/Register" onClick={() => setIsAccountOpen(false)}>Regisztráció</Link>
                                     </form>
                                 ) : (
                                     <div>
-                                        <p className="text-center">Üdvözlünk!</p>
+                                        <p className="text-center">Üdv, {user?.username}!</p>
                                         <Link to="/Profile" className="btn btn-primary w-100 mb-2" onClick={() => setIsAccountOpen(false)}>Profilom</Link>
-                                        <button className="btn btn-danger w-100" onClick={() => {
-                                            localStorage.removeItem('user'); // Remove the data
-                                            setIsLoggedIn(false);            // Update UI
-                                        }}>Logout</button>
+                                        <button className="btn btn-danger w-100" onClick={logout}>Logout</button>
                                     </div>
                                 )}
                             </div>
