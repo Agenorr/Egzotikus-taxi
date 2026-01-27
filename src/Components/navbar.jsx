@@ -9,6 +9,7 @@ export default function Navbar() {
 
     const { user, isLoggedIn, login, logout } = useContext(AuthContext);
     // 1. Create a "State" to track if the sidebar is open
+    const [isExiting, setIsExiting] = useState(false); // New state
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
 
@@ -18,6 +19,20 @@ export default function Navbar() {
     // 2. Function to flip the state between true/false
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
+    };
+    const closeAccountMenu = () => {
+        setIsExiting(true); // Start the "Up" animation
+        setTimeout(() => {
+            setIsAccountOpen(false); // Actually remove it from DOM after 300ms
+            setIsExiting(false);     // Reset for next time
+        }, 300); // This must match your CSS animation duration
+    };
+    const toggleAccountMenu = () => {
+        if (isAccountOpen) {
+            closeAccountMenu();
+        } else {
+            setIsAccountOpen(true);
+        }
     };
 
     const handleLogin = async (e) => {
@@ -37,14 +52,15 @@ export default function Navbar() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("Success:", data);
+                console.log("Login successful:", data);
+                setIsExiting(true);
 
-                // 1. Update the UI state
-                login(data);
-
-                // 2. Close the dropdown after a brief moment or immediately
-                setIsAccountOpen(false);
-                alert(`Welcome back, ${data.username}!`);
+                // Wait for the animation to finish (300ms), then update the global Auth state
+                setTimeout(() => {
+                    login(data);              // Now the UI swaps while the menu is INVISIBLE
+                    setIsAccountOpen(false);
+                    setIsExiting(false);
+                }, 300);
             } else {
                 // This catches the "Results.Unauthorized()" from your C# code
                 alert("Hibás email vagy jelszó!");
@@ -53,6 +69,20 @@ export default function Navbar() {
             console.error("Network error:", error);
             alert("A szerver nem elérhető.");
         }
+    };
+    const handleLogoutClick = () => {
+        // 1. Start the 'Slide Up' animation
+        setIsExiting(true);
+
+        // 2. Wait 300ms for the animation to finish
+        setTimeout(() => {
+            // 3. Actually clear the user data from Context/LocalStorage
+            logout();
+
+            // 4. Remove the menu from the DOM and reset exit state
+            setIsAccountOpen(false);
+            setIsExiting(false);
+        }, 300);
     };
 
     return (
@@ -67,12 +97,26 @@ export default function Navbar() {
                     </div>
 
                     <div className="nav-item dropdown">
-                        <button className="btn btn-outline-light dropdown-toggle" onClick={() => setIsAccountOpen(!isAccountOpen)}>
+                        <button className="btn btn-outline-light dropdown-toggle" onClick={toggleAccountMenu}>
                             {isLoggedIn ? "Profil" : "Bejelentkezés"}
                         </button>
+                        {isAccountOpen && (
+                            <div
+                                onClick={closeAccountMenu}
+                                style={{
+                                    position: 'fixed',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100vw',
+                                    height: '100vh',
+                                    backgroundColor: 'transparent', // Invisible
+                                    zIndex: 999 // Just below the dropdown but above everything else
+                                }}
+                            />
+                        )}
 
                         {isAccountOpen && (
-                            <div className="dropdown-menu show dropdown-menu-end p-4" style={{ width: '280px', right: 0 }}>
+                            <div className={`dropdown-menu show dropdown-menu-end p-4 ${isExiting ? 'dropdown-animate-out' : 'dropdown-animate-in'}`} style={{ width: '280px', right: 0 }}>
                                 {!isLoggedIn ? (
                                     <form onSubmit={handleLogin}>
                                         <div className="mb-3">
@@ -91,7 +135,7 @@ export default function Navbar() {
                                     <div>
                                         <p className="text-center">Üdv, {user?.username}!</p>
                                         <Link to="/Profile" className="btn btn-primary w-100 mb-2" onClick={() => setIsAccountOpen(false)}>Profilom</Link>
-                                        <button className="btn btn-danger w-100" onClick={logout}>Logout</button>
+                                        <button className="btn btn-danger w-100" onClick={handleLogoutClick}>Logout</button>
                                     </div>
                                 )}
                             </div>

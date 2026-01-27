@@ -264,7 +264,7 @@ footer p {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     color: white;
-    animation: fadeIn 0.3s ease; /* Finom megjelenés */
+    animation: exoticSlideDown 0.3s ease; /* Finom megjelenés */
 }
 
 /* Input mezők designja a dropdownon belül */
@@ -313,7 +313,39 @@ footer p {
 }
 
 /* Finom animáció */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* 1. Slide Down (Opening) */
+@keyframes exoticSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scaleY(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+}
+
+/* 2. Slide Up (Closing) */
+@keyframes exoticSlideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-30px) scaleY(0.9);
+    }
+}
+
+/* 3. The trigger classes */
+.dropdown-animate-in {
+    animation: exoticSlideDown 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
+    transform-origin: top;
+}
+
+.dropdown-animate-out {
+    /* 'forwards' is the most important part here! */
+    animation: exoticSlideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
+    transform-origin: top;
+    pointer-events: none; /* Stops the user from clicking buttons while it's leaving */
 }
