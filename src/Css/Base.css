@@ -350,13 +350,17 @@ footer p {
     pointer-events: none; /* Stops the user from clicking buttons while it's leaving */
 }
 
-.login-btn{
+.login-btn, .logout-btn{
     color: white;
+    text-align: center;
 }
-
-.logout-btn{
+.login-btn:hover{
+    color: #DAA520;
+}
+.logout-btn:hover{
     color: red;
 }
+
 .loginDrowpdownHeader{
     border-bottom: 2px solid #DAA520;
     margin-bottom: 10px;
