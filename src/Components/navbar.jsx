@@ -133,9 +133,11 @@ export default function Navbar() {
                                     </form>
                                 ) : (
                                     <div>
-                                        <p className="text-center">Üdv, {user?.username}!</p>
-                                        <Link to="/Profile" className="btn btn-primary w-100 mb-2" onClick={() => setIsAccountOpen(false)}>Profilom</Link>
-                                        <button className="btn btn-danger w-100" onClick={handleLogoutClick}>Logout</button>
+                                        <div className="loginDrowpdownHeader">
+                                            <p className="text-center">Üdv, {(user?.username)?.toUpperCase()}!</p>
+                                        </div>
+                                        <Link to="/Profile" className="btn w-100 login-btn" onClick={() => setIsAccountOpen(false)}>Profilom</Link>
+                                        <button className="btn w-100 logout-btn" onClick={handleLogoutClick}>Kijelentkezés</button>
                                     </div>
                                 )}
                             </div>
@@ -149,7 +151,7 @@ export default function Navbar() {
                 className="sidebar shadow"
                 style={{
                     width: isSidebarOpen ? '250px' : '0',
-                    transition: '0.3s',
+                    transition: '0.3s ease-in-out',
                     position: 'fixed',
                     zIndex: 1050,
                     top: 0,
@@ -162,33 +164,45 @@ export default function Navbar() {
                     flexDirection: 'column'
                 }}
             >
-                {/* Close Button */}
-                <span
-                    className="text-white position-absolute top-0 end-0 m-3"
-                    style={{ cursor: 'pointer', fontSize: '30px' }}
-                    onClick={toggleSidebar}
-                >
-                    &times;
-                </span>
+                {/* A trükk: Ez a belső div fix szélességű (250px), 
+        így a benne lévő szöveg sosem fog "összemenni" vagy törni. 
+        Csak az opacity-t és a láthatóságot kapcsoljuk.
+    */}
+                <div style={{
+                    minWidth: '250px',
+                    opacity: isSidebarOpen ? 1 : 0,
+                    visibility: isSidebarOpen ? 'visible' : 'hidden',
+                    transition: isSidebarOpen ? 'opacity 0.4s ease-in' : 'opacity 0.1s ease-out'
+                }}>
+                    {/* Close Button */}
+                    <span
+                        className="text-white position-absolute top-0 end-0 m-3"
+                        style={{ cursor: 'pointer', fontSize: '30px' }}
+                        onClick={toggleSidebar}
+                    >
+                        &times;
+                    </span>
 
-                <div className="p-3 d-flex flex-column gap-1">
-                    <Link to="/" className="sidebar-item" onClick={toggleSidebar}>Kezdőlap</Link>
+                    <div className="p-3 d-flex flex-column gap-1">
+                        <Link to="/" className="sidebar-item" onClick={toggleSidebar}>Kezdőlap</Link>
 
-                    {/* Dropdown for Autoberles */}
-                    <div className="dropdown">
-                        <button
-                            className="sidebar-item" type="button"
-                            id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false">Autóbérlés
-                        </button>
-                        <ul className="dropdown-menu shadow" aria-labelledby="rentalDropdown">
-                            <li><Link className="dropdown-item" to="/CarRental" onClick={toggleSidebar}>Tovább a bérléshez</Link></li>
-                            <li><Link className="dropdown-item" to="/RentingInfo" onClick={toggleSidebar}>Bérlési feltételek</Link></li>
-                        </ul>
+                        {/* Dropdown for Autoberles */}
+                        <div className="dropdown">
+                            <button
+                                className="sidebar-item" type="button"
+                                id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Autóbérlés
+                            </button>
+                            <ul className="dropdown-menu shadow" aria-labelledby="rentalDropdown">
+                                <li><Link className="dropdown-item" to="/CarRental" onClick={toggleSidebar}>Tovább a bérléshez</Link></li>
+                                <li><Link className="dropdown-item" to="/RentingInfo" onClick={toggleSidebar}>Bérlési feltételek</Link></li>
+                            </ul>
+                        </div>
+
+                        <Link to="/Taxi" className="sidebar-item" onClick={toggleSidebar}>Taxi szolgálat</Link>
+                        <Link to="/Gallery" className="sidebar-item" onClick={toggleSidebar}>Galéria</Link>
+                        <Link to="/AboutUs" className="sidebar-item" onClick={toggleSidebar}>Rólunk</Link>
                     </div>
-
-                    <Link to="/Taxi" className="sidebar-item" onClick={toggleSidebar}>Taxi szolgálat</Link>
-                    <Link to="/Gallery" className="sidebar-item" onClick={toggleSidebar}>Galéria</Link>
-                    <Link to="/AboutUs" className="sidebar-item" onClick={toggleSidebar}>Rólunk</Link>
                 </div>
             </div>
 

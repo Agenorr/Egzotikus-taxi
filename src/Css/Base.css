@@ -349,3 +349,15 @@ footer p {
     transform-origin: top;
     pointer-events: none; /* Stops the user from clicking buttons while it's leaving */
 }
+
+.login-btn{
+    color: white;
+}
+
+.logout-btn{
+    color: red;
+}
+.loginDrowpdownHeader{
+    border-bottom: 2px solid #DAA520;
+    margin-bottom: 10px;
+}
