@@ -97,7 +97,7 @@ export default function Navbar() {
                     </div>
 
                     <div className="nav-item dropdown">
-                        <button className="btn btn-outline-light dropdown-toggle" onClick={toggleAccountMenu}>
+                        <button className="btn dropdown-toggle" onClick={toggleAccountMenu}>
                             {isLoggedIn ? "Profil" : "Bejelentkezés"}
                         </button>
                         {isAccountOpen && (
@@ -127,9 +127,9 @@ export default function Navbar() {
                                             <label className="form-label">Jelszó</label>
                                             <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
                                         </div>
-                                        <button type="submit" className="w-100 btn btn-primary">Bejelentkezés</button>
+                                        <button type="submit" className="w-100 btn">Bejelentkezés</button>
                                         <div className="dropdown-divider"></div>
-                                        <Link className="dropdown-item text-center p-0 mt-2" to="/Register" onClick={() => setIsAccountOpen(false)}>Regisztráció</Link>
+                                        <Link className="dropdown-item text-center p-0 mt-2 profile-btn" to="/Register" onClick={() => setIsAccountOpen(false)}>Nincsen fiókod? Regisztrálj!</Link>
                                     </form>
                                 ) : (
                                     <div>
