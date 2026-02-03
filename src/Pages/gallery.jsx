@@ -19,29 +19,12 @@ export default function Gallery() {
         <p>Böngésszen és válassza ki a tökéletes autót az utazásához.</p>
       </section>
       
-      <div className="container mt-5 mb-5">
-        <div className="row text-center">
-          <div className="col-md-4">
-            <i className="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Különleges flotta</h5>
-            <p>Magas minőségű kabrióktól a hyperautókig</p>
-          </div>
-          <div className="col-md-4">
-            <i className="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Rugalmas ügyfélszolgálat</h5>
-            <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
-          </div>
-          <div className="col-md-4">
-            <i className="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Kivételes szolgáltatás</h5>
-            <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
-          </div>
-        </div>
-      </div>
 
      
       <div className="container my-5">
-        <h1 className="highlight-text">Élményképek</h1>
+       <div className="text-center mb-4">
+            <h1 className="highlight-text">Élményképek</h1>
+        </div>
 
         <div className="gallery-container">
           {experienceImages.map((src, index) => (
@@ -64,18 +47,7 @@ export default function Gallery() {
           </button>
         </div>
 
-        <p className="info-text">
-          Áraink az áfát tartalmazzák!
-          <br />
-          Napi km limit 400km/nap. Ennél hosszabb táv megtétele esetén 200 Ft/km kerül kiszámlázásra.
-          <br />
-          <br />
-          A bérlőknek biztosítjuk:
-          <br />
-          - Ingyenes autópálya matrica Magyarország területén.
-          <br />
-          - CASCO, utas-, és poggyászbiztosítás az utazás idejére.
-        </p>
+        
       </div>
 
       
