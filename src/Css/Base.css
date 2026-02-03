@@ -226,19 +226,21 @@ footer p {
 }
 
 .sidebar .dropdown-toggle::after {
-    content: none; 
+    content: none;
 } 
 
 /* Toggle indicator for dropdown */
-.dropdown-toggle-indicator {
+.dropdown-toggle {
     color: white;
     margin-left: 10px;
     font-size: 14px;
+    border: 1px solid white;;
+}
+.dropdown-toggle:hover{
+    border: 1px solid #ffc107;
+    color: white;
 }
 
-.dropdown-toggle-indicator:hover {
-    color: #ffc107;
-}
 
 /* Hamburger icon styling */
 .hamburger-icon {
@@ -296,20 +298,13 @@ footer p {
 
 .nav-item.dropdown form button[type="submit"]:hover {
     background-color: #b8860b;
-    transform: translateY(-2px);
+    transform: scale(1.05);
 }
 
-/* Regisztráció link stílusa */
-.nav-item.dropdown .dropdown-item.text-black {
-    color: #DAA520 !important; /* Aranyra váltunk a fekete helyett */
-    font-size: 0.85rem;
-    transition: color 0.3s;
-}
 
 .nav-item.dropdown .dropdown-item:hover {
     background: transparent !important;
     color: white !important;
-    text-decoration: underline;
 }
 
 /* Finom animáció */
@@ -350,9 +345,10 @@ footer p {
     pointer-events: none; /* Stops the user from clicking buttons while it's leaving */
 }
 
-.login-btn, .logout-btn{
+.login-btn, .logout-btn .profile-btn{
     color: white;
     text-align: center;
+    text-decoration: none;
 }
 .login-btn:hover{
     color: #DAA520;
@@ -360,8 +356,19 @@ footer p {
 .logout-btn:hover{
     color: red;
 }
+.baselogin-btn{
+    background-color: #DAA520;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.2s;
+    margin-top: 10px;
+}
 
 .loginDrowpdownHeader{
     border-bottom: 2px solid #DAA520;
     margin-bottom: 10px;
 }
+
