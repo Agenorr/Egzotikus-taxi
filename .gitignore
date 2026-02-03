@@ -32,6 +32,5 @@ kepek/
 taxikepek/
 autoberles_reszletek/
 *.html
-package.json
-package-lock.json
+
 
