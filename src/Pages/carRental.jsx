@@ -9,7 +9,7 @@ const categories = [
   {
     name: "All",
     label: "Összes autó",
-    images: ["/images/all1.jpg", "/images/all2.jpg", "/images/all3.jpg"]
+    images: ["https://www.auto-data.net/images/f40/BMW-M5-Touring-G91_2.jpg", "/images/all2.jpg", "/images/all3.jpg"]
   },
   {
     name: "Hatchback",
@@ -19,12 +19,17 @@ const categories = [
   {
     name: "SUV",
     label: "SUV",
-    images: ["	https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
     name: "Sedan",
     label: "Sedan",
     images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
+  },
+  {
+    name: "StationWagon",
+    label: "Station wagon",
+    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   }
 ];
 
