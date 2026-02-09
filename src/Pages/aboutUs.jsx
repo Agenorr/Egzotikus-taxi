@@ -2,126 +2,98 @@ import React from "react";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../Css/AboutUs.css";
-import rolunkKep from '../Img/rolunkfokep.jpg';
-import rolunkSlideshowAgenor from '../Img/rolunkslideshowagenor.jpg';
-import rolunkSlideshowAbel from '../Img/rolunkslideshowabel.jpg';
-import rolunkSlideshowRoli from '../Img/rolunkslideshowroli.png';
+
+import roliKep from "../Img/rolunkslideshowroli.png";
+import abelKep from "../Img/rolunkslideshowabel.jpg";
+import agenorKep from "../Img/rolunkslideshowagenor.jpg";
 
 export default function AboutUs() {
   return (
-    <div>
+    <>
       <Navbar />
 
-      <div className="container weblapminden">
-        <section className="founders-section">
-          <img src={rolunkKep} alt="Alapítók Kép" className="img-fluid" />
-          <div className="founders-wrapper">
-            <div className="founders-member">
-              <h3 style={{ color: "#ff8c00" }}>Márton Roland</h3>
-              <p>
-                <i className="fa fa-user fa-briefcase"></i> Vezérigazgató és alapító{" "}
-                <i className="fa fa-user fa-briefcase"></i>
-              </p>
+      <section id="home" className="hero renting-hero text-center py-5 text-white" style={{background: `url(${require("../Img/gallery/galerialuxury.jpg")}) no-repeat center center / cover`}}>
+        <div className="hero-content">
+          <h1 className="renting-hero-title">Rólunk</h1>
+          <div className="renting-hero-accent" />
+          <p className="lead renting-hero-sub">
+            Nem csupán autókat adunk bérbe. Élményt teremtünk minden egyes kilométeren.
+          </p>
+        </div>
+      </section>
+
+      <div className="about-page">
+
+        {/* Alapítók */}
+        <section className="section-card">
+          <h2 className="section-title text-center">Alapítók</h2>
+
+          <div className="founders-grid">
+            <div className="founder-card">
+              <img src={abelKep} alt="Futó Ábel" />
+              <h3>Futó Ábel</h3>
+              <p>Operatív igazgató és társalapító</p>
             </div>
-            <div className="founders-member">
-              <h3 style={{ color: "#ff8c00" }}>Futó Ábel</h3>
-              <p>
-                <i className="fa fa-user fa-briefcase"></i> Operatív igazgató és társalapító{" "}
-                <i className="fa fa-user fa-briefcase"></i>
-              </p>
+
+            <div className="founder-card">
+              <img src={roliKep} alt="Márton Roland" />
+              <h3>Márton Roland</h3>
+              <p>Vezérigazgató és alapító</p>
             </div>
-            <div className="founders-member">
-              <h3 style={{ color: "#ff8c00" }}>Baráth Agenor</h3>
-              <p>
-                <i className="fa fa-user fa-briefcase"></i> Marketing igazgató és társalapító{" "}
-                <i className="fa fa-user fa-briefcase"></i>
-              </p>
+
+            <div className="founder-card">
+              <img src={agenorKep} alt="Baráth Agenor" />
+              <h3>Baráth Agenor</h3>
+              <p>Marketing igazgató és társalapító</p>
             </div>
           </div>
         </section>
 
-        <section className="about-section">
-          <h2 style={{ color: "#ff8c00" }}>Rólunk</h2>
+
+        {/* Rólunk */}
+        <section className="section-card text-center">
+          <h2 className="section-title">Rólunk</h2>
           <p className="about-text">
-            Az Exoticot 2015-ben alapította három szenvedélyes autórajongó: Márton Roland, Futó Ábel és Baráth
-            Agenor. Egy kis, mindössze 5 autóból álló flottával kezdtük, de volt egy olyan ambícióink, hogy olyan
-            autókölcsönző szolgáltatást hozzunk létre, amely nemcsak rugalmasságot és megfizethetőséget kínál, hanem
-            egy széles lehetőségi skálát is, amely lehetővé teszi, hogy az alkalmi utazóktól kezdve az üzleti
-            vezetőkön át mindenki megtalálja a számára legmegfelelőbb megoldást.
-          </p>
-
-          <div id="aboutCarousel" className="carousel slide my-4" data-bs-ride="carousel" data-bs-interval="4000">
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <img src={rolunkSlideshowAgenor} className="d-block w-100 carousel-img-small"
-                  style={{ height: "250px", borderRadius: "15px", objectFit: "cover" }} alt="First Slide" />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5 style={{ color: "#ff8c00" }}>Baráth Agenor</h5>
-                  <p>"Life is too short to drive a boring car."</p>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img src={rolunkSlideshowAbel} className="d-block w-100 carousel-img-small"
-                  style={{ height: "250px", borderRadius: "15px", objectFit: "cover" }} alt="Second Slide" />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5 style={{ color: "#ff8c00" }}>Futó Ábel</h5>
-                  <p>"A car is like a mother-in-law - if you let it, it will rule your life."</p>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img src={rolunkSlideshowRoli} className="d-block w-100"
-                  style={{ height: "250px", borderRadius: "15px", objectFit: "cover" }} alt="Third Slide" />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5 style={{ color: "#ff8c00" }}>Márton Roland</h5>
-                  <p>"The cars we drive say a lot about us."</p>
-                </div>
-              </div>
-            </div>
-
-            <button className="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Előző</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Következő</span>
-            </button>
-          </div>
-
-          <br />
-          <h2 style={{ color: "#ff8c00" }}>Terveink a jövőben</h2>
-          <p className="about-text">
-            Előre tekintve, tervezzük, hogy új városokra terjeszkedünk, és különösen izgatottak vagyunk a
-            teljesen elektromos flotta bevezetése az elkövetkező években.
-            Emellett egy olyan mobilalkalmazást fejlesztünk, amely lehetővé teszi majd az ügyfelek számára, hogy
-            könnyedén foglalhassanak, kezelhessenek és nyomon követhessék a fuvarokat.
+            Az Exoticot 2025-ben alapította három szenvedélyes autórajongó.
+            Küldetésünk egy prémium, mégis elérhető autókölcsönzési élmény
+            biztosítása, amely modern, rugalmas és teljes mértékben ügyfélközpontú.
           </p>
         </section>
-      </div>
 
-      <div className="container weblapminden mt-5 mb-5">
+
+        {/* Jövőkép */}
+        <section className="section-card text-center">
+          <h2 className="section-title">Jövőkép</h2>
+          <p className="about-text">
+            Folyamatos terjeszkedés, teljesen elektromos flotta és egy modern
+            mobilalkalmazás fejlesztése, amely egyszerűvé és átláthatóvá teszi
+            a teljes foglalási folyamatot.
+          </p>
+        </section>
+
+              <div className="container mt-5 mb-5">
         <div className="row text-center">
-          <div className="col-md-4">
-            <i className="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Különleges flotta</h5>
-            <p>Magas minőségű kabrióktól a hyperautókig</p>
+          <div className="col-md-4 mb-4 renting-feature">
+            <i className="fa fa-car fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
+            <h5 className="renting-feature-title">Különleges flotta</h5>
+            <p className="renting-feature-text">Magas minőségű kabrióktól a hyperautókig</p>
           </div>
-          <div className="col-md-4">
-            <i className="fa fa-phone fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Rugalmas ügyfélszolgálat</h5>
-            <p>7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+          <div className="col-md-4 mb-4 renting-feature">
+            <i className="fa fa-phone fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
+            <h5 className="renting-feature-title">Rugalmas ügyfélszolgálat</h5>
+            <p className="renting-feature-text">7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
           </div>
-          <div className="col-md-4">
-            <i className="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Kivételes szolgáltatás</h5>
-            <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+          <div className="col-md-4 mb-4 renting-feature">
+            <i className="fa fa-heart fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
+            <h5 className="renting-feature-title">Kivételes szolgáltatás</h5>
+            <p className="renting-feature-text">Stresszmentes, megbízható, nincsenek rejtett költségek</p>
           </div>
         </div>
       </div>
 
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
