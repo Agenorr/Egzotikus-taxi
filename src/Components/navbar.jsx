@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // This makes dropdowns work!
 import '../Css/Base.css';
 import { AuthContext, AuthProvider } from '../Context/AuthContext';
+import axios from 'axios';
 
 export default function Navbar() {
 
@@ -38,36 +39,29 @@ export default function Navbar() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
+
         try {
-            const response = await fetch('https://localhost:7065/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                }),
-            });
+            const response = await axios.post('https://localhost:7065/api/login', { email: email, password: password });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Login successful:", data);
-                setIsExiting(true);
+            const data = response.data;
+            console.log("Login successful:", data);
+            setIsExiting(true);
 
-                // Wait for the animation to finish (300ms), then update the global Auth state
-                setTimeout(() => {
-                    login(data);              // Now the UI swaps while the menu is INVISIBLE
-                    setIsAccountOpen(false);
-                    setIsExiting(false);
-                }, 300);
-            } else {
-                // This catches the "Results.Unauthorized()" from your C# code
-                alert("Hibás email vagy jelszó!");
-            }
+            // Wait for the animation to finish (300ms), then update the global Auth state
+            setTimeout(() => {
+                login(data);              // Now the UI swaps while the menu is INVISIBLE
+                setIsAccountOpen(false);
+                setIsExiting(false);
+            }, 300);
+
         } catch (error) {
-            console.error("Network error:", error);
-            alert("A szerver nem elérhető.");
+            if (error.response && error.response.status === 401){
+                alert("Hibás email vagy felszó!")
+            }else{
+                console.error("Network error:", error);
+                alert("A szerver nem elérhető.");
+            }
+            
         }
     };
     const handleLogoutClick = () => {

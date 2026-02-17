@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import "../Css/CarRental.css";
+
 
 const categories = [
   {
@@ -44,15 +46,21 @@ export default function CarRental() {
 
 
     // If "All" is selected, don't pass category
-    const url =
+    /*const url =
       selectedCategory === "All"
         ? "https://localhost:7065/api/vehicles"
         : `https://localhost:7065/api/vehicles?category=${selectedCategory}`;
+    */
+    const url = "https://localhost:7065/api/vehicles";
+    const params = selectedCategory === "All" ? {} : { category: selectedCategory}
 
-    fetch(url)
-      .then(res => res.json())
-      .then(data => setCars(data))
-      .catch(err => console.error("Fetch error:", err))
+    axios.get(url, {params})
+      .then(res =>{
+        setCars(res.data)
+      })
+      .catch(err =>{
+        console.log("Axios error: ", err)
+      })
   }, [selectedCategory]);
 
   // ================= ROTATE CATEGORY IMAGES =================

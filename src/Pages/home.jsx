@@ -4,20 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../Css/Home.css'
 import { useState, useEffect } from 'react';
+import axios from "axios";
 
 const Home = ({ serverData }) => {
 
     const [vehicles, setVehicles] = useState([]);
 
     useEffect(() => {
-        fetch("https://localhost:7065/api/vehicles")
-            .then(res => {
-                if (!res.ok) throw new Error("Failed to fetch");
-                return res.json();
-            })
-            .then(data => {
-                // Javascript slice(0, 3) takes the first 3 items from the array
-                const firstThree = data.slice(0, 3);
+        axios.get("https://localhost:7065/api/vehicles")
+            .then(res =>{
+                const firstThree = res.data.slice(0,3);
+                console.log(firstThree)
                 setVehicles(firstThree);
             })
             .catch(err => console.error(err));
