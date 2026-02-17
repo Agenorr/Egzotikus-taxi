@@ -44,13 +44,6 @@ export default function CarRental() {
   useEffect(() => {
     if (selectedCategory === null) return;
 
-
-    // If "All" is selected, don't pass category
-    /*const url =
-      selectedCategory === "All"
-        ? "https://localhost:7065/api/vehicles"
-        : `https://localhost:7065/api/vehicles?category=${selectedCategory}`;
-    */
     const url = "https://localhost:7065/api/vehicles";
     const params = selectedCategory === "All" ? {} : { category: selectedCategory}
 
