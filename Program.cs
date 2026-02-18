@@ -34,7 +34,7 @@ namespace ExoticBackEnd
                 options.AddPolicy(name: allowedOrigins,
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                        policy.AllowAnyOrigin()
                               .AllowAnyMethod()
                               .AllowAnyHeader();
                     });
@@ -118,7 +118,24 @@ namespace ExoticBackEnd
                     return Results.Problem("An internal error occurred.");
                 }
             });
+            // API - Fetch Gallery Images
+            app.MapGet("/api/gallery", async (ExoticDbContext db) =>
+            {
+                // Fetch EVERYTHING without filters
+                var images = await db.GalleryImages
+                    .AsNoTracking()
+                    .Select(img => new GalleryImageDto
+                    {
+                        Id = img.Id,
+                        Title = img.Title,
+                        // Map the underscore version from DB to the CamelCase version in DTO
+                        ImageUrl = img.Image_Url,
+                        Category = img.Category
+                    })
+                    .ToListAsync();
 
+                return Results.Ok(images);
+            });
 
             app.MapPost("/api/register", async (RegisterDto dto, ExoticDbContext db) =>
             {
@@ -169,7 +186,9 @@ namespace ExoticBackEnd
                 return Results.Ok(new
                 {
                     message = "Login successful!",
+                    id = user.Id,
                     username = user.Username,
+                    email = user.Email,
                     clearance = user.Clearance
                 });
             });

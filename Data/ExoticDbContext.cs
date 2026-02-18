@@ -12,6 +12,7 @@ namespace ExoticBackend.Data
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<VehicleImage> VehicleImages { get; set; }
+        public DbSet<GalleryImage> GalleryImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

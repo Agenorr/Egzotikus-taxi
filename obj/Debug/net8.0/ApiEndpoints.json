@@ -1,7 +1,23 @@
 [
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_5",
+    "Method": "\u003CMain\u003Eb__0_4",
+    "RelativePath": "api/gallery",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_6",
     "RelativePath": "api/login",
     "HttpMethod": "POST",
     "IsController": false,
@@ -23,7 +39,7 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_4",
+    "Method": "\u003CMain\u003Eb__0_5",
     "RelativePath": "api/register",
     "HttpMethod": "POST",
     "IsController": false,
