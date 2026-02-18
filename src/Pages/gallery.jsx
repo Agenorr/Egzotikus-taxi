@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,13 +8,29 @@ import "../Css/Gallery.css";
 
 export default function Gallery() {
   const [modalImg, setModalImg] = useState("");
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const experienceImages = Array(12).fill("kepek/galeriaideigleneskep.webp");
+  useEffect(() => {
+    axios.get('https://localhost:7065/api/gallery')
+      .then(res => {
+        console.log("Full Data Received:", res.data);
+        setImages(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Connection Error:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // REMOVED: The early return is gone so Navbar/Footer can render.
 
   return (
     <div>
       <Navbar />
 
+      {/* Hero Section - Renders immediately */}
       <section id="home" className="hero renting-hero text-center py-5 text-white" style={{ background: `url(${require("../Img/gallery/galeriaeconomy.jpg")}) no-repeat center center / cover` }}>
         <div className="hero-content">
           <h1 className="renting-hero-title">Galéria</h1>
@@ -29,20 +46,38 @@ export default function Gallery() {
           <h1 className="highlight-text">Élményképek</h1>
         </div>
 
-        <div className="gallery-container">
-          {experienceImages.map((src, index) => (
-            <div
-              key={index}
-              className="gallery-item"
-              data-bs-toggle="modal"
-              data-bs-target="#galleryModal"
-              onClick={() => setModalImg(src)}
-            >
-              <img src={src} alt={`Galéria Kép ${index + 1}`} />
-              <div className="gallery-overlay">Kép megnézése</div>
+        {/* LOADING STATE LOGIC STARTS HERE */}
+        {loading ? (
+          <div className="d-flex flex-column align-items-center justify-content-center py-5" style={{ minHeight: '300px' }}>
+            <div className="spinner-border text-warning" role="status" style={{ width: '3rem', height: '3rem' }}>
+              <span className="visually-hidden">Betöltés...</span>
             </div>
-          ))}
-        </div>
+            <p className="mt-3 text-muted">Képek betöltése...</p>
+          </div>
+        ) : (
+          /* ACTUAL CONTENT RENDERS WHEN LOADING IS FALSE */
+          <div className="gallery-container">
+            {images.length > 0 ? (
+              images.map((img) => (
+                <div
+                  key={img.id}
+                  className="gallery-item"
+                  data-bs-toggle="modal"
+                  data-bs-target="#galleryModal"
+                  onClick={() => setModalImg(img.imageUrl)}
+                >
+                  <img src={img.imageUrl} alt={img.title || "Galéria Kép"} />
+                  <div className="gallery-overlay">Kép megnézése</div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center w-100 py-5">
+                <p className="text-muted">Nincsenek elérhető képek a galériában.</p>
+              </div>
+            )}
+          </div>
+        )}
+        {/* LOADING STATE LOGIC ENDS HERE */}
 
         <div className="cta-container">
           <button className="cta-btn" onClick={() => (window.location.href = "carRental")}>

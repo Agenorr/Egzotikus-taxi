@@ -49,7 +49,7 @@ export default function Footer() {
         <div className="row mt-3">
           <div className="col-12 text-center">
             <p style={{ fontSize: '12px', margin: 0 }}>
-              © 2024 Exotic. All rights reserved.
+              © 2026 Exotic. All rights reserved.
             </p>
           </div>
         </div>
