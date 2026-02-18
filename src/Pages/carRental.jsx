@@ -11,11 +11,26 @@ const categories = [
   {
     name: "All",
     label: "Összes autó",
-    images: ["https://www.auto-data.net/images/f40/BMW-M5-Touring-G91_2.jpg", "/images/all2.jpg", "/images/all3.jpg"]
+    images: ["/src/Img/hatchback_golf.avif"]
+  },
+  {
+    name: "Sedan",
+    label: "Sedan",
+    images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
+  },
+  {
+    name: "Coupe",
+    label: "Coupe",
+    images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
   },
   {
     name: "Hatchback",
     label: "Hatchback",
+    images: ["/images/hatchback1.jpg", "/images/hatchback2.jpg", "/images/hatchback3.jpg"]
+  },
+  {
+    name: "Crossover",
+    label: "Crossover",
     images: ["/images/hatchback1.jpg", "/images/hatchback2.jpg", "/images/hatchback3.jpg"]
   },
   {
@@ -24,13 +39,23 @@ const categories = [
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
-    name: "Sedan",
-    label: "Sedan",
-    images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
+    name: "Crossover",
+    label: "Crossover",
+    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
-    name: "StationWagon",
-    label: "Station wagon",
+    name: "Pickup",
+    label: "Pickup",
+    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+  },
+  {
+    name: "Wagon",
+    label: "Wagon",
+    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+  },
+  {
+    name: "Minivan",
+    label: "Minivan",
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   }
 ];
@@ -45,13 +70,13 @@ export default function CarRental() {
     if (selectedCategory === null) return;
 
     const url = "https://localhost:7065/api/vehicles";
-    const params = selectedCategory === "All" ? {} : { category: selectedCategory}
+    const params = selectedCategory === "All" ? {} : { category: selectedCategory }
 
-    axios.get(url, {params})
-      .then(res =>{
+    axios.get(url, { params })
+      .then(res => {
         setCars(res.data)
       })
-      .catch(err =>{
+      .catch(err => {
         console.log("Axios error: ", err)
       })
   }, [selectedCategory]);
