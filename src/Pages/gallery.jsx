@@ -67,6 +67,15 @@ export default function Gallery() {
                   onClick={() => setModalImg(img.imageUrl)}
                 >
                   <img src={img.imageUrl} alt={img.title || "Galéria Kép"} />
+
+                  {/* --- THE NEW TITLE OVERLAY --- */}
+                  {img.title && (
+                    <div className="gallery-title-overlay">
+                      {img.title}
+                    </div>
+                  )}
+                  {/* ----------------------------- */}
+
                   <div className="gallery-overlay">Kép megnézése</div>
                 </div>
               ))

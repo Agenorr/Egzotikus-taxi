@@ -85,6 +85,30 @@ body {
   border-radius: 12px;
 }
 
+.gallery-title-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px 15px;
+    text-align: center;
+    /* Style */
+    background: rgba(0, 0, 0, 0.7); /* Dark background */
+    color: white;
+    font-weight: 500;
+    z-index: 2;
+    
+    /* HIDDEN BY DEFAULT */
+    opacity: 0;
+    transform: translateY(-100%); /* Hides it above the image */
+    transition: all 0.3s ease-in-out; /* Smooth animation */
+}
+.gallery-item:hover .gallery-title-overlay {
+    opacity: 1;
+    transform: translateY(0); /* Slides it down into view */
+}
+
+
 /* Hover Effects */
 .gallery-item:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
