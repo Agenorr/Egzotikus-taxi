@@ -39,8 +39,8 @@ const categories = [
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
-    name: "Crossover",
-    label: "Crossover",
+    name: "Luxury",
+    label: "Luxury",
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
@@ -57,11 +57,6 @@ const categories = [
     name: "Minivan",
     label: "Minivan",
     images: ["https://www.auto-data.net/images/f86/Mercedes-Benz-V-class-Long-facelift-2019_2.jpg", "https://www.auto-data.net/images/f58/Volkswagen-ID.Buzz-Long.jpg", "https://www.auto-data.net/images/f99/Lexus-LM-II.jpg"]
-  },
-    {
-    name: "Luxury",
-    label: "Luxury",
-    images: ["https://www.auto-data.net/images/f100/Rolls-Royce-Phantom-VIII-Extended-Wheelbase.jpg", "https://www.auto-data.net/images/f51/Mercedes-Benz-E-class-Coupe-C238-facelift-2020.jpg", "https://www.auto-data.net/images/f90/Audi-RS-Q8_2.jpg"]
   }
 ];
 
@@ -109,7 +104,7 @@ export default function CarRental() {
 
       }, 500);
 
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
