@@ -136,3 +136,45 @@ border-radius: 5px;
       margin: 20px auto;
   }
 }
+
+/* background slider */
+.bg-fader{
+  position:absolute;
+  inset:0;
+  border-radius:0.5rem;
+  overflow:hidden;
+  z-index:0;
+}
+
+.bg-img{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:1;
+  transform:scale(1);
+  transition:
+    opacity 0.9s cubic-bezier(.4,0,.2,1),
+    transform 4s linear;
+}
+
+/* cinematic movement */
+.bg-img.current{
+  z-index:1;
+}
+
+.bg-img.next{
+  opacity:0;
+  z-index:2;
+}
+
+/* smooth fade */
+.fade-out{
+  opacity:0;
+  transform:scale(1.06);
+}
+
+.fade-in{
+  opacity:1;
+  transform:scale(1);
+}

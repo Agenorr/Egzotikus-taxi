@@ -11,27 +11,27 @@ const categories = [
   {
     name: "All",
     label: "Összes autó",
-    images: ["/src/Img/hatchback_golf.avif"]
+    images: ["https://i0.wp.com/www.hesol.co.in/wp-content/uploads/2020/12/AUTOMOTIVE.jpg?fit=1500%2C938&ssl=1"]
   },
   {
     name: "Sedan",
     label: "Sedan",
-    images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
+    images: ["https://www.auto-data.net/images/f66/Bentley-Flying-Spur-IV.jpg", "https://www.auto-data.net/images/f42/Mercedes-Benz-E-class-W214.jpg", "https://www.auto-data.net/images/f109/Genesis-G80-II-facelift-2023.jpg"]
   },
   {
     name: "Coupe",
     label: "Coupe",
-    images: ["https://www.auto-data.net/images/f104/Alfa-Romeo-Giulia-952-facelift-2022_2.jpg", "https://www.auto-data.net/images/f74/Alfa-Romeo-Giulia-952-facelift-2022.jpg", "https://www.auto-data.net/images/f81/Alfa-Romeo-Giulia-952-facelift-2022.jpg"]
+    images: ["https://www.auto-data.net/images/f87/BMW-M2-G87.jpg", "https://www.auto-data.net/images/f56/Lamborghini-Revuelto_2.jpg", "https://www.auto-data.net/images/f55/Porsche-911-992-facelift-2024.jpg"]
   },
   {
     name: "Hatchback",
     label: "Hatchback",
-    images: ["/images/hatchback1.jpg", "/images/hatchback2.jpg", "/images/hatchback3.jpg"]
+    images: ["https://www.auto-data.net/images/f107/Volkswagen-Golf-VIII_2.jpg", "https://www.auto-data.net/images/f46/Honda-Civic-Type-R-FL5.jpg", "https://www.auto-data.net/images/f33/Acura-Integra-V_2.jpg"]
   },
   {
     name: "Crossover",
     label: "Crossover",
-    images: ["/images/hatchback1.jpg", "/images/hatchback2.jpg", "/images/hatchback3.jpg"]
+    images: ["https://www.auto-data.net/images/f5/file9888950.jpg", "https://www.auto-data.net/images/f35/Renault-Koleos-II-Phase-II.jpg", "https://www.auto-data.net/images/f115/Subaru-Ascent-facelift-2023.jpg"]
   },
   {
     name: "SUV",
@@ -39,24 +39,29 @@ const categories = [
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
-    name: "Luxury",
-    label: "Luxury",
+    name: "Crossover",
+    label: "Crossover",
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
     name: "Pickup",
     label: "Pickup",
-    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+    images: ["https://www.auto-data.net/images/f129/Ford-F-Series-F-150-XIV-SuperCrew-facelift-2023.jpg", "https://www.auto-data.net/images/f8/big1418.jpg", "https://www.auto-data.net/images/f69/Chevrolet-Silverado-1500-IV-Crew-Cab-Short-Box.jpg"]
   },
   {
     name: "Wagon",
     label: "Wagon",
-    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+    images: ["https://www.auto-data.net/images/f34/Volvo-XC90-II-facelift-2024_2.jpg", "https://www.auto-data.net/images/f16/file8366809.jpg", "https://www.auto-data.net/images/f109/Volkswagen-Passat-Variant-B9.jpg"]
   },
   {
     name: "Minivan",
     label: "Minivan",
-    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+    images: ["https://www.auto-data.net/images/f86/Mercedes-Benz-V-class-Long-facelift-2019_2.jpg", "https://www.auto-data.net/images/f58/Volkswagen-ID.Buzz-Long.jpg", "https://www.auto-data.net/images/f99/Lexus-LM-II.jpg"]
+  },
+    {
+    name: "Luxury",
+    label: "Luxury",
+    images: ["https://www.auto-data.net/images/f100/Rolls-Royce-Phantom-VIII-Extended-Wheelbase.jpg", "https://www.auto-data.net/images/f51/Mercedes-Benz-E-class-Coupe-C238-facelift-2020.jpg", "https://www.auto-data.net/images/f90/Audi-RS-Q8_2.jpg"]
   }
 ];
 
@@ -81,13 +86,30 @@ export default function CarRental() {
       })
   }, [selectedCategory]);
 
-  // ================= ROTATE CATEGORY IMAGES =================
+  // ================= ROTATE CATEGORY IMAGES (SMOOTH) =================
   useEffect(() => {
     const interval = setInterval(() => {
-      setImageIndexes(prev =>
-        prev.map((idx, i) => (idx + 1) % categories[i].images.length)
-      );
-    }, 3000); // change image every 3 seconds
+
+      document.querySelectorAll(".bg-img.current").forEach(el => {
+        el.classList.add("fade-out");
+      });
+
+      document.querySelectorAll(".bg-img.next").forEach(el => {
+        el.classList.add("fade-in");
+      });
+
+      setTimeout(() => {
+        setImageIndexes(prev =>
+          prev.map((idx, i) => (idx + 1) % categories[i].images.length)
+        );
+
+        document.querySelectorAll(".bg-img").forEach(el => {
+          el.classList.remove("fade-in", "fade-out");
+        });
+
+      }, 500);
+
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -102,19 +124,30 @@ export default function CarRental() {
           <div className="row g-0">
             {categories.map((cat, i) => (
               <div
-                className="car-card car-card-hover position-relative text-white col-md-4 mb-2" key={cat.name}
+                className="car-card car-card-hover position-relative text-white col-md-4 mb-2"
+                key={cat.name}
                 style={{
                   height: "250px",
                   borderRadius: "0.5rem",
                   cursor: "pointer",
-                  backgroundImage: `url(${cat.images[imageIndexes[i]]})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
                   transition: "transform 0.3s ease, box-shadow 0.3s ease"
                 }}
 
                 onClick={() => setSelectedCategory(cat.name)}
               >
+
+                {/* FADE BACKGROUND */}
+                <div className="bg-fader">
+                  <div
+                    className="bg-img current"
+                    style={{ backgroundImage: `url(${cat.images[imageIndexes[i]]})` }}
+                  />
+                  <div
+                    className="bg-img next"
+                    style={{ backgroundImage: `url(${cat.images[(imageIndexes[i] + 1) % cat.images.length]})` }}
+                  />
+                </div>
+
                 <div
                   style={{
                     position: "absolute",
@@ -172,7 +205,6 @@ export default function CarRental() {
           })}
         </div>
       )}
-
 
       {/* ================= INFO SECTION ================= */}
       <div className="container mt-5 mb-5">
