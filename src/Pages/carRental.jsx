@@ -6,7 +6,6 @@ import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import "../Css/carRental.css";
 
-
 const categories = [
   {
     name: "All",
@@ -64,6 +63,7 @@ export default function CarRental() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [cars, setCars] = useState([]);
   const [imageIndexes, setImageIndexes] = useState(categories.map(() => 0));
+  const [isFading, setIsFading] = useState(false);
 
   // ================= FETCH CARS =================
   useEffect(() => {
@@ -109,119 +109,143 @@ export default function CarRental() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleCategoryClick = (categoryName) => {
+    setIsFading(true); // Start fade out
+    setTimeout(() => {
+      setSelectedCategory(categoryName); // Change page content
+      setIsFading(false); // Start fade in
+    }, 300); // Wait 300ms (matches the CSS transition duration)
+  };
+
+  const handleBackClick = () => {
+    setIsFading(true); // Start fade out
+    setTimeout(() => {
+      setSelectedCategory(null); // Change page content
+      setCars([]); // Clear cars
+      setIsFading(false); // Start fade in
+    }, 300); // Wait 300ms
+  };
+
   return (
     <div>
       <Navbar />
-
-      {/* ================= CATEGORY SCREEN ================= */}
-      {!selectedCategory && (
-        <div className="container mt-5">
-          <div className="row g-0">
-            {categories.map((cat, i) => (
-              <div
-                className="car-card car-card-hover position-relative text-white col-md-4 mb-2"
-                key={cat.name}
-                style={{
-                  height: "250px",
-                  borderRadius: "0.5rem",
-                  cursor: "pointer",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease"
-                }}
-
-                onClick={() => setSelectedCategory(cat.name)}
-              >
-
-                {/* FADE BACKGROUND */}
-                <div className="bg-fader">
-                  <div
-                    className="bg-img current"
-                    style={{ backgroundImage: `url(${cat.images[imageIndexes[i]]})` }}
-                  />
-                  <div
-                    className="bg-img next"
-                    style={{ backgroundImage: `url(${cat.images[(imageIndexes[i] + 1) % cat.images.length]})` }}
-                  />
-                </div>
-
+      <div className={`page-transition ${isFading ? 'page-hidden' : ''}`}>
+        {/* ================= CATEGORY SCREEN ================= */}
+        {!selectedCategory && (
+          <div className="container mt-5">
+            <div className="row g-0">
+              {categories.map((cat, i) => (
                 <div
+                  className="car-card car-card-hover position-relative text-white col-md-4 mb-2"
+                  key={cat.name}
                   style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    borderRadius: "0.5rem"
+                    height: "250px",
+                    borderRadius: "0.5rem",
+                    cursor: "pointer",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
                   }}
-                />
-                <div className="position-absolute top-50 start-50 translate-middle">
-                  <h2>{cat.label}</h2>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ================= CAR LIST SCREEN ================= */}
-      {selectedCategory && (
-        <div className="container car-container mt-5">
-          <button className="btn btn-outline-secondary mb-4 car-card car-card-hover" onClick={() => { setSelectedCategory(null); setCars([]); }} > ← Vissza a kategóriákhoz </button>
-          {cars.map(car => {
-            const primaryImage = car.images.find(img => img.isPrimary);
-
-            return (
-              <div className="car-card car-card-hover position-relative text-white" key={car.id}
-                style={{
-                  height: "300px",
-                  backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : undefined,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center"
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    width: "90%",
-                    height: "90%",
-                    backgroundColor: "rgba(0,0,0,0.4)",
-                    transform: "translate(-50%, -50%)",
-                    borderRadius: "0.5rem"
-                  }}
-                />
-                <div
-                  className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3"
-                  style={{ zIndex: 2 }}
+                  // ---> FIXED HERE <---
+                  onClick={() => handleCategoryClick(cat.name)}
                 >
-                  <h3 style={{ margin: "0px 0px 50px 0px" }}>{car.brand} {car.model}</h3>
-                  <a href={`/cars/${car.id}`} className="btn btn-primary">Részletek</a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
 
-      {/* ================= INFO SECTION ================= */}
-      <div className="container mt-5 mb-5">
-        <div className="row text-center">
-          <div className="col-md-4">
-            <i className="fa fa-car fa-3x mb-3" />
-            <h5>Különleges flotta</h5>
-            <p>Magas minőségű kabrióktól a hyperautókig</p>
+                  {/* FADE BACKGROUND */}
+                  <div className="bg-fader">
+                    <div
+                      className="bg-img current"
+                      style={{ backgroundImage: `url(${cat.images[imageIndexes[i]]})` }}
+                    />
+                    <div
+                      className="bg-img next"
+                      style={{ backgroundImage: `url(${cat.images[(imageIndexes[i] + 1) % cat.images.length]})` }}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      borderRadius: "0.5rem"
+                    }}
+                  />
+                  <div className="position-absolute top-50 start-50 translate-middle">
+                    <h2>{cat.label}</h2>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="col-md-4">
-            <i className="fa fa-phone fa-3x mb-3" />
-            <h5>Rugalmas ügyfélszolgálat</h5>
-            <p>7-24 rendelkezésére állunk</p>
+        )}
+
+        {/* ================= CAR LIST SCREEN ================= */}
+        {selectedCategory && (
+          <div className="container car-container mt-5">
+            {/* ---> FIXED HERE <--- */}
+            <button 
+              className="btn btn-outline-secondary mb-4 car-card car-card-hover" 
+              onClick={handleBackClick} 
+            > 
+              ← Vissza a kategóriákhoz 
+            </button>
+            
+            {cars.map(car => {
+              const primaryImage = car.images.find(img => img.isPrimary);
+
+              return (
+                <div className="car-card car-card-hover position-relative text-white" key={car.id}
+                  style={{
+                    height: "300px",
+                    backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : undefined,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center"
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      width: "90%",
+                      height: "90%",
+                      backgroundColor: "rgba(0,0,0,0.4)",
+                      transform: "translate(-50%, -50%)",
+                      borderRadius: "0.5rem"
+                    }}
+                  />
+                  <div
+                    className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3"
+                    style={{ zIndex: 2 }}
+                  >
+                    <h3 style={{ margin: "0px 0px 50px 0px" }}>{car.brand} {car.model}</h3>
+                    <a href={`/cars/${car.id}`} className="btn btn-primary">Részletek</a>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <div className="col-md-4">
-            <i className="fa fa-heart fa-3x mb-3" />
-            <h5>Kivételes szolgáltatás</h5>
-            <p>Nincsenek rejtett költségek</p>
+        )}
+
+        {/* ================= INFO SECTION ================= */}
+        <div className="container mt-5 mb-5">
+          <div className="row text-center">
+            <div className="col-md-4">
+              <i className="fa fa-car fa-3x mb-3" />
+              <h5>Különleges flotta</h5>
+              <p>Magas minőségű kabrióktól a hyperautókig</p>
+            </div>
+            <div className="col-md-4">
+              <i className="fa fa-phone fa-3x mb-3" />
+              <h5>Rugalmas ügyfélszolgálat</h5>
+              <p>7-24 rendelkezésére állunk</p>
+            </div>
+            <div className="col-md-4">
+              <i className="fa fa-heart fa-3x mb-3" />
+              <h5>Kivételes szolgáltatás</h5>
+              <p>Nincsenek rejtett költségek</p>
+            </div>
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );

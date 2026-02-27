@@ -81,7 +81,7 @@ border-radius: 5px;
 .car-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 0px;
   justify-content: center;
 }
 
@@ -177,4 +177,15 @@ border-radius: 5px;
 .fade-in{
   opacity:1;
   transform:scale(1);
+}
+/* Page transition wrapper */
+
+.page-transition {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Use a unique name instead of fade-out */
+.page-transition.page-hidden {
+  opacity: 0;
 }
