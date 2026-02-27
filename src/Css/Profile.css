@@ -169,3 +169,111 @@
     outline: none;
     width: 100%;
 }
+/* Personal Info Specific Styles */
+.personal-info-container {
+    width: 100%;
+    max-width: 840px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.tab-header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: #e3e3e3;
+}
+
+.tab-header p {
+    color: #9aa0a6;
+}
+
+/* Card Styling */
+.info-card {
+    background-color: #2d2e31; /* Matches your settings-card */
+    border: 1px solid #3c4043;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 24px 24px 16px;
+}
+
+.card-header h2 {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+.card-header p {
+    color: #9aa0a6;
+    font-size: 14px;
+}
+
+/* Row Styling */
+.info-row {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #3c4043;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.info-row:hover {
+    background-color: #35363a;
+}
+
+.info-row.last {
+    border-bottom: none;
+}
+
+.info-label {
+    flex: 1;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9aa0a6;
+    letter-spacing: 0.8px;
+}
+
+.info-description {
+    flex: 2;
+    font-size: 14px;
+    color: #9aa0a6;
+    padding-right: 10px;
+}
+
+.info-value {
+    flex: 2;
+    font-size: 15px;
+    color: #e3e3e3;
+}
+
+.info-arrow {
+    color: #9aa0a6;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+/* Small Avatar within row */
+.avatar-small {
+    width: 40px;
+    height: 40px;
+    background-color: #DAA520; /* Gold theme color */
+    color: #001d35;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}

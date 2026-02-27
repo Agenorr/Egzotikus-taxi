@@ -39,8 +39,8 @@ const categories = [
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {
-    name: "Crossover",
-    label: "Crossover",
+    name: "Luxury",
+    label: "Luxury",
     images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
   },
   {

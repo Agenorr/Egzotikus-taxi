@@ -105,12 +105,49 @@ function HomeTab({user, setActiveTab}) {
     </div>
   )
 }
-function PersonalTab({user}){
-  return(
-    <div>
+function PersonalTab({ user }) {
+  // Use data from the context/backend
+  const userData = {
+    name: user?.fullName || user?.username || "Nincs megadva",
+    email: user?.email,
+    phone: user?.phoneNumber || "Nincs megadva",
+    license: user?.licenseNumber || "Nincs feltöltve",
+    isVerified: user?.isVerified || false
+  };
 
+  return (
+    <div className="personal-info-container">
+      <header className="tab-header">
+        <h1>Személyes adatok</h1>
+        <p>Bérléshez szükséges hitelesített adatok.</p>
+      </header>
+
+      <section className="info-card">
+        <div className="card-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2>Vezetői profil</h2>
+            {/* Status Badge */}
+            <span className={`status-badge ${userData.isVerified ? 'verified' : 'pending'}`}>
+              {userData.isVerified ? "✓ Hitelesített" : "● Ellenőrzés alatt"}
+            </span>
+          </div>
+        </div>
+
+        <div className="info-list">
+          <div className="info-row">
+            <div className="info-label">TELJES NÉV</div>
+            <div className="info-value">{userData.name}</div>
+            <span className="info-arrow">❯</span>
+          </div>
+          <div className="info-row">
+            <div className="info-label">JOGOSÍTVÁNY SZÁMA</div>
+            <div className="info-value">{userData.license}</div>
+            <span className="info-arrow">❯</span>
+          </div>
+        </div>
+      </section>
     </div>
-  )
+  );
 }
 function SecurityTab({user}){
   return (
