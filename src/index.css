@@ -12,3 +12,22 @@ html, body, #root {
 .main-content {
     flex: 1;
 }
+/* Global Black Fade Overlay */
+.black-fade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  z-index: 9999; /* Ensures it covers navbars and footers */
+  opacity: 0;
+  pointer-events: none; /* Lets you click the page normally */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Fades the black screen in and blocks clicks while transitioning */
+.black-fade-overlay.active {
+  opacity: 1;
+  pointer-events: all; 
+}
