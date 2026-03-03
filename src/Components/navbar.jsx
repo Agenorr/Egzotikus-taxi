@@ -55,13 +55,13 @@ export default function Navbar() {
             }, 300);
 
         } catch (error) {
-            if (error.response && error.response.status === 401){
+            if (error.response && error.response.status === 401) {
                 alert("Hibás email vagy felszó!")
-            }else{
+            } else {
                 console.error("Network error:", error);
                 alert("A szerver nem elérhető.");
             }
-            
+
         }
     };
     const handleLogoutClick = () => {
@@ -87,7 +87,9 @@ export default function Navbar() {
                     <span className="hamburger-icon text-white" style={{ cursor: 'pointer', fontSize: '24px' }} onClick={toggleSidebar}>&#9776;</span>
 
                     <div className="navbar-center mx-auto">
-                        <span className="navbar-title h1 mb-0">Exotic</span>
+                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <span className="navbar-title h1 mb-0">Exotic</span>
+                        </Link>
                     </div>
 
                     <div className="nav-item dropdown">

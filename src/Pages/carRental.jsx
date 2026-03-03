@@ -181,71 +181,75 @@ export default function CarRental() {
 
       {/* ================= CAR LIST SCREEN ================= */}
       {selectedCategory && (
-        <div className="container car-container mt-5">
-          <button 
-            className="btn btn-outline-secondary mb-4 car-card car-card-hover" 
-            onClick={handleBackClick} 
-          > 
-            ← Vissza a kategóriákhoz 
-          </button>
-          
-          {cars.map(car => {
-            const primaryImage = car.images.find(img => img.isPrimary);
+        <div className="container mt-5">
+          <div className="row">
 
-            return (
-              <div className="car-card car-card-hover position-relative text-white" key={car.id}
+            {/* LEFT COLUMN: Back Button */}
+            <div className="col-md-3 col-lg-2 mb-4">
+              <button
+                className="btn btn-outline-secondary w-100 p-3"
+                onClick={handleBackClick}
                 style={{
-                  height: "300px",
-                  backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : undefined,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center"
+                  position: "sticky",
+                  top: "20px",
+                  fontWeight: "bold"
                 }}
               >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    width: "90%",
-                    height: "90%",
-                    backgroundColor: "rgba(0,0,0,0.4)",
-                    transform: "translate(-50%, -50%)",
-                    borderRadius: "0.5rem"
-                  }}
-                />
-                <div
-                  className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3"
-                  style={{ zIndex: 2 }}
-                >
-                  <h3 style={{ margin: "0px 0px 50px 0px" }}>{car.brand} {car.model}</h3>
-                  <a href={`/cars/${car.id}`} className="btn btn-primary">Részletek</a>
-                </div>
+                ← Vissza
+              </button>
+            </div>
+
+            {/* RIGHT COLUMN: Cars Grid with Left Border */}
+            <div className="col-md-9 col-lg-10" style={{ borderLeft: "2px dashed #DAA520", paddingLeft: "30px" }}>
+
+              {/* INNER BOOTSTRAP GRID FOR CARDS */}
+              <div className="row g-4">
+                {cars.map(car => {
+                  // Fallback in case a car has no images to prevent crashes
+                  const primaryImage = car.images?.find(img => img.isPrimary) || car.images?.[0];
+
+                  return (
+                    /* Each card takes up half the space on medium screens, and a third on extra-large screens */
+                    <div className="col-12 col-md-6 col-xl-4" key={car.id}>
+                      <div className="car-card car-card-hover position-relative text-white w-100"
+                        style={{
+                          height: "300px",
+                          backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : 'none',
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          borderRadius: "0.5rem",
+                          overflow: "hidden"
+                        }}
+                      >
+                        {/* Dark Overlay */}
+                        <div
+                          style={{
+                            position: "absolute",
+                            inset: "5%", /* Automatically creates the 90% width/height centered effect */
+                            backgroundColor: "rgba(0,0,0,0.5)",
+                            borderRadius: "0.5rem"
+                          }}
+                        />
+                        {/* Content */}
+                        <div
+                          className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3 w-100 text-center"
+                          style={{ zIndex: 2 }}
+                        >
+                          <h4 className="mb-5" style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}>{car.brand} {car.model}</h4>
+                          <a href={`/cars/${car.id}`} className="btn btn-primary" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
+                            Részletek
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+
+            </div>
+          </div>
         </div>
       )}
-
-      {/* ================= INFO SECTION ================= */}
-      <div className="container mt-5 mb-5">
-        <div className="row text-center">
-          <div className="col-md-4">
-            <i className="fa fa-car fa-3x mb-3" />
-            <h5>Különleges flotta</h5>
-            <p>Magas minőségű kabrióktól a hyperautókig</p>
-          </div>
-          <div className="col-md-4">
-            <i className="fa fa-phone fa-3x mb-3" />
-            <h5>Rugalmas ügyfélszolgálat</h5>
-            <p>7-24 rendelkezésére állunk</p>
-          </div>
-          <div className="col-md-4">
-            <i className="fa fa-heart fa-3x mb-3" />
-            <h5>Kivételes szolgáltatás</h5>
-            <p>Nincsenek rejtett költségek</p>
-          </div>
-        </div>
-      </div>
       <Footer />
     </div>
   );

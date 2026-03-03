@@ -67,27 +67,7 @@ const RentingInfo = () => {
         </div>
       </section>
 
-      {/* Info Section (Extra ikonok alul) */}
-      <div className="container mt-5 mb-5">
-        <div className="row text-center">
-          <div className="col-md-4 mb-4 renting-feature">
-            <i className="fa fa-car fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-            <h5 className="renting-feature-title">Különleges flotta</h5>
-            <p className="renting-feature-text">Magas minőségű kabrióktól a hyperautókig</p>
-          </div>
-          <div className="col-md-4 mb-4 renting-feature">
-            <i className="fa fa-phone fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-            <h5 className="renting-feature-title">Rugalmas ügyfélszolgálat</h5>
-            <p className="renting-feature-text">7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
-          </div>
-          <div className="col-md-4 mb-4 renting-feature">
-            <i className="fa fa-heart fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-            <h5 className="renting-feature-title">Kivételes szolgáltatás</h5>
-            <p className="renting-feature-text">Stresszmentes, megbízható, nincsenek rejtett költségek</p>
-          </div>
-        </div>
-      </div>
-
+      
       <Footer />
     </div>
   );
