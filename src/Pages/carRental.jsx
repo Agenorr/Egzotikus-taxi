@@ -236,7 +236,7 @@ export default function CarRental() {
                           style={{ zIndex: 2 }}
                         >
                           <h4 className="mb-5" style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}>{car.brand} {car.model}</h4>
-                          <a href={`/cars/${car.id}`} className="btn btn-primary" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
+                          <a href={`/CarRental/${car.id}`} className="btn btn-primary" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
                             Részletek
                           </a>
                         </div>

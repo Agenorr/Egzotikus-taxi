@@ -12,6 +12,7 @@ import Gallery from './Pages/gallery';
 import AboutUs from './Pages/aboutUs';
 import Profile from './Pages/profile';
 import "font-awesome/css/font-awesome.min.css";
+import CarDetails from './Pages/carDetails';
 
 // ========================================================
 // INNER COMPONENT: Handles the routing and the fade effect
@@ -54,6 +55,7 @@ function AnimatedRoutes({ data }) {
         <Route path="/Gallery" element={<Gallery />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path='/CarRental/:id' element={<CarDetails/>}/>
       </Routes>
     </>
   );

@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: '#1a1a1a', color: 'white', padding: '20px 0' }}>
+    <footer style={{ backgroundColor: '#1a1a1a', color: 'white', padding: '20px 0'  }}>
       <div className="container">
         <div className="row">
 

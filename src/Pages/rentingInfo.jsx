@@ -50,7 +50,7 @@ const RentingInfo = () => {
       </section>
 
       {/* Policies Section */}
-      <section className="container my-5">
+      <section className="container my-5  ">
         <h2 className="text-center mb-4 renting-section-title">Bérlési Szabályzat</h2>
 
         <div className="renting-cards">
