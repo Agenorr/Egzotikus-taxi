@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // Added this for seamless routing
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -127,129 +128,137 @@ export default function CarRental() {
   };
 
   return (
-    <div>
+    // Flexbox wrapper to push the footer down
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
 
       {/* === THE GLOBAL BLACK FADE OVERLAY === */}
       <div className={`black-fade-overlay ${isFading ? 'active' : ''}`} />
 
-      {/* ================= CATEGORY SCREEN ================= */}
-      {!selectedCategory && (
-        <div className="container mt-5">
-          <div className="row g-0">
-            {categories.map((cat, i) => (
-              <div
-                className="car-card car-card-hover position-relative text-white col-md-4 mb-2"
-                key={cat.name}
-                style={{
-                  height: "250px",
-                  borderRadius: "0.5rem",
-                  cursor: "pointer",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease"
-                }}
-                onClick={() => handleCategoryClick(cat.name)}
-              >
+      {/* Stretchy middle content container */}
+      <div className="flex-grow-1 d-flex flex-column">
 
-                {/* FADE BACKGROUND */}
-                <div className="bg-fader">
-                  <div
-                    className="bg-img current"
-                    style={{ backgroundImage: `url(${cat.images[imageIndexes[i]]})` }}
-                  />
-                  <div
-                    className="bg-img next"
-                    style={{ backgroundImage: `url(${cat.images[(imageIndexes[i] + 1) % cat.images.length]})` }}
-                  />
-                </div>
-
+        {/* ================= CATEGORY SCREEN ================= */}
+        {!selectedCategory && (
+          <div className="container mt-5 mb-5">
+            <div className="row g-0">
+              {categories.map((cat, i) => (
                 <div
+                  className="car-card car-card-hover position-relative text-white col-md-4 mb-2"
+                  key={cat.name}
                   style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    borderRadius: "0.5rem"
+                    height: "250px",
+                    borderRadius: "0.5rem",
+                    cursor: "pointer",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
                   }}
-                />
-                <div className="position-absolute top-50 start-50 translate-middle">
-                  <h2>{cat.label}</h2>
+                  onClick={() => handleCategoryClick(cat.name)}
+                >
+
+                  {/* FADE BACKGROUND */}
+                  <div className="bg-fader">
+                    <div
+                      className="bg-img current"
+                      style={{ backgroundImage: `url(${cat.images[imageIndexes[i]]})` }}
+                    />
+                    <div
+                      className="bg-img next"
+                      style={{ backgroundImage: `url(${cat.images[(imageIndexes[i] + 1) % cat.images.length]})` }}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      borderRadius: "0.5rem"
+                    }}
+                  />
+                  <div className="position-absolute top-50 start-50 translate-middle">
+                    <h2>{cat.label}</h2>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ================= CAR LIST SCREEN ================= */}
-      {selectedCategory && (
-        <div className="container mt-5">
-          <div className="row">
-
-            {/* LEFT COLUMN: Back Button */}
-            <div className="col-md-3 col-lg-2 mb-4">
-              <button
-                className="btn btn-outline-secondary w-100 p-3"
-                onClick={handleBackClick}
-                style={{
-                  position: "sticky",
-                  top: "20px",
-                  fontWeight: "bold"
-                }}
-              >
-                ← Vissza
-              </button>
+              ))}
             </div>
+          </div>
+        )}
 
-            {/* RIGHT COLUMN: Cars Grid with Left Border */}
-            <div className="col-md-9 col-lg-10" style={{ borderLeft: "2px dashed #DAA520", paddingLeft: "30px" }}>
+        {/* ================= CAR LIST SCREEN ================= */}
+        {selectedCategory && (
+          <div className="container mt-5 mb-5">
+            <div className="row">
 
-              {/* INNER BOOTSTRAP GRID FOR CARDS */}
-              <div className="row g-4">
-                {cars.map(car => {
-                  // Fallback in case a car has no images to prevent crashes
-                  const primaryImage = car.images?.find(img => img.isPrimary) || car.images?.[0];
+              {/* LEFT COLUMN: Back Button */}
+              <div className="col-md-3 col-lg-2 mb-4">
+                <button
+                  className="btn btn-outline-secondary w-100 p-3"
+                  onClick={handleBackClick}
+                  style={{
+                    position: "sticky",
+                    top: "20px",
+                    fontWeight: "bold"
+                  }}
+                >
+                  ← Vissza
+                </button>
+              </div>
 
-                  return (
-                    /* Each card takes up half the space on medium screens, and a third on extra-large screens */
-                    <div className="col-12 col-md-6 col-xl-4" key={car.id}>
-                      <div className="car-card car-card-hover position-relative text-white w-100"
-                        style={{
-                          height: "300px",
-                          backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : 'none',
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          borderRadius: "0.5rem",
-                          overflow: "hidden"
-                        }}
-                      >
-                        {/* Dark Overlay */}
-                        <div
+              {/* RIGHT COLUMN: Cars Grid with Left Border */}
+              <div className="col-md-9 col-lg-10" style={{ borderLeft: "2px dashed #DAA520", paddingLeft: "30px" }}>
+
+                {/* INNER BOOTSTRAP GRID FOR CARDS */}
+                <div className="row g-4">
+                  {cars.map(car => {
+                    // Fallback in case a car has no images to prevent crashes
+                    const primaryImage = car.images?.find(img => img.isPrimary) || car.images?.[0];
+
+                    return (
+                      <div className="col-12 col-md-6 col-xl-4" key={car.id}>
+                        <div className="car-card car-card-hover position-relative text-white w-100"
                           style={{
-                            position: "absolute",
-                            inset: "5%", /* Automatically creates the 90% width/height centered effect */
-                            backgroundColor: "rgba(0,0,0,0.5)",
-                            borderRadius: "0.5rem"
+                            height: "300px",
+                            backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : 'none',
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            borderRadius: "0.5rem",
+                            overflow: "hidden"
                           }}
-                        />
-                        {/* Content */}
-                        <div
-                          className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3 w-100 text-center"
-                          style={{ zIndex: 2 }}
                         >
-                          <h4 className="mb-5" style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}>{car.brand} {car.model}</h4>
-                          <a href={`/CarRental/${car.id}`} className="btn btn-primary" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
-                            Részletek
-                          </a>
+                          {/* Dark Overlay */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              inset: "5%",
+                              backgroundColor: "rgba(0,0,0,0.5)",
+                              borderRadius: "0.5rem"
+                            }}
+                          />
+                          {/* Content */}
+                          <div
+                            className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3 w-100 text-center"
+                            style={{ zIndex: 2 }}
+                          >
+                            <h4 className="mb-5" style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}>{car.brand} {car.model}</h4>
+                            
+                            {/* React Router Link to the Details Page */}
+                            <Link to={`/CarRental/${car.id}`} className="btn btn-primary" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
+                              Részletek
+                            </Link>
+
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
 
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
       <Footer />
     </div>
   );

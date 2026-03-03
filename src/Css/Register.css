@@ -1,0 +1,116 @@
+.card-body{
+    border: solid #DAA520 2px;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+
+.exotic-input {
+    background-color: #000000 !important;
+    color: white !important;
+}
+
+
+.exotic-input:focus {
+    border-color: #DAA520 !important;
+    box-shadow: 0 0 0 0.25rem rgba(218, 165, 32, 0.25) !important;
+    background-color: #000000 !important; /* Keeps it black when typing */
+    color: white !important;
+}
+
+
+.exotic-input::placeholder {
+    color: #888 !important;
+}
+
+.exotic-input:-webkit-autofill,
+.exotic-input:-webkit-autofill:hover, 
+.exotic-input:-webkit-autofill:focus, 
+.exotic-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #000000 inset !important; /* Forces background to black */
+    -webkit-text-fill-color: white !important; /* Forces text to white */
+    transition: background-color 5000s ease-in-out 0s; /* Prevents background flashing */
+}
+
+
+
+.gold-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.gold-particles span {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #DAA520;
+    border-radius: 50%;
+    opacity: 0.7;
+    box-shadow: 0 0 8px #DAA520;
+    animation: floatDown linear infinite;
+}
+
+.gold-particles span:nth-child(odd) {
+    width: 4px;
+    height: 4px;
+    opacity: 0.12;
+}
+
+.gold-particles span:nth-child(3n) {
+    width: 8px;
+    height: 8px;
+    opacity: 0.18;
+}
+
+
+@keyframes floatDown {
+    0% {
+        transform: translateY(-10vh) translateX(0);
+    }
+    50% {
+        transform: translateY(50vh) translateX(20px);
+    }
+    100% {
+        transform: translateY(110vh) translateX(-20px);
+    }
+}
+
+
+.gold-particles span {
+    top: -10vh;
+    left: calc(100% * var(--random-x));
+    animation-duration: calc(10s + 10s * var(--random-speed));
+}
+
+
+.gold-particles span:nth-child(1) { --random-x: 0.05; --random-speed: 0.2; }
+.gold-particles span:nth-child(2) { --random-x: 0.15; --random-speed: 0.6; }
+.gold-particles span:nth-child(3) { --random-x: 0.25; --random-speed: 0.3; }
+.gold-particles span:nth-child(4) { --random-x: 0.35; --random-speed: 0.8; }
+.gold-particles span:nth-child(5) { --random-x: 0.45; --random-speed: 0.4; }
+.gold-particles span:nth-child(6) { --random-x: 0.55; --random-speed: 0.7; }
+.gold-particles span:nth-child(7) { --random-x: 0.65; --random-speed: 0.5; }
+.gold-particles span:nth-child(8) { --random-x: 0.75; --random-speed: 0.9; }
+.gold-particles span:nth-child(9) { --random-x: 0.85; --random-speed: 0.3; }
+.gold-particles span:nth-child(10) { --random-x: 0.95; --random-speed: 0.6; }
+
+
+
+.register-wrapper {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    overflow: hidden;
+
+    /* Layered luxury background */
+    background:
+        radial-gradient(circle at 20% 30%, rgba(218,165,32,0.08), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(218,165,32,0.06), transparent 40%),
+        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
+}

@@ -84,8 +84,8 @@ function HomeTab({user, setActiveTab}) {
           <div className="graphic-item right-brush"></div>
           <div className="graphic-item right-mail"></div>
         </div>
-        <h1 className="profile-name">{user?.username || "Futo A"}</h1>
-        <p className="profile-email">{user?.email || "gamelife9222@gmail.com"}</p>
+        <h1 className="profile-name">{user?.username || "John Doe"}</h1>
+        <p className="profile-email">{user?.email || "teszt@tester.com"}</p>
       </header>
 
       {/* Search Bar */}

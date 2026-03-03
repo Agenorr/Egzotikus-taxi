@@ -31,3 +31,10 @@ html, body, #root {
   opacity: 1;
   pointer-events: all; 
 }
+
+@font-face {
+    font-family: 'Modernline'; /* You get to invent this name */
+    src: url('./modernline.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
