@@ -106,13 +106,22 @@ function HomeTab({user, setActiveTab}) {
   )
 }
 function PersonalTab({ user }) {
-  // Use data from the context/backend
+  // Konzolon ellenőrizheted, hogy mi jön át pontosan (F12 - Console)
+  console.log("User adatok a profilban:", user);
+
+  // Itt kezeljük le az összes variációt, amit a backend küldhet
+  const isEmailVerified = 
+    user?.is_verified === 1 || 
+    user?.is_verified === true || 
+    user?.isVerified === 1 || 
+    user?.isVerified === true;
+
   const userData = {
     name: user?.fullName || user?.username || "Nincs megadva",
     email: user?.email,
     phone: user?.phoneNumber || "Nincs megadva",
     license: user?.licenseNumber || "Nincs feltöltve",
-    isVerified: user?.isVerified || false
+    isVerified: isEmailVerified
   };
 
   return (
@@ -126,7 +135,6 @@ function PersonalTab({ user }) {
         <div className="card-header">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>Vezetői profil</h2>
-            {/* Status Badge */}
             <span className={`status-badge ${userData.isVerified ? 'verified' : 'pending'}`}>
               {userData.isVerified ? "✓ Hitelesített" : "● Ellenőrzés alatt"}
             </span>
@@ -139,9 +147,23 @@ function PersonalTab({ user }) {
             <div className="info-value">{userData.name}</div>
             <span className="info-arrow">❯</span>
           </div>
+          
           <div className="info-row">
             <div className="info-label">JOGOSÍTVÁNY SZÁMA</div>
             <div className="info-value">{userData.license}</div>
+            <span className="info-arrow">❯</span>
+          </div>
+          
+          <div className="info-row">
+            <div className="info-label">EMAIL</div>
+            <div className="info-value" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span>{userData.email}</span>
+              {userData.isVerified ? (
+                <b style={{ color: '#4CAF50', fontSize: '18px' }}>✓</b>
+              ) : (
+                <b style={{ color: '#F44336', fontSize: '18px' }}>✗</b>
+              )}
+            </div>
             <span className="info-arrow">❯</span>
           </div>
         </div>

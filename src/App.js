@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import "font-awesome/css/font-awesome.min.css";
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
 import Home from './Pages/home';
@@ -11,30 +12,24 @@ import Taxi from './Pages/taxi';
 import Gallery from './Pages/gallery';
 import AboutUs from './Pages/aboutUs';
 import Profile from './Pages/profile';
-import "font-awesome/css/font-awesome.min.css";
 import CarDetails from './Pages/carDetails';
+import VerifyEmail from './Pages/VerifyEmail';
+import VerificationWidget from './Components/VerificationWidget';
 
-// ========================================================
-// INNER COMPONENT: Handles the routing and the fade effect
-// ========================================================
-// ========================================================
-// INNER COMPONENT: Handles the routing and the black fade effect
-// ========================================================
 function AnimatedRoutes({ data }) {
   const location = useLocation();
   const [displayLocation, setDisplayLocation] = useState(location);
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    // If the actual URL changes, trigger the fade effect
     if (location.pathname !== displayLocation.pathname) {
-      setIsFading(true); // 1. Fade the screen to black
+      setIsFading(true); 
       
       const timeout = setTimeout(() => {
-        setDisplayLocation(location); // 2. Swap to the new page behind the black screen
-        window.scrollTo(0, 0);        // 3. Scroll to the top of the new page
-        setIsFading(false);           // 4. Fade the black screen away
-      }, 300); // Wait 300ms (matches the CSS transition)
+        setDisplayLocation(location); 
+        window.scrollTo(0, 0);        
+        setIsFading(false);           
+      }, 300); 
 
       return () => clearTimeout(timeout);
     }
@@ -42,10 +37,8 @@ function AnimatedRoutes({ data }) {
 
   return (
     <>
-      {/* GLOBAL BLACK FADE OVERLAY */}
       <div className={`black-fade-overlay ${isFading ? 'active' : ''}`} />
 
-      {/* ROUTES */}
       <Routes location={displayLocation}>
         <Route path="/" element={<Home serverData={data} />} />
         <Route path="/CarRental" element={<CarRental />} />
@@ -56,20 +49,17 @@ function AnimatedRoutes({ data }) {
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path='/CarRental/:id' element={<CarDetails/>}/>
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Routes>
     </>
   );
 }
 
-// ========================================================
-// MAIN COMPONENT: Handles Auth, Router, and Backend Status
-// ========================================================
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
 
-  //Ahoz hogy backend nélkül elinduljon a frontend, innentől ki kell kommentelni
   useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
@@ -111,16 +101,17 @@ function App() {
       </div>
     );
   }
-  //idáig kell kikommentelni
 
   return (
     <AuthProvider>
       <BrowserRouter>
         <div className="app-layout">
           <main className="main-content">
-            {/* Call the AnimatedRoutes component here! */}
             <AnimatedRoutes data={data} />
           </main>
+          
+          <VerificationWidget />
+          
         </div>
       </BrowserRouter>
     </AuthProvider>
