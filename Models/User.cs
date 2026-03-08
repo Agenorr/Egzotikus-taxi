@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExoticBackend.Models
 {
@@ -33,7 +34,7 @@ namespace ExoticBackend.Models
 
         public DateTime? LicenseExpiryDate { get; set; }
 
-        public bool IsVerified { get; set; } = false; // Set to true once admin checks ID/License
+       
 
         // --- System & RBAC ---
 
@@ -41,7 +42,10 @@ namespace ExoticBackend.Models
 
         public DateTime Created_At { get; set; } = DateTime.UtcNow;
 
-        // --- Navigation Properties ---
+        [Column("verification_token")]
+        public string? VerificationToken { get; set; }
+        [Column("is_verified")]
+        public int Is_Verified { get; set; } // Set to true once admin checks ID/License
 
         // Renamed from Orders to Bookings to fit Car Rental terminology
         public List<Order> Orders { get; set; } = new List<Order>();

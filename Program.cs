@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging; 
+using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net;           // <-- Added for Email
+using System.Net.Mail;      // <-- Added for Email
 
 namespace ExoticBackEnd
 {
@@ -17,7 +19,6 @@ namespace ExoticBackEnd
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<ExoticDbContext>(options =>
@@ -27,7 +28,7 @@ namespace ExoticBackEnd
                 )
             );
 
-           //CORS
+            //CORS
             var allowedOrigins = "_myAllowSpecificOrigins";
             builder.Services.AddCors(options =>
             {
@@ -66,10 +67,10 @@ namespace ExoticBackEnd
             app.MapGet("/api/status", () => new
             {
                 Message = "Backend is running",
-                Timestamp = DateTime.UtcNow 
+                Timestamp = DateTime.UtcNow
             });
 
-            
+
             app.MapGet("/api/vehicles", async (string? category, ExoticDbContext db, ILogger<Program> logger) =>
             {
                 try
@@ -111,7 +112,7 @@ namespace ExoticBackEnd
                     {
                         return Results.Problem(
                             detail: "The database service is currently unavailable. Please ensure MySQL is started.",
-                            statusCode: 503 
+                            statusCode: 503
                         );
                     }
 
@@ -195,7 +196,10 @@ namespace ExoticBackEnd
                 string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password, salt);
 
-                // 3. Save to database
+                // 3. GENERATE THE TOKEN (This was missing)
+                string token = Guid.NewGuid().ToString();
+
+                // 4. Save to database
                 var user = new User
                 {
                     Username = dto.Username,
@@ -203,14 +207,66 @@ namespace ExoticBackEnd
                     Email = dto.Email,
                     PhoneNumber = dto.PhoneNumber,
                     Created_At = DateTime.UtcNow,
-                    Clearance = 1
+                    Clearance = 1,
+                    Is_Verified = 0,             // Set to 0 (Unverified)
+                    VerificationToken = token    // Assign the generated token
                 };
 
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
 
-                return Results.Ok(new { message = "User registered successfully!" });
+                // 5. SEND THE EMAIL (This was missing)
+                try
+                {
+                    // This is the link to your React app
+                    string verificationLink = $"http://localhost:3000/verify-email?token={token}";
+
+                    // *** YOU MUST CHANGE THESE CREDENTIALS TO A REAL EMAIL ***
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("bravery.cs@gmail.com", "zrau wgzd vgin kljz"),
+                        EnableSsl = true,
+                    };
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals"),
+                        Subject = "Verify your Exotic Rentals Account",
+                        Body = $"Welcome! <br><br> Please click the link to verify your email and unlock Level 2 Clearance: <br><br> <a href='{verificationLink}'>{verificationLink}</a>",
+                        IsBodyHtml = true,
+                    };
+
+                    mailMessage.To.Add(user.Email);
+                    smtpClient.Send(mailMessage);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to send email: {ex.Message}");
+                }
+
+                return Results.Ok(new { message = "User registered successfully! Please check your email to verify." });
             });
+
+
+            app.MapPost("/api/auth/verify", async (string token, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
+
+                if (user == null)
+                {
+                    return Results.BadRequest(new { message = "Invalid or expired verification token." });
+                }
+
+                // Update status to 1 (Verified)
+                user.Is_Verified = 1;
+                user.VerificationToken = null;
+
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "Email verified successfully!" });
+            });
+
 
             app.MapPost("/api/login", async (LoginDto dto, ExoticDbContext db) =>
             {
@@ -221,12 +277,11 @@ namespace ExoticBackEnd
                     return Results.Unauthorized();
                 }
 
-                
                 bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
 
                 if (!isValid)
                 {
-                    return Results.Unauthorized(); 
+                    return Results.Unauthorized();
                 }
 
                 return Results.Ok(new
@@ -235,7 +290,8 @@ namespace ExoticBackEnd
                     id = user.Id,
                     username = user.Username,
                     email = user.Email,
-                    clearance = user.Clearance
+                    clearance = user.Clearance,
+                    is_verified = user.Is_Verified
                 });
             });
 
@@ -243,4 +299,3 @@ namespace ExoticBackEnd
         }
     }
 }
-

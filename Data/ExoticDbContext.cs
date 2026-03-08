@@ -31,7 +31,7 @@ namespace ExoticBackend.Data
                 entity.Property(e => e.PhoneNumber).HasColumnName("phoneNumber"); // Exact match to your SQL
                 entity.Property(e => e.LicenseNumber).HasColumnName("license_number");
                 entity.Property(e => e.LicenseExpiryDate).HasColumnName("license_expiry_date");
-                entity.Property(e => e.IsVerified).HasColumnName("is_verified").HasDefaultValue(false);
+                entity.Property(e => e.Is_Verified).HasColumnName("is_verified").HasDefaultValue(0);
             });
 
             // 2. Map Vehicles Table

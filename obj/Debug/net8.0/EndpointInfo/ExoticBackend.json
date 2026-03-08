@@ -102,6 +102,28 @@
         }
       }
     },
+    "/api/auth/verify": {
+      "post": {
+        "tags": [
+          "ExoticBackend"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/login": {
       "post": {
         "tags": [
