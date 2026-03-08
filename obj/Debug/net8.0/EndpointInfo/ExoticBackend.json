@@ -45,6 +45,29 @@
         }
       }
     },
+    "/api/vehicles/{id}": {
+      "get": {
+        "tags": [
+          "ExoticBackend"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/gallery": {
       "get": {
         "tags": [

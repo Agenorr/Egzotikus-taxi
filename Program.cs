@@ -118,6 +118,52 @@ namespace ExoticBackEnd
                     return Results.Problem("An internal error occurred.");
                 }
             });
+
+
+            app.MapGet("/api/vehicles/{id}", async (int id, ExoticDbContext db) =>
+            {
+                var vehicle = await db.Vehicles
+                    .Include(v => v.VehicleImages)
+                    .FirstOrDefaultAsync(v => v.Id == id);
+
+                if (vehicle == null)
+                {
+                    return Results.NotFound(new { message = "Car not found" });
+                }
+
+                // Map ALL the new fields to the response
+                return Results.Ok(new
+                {
+                    id = vehicle.Id,
+                    brand = vehicle.Brand,
+                    model = vehicle.Model,
+                    description = vehicle.Description,
+                    category = vehicle.Category,
+                    pricePerDay = vehicle.Price_Per_Day,
+                    year = vehicle.Year,
+                    weight = vehicle.Weight,
+                    doors = vehicle.Doors,
+                    drive = vehicle.Drive,
+                    exteriorColor = vehicle.ExteriorColor,
+                    interior = vehicle.Interior,
+                    wheelStyle = vehicle.WheelStyle,
+                    powertrain = vehicle.Powertrain,
+                    transmission = vehicle.Transmission,
+                    hp = vehicle.Hp,
+                    torque = vehicle.Torque,
+                    acceleration = vehicle.Acceleration,
+                    topSpeed = vehicle.TopSpeed,
+                    extras = vehicle.Extras,
+
+                    images = vehicle.VehicleImages.Select(i => new
+                    {
+                        id = i.Id,
+                        imageUrl = i.Image_Url,
+                        isPrimary = i.Is_Primary
+                    }).ToList()
+                });
+            });
+
             // API - Fetch Gallery Images
             app.MapGet("/api/gallery", async (ExoticDbContext db) =>
             {
