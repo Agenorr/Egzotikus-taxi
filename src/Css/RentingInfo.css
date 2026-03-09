@@ -145,3 +145,28 @@ body {
 .renting-feature-text {
   color: #555;
 }
+
+/* Jogi Dokumentumok */
+.renting-legal-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  max-width: 700px;
+  margin: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.renting-legal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.15);
+}
+
+.renting-legal-icon {
+  color: #ff8c00;
+}
+
+.renting-legal-buttons .btn {
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-weight: 600;
+}
