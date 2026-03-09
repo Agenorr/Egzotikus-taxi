@@ -50,7 +50,7 @@ const RentingInfo = () => {
       </section>
 
       {/* Policies Section */}
-      <section className="container my-5  ">
+      <section className="container my-5">
         <h2 className="text-center mb-4 renting-section-title">Bérlési Szabályzat</h2>
 
         <div className="renting-cards">
@@ -67,7 +67,64 @@ const RentingInfo = () => {
         </div>
       </section>
 
-      
+      <section className="container py-5">
+        <h2 className="text-center mb-4 renting-section-title">
+          Jogi dokumentumok
+        </h2>
+
+        <div className="renting-legal-card text-center p-4">
+          <i className="fa fa-file-pdf-o fa-3x mb-3 renting-legal-icon"></i>
+
+          <h5 className="fw-bold mb-2">
+            Autóbérlési szerződés és általános feltételek
+          </h5>
+
+          <p className="mb-4">
+            A bérlés megkezdése előtt kérjük tekintse meg a hivatalos
+            bérlési szerződést és az általános szerződési feltételeket.
+          </p>
+
+          <div className="renting-legal-buttons">
+            <a
+              href="/documents/exotic_autoberlesi_szerzodes_es_aszf.pdf"
+              target="_blank"
+              className="btn btn-dark me-3"
+            >
+              Megtekintés
+            </a>
+
+            <a
+              href="/documents/exotic_autoberlesi_szerzodes_es_aszf.pdf"
+              download
+              className="btn btn-warning"
+            >
+              Letöltés
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <div className="container mt-5 mb-5">
+        <div className="row text-center">
+          <div className="col-md-4">
+            <i className="fa fa-globe fa-3x mb-3" aria-hidden="true"></i>
+            <h5>Globális elérhetőség</h5>
+            <p>Több mint 1 000 Exotic állomás több mint 40 országban</p>
+          </div>
+          <div className="col-md-4">
+            <i className="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
+            <h5>Különleges flotta</h5>
+            <p>Magas minőségű kabrióktól a hyperautókig</p>
+          </div>
+          <div className="col-md-4">
+            <i className="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
+            <h5>Kivételes szolgáltatás</h5>
+            <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+          </div>
+        </div>
+      </div>
+
+
       <Footer />
     </div>
   );
