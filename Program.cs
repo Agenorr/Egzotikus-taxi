@@ -91,8 +91,10 @@ namespace ExoticBackEnd
                             Id = v.Id,
                             Brand = v.Brand,
                             Model = v.Model,
-                            Description = v.Description,
                             Category = v.Category,
+                            Drivetrain = v.Drive,
+                            EngineType = v.Powertrain,
+                            Year = v.Year,
                             Images = v.VehicleImages.Select(i => new VehicleImageDto
                             {
                                 Id = i.Id,
