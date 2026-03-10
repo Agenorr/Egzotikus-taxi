@@ -277,3 +277,74 @@
     align-items: center;
     font-weight: bold;
 }
+
+/* ---- Új kódok a szerkesztéshez és a statisztikákhoz ---- */
+
+/* Szerkeszthető input mezők stílusa */
+.edit-input {
+    background-color: #202124; /* Még sötétebb háttér, hogy kiemelkedjen az input */
+    border: 1px solid #5f6368;
+    color: #e3e3e3;
+    padding: 10px 14px;
+    border-radius: 8px;
+    width: 90%;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.edit-input:focus {
+    border-color: #DAA520; /* Arany fókusz szín */
+}
+
+/* Bérlési listaelemek a statisztikákhoz */
+.rental-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #3c4043;
+    transition: background-color 0.2s;
+}
+
+.rental-item:hover {
+    background-color: #35363a;
+}
+
+.rental-item:last-child {
+    border-bottom: none;
+}
+
+.rental-car {
+    font-weight: 500;
+    color: #e3e3e3;
+    font-size: 16px;
+}
+
+.rental-details {
+    color: #9aa0a6;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.rental-status {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background-color: rgba(218, 165, 32, 0.15); /* Arany átlátszó háttér */
+    color: #DAA520;
+    border: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+.status-completed {
+    background-color: rgba(154, 160, 166, 0.15);
+    color: #9aa0a6;
+    border: 1px solid rgba(154, 160, 166, 0.3);
+}
