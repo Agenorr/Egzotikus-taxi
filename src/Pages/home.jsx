@@ -78,7 +78,7 @@ const Home = ({ serverData }) => {
 
                     return (
                         <div key={car.id} className="image-box">
-                            <img src={primaryImage.trim()} alt={`${car.brand} ${car.model}`} />
+                            <img src={primaryImage.trim()} alt={`${car.brand} ${car.model}`} className='home-image'/>
                             <div className="image-overlay">
                                 <button className="image-button">Béreld ki!</button>
                             </div>

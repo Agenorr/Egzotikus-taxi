@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { AuthContext } from '../Context/AuthContext';
 import '../Css/Profile.css';
 import Navbar from '../Components/navbar';
@@ -105,12 +106,12 @@ function HomeTab({user, setActiveTab}) {
 
 function PersonalTab({ user }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Kezdeti állapot beállítása a user adatokból
   const [formData, setFormData] = useState({
-    name: user?.fullName || user?.username || "Nincs megadva",
-    phone: user?.phoneNumber || "Nincs megadva",
-    license: user?.licenseNumber || "Nincs feltöltve",
+    name: "Betöltés...",
+    phone: "Betöltés...",
+    license: "Betöltés...",
   });
 
   const isEmailVerified = 
@@ -119,12 +120,49 @@ function PersonalTab({ user }) {
     user?.isVerified === 1 || 
     user?.isVerified === true;
 
+  // FETCH DATA FROM BACKEND WHEN TAB OPENS
+  useEffect(() => {
+    if (user && user.id) {
+      axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
+        .then(res => {
+          setFormData({
+            name: res.data.fullName || "Nincs megadva",
+            phone: res.data.phoneNumber || "Nincs megadva",
+            license: res.data.licenseNumber || "Nincs feltöltve",
+          });
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error("Hiba a profil adatok lekérésekor:", err);
+          setFormData({
+            name: "Hiba történt",
+            phone: "Hiba történt",
+            license: "Hiba történt",
+          });
+          setIsLoading(false);
+        });
+    }
+  }, [user]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSave = () => {
-    // IDE JÖN MAJD A BACKEND API HÍVÁS (pl. axios.put('/api/user/update', formData))
+    // Optional: Send data back to the server when "Mentés" is clicked
+    /*
+    axios.put(`https://localhost:7065/api/user/${user.id}/profile`, {
+      fullName: formData.name,
+      phoneNumber: formData.phone,
+      licenseNumber: formData.license
+    })
+    .then(res => {
+      console.log("Sikeres mentés!");
+      setIsEditing(false);
+    })
+    .catch(err => console.error("Hiba a mentés során", err));
+    */
+    
     console.log("Mentendő adatok:", formData);
     setIsEditing(false);
   };
@@ -141,13 +179,11 @@ function PersonalTab({ user }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>Vezetői profil</h2>
             <div>
-              <span className={`status-badge ${isEmailVerified ? 'verified' : 'pending'}`} style={{marginRight: '15px'}}>
-                {isEmailVerified ? "✓ Hitelesített" : "● Ellenőrzés alatt"}
-              </span>
               <button 
                 className="google-chip" 
                 onClick={isEditing ? handleSave : () => setIsEditing(true)}
                 style={{borderColor: isEditing ? '#4CAF50' : '#5f6368'}}
+                disabled={isLoading}
               >
                 {isEditing ? "Mentés" : "Szerkesztés"}
               </button>
@@ -238,7 +274,6 @@ function SecurityTab({user}){
 }
 
 function StatisticsTab({user}){
-  // Ez egy mock adatbázis. Ide a backendről érkező bérlési listát kell majd bekötni.
   const rentals = [
     { id: 1, car: "Tesla Model 3", startDate: "2026. Márc. 01.", endDate: "2026. Márc. 03.", cost: "120 000 Ft", status: "Befejezett" },
     { id: 2, car: "BMW M4 Competition", startDate: "2026. Ápr. 15.", endDate: "2026. Ápr. 16.", cost: "85 000 Ft", status: "Közelgő" },
@@ -251,7 +286,6 @@ function StatisticsTab({user}){
         <p>A korábbi és közelgő bérléseid áttekintése.</p>
       </header>
 
-      {/* Általános statisztikák */}
       <div style={{display: 'flex', gap: '20px', marginBottom: '24px'}}>
         <div className="info-card" style={{flex: 1, padding: '24px', textAlign: 'center'}}>
           <h2 style={{color: '#DAA520', fontSize: '32px', margin: '0 0 10px 0'}}>2</h2>
@@ -263,7 +297,6 @@ function StatisticsTab({user}){
         </div>
       </div>
 
-      {/* Bérlési előzmények */}
       <section className="info-card">
         <div className="card-header"><h2>Bérlési előzmények</h2></div>
         <div className="info-list">

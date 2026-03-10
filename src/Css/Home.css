@@ -17,6 +17,10 @@
     position: relative;
     width: 30%;
 }
+.home-image{
+    max-height: 300px;
+    min-height: 300px;
+}
 
 .image-box img {
     width: 100%;
