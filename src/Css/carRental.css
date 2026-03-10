@@ -176,14 +176,161 @@ border-radius: 5px;
   opacity:1;
   transform:scale(1);
 }
-/* Page transition wrapper */
 
+/* Page transition wrapper */
 .page-transition {
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Use a unique name instead of fade-out */
 .page-transition.page-hidden {
   opacity: 0;
+}
+
+/* ========================================= */
+/* ======= ÚJ SZŰRŐ DESIGN ====== */
+/* ========================================= */
+
+/* SÖTÉTÍTŐ OVERLAY ANIMÁCIÓ */
+.black-fade-overlay {
+  position: fixed;
+  inset: 0; /* top: 0, left: 0, right: 0, bottom: 0 */
+  background-color: rgba(0, 0, 0, 0.8); /* Kicsit elsötétül / átlátszó fekete */
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.black-fade-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.filter-panel-custom {
+  background-color: #1a1a1a;
+  border: 1px solid #222;
+  border-radius: 5px;
+}
+
+.filter-title {
+  color: #DAA520;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.border-bottom-gold {
+  border-bottom: 1px solid #DAA520;
+}
+
+.filter-section-title {
+  color: #555; 
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* Gyorskereső - FEHÉR HÁTTÉR */
+.filter-input {
+  background-color: #fff !important; 
+  border: 1px solid #ccc !important;
+  color: #333 !important;
+}
+.filter-input::placeholder {
+  color: #999 !important;
+}
+.filter-input:focus {
+  border-color: #DAA520 !important;
+  box-shadow: 0 0 5px rgba(218, 165, 32, 0.4) !important;
+}
+
+/* Checkbox formázása - NARANCSSÁRGA/ARANY PIPA */
+.white-checkbox {
+  background-color: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 2px !important; 
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin-top: 0;
+}
+.white-checkbox:checked {
+  background-color: #DAA520 !important; /* Narancssárga/Arany háttér */
+  border-color: #DAA520 !important;
+  /* Fehér színű pipa a sötétebb hátterű négyzetben */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
+}
+.white-checkbox:focus {
+  box-shadow: none !important;
+}
+
+/* Szaggatott vonal az elválasztáshoz */
+.filter-divider {
+  border-top: 1px dashed #444;
+  margin: 0 0 1.5rem 0; 
+  opacity: 1;
+}
+
+/* Kék keret eltüntetése a gombokról kattintáskor */
+.no-focus-ring:focus,
+.no-focus-ring:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* VISSZA A KATEGÓRIÁKHOZ GOMB */
+.back-to-categories-btn {
+  color: #6c757d;
+  background-color: transparent;
+  border: 1px solid #6c757d;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.back-to-categories-btn:hover {
+  background-color: #000 !important; /* Fekete hover */
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+/* További/Kevesebb szűrő szöveges gomb (arany) */
+.toggle-btn-text {
+  color: #DAA520;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+.toggle-btn-text:hover,
+.toggle-btn-text:focus,
+.toggle-btn-text:active {
+  color: #b8860b !important;
+  background-color: transparent !important; 
+}
+
+/* Szűrés törlése keretes gomb (arany) */
+.clear-btn-outline {
+  background-color: transparent;
+  color: #DAA520;
+  border: 1px solid #DAA520;
+  font-weight: bold;
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+.clear-btn-outline:hover,
+.clear-btn-outline:active {
+  background-color: rgba(218, 165, 32, 0.1) !important;
+  color: #DAA520 !important;
+  border-color: #DAA520 !important;
+}
+
+/* ======= ANIMÁCIÓ A HALADÓ SZŰRŐKHÖZ ======= */
+.advanced-filters-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out, margin 0.3s ease;
+}
+
+.advanced-filters-wrapper.open {
+  max-height: 600px; 
+  opacity: 1;
+  margin-top: 1rem; 
 }
