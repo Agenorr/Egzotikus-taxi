@@ -7,7 +7,7 @@ import { AuthProvider } from './Context/AuthContext';
 import Home from './Pages/home';
 import CarRental from './Pages/carRental';
 import RentingInfo from './Pages/rentingInfo';
-import Register from './Pages/register';
+import Register from './Pages/Register';
 import Taxi from './Pages/taxi';
 import Gallery from './Pages/gallery';
 import AboutUs from './Pages/aboutUs';
