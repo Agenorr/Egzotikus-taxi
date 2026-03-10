@@ -66,12 +66,16 @@ export default function CarRental() {
   const [imageIndexes, setImageIndexes] = useState(categories.map(() => 0));
   const [isFading, setIsFading] = useState(false);
 
-  // --- NEW FILTER STATES ---
+  // --- FILTER STATES ---
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTransmissions, setSelectedTransmissions] = useState([]);
   const [selectedDrivetrains, setSelectedDrivetrains] = useState([]);
   const [selectedEngines, setSelectedEngines] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
-  // ================= FETCH CARS (ORIGINAL LOGIC) =================
+  // ================= FETCH CARS =================
   useEffect(() => {
     if (selectedCategory === null) return;
 
@@ -87,7 +91,7 @@ export default function CarRental() {
       })
   }, [selectedCategory]);
 
-  // ================= ROTATE CATEGORY IMAGES (ORIGINAL LOGIC) =================
+  // ================= ROTATE CATEGORY IMAGES =================
   useEffect(() => {
     const interval = setInterval(() => {
       document.querySelectorAll(".bg-img.current").forEach(el => {
@@ -111,9 +115,13 @@ export default function CarRental() {
   // ================= FILTERING LOGIC =================
   const filteredCars = cars.filter(car => {
     const matchesSearch = 
-      car.brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      car.model.toLowerCase().includes(searchTerm.toLowerCase());
+      (car.brand && car.brand.toLowerCase().includes(searchTerm.toLowerCase())) || 
+      (car.model && car.model.toLowerCase().includes(searchTerm.toLowerCase()));
     
+    const matchesTransmission = 
+      selectedTransmissions.length === 0 || 
+      selectedTransmissions.includes(car.transmission);
+
     const matchesDrivetrain = 
       selectedDrivetrains.length === 0 || 
       selectedDrivetrains.includes(car.drivetrain);
@@ -122,7 +130,11 @@ export default function CarRental() {
       selectedEngines.length === 0 || 
       selectedEngines.includes(car.engineType);
 
-    return matchesSearch && matchesDrivetrain && matchesEngine;
+    const matchesSeats = 
+      selectedSeats.length === 0 || 
+      selectedSeats.includes(String(car.seats));
+
+    return matchesSearch && matchesTransmission && matchesDrivetrain && matchesEngine && matchesSeats;
   });
 
   const toggleFilter = (list, setList, value) => {
@@ -131,8 +143,10 @@ export default function CarRental() {
 
   const handleClearFilters = () => {
     setSearchTerm("");
+    setSelectedTransmissions([]);
     setSelectedDrivetrains([]);
     setSelectedEngines([]);
+    setSelectedSeats([]);
   };
 
   const handleCategoryClick = (categoryName) => {
@@ -148,7 +162,8 @@ export default function CarRental() {
     setTimeout(() => {
       setSelectedCategory(null);
       setCars([]);
-      handleClearFilters(); // Reset filters when going back
+      handleClearFilters();
+      setShowAdvancedFilters(false);
       setIsFading(false);
     }, 300);
   };
@@ -157,23 +172,26 @@ export default function CarRental() {
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
 
+      {/* Sötétítő réteg, ami lefedi az oldalt az áttűnés alatt */}
       <div className={`black-fade-overlay ${isFading ? 'active' : ''}`} />
 
-      <div className="flex-grow-1 d-flex flex-column">
+      {/* A tartalom wrapperje megkapta a page-transition-t, így el is halványul */}
+      <div className={`flex-grow-1 d-flex flex-column page-transition ${isFading ? 'page-hidden' : ''}`}>
 
         {/* ================= CATEGORY SCREEN ================= */}
         {!selectedCategory && (
           <div className="container mt-5 mb-5">
-            <div className="row g-0">
+            <div className="row w-100 mx-0">
               {categories.map((cat, i) => (
                 <div
-                  className="car-card car-card-hover position-relative text-white col-md-4 mb-2"
+                  className="car-card car-card-hover position-relative text-white col-md-4 mb-2 p-1"
                   key={cat.name}
                   style={{
                     height: "250px",
                     borderRadius: "0.5rem",
                     cursor: "pointer",
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    border: "none"
                   }}
                   onClick={() => handleCategoryClick(cat.name)}
                 >
@@ -207,73 +225,120 @@ export default function CarRental() {
         {/* ================= CAR LIST SCREEN ================= */}
         {selectedCategory && (
           <div className="container mt-5 mb-5">
-            <div className="row">
+            <div className="row w-100 mx-0">
 
               {/* LEFT COLUMN: Controls & Filters */}
-              <div className="col-md-3 col-lg-2 mb-4">
+              <div className="col-md-4 col-lg-3 px-2 mb-4">
                 <div style={{ position: "sticky", top: "20px" }}>
+                    
+                    {/* Vissza gomb */}
                     <button
-                        className="btn btn-outline-secondary w-100 p-3 mb-4"
+                        className="btn w-100 p-3 mb-4 no-focus-ring back-to-categories-btn"
                         onClick={handleBackClick}
-                        style={{ fontWeight: "bold" }}
                     >
-                        ← Vissza
+                        ← Vissza a kategóriákhoz
                     </button>
 
                     {/* FILTER PANEL */}
-                    <div className="p-3 rounded shadow" style={{ backgroundColor: "#1a1a1a", border: "1px solid #333", color: "#fff" }}>
-                        <h5 className="mb-4" style={{ color: "#DAA520", letterSpacing: "1px", borderBottom: "1px solid #DAA520", paddingBottom: "10px" }}>SZŰRÉS</h5>
+                    <div className="filter-panel-custom p-4 shadow">
                         
-                        {/* Search */}
+                        {/* Fejléc */}
+                        <div className="d-flex justify-content-between align-items-center mb-4 border-bottom-gold pb-2">
+                            <h4 className="filter-title m-0">SZŰRÉS</h4>
+                            <span className="badge text-dark py-1 px-2 rounded-1" style={{ backgroundColor: "#DAA520", fontWeight: "bold" }}>
+                              {filteredCars.length} találat
+                            </span>
+                        </div>
+                        
+                        {/* Gyorskereső */}
                         <div className="mb-4">
-                            <label className="small text-uppercase mb-2" style={{ color: "#888" }}>Keresés</label>
-                            <input type="text" className="form-control bg-dark border-secondary text-white shadow-none" 
+                            <label className="filter-section-title mb-2 d-block">GYORSKERESŐ</label>
+                            <input type="text" className="form-control filter-input shadow-none" 
                                 placeholder="Márka vagy típus..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                         </div>
 
-                        {/* Drivetrain Checkboxes */}
+                        {/* Motor (Felkerült alapból láthatóra) */}
                         <div className="mb-4">
-                            <label className="small text-uppercase mb-2 d-block" style={{ color: "#888" }}>Hajtás</label>
-                            {['Első kerék (RWD)', 'Hátsó kerék(FWD)', 'Összkerék (AWD)'].map(type => (
-                                <div className="form-check custom-check mb-2" key={type}>
-                                    <input className="form-check-input" type="checkbox" id={`drive-${type}`}
-                                        checked={selectedDrivetrains.includes(type)} onChange={() => toggleFilter(selectedDrivetrains, setSelectedDrivetrains, type)} />
-                                    <label className="form-check-label small" htmlFor={`drive-${type}`}>{type}</label>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Engine Checkboxes */}
-                        <div className="mb-4">
-                            <label className="small text-uppercase mb-2 d-block" style={{ color: "#888" }}>Motor</label>
+                            <label className="filter-section-title mb-2 d-block">MOTOR</label>
                             {[
                                 { id: 'Benzin', label: 'Benzin' },
                                 { id: 'Dízel', label: 'Dízel' },
                                 { id: 'Hybrid', label: 'Hibrid' },
                                 { id: 'Electric', label: 'Elektromos' }
                             ].map(engine => (
-                                <div className="form-check custom-check mb-2" key={engine.id}>
-                                    <input className="form-check-input" type="checkbox" id={`eng-${engine.id}`}
+                                <div className="form-check d-flex align-items-center mb-2" key={engine.id}>
+                                    <input className="form-check-input white-checkbox me-2" type="checkbox" id={`eng-${engine.id}`}
                                         checked={selectedEngines.includes(engine.id)} onChange={() => toggleFilter(selectedEngines, setSelectedEngines, engine.id)} />
-                                    <label className="form-check-label small" htmlFor={`eng-${engine.id}`}>{engine.label}</label>
+                                    <label className="form-check-label text-white small" htmlFor={`eng-${engine.id}`}>{engine.label}</label>
                                 </div>
                             ))}
                         </div>
 
-                        {/* Reset Filters */}
+                        {/* Haladó szűrők lenyíló része - ANIMÁLVA */}
+                        <div className={`advanced-filters-wrapper ${showAdvancedFilters ? 'open' : ''}`}>
+                            <hr className="filter-divider" />
+                            
+                            {/* Váltó (Lekerült a haladó szűrők közé) */}
+                            <div className="mb-4">
+                                <label className="filter-section-title mb-2 d-block">VÁLTÓ</label>
+                                {['Automata', 'Manuális'].map(type => (
+                                    <div className="form-check d-flex align-items-center mb-2" key={type}>
+                                        <input className="form-check-input white-checkbox me-2" type="checkbox" id={`trans-${type}`}
+                                            checked={selectedTransmissions.includes(type)} onChange={() => toggleFilter(selectedTransmissions, setSelectedTransmissions, type)} />
+                                        <label className="form-check-label text-white small" htmlFor={`trans-${type}`}>{type}</label>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Hajtás */}
+                            <div className="mb-4">
+                                <label className="filter-section-title mb-2 d-block">HAJTÁS</label>
+                                {['Első kerék (FWD)', 'Hátsó kerék (RWD)', 'Összkerék (AWD)'].map(type => (
+                                    <div className="form-check d-flex align-items-center mb-2" key={type}>
+                                        <input className="form-check-input white-checkbox me-2" type="checkbox" id={`drive-${type}`}
+                                            checked={selectedDrivetrains.includes(type)} onChange={() => toggleFilter(selectedDrivetrains, setSelectedDrivetrains, type)} />
+                                        <label className="form-check-label text-white small" htmlFor={`drive-${type}`}>{type}</label>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Ülések száma */}
+                            <div className="mb-4">
+                                <label className="filter-section-title mb-2 d-block">ÜLÉSEK SZÁMA</label>
+                                {['2', '4', '5', '7'].map(seat => (
+                                    <div className="form-check d-flex align-items-center mb-2" key={seat}>
+                                        <input className="form-check-input white-checkbox me-2" type="checkbox" id={`seat-${seat}`}
+                                            checked={selectedSeats.includes(seat)} onChange={() => toggleFilter(selectedSeats, setSelectedSeats, seat)} />
+                                        <label className="form-check-label text-white small" htmlFor={`seat-${seat}`}>{seat} ülés</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Lenyíló Gomb */}
+                        <div className="text-center mb-4 mt-3">
+                          <button 
+                              className="btn btn-link text-decoration-none shadow-none toggle-btn-text p-0 no-focus-ring"
+                              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                          >
+                              {showAdvancedFilters ? "▲ Kevesebb szűrő" : "▼ További szűrők"}
+                          </button>
+                        </div>
+
+                        {/* Szűrők törlése */}
                         <button 
-                            className="btn btn-sm btn-link text-decoration-none w-100 mt-2 p-0" 
-                            style={{ color: "#DAA520", fontSize: "0.85rem", fontWeight: "bold" }}
+                            className="btn w-100 clear-btn-outline no-focus-ring" 
                             onClick={handleClearFilters}
                         >
                             Szűrés törlése
                         </button>
+
                     </div>
                 </div>
               </div>
 
               {/* RIGHT COLUMN: Results Grid */}
-              <div className="col-md-9 col-lg-10" style={{ borderLeft: "2px dashed #DAA520", paddingLeft: "30px" }}>
+              <div className="col-md-8 col-lg-9 px-4 position-relative" style={{ borderLeft: "1px dashed #DAA520" }}>
                 <div className="row g-4">
                   {filteredCars.length > 0 ? (
                     filteredCars.map(car => {
@@ -293,7 +358,7 @@ export default function CarRental() {
                             <div style={{ position: "absolute", inset: "5%", backgroundColor: "rgba(0,0,0,0.5)", borderRadius: "0.5rem" }} />
                             <div className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3 w-100 text-center" style={{ zIndex: 2 }}>
                               <h4 className="mb-5" style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}>{car.brand} {car.model}</h4>
-                              <Link to={`/CarRental/${car.id}`} className="btn btn-primary" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
+                              <Link to={`/CarRental/${car.id}`} className="btn btn-primary no-focus-ring" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
                                 Részletek
                               </Link>
                             </div>
@@ -304,7 +369,7 @@ export default function CarRental() {
                   ) : (
                     <div className="col-12 text-center mt-5">
                       <h4 className="text-muted">Nincs a szűrésnek megfelelő autó.</h4>
-                      <button className="btn btn-link" style={{ color: "#DAA520" }} onClick={handleClearFilters}>Összes autó megjelenítése</button>
+                      <button className="btn btn-link no-focus-ring" style={{ color: "#DAA520" }} onClick={handleClearFilters}>Összes autó megjelenítése</button>
                     </div>
                   )}
                 </div>
