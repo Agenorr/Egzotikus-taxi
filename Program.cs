@@ -266,7 +266,37 @@ namespace ExoticBackEnd
 
                 await db.SaveChangesAsync();
 
-                return Results.Ok(new { message = "Email verified successfully!" });
+                // === CHANGED THIS RETURN STATEMENT ===
+                // We now return the updated user data in the EXACT same format as the login endpoint!
+                return Results.Ok(new
+                {
+                    message = "Email verified successfully!",
+                    id = user.Id,
+                    username = user.Username,
+                    email = user.Email,
+                    clearance = user.Clearance,
+                    is_verified = user.Is_Verified
+                });
+            });
+
+            app.MapGet("/api/auth/me/{id}", async (int id, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return Results.NotFound(new { message = "User not found." });
+                }
+
+                // Return the exact same structure as Login and Verify!
+                return Results.Ok(new
+                {
+                    id = user.Id,
+                    username = user.Username,
+                    email = user.Email,
+                    clearance = user.Clearance,
+                    is_verified = user.Is_Verified
+                });
             });
 
 
