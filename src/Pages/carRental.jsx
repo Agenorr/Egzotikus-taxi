@@ -233,8 +233,8 @@ export default function CarRental() {
 
                         {/* Drivetrain Checkboxes */}
                         <div className="mb-4">
-                            <label className="small text-uppercase mb-2 d-block" style={{ color: "#888" }}>Hajtástípus</label>
-                            {['RWD', 'AWD', 'FWD'].map(type => (
+                            <label className="small text-uppercase mb-2 d-block" style={{ color: "#888" }}>Hajtás</label>
+                            {['Első kerék (RWD)', 'Hátsó kerék(FWD)', 'Összkerék (AWD)'].map(type => (
                                 <div className="form-check custom-check mb-2" key={type}>
                                     <input className="form-check-input" type="checkbox" id={`drive-${type}`}
                                         checked={selectedDrivetrains.includes(type)} onChange={() => toggleFilter(selectedDrivetrains, setSelectedDrivetrains, type)} />
@@ -245,9 +245,9 @@ export default function CarRental() {
 
                         {/* Engine Checkboxes */}
                         <div className="mb-4">
-                            <label className="small text-uppercase mb-2 d-block" style={{ color: "#888" }}>Motorizáció</label>
+                            <label className="small text-uppercase mb-2 d-block" style={{ color: "#888" }}>Motor</label>
                             {[
-                                { id: 'Benzin', label: 'Benzines' },
+                                { id: 'Benzin', label: 'Benzin' },
                                 { id: 'Dízel', label: 'Dízel' },
                                 { id: 'Hybrid', label: 'Hibrid' },
                                 { id: 'Electric', label: 'Elektromos' }
