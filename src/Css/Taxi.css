@@ -1,204 +1,141 @@
-
-
 .rentals-container {
-    background-color: #1a1a1a; /* Matches your base background */
+    background-color: #1a1a1a;
     min-height: 100vh;
     padding: 60px 20px;
     color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-.rentals-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
+/* --- Cím stílus frissítése --- */
 .rentals-title {
-    font-size: 3.5rem;
-    color: #DAA520; /* Luxurious gold color */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
-
-/* --- Search Form Styling --- */
-.search-form-container {
-    max-width: 650px;
-    margin: 0 auto;
-    background-color: #222;
-    padding: 40px;
-    border-radius: 12px;
-    border: 1px solid #DAA520;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-}
-
-.search-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
+    font-size: 3.2rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    text-align: center;
     color: #DAA520;
-    font-weight: bold;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
 }
 
-.date-input {
-    background-color: #333;
-    border: 1px solid #444;
-    color: white;
+/* --- Kategória Szűrő --- */
+.filter-container {
+    max-width: 300px;
+    margin: 30px auto;
+}
+
+.category-filter {
+    width: 100%;
     padding: 12px;
-    border-radius: 6px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    outline: none;
+    border-radius: 8px;
+    border: 1px solid #DAA520;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
     font-size: 1rem;
 }
 
-/* Customizing the calendar icon for modern browsers */
-.date-input::-webkit-calendar-picker-indicator {
-    filter: invert(1) sepia(100%) saturate(500%) hue-rotate(10deg);
-    cursor: pointer;
-}
-
-.date-input:focus {
-    border-color: #DAA520;
-    background-color: #444;
-    box-shadow: 0 0 8px rgba(218, 165, 32, 0.3);
-}
-
-.search-button-wrapper {
-    grid-column: 1 / -1;
-    margin-top: 15px;
-}
-
-.search-submit-btn {
-    width: 100%;
-    background-color: #DAA520;
-    color: black;
-    border: none;
-    padding: 15px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-}
-
-.search-submit-btn:hover {
-    background-color: #b8860b;
-    transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4);
-}
-
-/* --- Results Grid & Cards --- */
-.results-section {
-    margin-top: 60px;
-}
-
+/* --- Kártya és Kép design --- */
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .car-card {
-    background-color: #222;
+    background: #252525;
     border-radius: 12px;
     overflow: hidden;
+    transition: transform 0.3s ease;
     border: 1px solid #333;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
 }
 
-.car-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
-    border-color: #DAA520;
+.car-image-container {
+    position: relative;
+    overflow: hidden;
+    border: 3px solid white; /* Egyenletes fehér keret minden oldalon */
+    margin: 10px;
+    border-radius: 8px;
 }
 
 .car-image {
     width: 100%;
     height: 220px;
     object-fit: cover;
-    border-bottom: 2px solid #DAA520;
+    display: block;
+    transition: transform 0.5s ease;
 }
 
-.car-details {
-    padding: 25px;
+/* --- Hover Overlay Effekt --- */
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-}
-
-.car-title {
-    color: #DAA520;
-    margin: 0 0 10px 0;
-    font-size: 1.5rem;
-}
-
-.car-desc {
-    color: #ccc;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    flex-grow: 1;
-}
-
-.car-footer {
-    display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    border-top: 1px solid #444;
-    padding-top: 20px;
-    margin-top: auto;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-.car-price {
-    font-size: 1.6rem;
-    font-weight: bold;
+.car-image-container:hover .hover-overlay {
+    opacity: 1;
+}
+
+.car-image-container:hover .car-image {
+    transform: scale(1.1); /* Kép "pop" effekt */
+}
+
+.hover-car-name {
     color: white;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    transform: translateY(-20px);
+    transition: transform 0.4s ease;
 }
 
-.car-price span {
-    font-size: 0.9rem;
-    font-weight: normal;
-    color: #888;
-}
-
-.book-now-btn {
-    background-color: transparent;
-    color: #DAA520;
-    border: 2px solid #DAA520;
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.book-now-btn:hover {
+.hover-book-btn {
     background-color: #DAA520;
     color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transform: translateY(20px);
+    transition: transform 0.4s ease, background-color 0.2s;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    .search-form {
-        grid-template-columns: 1fr;
-    }
-    .rentals-title {
-        font-size: 2.5rem;
-    }
+.car-image-container:hover .hover-car-name,
+.car-image-container:hover .hover-book-btn {
+    transform: translateY(0);
 }
+
+.hover-book-btn:hover {
+    background-color: #ffc107;
+}
+
+/* --- Alsó részletek --- */
+.car-details {
+    padding: 20px;
+}
+
+.car-title { color: #DAA520; margin-bottom: 10px; }
+.car-desc { color: #ccc; font-size: 0.9rem; margin-bottom: 15px; height: 40px; overflow: hidden; }
+.car-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #444; padding-top: 15px; }
+.car-price { font-weight: bold; font-size: 1.2rem; }
+.book-now-btn { background: none; border: 1px solid #DAA520; color: #DAA520; padding: 5px 15px; border-radius: 4px; cursor: pointer; }
+
+/* --- Kereső Form --- */
+.search-form-container { max-width: 700px; margin: 0 auto; background: #222; padding: 30px; border-radius: 12px; border: 1px solid #DAA520; }
+.search-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group label { display: block; margin-bottom: 8px; color: #DAA520; }
+.date-input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background: #333; color: white; }
+.search-button-wrapper { grid-column: span 2; margin-top: 10px; }
+.search-submit-btn { width: 100%; padding: 12px; background: #DAA520; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
