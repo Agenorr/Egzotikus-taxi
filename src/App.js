@@ -15,6 +15,7 @@ import Profile from './Pages/profile';
 import CarDetails from './Pages/carDetails';
 import VerifyEmail from './Pages/VerifyEmail';
 import VerificationWidget from './Components/VerificationWidget';
+import BookTaxi from './Pages/BookTaxi'; 
 
 function AnimatedRoutes({ data }) {
   const location = useLocation();
@@ -50,6 +51,7 @@ function AnimatedRoutes({ data }) {
         <Route path="/Profile" element={<Profile />} />
         <Route path='/CarRental/:id' element={<CarDetails/>}/>
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/book-taxi" element={<BookTaxi />} />
       </Routes>
     </>
   );
