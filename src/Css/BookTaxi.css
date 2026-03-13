@@ -1,0 +1,170 @@
+.booking-page-container {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    color: white;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 2rem;
+    color: #DAA520;
+    background-color: #1a1a1a;
+}
+
+.booking-content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    flex: 1;
+    width: 100%;
+}
+
+.booking-title {
+    font-size: 2.5rem;
+    color: #DAA520;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+}
+
+/* Left Side - Car Details */
+.booking-main-image {
+    width: 100%;
+    border-radius: 12px;
+    border: 3px solid #DAA520;
+    object-fit: cover;
+    max-height: 400px;
+    margin-bottom: 20px;
+}
+
+.booking-car-info h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.booking-description {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.specs-list {
+    list-style: none;
+    padding: 0;
+    background: #252525;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.specs-list li {
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+.specs-list li strong {
+    color: #DAA520;
+    margin-right: 10px;
+}
+
+/* Right Side - Summary Box */
+.summary-box {
+    background: #252525;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #DAA520;
+    position: sticky;
+    top: 20px;
+}
+
+.summary-box h3 {
+    margin-top: 0;
+    color: #DAA520;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.summary-box hr {
+    border-color: #444;
+    margin: 20px 0;
+}
+
+.total-row {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #DAA520;
+    margin-top: 20px;
+}
+
+/* Driver Selection Dropdown */
+.driver-selection {
+    margin: 20px 0;
+}
+
+.driver-selection label {
+    display: block;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.driver-select {
+    width: 100%;
+    padding: 12px;
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #DAA520;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.driver-details-snippet {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #aaa;
+    font-style: italic;
+}
+
+.confirm-booking-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #DAA520;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-booking-btn:hover {
+    background-color: #ffc107;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
+}
