@@ -313,7 +313,9 @@
   transition: background 0.2s;
   color: #3c4043;
 }
-
+.search-bar{
+    min-width: 40vw;
+}
 .search-result-item:hover {
   background-color: #f1f3f4;
 }
