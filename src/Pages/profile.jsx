@@ -106,23 +106,25 @@ function HomeTab({user, setActiveTab}) {
 function PersonalTab({ user }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false); // New saving state
   
   const [formData, setFormData] = useState({
-    name: "Betöltés...",
-    phone: "Betöltés...",
-    license: "Betöltés...",
+    name: "",
+    phone: "",
+    license: "",
   });
 
   const isEmailVerified = user?.is_verified === 1 || user?.is_verified === true;
 
+  // FETCH DATA
   useEffect(() => {
     if (user && user.id) {
       axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
         .then(res => {
           setFormData({
-            name: res.data.fullName || "Nincs megadva",
-            phone: res.data.phoneNumber || "Nincs megadva",
-            license: res.data.licenseNumber || "Nincs feltöltve",
+            name: res.data.fullName || "",
+            phone: res.data.phoneNumber || "",
+            license: res.data.licenseNumber || "",
           });
           setIsLoading(false);
         })
@@ -137,10 +139,30 @@ function PersonalTab({ user }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // SAVE DATA TO DATABASE
   const handleSave = () => {
-    console.log("Mentendő adatok:", formData);
-    setIsEditing(false);
+    setIsSaving(true);
+    
+    const updateData = {
+      fullName: formData.name,
+      phoneNumber: formData.phone,
+      licenseNumber: formData.license
+    };
+
+    axios.put(`https://localhost:7065/api/user/${user.id}/profile`, updateData)
+      .then(res => {
+        alert("Adatok sikeresen mentve!");
+        setIsEditing(false);
+        setIsSaving(false);
+      })
+      .catch(err => {
+        console.error("Hiba a mentés során:", err);
+        alert("Nem sikerült menteni az adatokat.");
+        setIsSaving(false);
+      });
   };
+
+  if (isLoading) return <div className="p-5 text-center">Töltés...</div>;
 
   return (
     <div className="personal-info-container">
@@ -156,31 +178,62 @@ function PersonalTab({ user }) {
             <button 
               className="google-chip" 
               onClick={isEditing ? handleSave : () => setIsEditing(true)}
-              disabled={isLoading}
+              disabled={isSaving}
+              style={{
+                backgroundColor: isEditing ? "green" : "transparent",
+                borderColor: isEditing ? "green" : "white",
+                color: "white"
+              }}
             >
-              {isEditing ? "Mentés" : "Szerkesztés"}
+              {isSaving ? "Mentés..." : isEditing ? "Mentés" : "Szerkesztés"}
             </button>
           </div>
         </div>
 
         <div className="info-list">
+          {/* FULL NAME */}
           <div className="info-row">
             <div className="info-label">TELJES NÉV</div>
-            <div className="info-value">{isEditing ? <input className="edit-input" name="name" value={formData.name} onChange={handleChange} /> : formData.name}</div>
+            <div className="info-value">
+              {isEditing ? (
+                <input className="edit-input" name="name" value={formData.name} onChange={handleChange} autoFocus />
+              ) : (
+                formData.name || <span>Nincs megadva</span>
+              )}
+            </div>
           </div>
+
+          {/* PHONE */}
           <div className="info-row">
             <div className="info-label">TELEFONSZÁM</div>
-            <div className="info-value">{isEditing ? <input className="edit-input" name="phone" value={formData.phone} onChange={handleChange} /> : formData.phone}</div>
+            <div className="info-value">
+              {isEditing ? (
+                <input className="edit-input" name="phone" value={formData.phone} onChange={handleChange} />
+              ) : (
+                formData.phone || <span>Nincs megadva</span>
+              )}
+            </div>
           </div>
+
+          {/* LICENSE */}
           <div className="info-row">
             <div className="info-label">JOGOSÍTVÁNY SZÁMA</div>
-            <div className="info-value">{isEditing ? <input className="edit-input" name="license" value={formData.license} onChange={handleChange} /> : formData.license}</div>
+            <div className="info-value">
+              {isEditing ? (
+                <input className="edit-input" name="license" value={formData.license} onChange={handleChange} />
+              ) : (
+                formData.license || <span>Nincs feltöltve</span>
+              )}
+            </div>
           </div>
+
+          {/* EMAIL */}
           <div className="info-row">
             <div className="info-label">EMAIL</div>
             <div className="info-value">
               {user?.email} {isEmailVerified ? <b style={{ color: '#4CAF50' }}>✓</b> : <b style={{ color: '#F44336' }}>✗</b>}
             </div>
+            <span className="info-arrow">🔒</span>
           </div>
         </div>
       </section>
