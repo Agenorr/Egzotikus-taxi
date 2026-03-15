@@ -1,6 +1,6 @@
 import Navbar from "../Components/navbar"
 import Footer from "../Components/footer"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../Css/Taxi.css'; 
@@ -8,6 +8,11 @@ import '../Css/Taxi.css';
 const Taxi = () => {
   const navigate = useNavigate(); 
   
+  // Fül szövegének beállítása
+  useEffect(() => {
+    document.title = "Exotic | Taxi Rendelés";
+  }, []);
+
   const [pickupDate, setPickupDate] = useState('');
   const [pickupTime, setPickupTime] = useState('12:00'); 
   const [pickupLocation, setPickupLocation] = useState('');

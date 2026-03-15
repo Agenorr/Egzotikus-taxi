@@ -16,7 +16,6 @@ import CarDetails from './Pages/carDetails';
 import VerifyEmail from './Pages/VerifyEmail';
 import VerificationWidget from './Components/VerificationWidget';
 import BookTaxi from './Pages/BookTaxi'; 
-import VerifyOrder from './Pages/verifyOrder';
 
 function AnimatedRoutes({ data }) {
   const location = useLocation();

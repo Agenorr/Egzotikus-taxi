@@ -12,6 +12,10 @@ export default function Profile() {
   // State to track which specific field to scroll to after switching tabs
   const [scrollTarget, setScrollTarget] = useState(null);
 
+  useEffect(() => {
+    document.title = "Exotic | Profil";
+  }, []);
+
   const navItems = [
     { id: "main", name: "Kezdőlap", icon: "🏠" },
     { id: "personal", name: "Személyes adatok", icon: "👤" },

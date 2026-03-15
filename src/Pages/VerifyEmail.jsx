@@ -10,6 +10,11 @@ const VerifyEmail = () => {
     // 1. Pull user and the new updateUser function from Context
     const { user, updateUser } = useContext(AuthContext); 
 
+    // Fül szövegének beállítása
+    useEffect(() => {
+        document.title = "Exotic | Email Megerősítése";
+    }, []);
+
     useEffect(() => {
         const token = searchParams.get("token");
         

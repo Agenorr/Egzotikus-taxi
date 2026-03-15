@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,6 +7,11 @@ import 'font-awesome/css/font-awesome.min.css';
 import '../Css/RentingInfo.css';
 
 const RentingInfo = () => {
+
+  useEffect(() => {
+    document.title = "Exotic | Bérlési Feltételek";
+  }, []);
+
   const policies = [
     {
       icon: "fa-id-card",
