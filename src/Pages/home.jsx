@@ -23,10 +23,18 @@ const Home = ({ serverData }) => {
     return (
         <div>
             <Navbar />
-            <div id="carSlideshow" className="carousel slide fade-bottom-white" data-bs-ride="carousel" data-bs-interval="3000">
+            
+            {/* Carousel csúszka konténer */}
+            <div id="carSlideshow" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                
+                {/* Az alsó fehér átmenet, ami fixen a csúszka alján marad */}
+                <div className="home-hero-fade"></div>
+
+                {/* Új, egységesített címsor dizájn narancs vonallal */}
                 <div className="greeting-text">
-                    <h1>Üdvözlünk az Exotic világában!</h1>
-                    <p>Vezess álmaid autóját – Stílus, Sebesség, Szenvedély.</p>
+                    <h1 className="home-hero-title">Üdvözlünk az Exotic világában!</h1>
+                    <div className="home-hero-accent" />
+                    <p className="home-hero-sub">Vezess álmaid autóját – Stílus, Sebesség, Szenvedély.</p>
                 </div>
 
                 <div className="carousel-inner">
@@ -40,6 +48,7 @@ const Home = ({ serverData }) => {
                         <img src="/Assets/mclaren3.jpg" alt="Car 3" />
                     </div>
                 </div>
+                
                 <button className="carousel-control-prev" type="button" data-bs-target="#carSlideshow" data-bs-slide="prev">
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span className="visually-hidden">Previous</span>
