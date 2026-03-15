@@ -14,8 +14,7 @@ export default function Profile() {
     { id: "main", name: "Kezdőlap", icon: "🏠", path: "/profile", active: true },
     { id: "personal", name: "Személyes adatok", icon: "👤", path: "/personal-info" },
     { id: "security", name: "Biztonság és bejelentkezés", icon: "🔒", path: "/security" },
-    { id: "stats", name: "Statisztikák", icon: "📊", path: "/data" },
-    { id: "payment", name: "Fizetési módok", icon: "💳", path: "/wallet" },
+    { id: "stats", name: "Statisztikák", icon: "📊", path: "/data" }
   ];
 
   const renderContent = () => {
@@ -65,8 +64,33 @@ export default function Profile() {
   );
 }
 
-// --- HOME TAB ---
-function HomeTab({user, setActiveTab}) {
+function HomeTab({ user, setActiveTab }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+
+  // 1. Define the searchable items (Keywords and where they lead)
+  const searchDatabase = [
+    { label: "Személyes adatok", tab: "personal", keywords: ["név", "telefon", "adat", "jogosítvány", "email"] },
+    { label: "Biztonság és jelszó", tab: "security", keywords: ["jelszó", "védelem", "bejelentkezés", "biztonság"] },
+    { label: "Bérlési előzmények", tab: "stats", keywords: ["statisztika", "autó", "bérlés", "rendelés", "pénz", "költség"] },
+    { label: "Fizetési módok", tab: "payment", keywords: ["kártya", "fizetés", "bank", "wallet", "pénztárca"] },
+  ];
+
+  // 2. Handle the search logic
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setResults([]);
+      return;
+    }
+
+    const filtered = searchDatabase.filter(item =>
+      item.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.keywords.some(key => key.includes(searchTerm.toLowerCase()))
+    );
+
+    setResults(filtered);
+  }, [searchTerm]);
+
   return (
     <div>
       <header className="profile-header">
@@ -86,17 +110,42 @@ function HomeTab({user, setActiveTab}) {
         <p className="profile-email">{user?.email || "teszt@tester.com"}</p>
       </header>
 
-      <div className="google-search-container">
+      {/* SEARCH BAR */}
+      <div className="google-search-container" style={{ position: 'relative' }}>
         <div className="search-pill">
           <span className="search-icon">🔍</span>
-          <input type="text" placeholder="Keresés a fiókban..." />
+          <input 
+            type="text" 
+            placeholder="Keresés a fiókban... (pl. 'jelszó')" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
+
+        {/* SEARCH RESULTS DROPDOWN */}
+        {results.length > 0 && (
+          <div className="search-results-dropdown">
+            {results.map((result, index) => (
+              <div 
+                key={index} 
+                className="search-result-item"
+                onClick={() => {
+                  setActiveTab(result.tab);
+                  setSearchTerm(""); // Reset search
+                }}
+              >
+                <span className="result-icon">↳</span>
+                <span className="result-text">{result.label}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="chip-container">
-        <button className="google-chip" onClick={()=> setActiveTab('personal')}>Adataim változtatása</button>
-        <button className="google-chip" onClick={()=> setActiveTab('security')}>Jelszó változtatás</button>
-        <button className="google-chip" onClick={()=> setActiveTab('payment')}>Fizetési mód változtatása</button>
+        <button className="google-chip" onClick={() => setActiveTab('personal')}>Adataim változtatása</button>
+        <button className="google-chip" onClick={() => setActiveTab('security')}>Jelszó változtatás</button>
+        <button className="google-chip" onClick={() => setActiveTab('payment')}>Fizetési mód változtatása</button>
       </div>
     </div>
   );
@@ -362,31 +411,6 @@ function StatisticsTab({ user }) {
             );
           })}
           {orders.length === 0 && <div style={{ padding: '24px', textAlign: 'center', color: '#9aa0a6' }}>Még nem béreltél autót.</div>}
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// --- PAYMENT TAB ---
-function PaymentTab({user}){
-  return(
-    <div className="personal-info-container">
-      <header className="tab-header">
-        <h1>Fizetési módok</h1>
-        <p>Kezeld a mentett bankkártyáidat a gyorsabb fizetéshez.</p>
-      </header>
-      <section className="info-card">
-        <div className="card-header"><h2>Mentett kártyák</h2></div>
-        <div className="info-list">
-          <div className="info-row">
-            <div className="info-label" style={{fontSize: '24px'}}>💳</div>
-            <div className="info-value">
-              <div style={{fontWeight: 'bold'}}>**** **** **** 4242</div>
-              <div style={{fontSize: '12px', color: '#9aa0a6'}}>Lejár: 12/28</div>
-            </div>
-            <button className="google-chip">Törlés</button>
-          </div>
         </div>
       </section>
     </div>
