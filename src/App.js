@@ -53,7 +53,7 @@ function AnimatedRoutes({ data }) {
         <Route path='/CarRental/:id' element={<CarDetails/>}/>
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/verify-order" element={<VerifyOrder />} />
-        {/*<Route path="/book-taxi" element={<BookTaxi />} />*/}
+        <Route path="/book-taxi" element={<BookTaxi />} />
       </Routes>
     </>
   );

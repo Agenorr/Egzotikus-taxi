@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../Css/Taxi.css'; 
-import '../Css/Base.css';    
 
 const Taxi = () => {
   const navigate = useNavigate(); 
