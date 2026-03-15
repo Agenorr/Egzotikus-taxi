@@ -71,7 +71,6 @@ export default function CarRental() {
   const [selectedTransmissions, setSelectedTransmissions] = useState([]);
   const [selectedDrivetrains, setSelectedDrivetrains] = useState([]);
   const [selectedFuel, setSelectedFuel] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
 
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
@@ -138,12 +137,8 @@ export default function CarRental() {
       selectedFuel.length === 0 ||
       selectedFuel.includes(car.fuel);
 
-    const matchesSeats =
-      selectedSeats.length === 0 ||
-      selectedSeats.includes(String(car.seats));
-
     // 2. Add isAvailable to the final check
-    return isAvailable && matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel && matchesSeats;
+    return isAvailable && matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel;
 });
 
   const toggleFilter = (list, setList, value) => {
@@ -155,7 +150,6 @@ export default function CarRental() {
     setSelectedTransmissions([]);
     setSelectedDrivetrains([]);
     setSelectedFuel([]);
-    setSelectedSeats([]);
   };
 
   const handleCategoryClick = (categoryName) => {
@@ -315,18 +309,6 @@ export default function CarRental() {
                             <input className="form-check-input white-checkbox me-2" type="checkbox" id={`drive-${type}`}
                               checked={selectedDrivetrains.includes(type)} onChange={() => toggleFilter(selectedDrivetrains, setSelectedDrivetrains, type)} />
                             <label className="form-check-label text-white small" htmlFor={`drive-${type}`}>{type}</label>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Ülések száma */}
-                      <div className="mb-4">
-                        <label className="filter-section-title mb-2 d-block">ÜLÉSEK SZÁMA</label>
-                        {['2', '4', '5', '7'].map(seat => (
-                          <div className="form-check d-flex align-items-center mb-2" key={seat}>
-                            <input className="form-check-input white-checkbox me-2" type="checkbox" id={`seat-${seat}`}
-                              checked={selectedSeats.includes(seat)} onChange={() => toggleFilter(selectedSeats, setSelectedSeats, seat)} />
-                            <label className="form-check-label text-white small" htmlFor={`seat-${seat}`}>{seat} ülés</label>
                           </div>
                         ))}
                       </div>
