@@ -3,20 +3,24 @@ import Footer from "../Components/footer"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import '../Css/Taxi.css'; 
-import '../Css/Base.css';    
+import '../Css/Taxi.css';
+import '../Css/Base.css';
 
 const Taxi = () => {
-  const navigate = useNavigate(); // <-- Initialize navigate
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [availableCars, setAvailableCars] = useState([]);
-  
-  // CHANGED: State is now for category dropdown instead of text search
-  const [selectedCategory, setSelectedCategory] = useState(''); 
-  
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCar, setSelectedCar] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+
+  // FOOLPROOF CALENDAR: Get today's date in YYYY-MM-DD format based on local time
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const today = `${year}-${month}-${day}`;
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -35,9 +39,9 @@ const Taxi = () => {
         id: car.id,
         brand: car.brand,
         model: car.model,
-        category: car.category || 'Egyéb', // Fetching the category from the backend
+        category: car.category || 'Egyéb',
         image_url: car.images && car.images.length > 0 ? car.images[0].imageUrl : '',
-        price_per_day: car.pricePerDay || 0, 
+        price_per_day: car.pricePerDay || 0,
         description: car.description || `${car.brand} ${car.model} - ${car.category}`
       }));
 
@@ -59,104 +63,62 @@ const Taxi = () => {
     navigate('/book-taxi', { state: { car, startDate, endDate } });
   };
 
-
-
-  // NEW: Dynamically get all unique categories from the fetched cars to populate the dropdown
   const uniqueCategories = [...new Set(availableCars.map(car => car.category).filter(Boolean))];
 
-  // NEW: Filter based on the selected category from the dropdown
-  const filteredCars = selectedCategory 
+  const filteredCars = selectedCategory
     ? availableCars.filter(car => car.category === selectedCategory)
     : availableCars;
 
   return (
-    <div className="rentals-container">  <Navbar/>
-      
-      <div className="rentals-header">
-        <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
-      </div>
+    <div>
+      <Navbar />
+      <div className="rentals-container">
 
-      <div className="search-form-container">
-        <form onSubmit={handleSearch} className="search-form">
-          <div className="form-group">
-            <label>Átvétel Dátuma</label>
-            <input 
-              type="date" 
-              className="date-input" 
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Visszavétel Dátuma</label>
-            <input 
-              type="date" 
-              className="date-input"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              required
-            />
-          </div>
-          <div className="search-button-wrapper">
-            <button type="submit" className="search-submit-btn">
-              {isSearching ? 'Flotta Keresése...' : 'Elérhető Járművek Keresése'}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* CHANGED: Text Input replaced with a Dropdown Filter */}
-      {availableCars.length > 0 && (
-        <div className="filter-container">
-          <select 
-            className="category-filter"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="">Minden Kategória</option>
-            {uniqueCategories.map(category => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
+        <div className="rentals-header">
+          <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
         </div>
-      )}
 
-      {availableCars.length > 0 && (
-        <div className="results-section">
-          <div className="results-grid">
-            {filteredCars.map((car) => (
-              <div key={car.id} className="car-card">
-                
-                {/* CHANGED: Image wrapper now has a dark overlay that appears on hover */}
-                <div className="car-image-container">
-                  <img src={car.image_url} alt={car.model} className="car-image" />
-                  
-                  <div className="hover-overlay">
-                    <h4 className="hover-car-name">{car.brand} {car.model}</h4>
-                    <button onClick={() => handleBookCar(car)} className="hover-book-btn">
-                      Tovább a lefoglaláshoz
-                    </button>
-                  </div>
-
-                </div>
-
-                <div className="car-details">
-                  <h3 className="car-title">{car.brand} {car.model}</h3>
-                  <p className="car-desc">{car.description}</p>
-                  <div className="car-footer">
-                    <span className="car-price">${car.price_per_day}<span>/nap</span></span>
-                    <button onClick={() => handleBookCar(car)} className="book-now-btn">
-                      Foglalás Most
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="search-form-container">
+          <form onSubmit={handleSearch} className="search-form">
+            <div className="form-group">
+              <label>Átvétel Dátuma</label>
+              <input
+                type="date"
+                className="date-input"
+                value={startDate}
+                min={today} // <-- Prevents picking past dates
+                onChange={(e) => {
+                  const newStartDate = e.target.value;
+                  setStartDate(newStartDate);
+                  // <-- Auto-adjust endDate if the new startDate pushes past it
+                  if (endDate && newStartDate > endDate) {
+                    setEndDate(newStartDate);
+                  }
+                }}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Visszavétel Dátuma</label>
+              <input
+                type="date"
+                className="date-input"
+                value={endDate}
+                min={startDate || today} // <-- End date can never be before start date (or today)
+                onChange={(e) => setEndDate(e.target.value)}
+                required
+              />
+            </div>
+            <div className="search-button-wrapper">
+              <button type="submit" className="search-submit-btn">
+                {isSearching ? 'Flotta Keresése...' : 'Elérhető Járművek Keresése'}
+              </button>
+            </div>
+          </form>
         </div>
-      )}
-      <Footer/>
+
+      </div>
+      <Footer />
     </div>
   );
 };
