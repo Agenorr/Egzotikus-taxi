@@ -58,20 +58,34 @@ export default function Footer() {
             {/* A w-100 biztosítja, hogy a sorok kitöltsék az oszlopot, és középre tudjanak igazodni */}
             <div className="d-flex flex-column gap-2 w-100">
 
-              {/* Email - justify-content-center hozzáadva */}
+              {/* Email - Kattintható linkkel */}
               <div className="d-flex justify-content-center align-items-center gap-1">
                 <div style={{ width: '20px', display: 'flex', justifyContent: 'center' }}>
                   <i className="fa fa-envelope" style={{ color: '#DAA520', fontSize: '18px' }}></i>
                 </div>
-                <span style={{ fontSize: '14px', color: '#bbb', letterSpacing: '0.5px' }}>exoticrentals@gmail.com</span>
+                <a 
+                  href="mailto:exoticrentals@gmail.com" 
+                  style={{ fontSize: '14px', color: '#bbb', letterSpacing: '0.5px', textDecoration: 'none', transition: 'color 0.3s' }}
+                  onMouseOver={(e) => e.target.style.color = '#DAA520'}
+                  onMouseOut={(e) => e.target.style.color = '#bbb'}
+                >
+                  exoticrentals@gmail.com
+                </a>
               </div>
 
-              {/* Telefon - justify-content-center hozzáadva */}
+              {/* Telefon - Kattintható linkkel */}
               <div className="d-flex justify-content-center align-items-center gap-1">
                 <div style={{ width: '20px', display: 'flex', justifyContent: 'center' }}>
                   <i className="fa fa-phone" style={{ color: '#DAA520', fontSize: '18px' }}></i>
                 </div>
-                <span style={{ fontSize: '14px', color: '#bbb', letterSpacing: '0.5px' }}>+36 70 628 6383</span>
+                <a 
+                  href="tel:+36706286383" 
+                  style={{ fontSize: '14px', color: '#bbb', letterSpacing: '0.5px', textDecoration: 'none', transition: 'color 0.3s' }}
+                  onMouseOver={(e) => e.target.style.color = '#DAA520'}
+                  onMouseOut={(e) => e.target.style.color = '#bbb'}
+                >
+                  +36 70 628 6383
+                </a>
               </div>
 
             </div>
