@@ -36,22 +36,22 @@ const categories = [
   {
     name: "SUV",
     label: "SUV",
-    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+    images: ["https://www.auto-data.net/images/f17/lamborghini-urus.jpg", "https://www.auto-data.net/images/f85/BMW-X7-G07-facelift-2022_4.jpg", "https://www.auto-data.net/images/f110/Cadillac-Escalade-IQ.jpg"]
   },
   {
     name: "Luxury",
     label: "Luxury",
-    images: ["https://www.auto-data.net/images/f99/Leapmotor-B10.jpg", "https://www.auto-data.net/images/f78/Renault-Filante.jpg", "https://www.auto-data.net/images/f79/Renault-Filante.jpg"]
+    images: ["https://www.auto-data.net/images/f100/Rolls-Royce-Phantom-VIII-Extended-Wheelbase.jpg", "https://www.auto-data.net/images/f73/Bugatti-La-Voiture-Noire.jpg", "https://www.auto-data.net/images/f77/Mercedes-Benz-S-class-Long-V223-facelift-2026.jpg"]
   },
   {
     name: "Pickup",
     label: "Pickup",
-    images: ["https://www.auto-data.net/images/f129/Ford-F-Series-F-150-XIV-SuperCrew-facelift-2023.jpg", "https://www.auto-data.net/images/f8/big1418.jpg", "https://www.auto-data.net/images/f69/Chevrolet-Silverado-1500-IV-Crew-Cab-Short-Box.jpg"]
+    images: ["https://www.auto-data.net/images/f126/Ford-Ranger-V-SuperCrew-Americas_2.jpg", "https://www.auto-data.net/images/f33/Jeep-Gladiator-JT-facelift-2023_4.jpg", "https://www.auto-data.net/images/f38/Chevrolet-Silverado-3500-HD-IV-T1XX-facelift-2024-Crew-Cab-Long-Bed.jpg"]
   },
   {
     name: "Wagon",
     label: "Wagon",
-    images: ["https://www.auto-data.net/images/f34/Volvo-XC90-II-facelift-2024_2.jpg", "https://www.auto-data.net/images/f16/file8366809.jpg", "https://www.auto-data.net/images/f109/Volkswagen-Passat-Variant-B9.jpg"]
+    images: ["https://www.auto-data.net/images/f99/Skoda-Superb-IV.jpg", "https://www.auto-data.net/images/f80/Volkswagen-Passat-Variant-B9.jpg", "https://www.auto-data.net/images/f49/Audi-RS6-Avant-C8.jpg"]
   },
   {
     name: "Minivan",
