@@ -29,6 +29,7 @@ namespace ExoticBackend.Data
                 entity.Property(e => e.Created_At).HasColumnName("created_at");
                 entity.Property(e => e.Email).HasColumnName("email");
                 entity.Property(e => e.PhoneNumber).HasColumnName("phoneNumber"); // Exact match to your SQL
+                entity.Property(e => e.isDriver).HasColumnName("isDriver"); // Exact match to your SQL
                 entity.Property(e => e.LicenseNumber).HasColumnName("license_number");
                 entity.Property(e => e.LicenseExpiryDate).HasColumnName("license_expiry_date");
                 entity.Property(e => e.Is_Verified).HasColumnName("is_verified").HasDefaultValue(0);
@@ -54,6 +55,7 @@ namespace ExoticBackend.Data
                 entity.Property(e => e.Powertrain).HasColumnName("powertrain");
                 entity.Property(e => e.Transmission).HasColumnName("transmission");
                 entity.Property(e => e.Hp).HasColumnName("hp");
+                entity.Property(e => e.Fuel).HasColumnName("fuel");
                 entity.Property(e => e.Torque).HasColumnName("torque");
                 entity.Property(e => e.Acceleration).HasColumnName("acceleration");
                 entity.Property(e => e.TopSpeed).HasColumnName("top_speed");
@@ -86,7 +88,20 @@ namespace ExoticBackend.Data
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
-                // Ensure other Order properties are mapped here if you have them in the C# model
+                entity.Property(e => e.StartDate).HasColumnName("start_date");
+                entity.Property(e => e.EndDate).HasColumnName("end_date");
+                entity.Property(e => e.TotalPrice).HasColumnName("total_price");
+                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+                // Add these two blocks to map the Foreign Keys!
+                entity.HasOne(e => e.User)
+                      .WithMany()
+                      .HasForeignKey(e => e.UserId);
+
+                entity.HasOne(e => e.Vehicle)
+                      .WithMany()
+                      .HasForeignKey(e => e.VehicleId);
             });
 
             // 5. Relationships

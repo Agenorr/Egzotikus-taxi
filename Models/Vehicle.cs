@@ -18,6 +18,7 @@ namespace ExoticBackend.Models
         public string? Powertrain { get; set; }
         public string? Transmission { get; set; }
         public int? Hp { get; set; }
+        public string Fuel { get; set; }
         public int? Torque { get; set; }
         public string? Acceleration { get; set; }
         public int? TopSpeed { get; set; }

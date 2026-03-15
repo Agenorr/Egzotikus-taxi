@@ -10,6 +10,9 @@
         public string Drivetrain { get; set; }
         // Map 'powertrain' from DB to 'engineType' for Frontend
         public string EngineType { get; set; }
+        public string Fuel {  get; set; }
+        public int Status { get; set; }
+
         public int? Year { get; set; }
         public decimal PricePerDay { get; set; }
         // Ensure this is initialized so .map() doesn't crash

@@ -1,4 +1,4 @@
-using ExoticBackend.Data;
+﻿using ExoticBackend.Data;
 using ExoticBackend.DTOs;
 using ExoticBackend.Models;
 using Microsoft.AspNetCore.Builder;
@@ -94,7 +94,9 @@ namespace ExoticBackEnd
                             Category = v.Category,
                             Drivetrain = v.Drive,
                             EngineType = v.Powertrain,
+                            Fuel = v.Fuel,
                             Year = v.Year,
+                            Status = v.Status,
                             Images = v.VehicleImages.Select(i => new VehicleImageDto
                             {
                                 Id = i.Id,
@@ -153,6 +155,7 @@ namespace ExoticBackEnd
                     powertrain = vehicle.Powertrain,
                     transmission = vehicle.Transmission,
                     hp = vehicle.Hp,
+                    fuel = vehicle.Fuel,
                     torque = vehicle.Torque,
                     acceleration = vehicle.Acceleration,
                     topSpeed = vehicle.TopSpeed,
@@ -299,6 +302,24 @@ namespace ExoticBackEnd
                 });
             });
 
+            app.MapGet("/api/user/{id}/profile", async (int id, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return Results.NotFound(new { message = "User not found." });
+                }
+
+                // Return ONLY the data needed for the Personal Info tab
+                return Results.Ok(new
+                {
+                    fullName = user.FullName,
+                    phoneNumber = user.PhoneNumber,
+                    licenseNumber = user.LicenseNumber 
+                });
+            });
+
 
             app.MapPost("/api/login", async (LoginDto dto, ExoticDbContext db) =>
             {
@@ -325,6 +346,163 @@ namespace ExoticBackEnd
                     clearance = user.Clearance,
                     is_verified = user.Is_Verified
                 });
+            });
+            app.MapGet("/api/user/{id}/orders", async (int id, ExoticDbContext db) =>
+            {
+                var orders = await db.Orders
+                    .Include(o => o.Vehicle)
+                        .ThenInclude(v => v.VehicleImages)
+                    .Where(o => o.UserId == id)
+                    .OrderByDescending(o => o.CreatedAt) // Legújabb rendelések legelöl
+                    .Select(o => new OrderHistoryDto
+                    {
+                        Id = o.Id,
+                        Brand = o.Vehicle.Brand,
+                        Model = o.Vehicle.Model,
+                        // Próbáljuk az elsődleges képet lekérni, ha nincs, akkor az elsőt
+                        ImageUrl = o.Vehicle.VehicleImages.FirstOrDefault(i => i.Is_Primary).Image_Url
+                                   ?? o.Vehicle.VehicleImages.FirstOrDefault().Image_Url,
+                        StartDate = o.StartDate,
+                        EndDate = o.EndDate,
+                        TotalPrice = o.TotalPrice,
+                        Status = o.Status,
+                        CreatedAt = o.CreatedAt
+                    })
+                    .ToListAsync();
+
+                return Results.Ok(orders);
+            });
+            // Pásztázd be ezt a POST végpontot a GET /api/user/{id}/orders fölé vagy alá!
+            app.MapPost("/api/orders", async (CreateOrderDto dto, ExoticDbContext db) =>
+            {
+                try
+                {
+                    // 1. Fetch the user so we know where to send the email
+                    var user = await db.Users.FindAsync(dto.UserId);
+                    if (user == null) return Results.BadRequest("User not found.");
+
+                    // 2. Generate a secure token
+                    string token = Guid.NewGuid().ToString();
+
+                    // 3. Create the order
+                    var newOrder = new Order
+                    {
+                        UserId = dto.UserId,
+                        VehicleId = dto.VehicleId,
+                        StartDate = dto.StartDate,
+                        EndDate = dto.EndDate,
+                        TotalPrice = dto.TotalPrice,
+                        Status = 1, // 1 = Pending
+                        CreatedAt = DateTime.UtcNow,
+                        VerificationToken = token // Save the token
+                    };
+
+                    db.Orders.Add(newOrder);
+                    await db.SaveChangesAsync();
+
+                    // 4. Send the Verification Email
+                    try
+                    {
+                        string verificationLink = $"http://localhost:3000/verify-order?token={token}";
+
+                        var smtpClient = new SmtpClient("smtp.gmail.com")
+                        {
+                            Port = 587,
+                            Credentials = new NetworkCredential("bravery.cs@gmail.com", "zrau wgzd vgin kljz"),
+                            EnableSsl = true,
+                        };
+
+                        var mailMessage = new MailMessage
+                        {
+                            From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals"),
+                            Subject = "Erősítse meg autóbérlését (Verify Order)",
+                            Body = $"Köszönjük a foglalást! <br><br> Kérjük, kattintson az alábbi linkre a bérlés megerősítéséhez és aktiválásához: <br><br> <a href='{verificationLink}'>{verificationLink}</a>",
+                            IsBodyHtml = true,
+                        };
+
+                        mailMessage.To.Add(user.Email);
+                        smtpClient.Send(mailMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to send order email: {ex.Message}");
+                    }
+
+                    return Results.Ok(new { message = "Order created! Please check your email to verify." });
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem($"Failed to create order: {ex.Message}");
+                }
+            });
+            app.MapPost("/api/orders/verify", async (string token, ExoticDbContext db) =>
+            {
+                // 1. Keresd meg a rendelést, és INCLUDÁLD hozzá az autót is!
+                var order = await db.Orders
+                    .Include(o => o.Vehicle) // <-- Ez nagyon fontos, hogy módosíthassuk az autót!
+                    .FirstOrDefaultAsync(o => o.VerificationToken == token);
+
+                if (order == null)
+                {
+                    return Results.BadRequest(new { message = "Érvénytelen vagy lejárt megerősítő link." });
+                }
+
+                // 2. Frissítsd a rendelés státuszát 2-re (Aktív)
+                order.Status = 2;
+                order.VerificationToken = null;
+
+                // 3. Frissítsd az Autó státuszát is 2-re (Kifoglalt/Nem elérhető)
+                if (order.Vehicle != null)
+                {
+                    order.Vehicle.Status = 2;
+                }
+
+                // 4. Mentsd el mindkét változást az adatbázisba egyszerre
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "Rendelés sikeresen aktiválva és az autó lefoglalva!" });
+            });
+            app.MapPost("/api/orders/{id}/finish", async (int id, ExoticDbContext db) =>
+            {
+                var order = await db.Orders
+                    .Include(o => o.Vehicle)
+                    .FirstOrDefaultAsync(o => o.Id == id);
+
+                if (order == null) return Results.NotFound("Order not found.");
+
+                // 1. Set Order to Completed
+                order.Status = 3;
+
+                // 2. Make the Car Available again
+                if (order.Vehicle != null)
+                {
+                    order.Vehicle.Status = 1;
+                }
+
+                await db.SaveChangesAsync();
+                return Results.Ok(new { message = "Bérlés sikeresen lezárva, az autó újra elérhető!" });
+            });
+
+
+            //Profil update
+
+            app.MapPut("/api/user/{id}/profile", async (int id, UpdateProfileDto dto, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return Results.NotFound(new { message = "User not found." });
+                }
+
+                // Update the fields
+                user.FullName = dto.FullName;
+                user.PhoneNumber = dto.PhoneNumber;
+                user.LicenseNumber = dto.LicenseNumber;
+
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "Profil sikeresen frissítve!" });
             });
 
             app.Run();
