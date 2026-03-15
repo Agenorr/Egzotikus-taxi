@@ -278,6 +278,17 @@
     font-weight: bold;
 }
 
+.rental-status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-pending { background-color: #fbbc04; color: #fff; } /* Orange */
+.status-active { background-color: #34a853; color: #fff; }  /* Green */
+.status-completed { background-color: #5f6368; color: #fff; } /* Grey */
+
 /* ---- Új kódok a szerkesztéshez és a statisztikákhoz ---- */
 
 /* Szerkeszthető input mezők stílusa */

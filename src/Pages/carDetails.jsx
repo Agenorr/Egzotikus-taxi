@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../Context/AuthContext'; // <-- Make sure this path is correct!
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import '../Css/Base.css';
 
 const CarDetails = () => {
-    // 1. URL-ből szedjük az ID-t, így frissítésnél is megmarad!
     const { id } = useParams(); 
     const location = useLocation();
     const navigate = useNavigate();
     
-    // 2. Kinyerjük a dátumokat, ha a Taxi (foglalás) oldalról jöttek
+    // Grab the logged-in user from AuthContext
+    const { user } = useContext(AuthContext);
+    
+    // Grab dates if they happen to come from a previous flow
     const { startDate, endDate } = location.state || {};
-    const hasDates = startDate && endDate; // Ellenőrizzük, hogy vannak-e dátumok
 
+    // Local state for the built-in calendar
+    const [localStartDate, setLocalStartDate] = useState(startDate || '');
+    const [localEndDate, setLocalEndDate] = useState(endDate || '');
+    
     const [carDetails, setCarDetails] = useState(null);
-    const [selectedDriverId, setSelectedDriverId] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
-    // Mock Drivers Data
-    const mockDrivers = [
-        { id: 1, name: 'Kovács Péter', experience: '5 év', rating: 4.9, dailyFee: 20000 },
-        { id: 2, name: 'Nagy Anna', experience: '3 év', rating: 4.7, dailyFee: 15000 },
-        { id: 3, name: 'Tóth Gábor', experience: '7 év', rating: 5.0, dailyFee: 25000 },
-        { id: 4, name: 'Sofőr nélkül (Saját vezetés)', experience: 'N/A', rating: 'N/A', dailyFee: 0 }
-    ];
+    // Date logic for the calendar (prevent past dates)
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
     useEffect(() => {
-        // A C# backend endpointod meghívása az URL-ben lévő ID alapján
         const fetchFullCarDetails = async () => {
             try {
                 const response = await axios.get(`https://localhost:7065/api/vehicles/${id}`);
@@ -43,9 +43,53 @@ const CarDetails = () => {
         fetchFullCarDetails();
     }, [id]);
 
+    // --- Pure Car Rental Calculations ---
+    const hasValidDates = localStartDate && localEndDate;
+    let diffDays = 1;
+    let totalCost = 0;
+
+    const carDailyPrice = carDetails?.pricePerDay || carDetails?.price_per_day || 0;
+
+    if (hasValidDates) {
+        const start = new Date(localStartDate);
+        const end = new Date(localEndDate);
+        const diffTime = Math.abs(end - start);
+        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+        
+        totalCost = carDailyPrice * diffDays;
+    }
+
+    // --- API POST Request Logic ---
+    const handleBooking = async () => {
+        // 1. Check if user is logged in
+        if (!user || !user.id) {
+            alert("Kérjük, jelentkezzen be a bérléshez!");
+            navigate('/Register'); // Redirect to login/register if they aren't signed in
+            return;
+        }
+
+        // 2. Format the data to match your C# CreateOrderDto
+        const orderData = {
+            userId: user.id,
+            vehicleId: parseInt(id),
+            startDate: localStartDate,
+            endDate: localEndDate,
+            totalPrice: totalCost
+        };
+
+        // 3. Send it to the backend!
+        try {
+            const response = await axios.post('https://localhost:7065/api/orders', orderData);
+            alert("Bérlési kérelem sikeresen elküldve!");
+            navigate('/Profile'); // Send them to their profile to view the order
+        } catch (error) {
+            console.error("Hiba történt a foglalás során", error);
+            alert("Hiba történt a foglalás során. Kérjük, próbálja újra.");
+        }
+    };
+
     if (isLoading) return <h2 className="text-center mt-5">Betöltés...</h2>;
     
-    // Ha a C# backend nem találja az autót
     if (!carDetails) return (
         <div className="text-center mt-5">
             <h2>Az autó nem található.</h2>
@@ -55,27 +99,6 @@ const CarDetails = () => {
         </div>
     );
 
-    // --- Számolások (Csak akkor, ha vannak dátumok) ---
-    let diffDays = 1;
-    let driverCost = 0;
-    let carCost = 0;
-    let totalCost = 0;
-
-    const carDailyPrice = carDetails.pricePerDay || carDetails.price_per_day || 0;
-
-    if (hasDates) {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const diffTime = Math.abs(end - start);
-        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
-
-        const selectedDriver = mockDrivers.find(d => d.id === parseInt(selectedDriverId));
-        driverCost = selectedDriver ? selectedDriver.dailyFee * diffDays : 0;
-        
-        carCost = carDailyPrice * diffDays;
-        totalCost = carCost + driverCost;
-    }
-
     const primaryImage = carDetails.images?.find(img => img.isPrimary)?.imageUrl || carDetails.images?.[0]?.imageUrl;
 
     return (
@@ -83,12 +106,12 @@ const CarDetails = () => {
             <Navbar />
             
             <div className="container mt-5 mb-5">
-                <button onClick={() => navigate(-1)} className="btn btn-outline-secondary mb-4 font-weight-bold">
-                    ← Vissza
+                <button onClick={() => navigate('/CarRental')} className="btn btn-outline-secondary mb-4 font-weight-bold">
+                    ← Vissza a kínálathoz
                 </button>
 
                 <div className="row g-5">
-                    {/* BAL OLDAL: Kép és Leírás */}
+                    {/* LEFT SIDE: Image & Description */}
                     <div className="col-lg-7">
                         {primaryImage ? (
                             <img 
@@ -116,96 +139,87 @@ const CarDetails = () => {
                         </div>
                     </div>
 
-                    {/* JOBB OLDAL: Adatok és Foglalás */}
+                    {/* RIGHT SIDE: Booking & Specs */}
                     <div className="col-lg-5">
                         <div className="bg-white p-4 rounded shadow-sm mb-4">
                             <h1 className="mb-1">{carDetails.brand} {carDetails.model}</h1>
                             <h5 className="text-muted mb-4">{carDetails.category} • Évjárat: {carDetails.year || "N/A"}</h5>
                             
-                            {/* Csak akkor mutatjuk a foglalási matekot, ha a Taxi oldalról jöttek dátummal */}
-                            {hasDates ? (
+                            {/* Built-in Calendar System */}
+                            <div className="p-3 mb-4 rounded border" style={{ backgroundColor: "#fafafa" }}>
+                                <h5 className="mb-3">Bérlés időtartama</h5>
+                                <div className="row">
+                                    <div className="col-sm-6 mb-3 mb-sm-0">
+                                        <label className="form-label small text-muted fw-bold">Átvétel Dátuma</label>
+                                        <input 
+                                            type="date" 
+                                            className="form-control" 
+                                            value={localStartDate} 
+                                            min={today}
+                                            onChange={(e) => {
+                                                const newStart = e.target.value;
+                                                setLocalStartDate(newStart);
+                                                if (localEndDate && newStart > localEndDate) {
+                                                    setLocalEndDate(newStart);
+                                                }
+                                            }} 
+                                        />
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <label className="form-label small text-muted fw-bold">Visszavétel Dátuma</label>
+                                        <input 
+                                            type="date" 
+                                            className="form-control" 
+                                            value={localEndDate} 
+                                            min={localStartDate || today} 
+                                            onChange={(e) => setLocalEndDate(e.target.value)} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Dynamic Content based on date selection */}
+                            {hasValidDates ? (
                                 <>
-                                    <div className="p-3 mb-4 rounded" style={{ backgroundColor: "#f1f3f5" }}>
-                                        <h5 className="mb-3">Foglalás Részletei</h5>
-                                        <div className="d-flex justify-content-between mb-2">
-                                            <span className="text-muted">Átvétel:</span>
-                                            <strong>{startDate}</strong>
-                                        </div>
-                                        <div className="d-flex justify-content-between mb-2">
-                                            <span className="text-muted">Visszavétel:</span>
-                                            <strong>{endDate}</strong>
-                                        </div>
-                                        <div className="d-flex justify-content-between">
-                                            <span className="text-muted">Időtartam:</span>
-                                            <strong>{diffDays} nap</strong>
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-4">
-                                        <label className="form-label font-weight-bold">Válasszon sofőrt (Opcionális)</label>
-                                        <select 
-                                            className="form-select"
-                                            value={selectedDriverId} 
-                                            onChange={(e) => setSelectedDriverId(e.target.value)}
-                                        >
-                                            <option value="" disabled>Kérjük, válasszon...</option>
-                                            {mockDrivers.map(driver => (
-                                                <option key={driver.id} value={driver.id}>
-                                                    {driver.name} {driver.dailyFee > 0 ? `(+${driver.dailyFee.toLocaleString('hu-HU')} Ft/nap)` : ''}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        {selectedDriver && selectedDriver.dailyFee > 0 && (
-                                            <small className="text-muted d-block mt-2">
-                                                Értékelés: ⭐{selectedDriver.rating} | Tapasztalat: {selectedDriver.experience}
-                                            </small>
-                                        )}
-                                    </div>
-
-                                    <hr />
-
                                     <div className="d-flex justify-content-between mb-2">
                                         <span className="text-muted">Autó bérleti díj ({diffDays} nap):</span>
-                                        <span>{carCost.toLocaleString('hu-HU')} Ft</span>
+                                        <span>{totalCost.toLocaleString('hu-HU')} Ft</span>
                                     </div>
-                                    {driverCost > 0 && (
-                                        <div className="d-flex justify-content-between mb-3">
-                                            <span className="text-muted">Sofőr díj ({diffDays} nap):</span>
-                                            <span>{driverCost.toLocaleString('hu-HU')} Ft</span>
-                                        </div>
-                                    )}
 
                                     <h2 className="text-warning font-weight-bold mb-4 mt-3 text-end">
                                         {totalCost.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ végösszeg</span>
                                     </h2>
 
+                                    {/* POST REQUEST BUTTON */}
                                     <button 
                                         className="btn btn-primary btn-lg w-100 mb-4" 
                                         style={{ backgroundColor: "#e65100", borderColor: "#e65100", fontWeight: "bold" }}
-                                        onClick={() => alert("Foglalási kérelem elküldve a szervernek!")}
+                                        onClick={handleBooking}
                                     >
-                                        Foglalás Megerősítése
+                                        Bérlés Megerősítése
                                     </button>
                                 </>
                             ) : (
-                                /* Ha csak nézelődnek a galériából, csak a napi árat mutatjuk */
-                                <>
-                                    <h2 className="text-warning font-weight-bold mb-4">
+                                /* What to show before they pick dates */
+                                <div className="text-center py-4">
+                                    <h2 className="text-warning font-weight-bold mb-3">
                                         {carDailyPrice.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ nap</span>
                                     </h2>
+                                    <div className="alert alert-secondary small">
+                                        Kérjük, válassza ki a bérlés dátumait a folytatáshoz!
+                                    </div>
                                     <button 
-                                        className="btn btn-primary btn-lg w-100 mb-4" 
-                                        style={{ backgroundColor: "#e65100", borderColor: "#e65100", fontWeight: "bold" }}
-                                        onClick={() => navigate('/taxi')}
+                                        className="btn btn-secondary btn-lg w-100 mb-4" 
+                                        disabled
                                     >
-                                        Bérlés indítása
+                                        Válasszon dátumot
                                     </button>
-                                </>
+                                </div>
                             )}
 
                             <hr />
 
-                            {/* Műszaki Adatok */}
+                            {/* Technical Specs Grid */}
                             <h4 className="mb-3 mt-3">Műszaki Adatok</h4>
                             <div className="row">
                                 <div className="col-6 mb-3">

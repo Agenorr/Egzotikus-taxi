@@ -114,6 +114,10 @@ export default function CarRental() {
 
   // ================= FILTERING LOGIC =================
   const filteredCars = cars.filter(car => {
+    // 1. Check for Status 1 (Available)
+    // If this is false, the car is excluded regardless of other filters.
+    const isAvailable = car.status === 1;
+
     const matchesSearch =
       (car.brand && car.brand.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (car.model && car.model.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -134,8 +138,9 @@ export default function CarRental() {
       selectedSeats.length === 0 ||
       selectedSeats.includes(String(car.seats));
 
-    return matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel && matchesSeats;
-  });
+    // 2. Add isAvailable to the final check
+    return isAvailable && matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel && matchesSeats;
+});
 
   const toggleFilter = (list, setList, value) => {
     setList(prev => prev.includes(value) ? prev.filter(i => i !== value) : [...prev, value]);
