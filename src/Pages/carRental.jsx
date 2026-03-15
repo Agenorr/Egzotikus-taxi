@@ -75,6 +75,10 @@ export default function CarRental() {
 
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
+  useEffect(() => {
+    document.title = "Exotic | Autóbérlés";
+  }, []);
+
   // ================= FETCH CARS =================
   useEffect(() => {
     if (selectedCategory === null) return;

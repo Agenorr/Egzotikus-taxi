@@ -1,6 +1,6 @@
 import Navbar from "../Components/navbar"
 import Footer from "../Components/footer"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../Css/Taxi.css';
@@ -14,6 +14,10 @@ const Taxi = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCar, setSelectedCar] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    document.title = "Exotic | Taxi Rendelés";
+  }, []);
 
   // FOOLPROOF CALENDAR: Get today's date in YYYY-MM-DD format based on local time
   const now = new Date();

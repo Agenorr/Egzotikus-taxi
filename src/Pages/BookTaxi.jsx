@@ -10,6 +10,10 @@ const BookTaxi = () => {
     const location = useLocation();
     const navigate = useNavigate();
     
+    useEffect(() => {
+        document.title = "Exotic | Foglalás Véglegesítése";
+    }, []);
+
     // Extract the data passed from the Taxi page
     const { car, startDate, endDate } = location.state || {};
 

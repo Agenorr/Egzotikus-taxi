@@ -12,6 +12,10 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Exotic | Galéria";
+  }, []);
+
+  useEffect(() => {
     axios.get('https://localhost:7065/api/gallery')
       .then(res => {
         console.log("Full Data Received:", res.data);

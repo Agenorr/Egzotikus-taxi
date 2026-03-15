@@ -6,7 +6,7 @@ export default function Footer() {
   const mainLinks = [
     { name: "Kezdőlap", path: "/" },
     { name: "Autóbérlés", path: "/CarRental" },
-    { name: "Taxi szolgálat", path: "/Taxi" },
+    { name: "Taxi Rendelés", path: "/Taxi" },
     { name: "Galéria", path: "/Gallery" },
     { name: "Rólunk", path: "/AboutUs" },
     { name: "Bérlési Feltételek", path: "/RentingInfo" }

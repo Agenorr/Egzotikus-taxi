@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,6 +9,11 @@ import abelKep from "../Img/rolunk_abel.jpg";
 import agenorKep from "../Img/rolunk_agenor.jpg";
 
 export default function AboutUs() {
+  
+  useEffect(() => {
+    document.title = "Exotic | Rólunk";
+  }, []);
+
   return (
     <>
       <Navbar />

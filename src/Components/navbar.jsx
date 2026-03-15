@@ -195,7 +195,7 @@ export default function Navbar() {
                             </ul>
                         </div>
 
-                        <Link to="/Taxi" className="sidebar-item" onClick={toggleSidebar}>Taxi szolgálat</Link>
+                        <Link to="/Taxi" className="sidebar-item" onClick={toggleSidebar}>Taxi Rendelés</Link>
                         <Link to="/Gallery" className="sidebar-item" onClick={toggleSidebar}>Galéria</Link>
                         <Link to="/AboutUs" className="sidebar-item" onClick={toggleSidebar}>Rólunk</Link>
                     </div>

@@ -7,6 +7,11 @@ import Footer from "../Components/footer";
 import '../Css/Base.css';
 
 const CarDetails = () => {
+
+    useEffect(() => {
+        document.title = "Exotic | Jármű Részletei";
+    }, []);
+
     const { id } = useParams(); 
     const location = useLocation();
     const navigate = useNavigate();

@@ -12,6 +12,11 @@ const verifyOrder = () => {
     const [status, setStatus] = useState('loading'); // 'loading', 'success', 'error'
     const [message, setMessage] = useState('Rendelés megerősítése folyamatban...');
 
+    // Fül szövegének beállítása
+    useEffect(() => {
+        document.title = "Exotic | Rendelés Megerősítése";
+    }, []);
+
     useEffect(() => {
         if (!token) {
             setStatus('error');

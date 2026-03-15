@@ -10,6 +10,10 @@ export default function Profile() {
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('main');
 
+  useEffect(() => {
+    document.title = "Exotic | Profil";
+  }, []);
+
   const navItems = [
     { id: "main", name: "Kezdőlap", icon: "🏠", path: "/profile", active: true },
     { id: "personal", name: "Személyes adatok", icon: "👤", path: "/personal-info" },

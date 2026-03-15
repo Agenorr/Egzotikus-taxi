@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Components/navbar';
@@ -8,6 +8,10 @@ import '../Css/Register.css';
 
 export default function register() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "Exotic | Regisztráció";
+    }, []);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -179,9 +183,6 @@ export default function register() {
                     </div>
                 </div>
             </div>
-
-
-
 
             <Footer />
         </div>

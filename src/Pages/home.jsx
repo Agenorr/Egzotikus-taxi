@@ -11,6 +11,10 @@ const Home = ({ serverData }) => {
     const [vehicles, setVehicles] = useState([]);
 
     useEffect(() => {
+        document.title = "Exotic | Kezdőlap";
+    }, []);
+
+    useEffect(() => {
         axios.get("https://localhost:7065/api/vehicles")
             .then(res =>{
                 const firstThree = res.data.slice(0,3);
