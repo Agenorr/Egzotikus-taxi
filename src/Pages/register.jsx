@@ -6,7 +6,7 @@ import Footer from '../Components/footer';
 
 import '../Css/Register.css';
 
-export default function Register() {
+export default function register() {
     const navigate = useNavigate();
 
     // Form State
