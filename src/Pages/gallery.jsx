@@ -28,13 +28,11 @@ export default function Gallery() {
     <div>
       <Navbar />
 
-      {/* Hero Section */}
       <section 
         id="home" 
         className="hero renting-hero text-center py-5 text-white" 
         style={{ background: `url(${require("../Img/galeria_kep.jpg")}) no-repeat center center / cover` }}
       >
-        {/* Sötétítések és alsó fehér fade */}
         <div className="hero-fade"></div>
 
         <div className="hero-content">
@@ -47,9 +45,11 @@ export default function Gallery() {
       </section>
 
       <div className="container my-5">
-        <div className="text-center mb-4">
-          <h1 className="highlight-text">Élményképek</h1>
-        </div>
+        
+        {/* === ITT VAN A TÖKÉLETESÍTETT CÍMSOR === */}
+        <h2 className="text-center mb-4 gallery-section-title">
+          Élményképek
+        </h2>
 
         {loading ? (
           <div className="d-flex flex-column align-items-center justify-content-center py-5" style={{ minHeight: '300px' }}>

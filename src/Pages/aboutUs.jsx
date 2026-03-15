@@ -4,9 +4,9 @@ import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Css/AboutUs.css";
 
-import roliKep from "../Img/rolunkslideshowroli.png";
-import abelKep from "../Img/rolunkslideshowabel.jpg";
-import agenorKep from "../Img/rolunkslideshowagenor.jpg";
+import roliKep from "../Img/rolunk_roli.png";
+import abelKep from "../Img/rolunk_abel.jpg";
+import agenorKep from "../Img/rolunk_agenor.jpg";
 
 export default function AboutUs() {
   return (
