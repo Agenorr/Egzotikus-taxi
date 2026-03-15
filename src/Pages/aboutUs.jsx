@@ -4,20 +4,29 @@ import Footer from "../Components/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Css/AboutUs.css";
 
-import roliKep from "../Img/rolunkslideshowroli.png";
-import abelKep from "../Img/rolunkslideshowabel.jpg";
-import agenorKep from "../Img/rolunkslideshowagenor.jpg";
+import roliKep from "../Img/rolunk_roli.png";
+import abelKep from "../Img/rolunk_abel.jpg";
+import agenorKep from "../Img/rolunk_agenor.jpg";
 
 export default function AboutUs() {
   return (
     <>
       <Navbar />
 
-      <section id="home" className="hero renting-hero text-center py-5 text-white" style={{background: `url(${require("../Img/gallery/galerialuxury.jpg")}) no-repeat center center / cover`}}>
-        <div className="hero-content">
-          <h1 className="renting-hero-title">Rólunk</h1>
-          <div className="renting-hero-accent" />
-          <p className="lead renting-hero-sub">
+      <section 
+        className="about-hero text-center text-white" 
+        style={{ 
+          // Ne felejtsd el ellenőrizni, hogy az about-bg.jpg ezen az útvonalon van-e!
+          background: `url(${require("../Img/rolunk_kep.jpg")}) no-repeat center center / cover` 
+        }}
+      >
+        {/* Ez a div felel az alsó fehér átmenetért */}
+        <div className="about-hero-fade"></div>
+
+        <div className="about-hero-content">
+          <h1 className="about-hero-title">Rólunk</h1>
+          <div className="about-hero-accent" />
+          <p className="lead about-hero-sub mt-3">
             Nem csupán autókat adunk bérbe. Élményt teremtünk minden egyes kilométeren.
           </p>
         </div>
@@ -50,7 +59,6 @@ export default function AboutUs() {
           </div>
         </section>
 
-
         {/* Rólunk */}
         <section className="section-card text-center">
           <h2 className="section-title">Rólunk</h2>
@@ -60,7 +68,6 @@ export default function AboutUs() {
             biztosítása, amely modern, rugalmas és teljes mértékben ügyfélközpontú.
           </p>
         </section>
-
 
         {/* Jövőkép */}
         <section className="section-card text-center">
@@ -72,25 +79,25 @@ export default function AboutUs() {
           </p>
         </section>
 
-              <div className="container mt-5 mb-5">
-        <div className="row text-center">
-          <div className="col-md-4 mb-4 renting-feature">
-            <i className="fa fa-car fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-            <h5 className="renting-feature-title">Különleges flotta</h5>
-            <p className="renting-feature-text">Magas minőségű kabrióktól a hyperautókig</p>
-          </div>
-          <div className="col-md-4 mb-4 renting-feature">
-            <i className="fa fa-phone fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-            <h5 className="renting-feature-title">Rugalmas ügyfélszolgálat</h5>
-            <p className="renting-feature-text">7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
-          </div>
-          <div className="col-md-4 mb-4 renting-feature">
-            <i className="fa fa-heart fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-            <h5 className="renting-feature-title">Kivételes szolgáltatás</h5>
-            <p className="renting-feature-text">Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+        <div className="container mt-5 mb-5">
+          <div className="row text-center">
+            <div className="col-md-4 mb-4 renting-feature">
+              <i className="fa fa-car fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
+              <h5 className="renting-feature-title">Különleges flotta</h5>
+              <p className="renting-feature-text">Magas minőségű kabrióktól a hyperautókig</p>
+            </div>
+            <div className="col-md-4 mb-4 renting-feature">
+              <i className="fa fa-phone fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
+              <h5 className="renting-feature-title">Rugalmas ügyfélszolgálat</h5>
+              <p className="renting-feature-text">7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+            </div>
+            <div className="col-md-4 mb-4 renting-feature">
+              <i className="fa fa-heart fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
+              <h5 className="renting-feature-title">Kivételes szolgáltatás</h5>
+              <p className="renting-feature-text">Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+            </div>
           </div>
         </div>
-      </div>
 
       </div>
       <Footer />

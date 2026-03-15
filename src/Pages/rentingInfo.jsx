@@ -39,7 +39,16 @@ const RentingInfo = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section id="home" className="hero renting-hero text-center py-5 text-white">
+      <section 
+        id="home" 
+        className="hero renting-hero text-center py-5 text-white"
+        style={{ 
+          // IDE ÍRD A BÉRLÉSI FELTÉTELEK HÁTTÉRKÉPÉNEK ÚTVONALÁT!
+          background: `url(${require("../Img/berlesifeltetelek_kep.jpg")}) no-repeat center center / cover` 
+        }}
+      >
+        <div className="hero-fade"></div>
+
         <div className="hero-content">
           <h1 className="renting-hero-title">Bérlési Feltételek</h1>
           <div className="renting-hero-accent" />
@@ -123,7 +132,6 @@ const RentingInfo = () => {
           </div>
         </div>
       </div>
-
 
       <Footer />
     </div>

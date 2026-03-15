@@ -7,7 +7,7 @@ import { AuthProvider } from './Context/AuthContext';
 import Home from './Pages/home';
 import CarRental from './Pages/carRental';
 import RentingInfo from './Pages/rentingInfo';
-import Register from './Pages/Register';
+import Register from './Pages/register';
 import Taxi from './Pages/taxi';
 import Gallery from './Pages/gallery';
 import AboutUs from './Pages/aboutUs';
@@ -63,7 +63,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
-
+/*
   useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
@@ -105,7 +105,7 @@ function App() {
       </div>
     );
   }
-
+*/
   return (
     <AuthProvider>
       <BrowserRouter>

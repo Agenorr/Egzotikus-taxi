@@ -3,54 +3,102 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 export default function Footer() {
-  return (
-    <footer style={{ backgroundColor: '#1a1a1a', color: 'white', padding: '20px 0'  }}>
-      <div className="container">
-        <div className="row">
+  const mainLinks = [
+    { name: "Kezdőlap", path: "/" },
+    { name: "Autóbérlés", path: "/CarRental" },
+    { name: "Taxi szolgálat", path: "/Taxi" },
+    { name: "Galéria", path: "/Gallery" },
+    { name: "Rólunk", path: "/AboutUs" },
+    { name: "Bérlési Feltételek", path: "/RentingInfo" }
+  ];
 
-          <div className="col-md-4 d-flex flex-column align-items-center">
+  return (
+    <footer style={{ backgroundColor: '#1a1a1a', borderTop: '1px solid #333', padding: '60px 0 20px 0' }}>
+      <div className="container">
+
+        {/* Hozzáadtam az align-items-center osztályt, így a Logó függőlegesen is tökéletesen középre kerül */}
+        <div className="row mb-5 align-items-center">
+
+          {/* 1. Oszlop: Logó (Vízszintesen is középre igazítva) */}
+          <div className="col-md-4 mb-5 mb-md-0 d-flex justify-content-center">
             <img
               src="/Assets/Exotic_logo.webp"
               alt="Exotic Logo"
-              style={{ width: '150px', marginBottom: '10px' }}
+              style={{ width: '160px', opacity: '0.9' }}
             />
           </div>
 
-          <div className="col-md-4 text-center">
-            <p style={{ margin: '5px 0' }}>
-              <i className="fa fa-instagram" style={{ fontSize: '20px', color: 'white' }} />{' '}
-              ExoticCarDealership
-            </p>
-            <p style={{ margin: '5px 0' }}>
-              <i className="fa fa-envelope" style={{ fontSize: '20px', color: 'white' }} />{' '}
-              Exotic@gmail.com
-            </p>
-            <p style={{ margin: '5px 0' }}>Ügyfélszolgálat: +36 30 000 0000</p>
-            <p style={{ margin: '5px 0' }}>Székhely: cím</p>
+          {/* 2. Oszlop: Navigáció (Középre igazított szöveg és kisebb sorköz) */}
+          <div className="col-md-4 mb-5 mb-md-0 d-flex flex-column align-items-center text-center">
+            <h5 style={{ color: '#fff', marginBottom: '20px', fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px' }}>
+              Navigáció
+            </h5>
+            {/* A gap-3 helyett gap-2 lett, hogy közelebb legyenek egymáshoz a linkek */}
+            <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }} className="d-flex flex-column gap-2">
+              {mainLinks.map((link, index) => (
+                <li key={index}>
+                  <a
+                    href={link.path}
+                    style={{ color: '#bbb', textDecoration: 'none', fontSize: '14px', transition: 'color 0.3s' }}
+                    onMouseOver={(e) => e.target.style.color = '#DAA520'}
+                    onMouseOut={(e) => e.target.style.color = '#bbb'}
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="col-md-4 d-flex justify-content-center">
-            <div>
-              <h5 style={{ marginBottom: '10px', color: 'white' }}>Follow us</h5>
-              <a href="#" className="me-3">
-                <i className="fa fa-facebook-square" style={{ fontSize: '25px', color: 'white' }} />
-              </a>
-              <a href="#" className="me-3">
-                <i className="fa fa-twitter-square" style={{ fontSize: '25px', color: 'white' }} />
-              </a>
-              <a href="#">
-                <i className="fa fa-instagram" style={{ fontSize: '25px', color: 'white' }} />
-              </a>
+          {/* 3. Oszlop: Kapcsolat (Középre igazítva) */}
+          <div className="col-md-4 d-flex flex-column align-items-center text-center">
+            <h5 style={{ color: '#fff', marginBottom: '20px', fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px' }}>
+              Kapcsolat
+            </h5>
+            {/* A w-100 biztosítja, hogy a sorok kitöltsék az oszlopot, és középre tudjanak igazodni */}
+            <div className="d-flex flex-column gap-2 w-100">
+
+              {/* Email - justify-content-center hozzáadva */}
+              <div className="d-flex justify-content-center align-items-center gap-1">
+                <div style={{ width: '20px', display: 'flex', justifyContent: 'center' }}>
+                  <i className="fa fa-envelope" style={{ color: '#DAA520', fontSize: '18px' }}></i>
+                </div>
+                <span style={{ fontSize: '14px', color: '#bbb', letterSpacing: '0.5px' }}>exoticrentals@gmail.com</span>
+              </div>
+
+              {/* Telefon - justify-content-center hozzáadva */}
+              <div className="d-flex justify-content-center align-items-center gap-1">
+                <div style={{ width: '20px', display: 'flex', justifyContent: 'center' }}>
+                  <i className="fa fa-phone" style={{ color: '#DAA520', fontSize: '18px' }}></i>
+                </div>
+                <span style={{ fontSize: '14px', color: '#bbb', letterSpacing: '0.5px' }}>+36 70 628 6383</span>
+              </div>
+
             </div>
           </div>
-
         </div>
 
-        <div className="row mt-3">
-          <div className="col-12 text-center">
-            <p style={{ fontSize: '12px', margin: 0 }}>
-              © 2026 Exotic. All rights reserved.
+        {/* Alsó rész: Copyright és ÁSZF */}
+        <div className="row" style={{ borderTop: '1px solid #2a2a2a', paddingTop: '20px' }}>
+          <div className="col-12 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+            <p style={{ fontSize: '13px', color: '#777', margin: 0 }}>
+              © {new Date().getFullYear()} Exotic. Minden jog fenntartva.
             </p>
+
+            <div style={{ fontSize: '13px' }}>
+              <a
+                href="/documents/exotic_autoberlesi_szerzodes_es_aszf.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#777', textDecoration: 'none', transition: 'color 0.3s', fontWeight: 'bold' }}
+                onMouseOver={(e) => e.target.style.color = '#DAA520'}
+                onMouseOut={(e) => e.target.style.color = '#777'}
+              >
+                ÁSZF
+              </a>
+            </div>
+
           </div>
         </div>
       </div>

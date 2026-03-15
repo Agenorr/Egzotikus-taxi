@@ -15,12 +15,10 @@ body {
   width: 90%;
   max-width: 1200px;
   margin: auto;
-  color: red;
 }
 
 /* ===== HERO ===== */
 .hero {
-  background: url('../Img/berlesifeltetelekkepUJ.jpg') no-repeat center center / cover;
   height: 500px;
   font-size: 1.2rem;
   color: white;

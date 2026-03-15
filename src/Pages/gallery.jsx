@@ -24,14 +24,17 @@ export default function Gallery() {
       });
   }, []);
 
-  // REMOVED: The early return is gone so Navbar/Footer can render.
-
   return (
     <div>
       <Navbar />
 
-      {/* Hero Section - Renders immediately */}
-      <section id="home" className="hero renting-hero text-center py-5 text-white" style={{ background: `url(${require("../Img/gallery/galeriaeconomy.jpg")}) no-repeat center center / cover` }}>
+      <section 
+        id="home" 
+        className="hero renting-hero text-center py-5 text-white" 
+        style={{ background: `url(${require("../Img/galeria_kep.jpg")}) no-repeat center center / cover` }}
+      >
+        <div className="hero-fade"></div>
+
         <div className="hero-content">
           <h1 className="renting-hero-title">Galéria</h1>
           <div className="renting-hero-accent" />
@@ -42,11 +45,12 @@ export default function Gallery() {
       </section>
 
       <div className="container my-5">
-        <div className="text-center mb-4">
-          <h1 className="highlight-text">Élményképek</h1>
-        </div>
+        
+        {/* === ITT VAN A TÖKÉLETESÍTETT CÍMSOR === */}
+        <h2 className="text-center mb-4 gallery-section-title">
+          Élményképek
+        </h2>
 
-        {/* LOADING STATE LOGIC STARTS HERE */}
         {loading ? (
           <div className="d-flex flex-column align-items-center justify-content-center py-5" style={{ minHeight: '300px' }}>
             <div className="spinner-border text-warning" role="status" style={{ width: '3rem', height: '3rem' }}>
@@ -55,7 +59,6 @@ export default function Gallery() {
             <p className="mt-3 text-muted">Képek betöltése...</p>
           </div>
         ) : (
-          /* ACTUAL CONTENT RENDERS WHEN LOADING IS FALSE */
           <div className="gallery-container">
             {images.length > 0 ? (
               images.map((img) => (
@@ -67,14 +70,11 @@ export default function Gallery() {
                   onClick={() => setModalImg(img.imageUrl)}
                 >
                   <img src={img.imageUrl} alt={img.title || "Galéria Kép"} />
-
                   {img.title && (
                     <div className="gallery-title-overlay">
                       {img.title}
                     </div>
                   )}
-                  
-
                   <div className="gallery-overlay">Kép megnézése</div>
                 </div>
               ))
@@ -85,7 +85,6 @@ export default function Gallery() {
             )}
           </div>
         )}
-        {/* LOADING STATE LOGIC ENDS HERE */}
 
         <div className="cta-container">
           <button className="cta-btn" onClick={() => (window.location.href = "carRental")}>
