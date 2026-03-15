@@ -39,7 +39,6 @@ export default function Profile() {
     <div>
       <Navbar />
       <div className="layout">
-        {/* LEFT SIDEBAR */}
         <aside className="google-sidebar">
           <div className="sidebar-brand">Felhasználó</div>
           <nav className="sidebar-nav">
@@ -66,6 +65,7 @@ export default function Profile() {
   );
 }
 
+// --- HOME TAB ---
 function HomeTab({user, setActiveTab}) {
   return (
     <div>
@@ -86,7 +86,6 @@ function HomeTab({user, setActiveTab}) {
         <p className="profile-email">{user?.email || "teszt@tester.com"}</p>
       </header>
 
-      {/* Search Bar */}
       <div className="google-search-container">
         <div className="search-pill">
           <span className="search-icon">🔍</span>
@@ -94,7 +93,6 @@ function HomeTab({user, setActiveTab}) {
         </div>
       </div>
 
-      {/* Quick Action Buttons (Chips) */}
       <div className="chip-container">
         <button className="google-chip" onClick={()=> setActiveTab('personal')}>Adataim változtatása</button>
         <button className="google-chip" onClick={()=> setActiveTab('security')}>Jelszó változtatás</button>
@@ -104,6 +102,7 @@ function HomeTab({user, setActiveTab}) {
   );
 }
 
+// --- PERSONAL TAB ---
 function PersonalTab({ user }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -114,13 +113,8 @@ function PersonalTab({ user }) {
     license: "Betöltés...",
   });
 
-  const isEmailVerified = 
-    user?.is_verified === 1 || 
-    user?.is_verified === true || 
-    user?.isVerified === 1 || 
-    user?.isVerified === true;
+  const isEmailVerified = user?.is_verified === 1 || user?.is_verified === true;
 
-  // FETCH DATA FROM BACKEND WHEN TAB OPENS
   useEffect(() => {
     if (user && user.id) {
       axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
@@ -134,11 +128,6 @@ function PersonalTab({ user }) {
         })
         .catch(err => {
           console.error("Hiba a profil adatok lekérésekor:", err);
-          setFormData({
-            name: "Hiba történt",
-            phone: "Hiba történt",
-            license: "Hiba történt",
-          });
           setIsLoading(false);
         });
     }
@@ -149,20 +138,6 @@ function PersonalTab({ user }) {
   };
 
   const handleSave = () => {
-    // Optional: Send data back to the server when "Mentés" is clicked
-    /*
-    axios.put(`https://localhost:7065/api/user/${user.id}/profile`, {
-      fullName: formData.name,
-      phoneNumber: formData.phone,
-      licenseNumber: formData.license
-    })
-    .then(res => {
-      console.log("Sikeres mentés!");
-      setIsEditing(false);
-    })
-    .catch(err => console.error("Hiba a mentés során", err));
-    */
-    
     console.log("Mentendő adatok:", formData);
     setIsEditing(false);
   };
@@ -178,67 +153,34 @@ function PersonalTab({ user }) {
         <div className="card-header">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>Vezetői profil</h2>
-            <div>
-              <button 
-                className="google-chip" 
-                onClick={isEditing ? handleSave : () => setIsEditing(true)}
-                style={{borderColor: isEditing ? '#4CAF50' : '#5f6368'}}
-                disabled={isLoading}
-              >
-                {isEditing ? "Mentés" : "Szerkesztés"}
-              </button>
-            </div>
+            <button 
+              className="google-chip" 
+              onClick={isEditing ? handleSave : () => setIsEditing(true)}
+              disabled={isLoading}
+            >
+              {isEditing ? "Mentés" : "Szerkesztés"}
+            </button>
           </div>
         </div>
 
         <div className="info-list">
           <div className="info-row">
             <div className="info-label">TELJES NÉV</div>
-            <div className="info-value">
-              {isEditing ? (
-                <input className="edit-input" name="name" value={formData.name} onChange={handleChange} />
-              ) : (
-                formData.name
-              )}
-            </div>
-            {!isEditing && <span className="info-arrow">❯</span>}
+            <div className="info-value">{isEditing ? <input className="edit-input" name="name" value={formData.name} onChange={handleChange} /> : formData.name}</div>
           </div>
-          
           <div className="info-row">
             <div className="info-label">TELEFONSZÁM</div>
-            <div className="info-value">
-              {isEditing ? (
-                <input className="edit-input" name="phone" value={formData.phone} onChange={handleChange} />
-              ) : (
-                formData.phone
-              )}
-            </div>
-            {!isEditing && <span className="info-arrow">❯</span>}
+            <div className="info-value">{isEditing ? <input className="edit-input" name="phone" value={formData.phone} onChange={handleChange} /> : formData.phone}</div>
           </div>
-          
           <div className="info-row">
             <div className="info-label">JOGOSÍTVÁNY SZÁMA</div>
-            <div className="info-value">
-              {isEditing ? (
-                <input className="edit-input" name="license" value={formData.license} onChange={handleChange} />
-              ) : (
-                formData.license
-              )}
-            </div>
-            {!isEditing && <span className="info-arrow">❯</span>}
+            <div className="info-value">{isEditing ? <input className="edit-input" name="license" value={formData.license} onChange={handleChange} /> : formData.license}</div>
           </div>
-          
           <div className="info-row">
-            <div className="info-label">EMAIL (Nem szerkeszthető)</div>
-            <div className="info-value" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span>{user?.email || "Nincs megadva"}</span>
-              {isEmailVerified ? (
-                <b style={{ color: '#4CAF50', fontSize: '18px' }}>✓</b>
-              ) : (
-                <b style={{ color: '#F44336', fontSize: '18px' }}>✗</b>
-              )}
+            <div className="info-label">EMAIL</div>
+            <div className="info-value">
+              {user?.email} {isEmailVerified ? <b style={{ color: '#4CAF50' }}>✓</b> : <b style={{ color: '#F44336' }}>✗</b>}
             </div>
-            <span className="info-arrow">🔒</span>
           </div>
         </div>
       </section>
@@ -246,6 +188,7 @@ function PersonalTab({ user }) {
   );
 }
 
+// --- SECURITY TAB ---
 function SecurityTab({user}){
   return (
     <div className="personal-info-container">
@@ -253,7 +196,6 @@ function SecurityTab({user}){
         <h1>Biztonság és bejelentkezés</h1>
         <p>A fiókod védelmét szolgáló beállítások.</p>
       </header>
-
       <section className="info-card">
         <div className="card-header"><h2>Jelszó módosítása</h2></div>
         <div className="info-list">
@@ -262,66 +204,118 @@ function SecurityTab({user}){
             <div className="info-value">••••••••</div>
             <button className="google-chip">Módosítás</button>
           </div>
-          <div className="info-row">
-            <div className="info-label">KÉTLÉPCSŐS AZONOSÍTÁS</div>
-            <div className="info-value">Kikapcsolva</div>
-            <button className="google-chip">Bekapcsolás</button>
-          </div>
         </div>
       </section>
     </div>
   );
 }
 
-function StatisticsTab({user}){
-  const rentals = [
-    { id: 1, car: "Tesla Model 3", startDate: "2026. Márc. 01.", endDate: "2026. Márc. 03.", cost: "120 000 Ft", status: "Befejezett" },
-    { id: 2, car: "BMW M4 Competition", startDate: "2026. Ápr. 15.", endDate: "2026. Ápr. 16.", cost: "85 000 Ft", status: "Közelgő" },
-  ];
+// --- STATISTICS TAB (THE ONE WITH THE FINISH LOGIC) ---
+function StatisticsTab({ user }) {
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return(
+  useEffect(() => {
+    if (user && user.id) {
+      axios.get(`https://localhost:7065/api/user/${user.id}/orders`)
+        .then(res => {
+          setOrders(res.data);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error("Hiba a bérlések lekérésekor:", err);
+          setIsLoading(false);
+        });
+    }
+  }, [user]);
+
+  const handleFinishOrder = async (orderId) => {
+    if (!window.confirm("Biztosan lezárja ezt a bérlést? (Az autó újra elérhető lesz)")) return;
+
+    try {
+        await axios.post(`https://localhost:7065/api/orders/${orderId}/finish`);
+        alert("Bérlés befejezve!");
+        // Update local state so UI reflects completion immediately
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: 3 } : o));
+    } catch (error) {
+        console.error("Hiba a lezárás során:", error);
+        alert("Hiba történt a lezárás során.");
+    }
+  };
+
+  const getStatusInfo = (status) => {
+    switch (status) {
+      case 1: return { text: "Várakozás megerősítésre", class: "status-pending" };
+      case 2: return { text: "Aktív", class: "status-active" };
+      case 3: return { text: "Befejezett", class: "status-completed" };
+      default: return { text: "Ismeretlen", class: "status-unknown" };
+    }
+  };
+
+  const totalSpent = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+
+  if (isLoading) return <div className="p-5 text-center text-white">Adatok betöltése...</div>;
+
+  return (
     <div className="personal-info-container">
       <header className="tab-header">
         <h1>Statisztikák és Bérlések</h1>
         <p>A korábbi és közelgő bérléseid áttekintése.</p>
       </header>
 
-      <div style={{display: 'flex', gap: '20px', marginBottom: '24px'}}>
-        <div className="info-card" style={{flex: 1, padding: '24px', textAlign: 'center'}}>
-          <h2 style={{color: '#DAA520', fontSize: '32px', margin: '0 0 10px 0'}}>2</h2>
-          <p style={{color: '#9aa0a6', margin: 0}}>Összes bérlés</p>
+      <div style={{ display: 'flex', gap: '20px', marginBottom: '24px' }}>
+        <div className="info-card" style={{ flex: 1, padding: '24px', textAlign: 'center' }}>
+          <h2 style={{ color: '#DAA520', fontSize: '32px', margin: '0 0 10px 0' }}>{orders.length}</h2>
+          <p style={{ color: '#9aa0a6', margin: 0 }}>Összes bérlés</p>
         </div>
-        <div className="info-card" style={{flex: 1, padding: '24px', textAlign: 'center'}}>
-          <h2 style={{color: '#DAA520', fontSize: '32px', margin: '0 0 10px 0'}}>205 000 Ft</h2>
-          <p style={{color: '#9aa0a6', margin: 0}}>Eddigi költés</p>
+        <div className="info-card" style={{ flex: 1, padding: '24px', textAlign: 'center' }}>
+          <h2 style={{ color: '#DAA520', fontSize: '32px', margin: '0 0 10px 0' }}>{totalSpent.toLocaleString('hu-HU')} Ft</h2>
+          <p style={{ color: '#9aa0a6', margin: 0 }}>Eddigi költés</p>
         </div>
       </div>
 
       <section className="info-card">
         <div className="card-header"><h2>Bérlési előzmények</h2></div>
         <div className="info-list">
-          {rentals.map((rental) => (
-            <div className="rental-item" key={rental.id}>
-              <div>
-                <div className="rental-car">{rental.car}</div>
-                <div className="rental-details">{rental.startDate} - {rental.endDate} • {rental.cost}</div>
+          {orders.map((order) => {
+            const statusInfo = getStatusInfo(order.status);
+            return (
+              <div className="rental-item" key={order.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  {order.imageUrl && <img src={order.imageUrl} alt="car" style={{ width: '60px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />}
+                  <div>
+                    <div className="rental-car">{order.brand} {order.model}</div>
+                    <div className="rental-details">
+                      {new Date(order.startDate).toLocaleDateString('hu-HU')} - {new Date(order.endDate).toLocaleDateString('hu-HU')} • {order.totalPrice.toLocaleString('hu-HU')} Ft
+                    </div>
+                  </div>
+                </div>
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div className={`rental-status ${statusInfo.class}`}>{statusInfo.text}</div>
+                  
+                  {/* FINISH BUTTON: Only visible for Active (Status 2) orders */}
+                  {order.status === 2 && (
+                    <button 
+                      className="google-chip" 
+                      onClick={() => handleFinishOrder(order.id)}
+                      style={{ color: 'red', borderColor: 'red', fontSize: '12px' }}
+                    >
+                      Lemondás
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className={`rental-status status-${rental.status === 'Közelgő' ? 'active' : 'completed'}`}>
-                {rental.status}
-              </div>
-            </div>
-          ))}
-          {rentals.length === 0 && (
-            <div style={{padding: '24px', textAlign: 'center', color: '#9aa0a6'}}>
-              Még nem béreltél autót.
-            </div>
-          )}
+            );
+          })}
+          {orders.length === 0 && <div style={{ padding: '24px', textAlign: 'center', color: '#9aa0a6' }}>Még nem béreltél autót.</div>}
         </div>
       </section>
     </div>
   );
 }
 
+// --- PAYMENT TAB ---
 function PaymentTab({user}){
   return(
     <div className="personal-info-container">
@@ -329,7 +323,6 @@ function PaymentTab({user}){
         <h1>Fizetési módok</h1>
         <p>Kezeld a mentett bankkártyáidat a gyorsabb fizetéshez.</p>
       </header>
-
       <section className="info-card">
         <div className="card-header"><h2>Mentett kártyák</h2></div>
         <div className="info-list">
@@ -341,9 +334,6 @@ function PaymentTab({user}){
             </div>
             <button className="google-chip">Törlés</button>
           </div>
-        </div>
-        <div style={{padding: '20px', textAlign: 'center', borderTop: '1px solid #3c4043'}}>
-          <button className="google-chip" style={{color: '#DAA520', borderColor: '#DAA520'}}>+ Új kártya hozzáadása</button>
         </div>
       </section>
     </div>
