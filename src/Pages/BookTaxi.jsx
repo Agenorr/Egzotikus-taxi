@@ -15,6 +15,11 @@ const BookTaxi = () => {
     const [selectedDriverId, setSelectedDriverId] = useState('1');
     const [isLoading, setIsLoading] = useState(true);
 
+    // Fül szövegének beállítása
+    useEffect(() => {
+        document.title = "Exotic | Foglalás Véglegesítése";
+    }, []);
+
     const mockDrivers = [
         { id: 1, name: 'Kovács Péter', experience: '5 év', rating: 4.9 },
         { id: 2, name: 'Nagy Anna', experience: '3 év', rating: 4.7 },

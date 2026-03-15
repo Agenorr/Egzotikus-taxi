@@ -9,6 +9,11 @@ import '../Css/Base.css';
 const Taxi = () => {
   const navigate = useNavigate(); 
   
+  // Fül szövegének beállítása
+  useEffect(() => {
+    document.title = "Exotic | Taxi Rendelés";
+  }, []);
+
   const [pickupDate, setPickupDate] = useState('');
   const [pickupTime, setPickupTime] = useState('12:00'); 
   const [pickupLocation, setPickupLocation] = useState('');
