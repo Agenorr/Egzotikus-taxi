@@ -12,7 +12,7 @@ const BookTaxi = () => {
     const { car, pickupDate, pickupTime, pickupLocation, dropoffLocation } = location.state || {};
 
     const [carDetails, setCarDetails] = useState(null);
-    const [selectedDriverId, setSelectedDriverId] = useState('1'); 
+    const [selectedDriverId, setSelectedDriverId] = useState('1');
     const [isLoading, setIsLoading] = useState(true);
 
     const mockDrivers = [
@@ -78,114 +78,6 @@ const BookTaxi = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
-        </div>
-    );
-};
-
-export default BookTaxi;    // Fallback to car.price_per_day if the detailed endpoint uses a different casing
-    const carDailyPrice = carDetails.pricePerDay || carDetails.price_per_day || car.price_per_day;
-    const carCost = carDailyPrice * diffDays;
-    
-    const totalCost = carCost + driverCost;
-
-    return (
-        
-        <div className="booking-page-container">
-            <Navbar />
-            
-            <div className="booking-content">
-                <h1 className="booking-title">Foglalás Véglegesítése</h1>
-                
-                <div className="booking-grid">
-                    {/* Left Column: Car Details */}
-                    <div className="booking-left">
-                        <img 
-                            src={carDetails.images ? carDetails.images[0].imageUrl : car.image_url} 
-                            alt={carDetails.model} 
-                            className="booking-main-image" 
-                        />
-                        <div className="booking-car-info">
-                            <h2>{carDetails.brand} {carDetails.model}</h2>
-                            <p className="booking-description">{carDetails.description}</p>
-                            
-                            <ul className="specs-list">
-                                <li><strong>Kategória:</strong> {carDetails.category}</li>
-                                {carDetails.hp && <li><strong>Lóerő:</strong> {carDetails.hp} HP</li>}
-                                {carDetails.topSpeed && <li><strong>Végsebesség:</strong> {carDetails.topSpeed} km/h</li>}
-                                {carDetails.acceleration && <li><strong>Gyorsulás 0-100:</strong> {carDetails.acceleration}</li>}
-                            </ul>
-                        </div>
-                    </div>
-
-                    {/* Right Column: Calculations & Form */}
-                    <div className="booking-right">
-                        <div className="summary-box">
-                            <h3>Foglalás Részletei</h3>
-                            <div className="summary-row">
-                                <span>Átvétel:</span>
-                                <span>{startDate}</span>
-                            </div>
-                            <div className="summary-row">
-                                <span>Visszavétel:</span>
-                                <span>{endDate}</span>
-                            </div>
-                            <div className="summary-row">
-                                <span>Időtartam:</span>
-                                <span>{diffDays} nap</span>
-                            </div>
-                            <hr />
-                            
-                            {/* Driver Selection */}
-                            <div className="driver-selection">
-                                <label>Válasszon sofőrt (Opcionális)</label>
-                                <select 
-                                    value={selectedDriverId} 
-                                    onChange={(e) => setSelectedDriverId(e.target.value)}
-                                    className="driver-select"
-                                >
-                                    <option value="" disabled>Kérjük, válasszon...</option>
-                                    {mockDrivers.map(driver => (
-                                        <option key={driver.id} value={driver.id}>
-                                            {driver.name} {driver.dailyFee > 0 ? `(+$${driver.dailyFee}/nap)` : ''}
-                                        </option>
-                                    ))}
-                                </select>
-                                
-                                {selectedDriver && selectedDriver.dailyFee > 0 && (
-                                    <div className="driver-details-snippet">
-                                        Értékelés: ⭐{selectedDriver.rating} | Tapasztalat: {selectedDriver.experience}
-                                    </div>
-                                )}
-                            </div>
-
-                            <hr />
-                            
-                            {/* Price Breakdown */}
-                            <div className="summary-row">
-                                <span>Autó bérleti díj:</span>
-                                <span>${carCost.toFixed(2)}</span>
-                            </div>
-                            {driverCost > 0 && (
-                                <div className="summary-row">
-                                    <span>Sofőr díj:</span>
-                                    <span>${driverCost.toFixed(2)}</span>
-                                </div>
-                            )}
-                            
-                            <div className="summary-row total-row">
-                                <span>Becsült Végösszeg:</span>
-                                <span>${totalCost.toFixed(2)}</span>
-                            </div>
-
-                            <button className="confirm-booking-btn" onClick={() => alert("Foglalási kérelem elküldve a szervernek!")}>
-                                Foglalás Megerősítése
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <Footer />
         </div>
     );
