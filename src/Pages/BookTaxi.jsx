@@ -69,6 +69,7 @@ const BookTaxi = () => {
     const totalCost = carCost + driverCost;
 
     return (
+        
         <div className="booking-page-container">
             <Navbar />
             
