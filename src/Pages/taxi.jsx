@@ -3,34 +3,42 @@ import Footer from "../Components/footer"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import '../Css/Taxi.css';
-import '../Css/Base.css';
+import '../Css/Taxi.css'; 
+import '../Css/Base.css';    
 
 const Taxi = () => {
-  const navigate = useNavigate();
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const navigate = useNavigate(); 
+  
+  const [pickupDate, setPickupDate] = useState('');
+  const [pickupTime, setPickupTime] = useState('12:00'); 
+  const [pickupLocation, setPickupLocation] = useState('');
+  const [dropoffLocation, setDropoffLocation] = useState('');
+  
   const [availableCars, setAvailableCars] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedCar, setSelectedCar] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(''); 
   const [isSearching, setIsSearching] = useState(false);
 
-  // FOOLPROOF CALENDAR: Get today's date in YYYY-MM-DD format based on local time
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  const today = `${year}-${month}-${day}`;
+  const today = new Date().toISOString().split('T')[0];
+
+  // Generates military time options (00:00 - 23:30)
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let hour = 0; hour < 24; hour++) {
+      const h = hour.toString().padStart(2, '0');
+      times.push(`${h}:00`);
+      times.push(`${h}:30`);
+    }
+    return times;
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!startDate || !endDate) {
-      alert("Kérjük, válassza ki az átvétel és a visszavétel dátumát is.");
+    if (!pickupDate || !pickupTime || !pickupLocation || !dropoffLocation) {
+      alert("Kérjük, töltsön ki minden mezőt.");
       return;
     }
 
     setIsSearching(true);
-
     try {
       const response = await axios.get('https://localhost:7065/api/vehicles');
       const data = response.data;
@@ -41,84 +49,95 @@ const Taxi = () => {
         model: car.model,
         category: car.category || 'Egyéb',
         image_url: car.images && car.images.length > 0 ? car.images[0].imageUrl : '',
-        price_per_day: car.pricePerDay || 0,
-        description: car.description || `${car.brand} ${car.model} - ${car.category}`
+        price_per_day: car.pricePerDay || 0, 
+        description: car.description || `${car.brand} ${car.model}`
       }));
 
       setAvailableCars(formattedCars);
-
     } catch (error) {
-      console.error("Hiba történt a járművek lekérdezésekor:", error);
-      alert("Nem sikerült csatlakozni a szerverhez a járművek kereséséhez.");
+      console.error("Hiba:", error);
     } finally {
       setIsSearching(false);
     }
   };
 
   const handleBookCar = (car) => {
-    if (!startDate || !endDate) {
-      alert("Kérjük, válassza ki az átvétel és a visszavétel dátumát a keresőben a foglalás előtt!");
-      return;
-    }
-    navigate('/book-taxi', { state: { car, startDate, endDate } });
+    navigate('/book-taxi', { 
+      state: { car, pickupDate, pickupTime, pickupLocation, dropoffLocation } 
+    });
   };
 
   const uniqueCategories = [...new Set(availableCars.map(car => car.category).filter(Boolean))];
-
-  const filteredCars = selectedCategory
+  const filteredCars = selectedCategory 
     ? availableCars.filter(car => car.category === selectedCategory)
     : availableCars;
-
+  
   return (
-    <div>
-      <Navbar />
-      <div className="rentals-container">
-
-        <div className="rentals-header">
-          <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
-        </div>
-
-        <div className="search-form-container">
-          <form onSubmit={handleSearch} className="search-form">
-            <div className="form-group">
-              <label>Átvétel Dátuma</label>
-              <input
-                type="date"
-                className="date-input"
-                value={startDate}
-                min={today} // <-- Prevents picking past dates
-                onChange={(e) => {
-                  const newStartDate = e.target.value;
-                  setStartDate(newStartDate);
-                  // <-- Auto-adjust endDate if the new startDate pushes past it
-                  if (endDate && newStartDate > endDate) {
-                    setEndDate(newStartDate);
-                  }
-                }}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Visszavétel Dátuma</label>
-              <input
-                type="date"
-                className="date-input"
-                value={endDate}
-                min={startDate || today} // <-- End date can never be before start date (or today)
-                onChange={(e) => setEndDate(e.target.value)}
-                required
-              />
-            </div>
-            <div className="search-button-wrapper">
-              <button type="submit" className="search-submit-btn">
-                {isSearching ? 'Flotta Keresése...' : 'Elérhető Járművek Keresése'}
-              </button>
-            </div>
-          </form>
-        </div>
-
+    <div><Navbar/>
+    <div className="rentals-container">
+      
+      
+      <div className="rentals-header">
+        <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
       </div>
-      <Footer />
+
+      <div className="search-form-container">
+        <form onSubmit={handleSearch} className="search-form">
+          <div className="form-group">
+            <label>Felvétel Helye</label>
+            <input type="text" className="date-input" value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label>Leadás Helye</label>
+            <input type="text" className="date-input" value={dropoffLocation} onChange={(e) => setDropoffLocation(e.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label>Dátum</label>
+            <input type="date" className="date-input" min={today} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label>Időpont (24h)</label>
+            <select className="date-input" value={pickupTime} onChange={(e) => setPickupTime(e.target.value)}>
+              {generateTimeOptions().map(t => <option key={t} value={t}>{t}</option>)}
+            </select>
+          </div>
+          <div className="search-button-wrapper">
+            <button type="submit" className="search-submit-btn">
+              {isSearching ? 'Keresés...' : 'Elérhető Járművek Keresése'}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {availableCars.length > 0 && (
+        <div className="filter-container">
+          <select className="category-filter" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="">Minden Kategória</option>
+            {uniqueCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+          </select>
+        </div>
+      )}
+
+      <div className="results-section">
+        <div className="results-grid">
+          {filteredCars.map((car) => (
+            <div key={car.id} className="car-card">
+              <div className="car-image-container">
+                <img src={car.image_url} alt={car.model} className="car-image" />
+              </div>
+              <div className="car-details">
+                <h3 className="car-title">{car.brand} {car.model}</h3>
+                <div className="car-footer">
+                  <span className="car-price">${car.price_per_day}<span>/út</span></span>
+                  <button onClick={() => handleBookCar(car)} className="book-now-btn">Foglalás Most</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Footer/>
+    </div>
     </div>
   );
 };
