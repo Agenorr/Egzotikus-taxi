@@ -16,6 +16,7 @@ import CarDetails from './Pages/carDetails';
 import VerifyEmail from './Pages/VerifyEmail';
 import VerificationWidget from './Components/VerificationWidget';
 import BookTaxi from './Pages/BookTaxi'; 
+import VerifyOrder from './Pages/verifyOrder';
 
 function AnimatedRoutes({ data }) {
   const location = useLocation();
@@ -62,7 +63,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isOffline, setIsOffline] = useState(false);
   const [data, setData] = useState(null);
-/*
+
   useEffect(() => {
     fetch('https://localhost:7065/api/status')
       .then(res => {
@@ -104,7 +105,7 @@ function App() {
       </div>
     );
   }
-*/
+
   return (
     <AuthProvider>
       <BrowserRouter>
