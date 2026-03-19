@@ -25,6 +25,7 @@ namespace ExoticBackend.Data
                 entity.Property(e => e.FullName).HasColumnName("full_name");
                 entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
                 entity.Property(e => e.Password).HasColumnName("password");
+                entity.Property(entity => entity.ProfilePicture).HasColumnName("profile_picture");
                 entity.Property(e => e.Clearance).HasColumnName("clearance");
                 entity.Property(e => e.Created_At).HasColumnName("created_at");
                 entity.Property(e => e.Email).HasColumnName("email");

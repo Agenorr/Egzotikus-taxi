@@ -505,6 +505,45 @@ namespace ExoticBackEnd
                 return Results.Ok(new { message = "Profil sikeresen frissítve!" });
             });
 
+            //Profile picture upload
+
+            app.MapPost("/api/users/{id}/upload-pfp", async (int id, IFormFile file, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FindAsync(id);
+                if (user == null) return Results.NotFound("User not found.");
+
+                if (file == null || file.Length == 0) return Results.BadRequest("No file uploaded.");
+
+                using var ms = new MemoryStream();
+                await file.CopyToAsync(ms);
+
+                // Store the raw bytes in the DB
+                user.ProfilePicture = ms.ToArray();
+
+                await db.SaveChangesAsync();
+                return Results.Ok(new { message = "Kép elmentve!" });
+            }).DisableAntiforgery();
+
+            app.MapGet("/api/users/{id}/profile", async (int id, ExoticDbContext db) =>
+            {
+                var user = await db.Users
+                    .Where(u => u.Id == id)
+                    .Select(u => new UserDto
+                    {
+                        Id = u.Id,
+                        Username = u.Username,
+                        Email = u.Email,
+                        FullName = u.FullName,
+                        // Convert the BLOB (byte[]) to a Base64 string for React
+                        ProfilePicture = u.ProfilePicture != null
+                            ? Convert.ToBase64String(u.ProfilePicture)
+                            : null
+                    })
+                    .FirstOrDefaultAsync();
+
+                return user is not null ? Results.Ok(user) : Results.NotFound();
+            });
+
             app.Run();
         }
     }

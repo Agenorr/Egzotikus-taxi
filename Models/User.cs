@@ -23,6 +23,7 @@ namespace ExoticBackend.Models
 
         [Phone]
         public string PhoneNumber { get; set; } = string.Empty;
+        public byte[]? ProfilePicture { get; set; }
 
         // --- Rental Specific Data ---
 
