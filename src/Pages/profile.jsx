@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../Context/AuthContext';
 import '../Css/Profile.css';
@@ -77,10 +77,14 @@ export default function Profile() {
   );
 }
 
-// --- HOME TAB (With Search Palette) ---
+// --- HOME TAB (With Search Palette & Avatar Upload) ---
 function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  
+  // Avatar states
+  const fileInputRef = useRef(null);
+  const [profileImg, setProfileImg] = useState(null);
 
   const searchDatabase = [
     { label: "Teljes név", tab: "personal", targetId: "field-name", keywords: ["név", "adat"] },
@@ -90,6 +94,53 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
     { label: "Jelszó módosítása", tab: "security", targetId: "field-password", keywords: ["belépés", "védelem"] },
     { label: "Bérlési előzmények", tab: "stats", targetId: "field-history", keywords: ["autó", "pénz", "költség"] },
   ];
+
+  // 1. Fetch the user's profile picture when the component mounts
+  useEffect(() => {
+    if (user?.id) {
+      axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
+        .then(res => {
+          if (res.data.profilePictureBase64) {
+            setProfileImg(`data:image/jpeg;base64,${res.data.profilePictureBase64}`);
+          }
+        })
+        .catch(err => console.error("Hiba a profilkép betöltésekor:", err));
+    }
+  }, [user]);
+
+  // 2. Trigger the hidden file input
+  const handleAvatarClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // 3. Handle the file upload process
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("A kép mérete nem haladhatja meg a 2MB-ot!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      await axios.post(`https://localhost:7065/api/users/${user.id}/upload-pfp`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      
+      // Optimistic Update: Show the image immediately
+      const reader = new FileReader();
+      reader.onloadend = () => setProfileImg(reader.result);
+      reader.readAsDataURL(file);
+      
+    } catch (err) {
+      console.error(err);
+      alert("Hiba történt a kép feltöltésekor.");
+    }
+  };
 
   useEffect(() => {
     if (!searchTerm.trim()) {
@@ -106,9 +157,34 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   return (
     <div>
       <header className="profile-header text-center">
-        <div className="avatar-wrapper mx-auto">
-          <div className="avatar-main">{user?.username?.charAt(0).toUpperCase() || "U"}</div>
+        {/* Hidden File Input */}
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          style={{ display: 'none' }} 
+          accept="image/*" 
+          onChange={handleFileChange} 
+        />
+
+        {/* Clickable Avatar Wrapper */}
+        <div 
+          className="avatar-wrapper mx-auto" 
+          onClick={handleAvatarClick} 
+          style={{ cursor: 'pointer', position: 'relative', overflow: 'hidden', borderRadius: '50%', width: '120px', height: '120px' }}
+        >
+          {profileImg ? (
+            <img src={profileImg} alt="Profil" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <div className="avatar-main" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {user?.username?.charAt(0).toUpperCase() || "U"}
+            </div>
+          )}
+          {/* Hover overlay hint (Requires the CSS provided earlier) */}
+          <div className="avatar-overlay" style={{ position: 'absolute', bottom: 0, width: '100%', background: 'rgba(0,0,0,0.9)', color: '#fff', fontSize: '0.8rem', padding: '4px 0', textAlign: 'center' }}>
+            Módosítás
+          </div>
         </div>
+
         <h1 className="profile-name mt-3">{user?.username}</h1>
         <p className="profile-email">{user?.email}</p>
       </header>
@@ -321,8 +397,4 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
       </section>
     </div>
   );
-}
-
-function PaymentTab() {
-    return <div className="p-5 text-center">Fizetési módok hamarosan...</div>;
 }
