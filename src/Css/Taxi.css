@@ -54,8 +54,25 @@
 }
 
 .search-button-wrapper { grid-column: span 2; margin-top: 10px; }
-.search-submit-btn { width: 100%; padding: 12px; background: #DAA520; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
-.search-submit-btn:hover { background: #b8860b; }
+.search-submit-btn { 
+    width: 100%; 
+    padding: 12px; 
+    background: #DAA520; 
+    color: #1a1a1a;
+    border: none; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2);
+}
+
+.search-submit-btn:hover { 
+    background: #b8860b; 
+    color: #1a1a1a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
+}
 
 /* --- Category Filter Design --- */
 .filter-container {
@@ -225,5 +242,5 @@
 
 .quick-call-number i {
     margin-right: 12px;
-    font-size: 1.3rem;
+    font-size: 1.3rem; 
 }
