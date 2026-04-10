@@ -9,10 +9,9 @@ const verifyOrder = () => {
     const navigate = useNavigate();
     const token = searchParams.get('token');
     
-    const [status, setStatus] = useState('loading'); // 'loading', 'success', 'error'
+    const [status, setStatus] = useState('loading');
     const [message, setMessage] = useState('Rendelés megerősítése folyamatban...');
 
-    // Fül szövegének beállítása
     useEffect(() => {
         document.title = "Exotic | Rendelés Megerősítése";
     }, []);
@@ -24,13 +23,11 @@ const verifyOrder = () => {
             return;
         }
 
-        // Send the token to the backend
         axios.post(`https://localhost:7065/api/orders/verify?token=${token}`)
             .then(response => {
                 setStatus('success');
                 setMessage('A bérlést sikeresen megerősítette! A rendelés most már aktív.');
                 
-                // Optional: Auto-redirect to Profile after 3 seconds
                 setTimeout(() => navigate('/Profile'), 3000);
             })
             .catch(error => {
