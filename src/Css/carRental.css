@@ -2,19 +2,67 @@
   max-width: 600px;
   margin: 50px auto;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #333;
   border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #252525;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   margin: 0 !important;
   padding: 0 !important;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #1a1a1a;
+  color: #fff;
 }
+
+/* --- Hero Szekció --- */
+.carrental-hero {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069&auto=format&fit=crop') no-repeat center center / cover;
+  margin-bottom: 40px;
+}
+
+.carrental-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(26,26,26,0.8) 70%, rgba(26,26,26,1) 100%);
+}
+
+.carrental-hero-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.carrental-hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+  margin-bottom: 10px;
+}
+
+.carrental-hero-accent {
+  width: 120px;
+  height: 4px;
+  margin: 15px auto 20px;
+  border-radius: 999px;
+  background: #DAA520;
+}
+
+.carrental-hero-sub {
+  font-size: 1.2rem;
+  color: #ddd;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+}
+/* --------------------------------------------- */
 
 .container {
   width: 90%;
@@ -39,48 +87,54 @@ body {
   padding: 10px;
   font-size: 16px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #444;
   outline: none;
+  background-color: #333;
+  color: white;
   transition: border-color 0.3s ease;
 }
 
 .filter select:focus {
-  border-color: #007bff;
+  border-color: #DAA520;
 }
-.card-content{
+
+.card-content {
   margin-bottom: 10%;
 }
+
+/* --- Kártya stílusok --- */
 .car-card {
   width: 100%;
   height: 300px;
   padding: 10px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #333;
+  background-color: #252525;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   text-align: center;
   position: relative;
+  overflow: hidden;
 } 
 
 .car-card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .car-card-hover:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(218, 165, 32, 0.2);
+  border-color: #DAA520;
 }
 
 .car-card img {
-width: 100%;
-height: auto;
-border-radius: 5px;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
 }
 
 .car-container {
   width: 100%;
 }
-
 
 .car-card h3 {
   margin: 12px 0;
@@ -91,42 +145,52 @@ border-radius: 5px;
 
 .car-card p {
   margin: 8px 0;
-  color: #666;
+  color: #bbb;
   font-size: 1rem;
 }
 
 .car-card .btn {
   display: inline-block;
   position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 8px 16px;
-  background-color: #ff8307;
-  color: #fff;
+  padding: 10px 20px;
+  background-color: #DAA520;
+  color: #1a1a1a;
+  font-weight: bold;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 6px;
   border: none;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 3;
 }
 
 .car-card .btn:hover {
-  background-color: #ffc107;
+  background-color: #b8860b;
+  transform: translateX(-50%) scale(1.05);
 }
 
+.card-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  z-index: 1;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .car-container {
       justify-content: space-around;
   }
-
   .car-card {
       width: 160px;
       height: 280px;
   }
-
   #calendar {
       max-width: 100%;
       margin: 20px auto;
@@ -148,29 +212,13 @@ border-radius: 5px;
   background-position:center;
   opacity:1;
   transform:scale(1);
-  transition:
-    opacity 0.9s cubic-bezier(.4,0,.2,1),
-    transform 4s linear;
+  transition: opacity 0.9s cubic-bezier(.4,0,.2,1), transform 4s linear;
 }
 
-.bg-img.current{
-  z-index:1;
-}
-
-.bg-img.next{
-  opacity:0;
-  z-index:2;
-}
-
-.fade-out{
-  opacity:0;
-  transform:scale(1.06);
-}
-
-.fade-in{
-  opacity:1;
-  transform:scale(1);
-}
+.bg-img.current{ z-index:1; }
+.bg-img.next{ opacity:0; z-index:2; }
+.fade-out{ opacity:0; transform:scale(1.06); }
+.fade-in{ opacity:1; transform:scale(1); }
 
 .page-transition {
   opacity: 1;
@@ -197,9 +245,9 @@ border-radius: 5px;
 }
 
 .filter-panel-custom {
-  background-color: #1a1a1a;
-  border: 1px solid #222;
-  border-radius: 5px;
+  background-color: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
 }
 
 .filter-title {
@@ -213,19 +261,19 @@ border-radius: 5px;
 }
 
 .filter-section-title {
-  color: #555; 
+  color: #999; 
   font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: 0.5px;
 }
 
 .filter-input {
-  background-color: #fff !important; 
-  border: 1px solid #ccc !important;
-  color: #333 !important;
+  background-color: #333 !important; 
+  border: 1px solid #444 !important;
+  color: #fff !important;
 }
 .filter-input::placeholder {
-  color: #999 !important;
+  color: #777 !important;
 }
 .filter-input:focus {
   border-color: #DAA520 !important;
@@ -233,25 +281,25 @@ border-radius: 5px;
 }
 
 .white-checkbox {
-  background-color: #fff !important;
-  border: 1px solid #ccc !important;
-  border-radius: 2px !important; 
+  background-color: #333 !important;
+  border: 1px solid #555 !important;
+  border-radius: 3px !important; 
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   margin-top: 0;
 }
 .white-checkbox:checked {
   background-color: #DAA520 !important;
   border-color: #DAA520 !important;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%231a1a1a' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
 }
 .white-checkbox:focus {
   box-shadow: none !important;
 }
 
 .filter-divider {
-  border-top: 1px dashed #444;
+  border-top: 1px dashed #555;
   margin: 0 0 1.5rem 0; 
   opacity: 1;
 }
@@ -263,16 +311,16 @@ border-radius: 5px;
 }
 
 .back-to-categories-btn {
-  color: #6c757d;
-  background-color: transparent;
-  border: 1px solid #6c757d;
+  color: #DAA520;
+  background-color: #222;
+  border: 1px solid #DAA520;
   font-weight: bold;
   transition: all 0.3s ease;
+  border-radius: 6px;
 }
 .back-to-categories-btn:hover {
-  background-color: #000 !important;
-  color: #fff !important;
-  border-color: #000 !important;
+  background-color: #DAA520 !important;
+  color: #1a1a1a !important;
 }
 
 .toggle-btn-text {
@@ -280,26 +328,23 @@ border-radius: 5px;
   font-weight: bold;
   font-size: 0.95rem;
 }
-.toggle-btn-text:hover,
-.toggle-btn-text:focus,
-.toggle-btn-text:active {
+.toggle-btn-text:hover {
   color: #b8860b !important;
-  background-color: transparent !important; 
 }
 
 .clear-btn-outline {
   background-color: transparent;
-  color: #DAA520;
-  border: 1px solid #DAA520;
+  color: #bbb;
+  border: 1px solid #555;
   font-weight: bold;
-  padding: 8px;
+  padding: 10px;
   transition: all 0.3s ease;
+  border-radius: 6px;
 }
-.clear-btn-outline:hover,
-.clear-btn-outline:active {
-  background-color: rgba(218, 165, 32, 0.1) !important;
-  color: #DAA520 !important;
-  border-color: #DAA520 !important;
+.clear-btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  border-color: #fff !important;
 }
 
 .advanced-filters-wrapper {
