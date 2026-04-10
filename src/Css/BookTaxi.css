@@ -39,7 +39,6 @@
     gap: 40px;
 }
 
-/* Left Side - Car Details */
 .booking-main-image {
     width: 100%;
     border-radius: 12px;
@@ -80,7 +79,6 @@
     margin-right: 10px;
 }
 
-/* Right Side - Summary Box */
 .summary-box {
     background: #252525;
     padding: 30px;
@@ -116,7 +114,6 @@
     margin-top: 20px;
 }
 
-/* Driver Selection Dropdown */
 .driver-selection {
     margin: 20px 0;
 }
@@ -162,7 +159,6 @@
     background-color: #ffc107;
 }
 
-/* Back Button */
 .back-to-search-btn {
     background: none;
     border: none;
@@ -182,7 +178,6 @@
     text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
     .booking-grid {
         grid-template-columns: 1fr;
