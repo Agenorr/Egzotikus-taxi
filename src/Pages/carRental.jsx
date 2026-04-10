@@ -66,7 +66,6 @@ export default function CarRental() {
   const [imageIndexes, setImageIndexes] = useState(categories.map(() => 0));
   const [isFading, setIsFading] = useState(false);
 
-  // --- FILTER STATES ---
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTransmissions, setSelectedTransmissions] = useState([]);
   const [selectedDrivetrains, setSelectedDrivetrains] = useState([]);
@@ -78,7 +77,6 @@ export default function CarRental() {
     document.title = "Exotic | Autóbérlés";
   }, []);
 
-  // ================= FETCH CARS =================
   useEffect(() => {
     if (selectedCategory === null) return;
 
@@ -94,7 +92,6 @@ export default function CarRental() {
       })
   }, [selectedCategory]);
 
-  // ================= ROTATE CATEGORY IMAGES =================
   useEffect(() => {
     const interval = setInterval(() => {
       document.querySelectorAll(".bg-img.current").forEach(el => {
@@ -115,10 +112,7 @@ export default function CarRental() {
     return () => clearInterval(interval);
   }, []);
 
-  // ================= FILTERING LOGIC =================
   const filteredCars = cars.filter(car => {
-    // 1. Check for Status 1 (Available)
-    // If this is false, the car is excluded regardless of other filters.
     const isAvailable = car.status === 1;
 
     const matchesSearch =
@@ -137,7 +131,6 @@ export default function CarRental() {
       selectedFuel.length === 0 ||
       selectedFuel.includes(car.fuel);
 
-    // 2. Add isAvailable to the final check
     return isAvailable && matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel;
 });
 
@@ -175,13 +168,10 @@ export default function CarRental() {
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
 
-      {/* Sötétítő réteg, ami lefedi az oldalt az áttűnés alatt */}
       <div className={`black-fade-overlay ${isFading ? 'active' : ''}`} />
 
-      {/* A tartalom wrapperje megkapta a page-transition-t, így el is halványul */}
       <div className={`flex-grow-1 d-flex flex-column page-transition ${isFading ? 'page-hidden' : ''}`}>
 
-        {/* ================= CATEGORY SCREEN ================= */}
         {!selectedCategory && (
           <div className="container mt-5 mb-5">
             <div className="row w-100 mx-0">
@@ -225,16 +215,13 @@ export default function CarRental() {
           </div>
         )}
 
-        {/* ================= CAR LIST SCREEN ================= */}
         {selectedCategory && (
           <div className="container mt-5 mb-5">
             <div className="row w-100 mx-0">
 
-              {/* LEFT COLUMN: Controls & Filters */}
               <div className="col-md-4 col-lg-3 px-2 mb-4">
                 <div style={{ position: "sticky", top: "20px" }}>
 
-                  {/* Vissza gomb */}
                   <button
                     className="btn w-100 p-3 mb-4 no-focus-ring back-to-categories-btn"
                     onClick={handleBackClick}
@@ -242,10 +229,8 @@ export default function CarRental() {
                     ← Vissza a kategóriákhoz
                   </button>
 
-                  {/* FILTER PANEL */}
                   <div className="filter-panel-custom p-4 shadow">
 
-                    {/* Fejléc */}
                     <div className="d-flex justify-content-between align-items-center mb-4 border-bottom-gold pb-2">
                       <h4 className="filter-title m-0">SZŰRÉS</h4>
                       <span className="badge text-dark py-1 px-2 rounded-1" style={{ backgroundColor: "#DAA520", fontWeight: "bold" }}>
@@ -253,16 +238,13 @@ export default function CarRental() {
                       </span>
                     </div>
 
-                    {/* Gyorskereső */}
                     <div className="mb-4">
                       <label className="filter-section-title mb-2 d-block">GYORSKERESŐ</label>
                       <input type="text" className="form-control filter-input shadow-none"
                         placeholder="Márka vagy típus..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     </div>
 
-                    {/* Motor (Felkerült alapból láthatóra) */}
                     <div className="mb-4">
-                      {/* Optional: You can keep it as MOTOR or change it to ÜZEMANYAG */}
                       <label className="filter-section-title mb-2 d-block">ÜZEMANYAG / MOTOR</label>
                       {[
                         { id: 'Petrol', label: 'Benzin' },
@@ -285,11 +267,9 @@ export default function CarRental() {
                       ))}
                     </div>
 
-                    {/* Haladó szűrők lenyíló része - ANIMÁLVA */}
                     <div className={`advanced-filters-wrapper ${showAdvancedFilters ? 'open' : ''}`}>
                       <hr className="filter-divider" />
 
-                      {/* Váltó (Lekerült a haladó szűrők közé) */}
                       <div className="mb-4">
                         <label className="filter-section-title mb-2 d-block">VÁLTÓ</label>
                         {['Automata', 'Manuális'].map(type => (
@@ -301,7 +281,6 @@ export default function CarRental() {
                         ))}
                       </div>
 
-                      {/* Hajtás */}
                       <div className="mb-4">
                         <label className="filter-section-title mb-2 d-block">HAJTÁS</label>
                         {['FWD', 'RWD', 'AWD'].map(type => (
@@ -314,7 +293,6 @@ export default function CarRental() {
                       </div>
                     </div>
 
-                    {/* Lenyíló Gomb */}
                     <div className="text-center mb-4 mt-3">
                       <button
                         className="btn btn-link text-decoration-none shadow-none toggle-btn-text p-0 no-focus-ring"
@@ -324,7 +302,6 @@ export default function CarRental() {
                       </button>
                     </div>
 
-                    {/* Szűrők törlése */}
                     <button
                       className="btn w-100 clear-btn-outline no-focus-ring"
                       onClick={handleClearFilters}
@@ -336,7 +313,6 @@ export default function CarRental() {
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: Results Grid */}
               <div className="col-md-8 col-lg-9 px-4 position-relative" style={{ borderLeft: "1px dashed #DAA520" }}>
                 <div className="row g-4">
                   {filteredCars.length > 0 ? (
