@@ -21,11 +21,9 @@ export default function AboutUs() {
       <section 
         className="about-hero text-center text-white" 
         style={{ 
-          // Ne felejtsd el ellenőrizni, hogy az about-bg.jpg ezen az útvonalon van-e!
           background: `url(${require("../Img/rolunk_kep.jpg")}) no-repeat center center / cover` 
         }}
       >
-        {/* Ez a div felel az alsó fehér átmenetért */}
         <div className="about-hero-fade"></div>
 
         <div className="about-hero-content">
@@ -39,7 +37,6 @@ export default function AboutUs() {
 
       <div className="about-page">
 
-        {/* Alapítók */}
         <section className="section-card">
           <h2 className="section-title text-center">Alapítók</h2>
 
@@ -64,7 +61,6 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* Rólunk */}
         <section className="section-card text-center">
           <h2 className="section-title">Rólunk</h2>
           <p className="about-text">
@@ -74,7 +70,6 @@ export default function AboutUs() {
           </p>
         </section>
 
-        {/* Jövőkép */}
         <section className="section-card text-center">
           <h2 className="section-title">Jövőkép</h2>
           <p className="about-text">
@@ -103,8 +98,8 @@ export default function AboutUs() {
             </div>
           </div>
         </div>
-
       </div>
+      
       <Footer />
     </>
   );
