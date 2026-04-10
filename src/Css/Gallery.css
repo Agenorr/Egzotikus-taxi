@@ -5,16 +5,14 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif; /* Egységesítettem az Arialt az egész oldalra */
+  font-family: Arial, sans-serif;
 }
 
 .container {
   flex: 1;
-  /* KIVETTEM A COLOR: BLACK-ET, így már nem lesz sötétebb, mint a Bérlési feltételek! */
   max-width: 1200px; 
 }
 
-/* ===== TÖKÉLETESÍTETT SECTION TITLE ===== */
 .gallery-section-title {
   display: table;
   margin: 0 auto 16px;
@@ -22,7 +20,7 @@ body {
   position: relative;
   font-family: Arial, sans-serif !important;
   font-weight: 500 !important;
-  color: #212529 !important; /* Bootstrap pontos sötétszürke színe */
+  color: #212529 !important;
   line-height: 1.2;
 }
 
@@ -36,7 +34,6 @@ body {
   background: #ff8c00;
 }
 
-/* --- Gallery Grid System --- */
 .gallery-container {
   display: grid;
   gap: 20px;
@@ -116,7 +113,6 @@ body {
   opacity: 1;
 }
 
-/* --- CTA Buttons --- */
 .cta-container {
   text-align: center;
   margin-top: 50px;
@@ -143,7 +139,6 @@ body {
   color: white;
 }
 
-/* --- Modal Styling --- */
 .modal-content {
   background-color: transparent;
   border: none;
@@ -163,7 +158,6 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* ===== HERO SECTION & FADE (GALLERY) ===== */
 .hero {
   height: 500px;
   position: relative;
