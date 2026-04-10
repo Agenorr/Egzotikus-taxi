@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // This makes dropdowns work!
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../Css/Base.css';
 import { AuthContext, AuthProvider } from '../Context/AuthContext';
 import axios from 'axios';
@@ -9,24 +9,22 @@ import axios from 'axios';
 export default function Navbar() {
 
     const { user, isLoggedIn, login, logout } = useContext(AuthContext);
-    // 1. Create a "State" to track if the sidebar is open
-    const [isExiting, setIsExiting] = useState(false); // New state
+    const [isExiting, setIsExiting] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // 2. Function to flip the state between true/false
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
     const closeAccountMenu = () => {
-        setIsExiting(true); // Start the "Up" animation
+        setIsExiting(true);
         setTimeout(() => {
-            setIsAccountOpen(false); // Actually remove it from DOM after 300ms
-            setIsExiting(false);     // Reset for next time
-        }, 300); // This must match your CSS animation duration
+            setIsAccountOpen(false);
+            setIsExiting(false);
+        }, 300);
     };
     const toggleAccountMenu = () => {
         if (isAccountOpen) {
@@ -47,9 +45,8 @@ export default function Navbar() {
             console.log("Login successful:", data);
             setIsExiting(true);
 
-            // Wait for the animation to finish (300ms), then update the global Auth state
             setTimeout(() => {
-                login(data);              // Now the UI swaps while the menu is INVISIBLE
+                login(data);
                 setIsAccountOpen(false);
                 setIsExiting(false);
             }, 300);
@@ -65,15 +62,12 @@ export default function Navbar() {
         }
     };
     const handleLogoutClick = () => {
-        // 1. Start the 'Slide Up' animation
+
         setIsExiting(true);
 
-        // 2. Wait 300ms for the animation to finish
         setTimeout(() => {
-            // 3. Actually clear the user data from Context/LocalStorage
             logout();
 
-            // 4. Remove the menu from the DOM and reset exit state
             setIsAccountOpen(false);
             setIsExiting(false);
         }, 300);
@@ -81,7 +75,6 @@ export default function Navbar() {
 
     return (
         <div>
-            {/* Main Navbar */}
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     <span className="hamburger-icon text-white" style={{ cursor: 'pointer', fontSize: '24px' }} onClick={toggleSidebar}>&#9776;</span>
@@ -105,8 +98,8 @@ export default function Navbar() {
                                     left: 0,
                                     width: '100vw',
                                     height: '100vh',
-                                    backgroundColor: 'transparent', // Invisible
-                                    zIndex: 999 // Just below the dropdown but above everything else
+                                    backgroundColor: 'transparent',
+                                    zIndex: 999 
                                 }}
                             />
                         )}
@@ -142,7 +135,6 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Sidebar - Width changes based on isSidebarOpen state */}
             <div
                 className="sidebar shadow"
                 style={{
@@ -160,17 +152,20 @@ export default function Navbar() {
                     flexDirection: 'column'
                 }}
             >
-                {/* A trükk: Ez a belső div fix szélességű (250px), 
-        így a benne lévő szöveg sosem fog "összemenni" vagy törni. 
-        Csak az opacity-t és a láthatóságot kapcsoljuk.
-    */}
                 <div style={{
                     minWidth: '250px',
                     opacity: isSidebarOpen ? 1 : 0,
                     visibility: isSidebarOpen ? 'visible' : 'hidden',
                     transition: isSidebarOpen ? 'opacity 0.4s ease-in' : 'opacity 0.1s ease-out'
                 }}>
-                    {/* Close Button */}
+                    
+                    <img
+                        src="/Assets/Exotic_logo.webp"
+                        alt="Exotic Logo"
+                        className="position-absolute start-0 ms-3"
+                        style={{ width: '75px', opacity: '0.9', top: '6px' }}
+                    />
+
                     <span
                         className="text-white position-absolute top-0 end-0 m-3"
                         style={{ cursor: 'pointer', fontSize: '30px' }}
@@ -182,7 +177,6 @@ export default function Navbar() {
                     <div className="p-3 d-flex flex-column gap-1">
                         <Link to="/" className="sidebar-item" onClick={toggleSidebar}>Kezdőlap</Link>
 
-                        {/* Dropdown for Autoberles */}
                         <div className="dropdown">
                             <button
                                 className="sidebar-item" type="button"
@@ -202,7 +196,6 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Overlay: Closes sidebar when clicking outside */}
             {isSidebarOpen && (
                 <div
                     onClick={toggleSidebar}
