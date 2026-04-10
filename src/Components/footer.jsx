@@ -16,10 +16,8 @@ export default function Footer() {
     <footer style={{ backgroundColor: '#1a1a1a', borderTop: '1px solid #333', padding: '30px 0 10px 0' }}>
       <div className="container">
 
-        {/* Hozzáadtam az align-items-center osztályt, így a Logó függőlegesen is tökéletesen középre kerül */}
         <div className="row mb-4 align-items-center">
 
-          {/* 1. Oszlop: Logó (Vízszintesen is középre igazítva) */}
           <div className="col-md-4 mb-4 mb-md-0 d-flex justify-content-center">
             <img
               src="/Assets/Exotic_logo.webp"
@@ -28,12 +26,10 @@ export default function Footer() {
             />
           </div>
 
-          {/* 2. Oszlop: Navigáció (Középre igazított szöveg és kisebb sorköz) */}
           <div className="col-md-4 mb-4 mb-md-0 d-flex flex-column align-items-center text-center">
             <h5 style={{ color: '#fff', marginBottom: '20px', fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px' }}>
               Navigáció
             </h5>
-            {/* A gap-3 helyett gap-2 lett, hogy közelebb legyenek egymáshoz a linkek */}
             <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }} className="d-flex flex-column gap-2">
               {mainLinks.map((link, index) => (
                 <li key={index}>
@@ -50,15 +46,11 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* 3. Oszlop: Kapcsolat (Középre igazítva) */}
           <div className="col-md-4 d-flex flex-column align-items-center text-center">
             <h5 style={{ color: '#fff', marginBottom: '20px', fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px' }}>
               Kapcsolat
             </h5>
-            {/* A w-100 biztosítja, hogy a sorok kitöltsék az oszlopot, és középre tudjanak igazodni */}
             <div className="d-flex flex-column gap-2 w-100">
-
-              {/* Email - Kattintható linkkel */}
               <div className="d-flex justify-content-center align-items-center gap-1">
                 <div style={{ width: '20px', display: 'flex', justifyContent: 'center' }}>
                   <i className="fa fa-envelope" style={{ color: '#DAA520', fontSize: '18px' }}></i>
@@ -73,7 +65,6 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* Telefon - Kattintható linkkel */}
               <div className="d-flex justify-content-center align-items-center gap-1">
                 <div style={{ width: '20px', display: 'flex', justifyContent: 'center' }}>
                   <i className="fa fa-phone" style={{ color: '#DAA520', fontSize: '18px' }}></i>
@@ -92,7 +83,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Alsó rész: Copyright és ÁSZF */}
         <div className="row" style={{ borderTop: '1px solid #2a2a2a', paddingTop: '15px' }}>
           <div className="col-12 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
 
