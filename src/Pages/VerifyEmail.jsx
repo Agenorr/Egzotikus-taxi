@@ -7,10 +7,8 @@ const VerifyEmail = () => {
     const [searchParams] = useSearchParams();
     const [status, setStatus] = useState("Verifying...");
     
-    // 1. Pull user and the new updateUser function from Context
     const { user, updateUser } = useContext(AuthContext); 
 
-    // Fül szövegének beállítása
     useEffect(() => {
         document.title = "Exotic | Email Megerősítése";
     }, []);
@@ -22,7 +20,6 @@ const VerifyEmail = () => {
             .then(res => {
                 setStatus("Verification Successful!");
                 
-                // 2. Call updateUser! This updates memory + localStorage instantly.
                 if (user) {
                     updateUser({ 
                         ...user, 
