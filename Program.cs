@@ -6,10 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http; // Added for IFormFile
 using System;
+using System.IO;                 // Added for MemoryStream
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using System.Net;           // <-- Added for Email
-using System.Net.Mail;      // <-- Added for Email
+using System.Net;            // <-- Added for Email
+using System.Net.Mail;       // <-- Added for Email
 
 namespace ExoticBackEnd
 {
@@ -214,7 +217,8 @@ namespace ExoticBackEnd
                     Created_At = DateTime.UtcNow,
                     Clearance = 1,
                     Is_Verified = 0,             // Set to 0 (Unverified)
-                    VerificationToken = token    // Assign the generated token
+                    VerificationToken = token, // Assign the generated token
+                    ProfilePicture = Array.Empty<byte>()
                 };
 
                 db.Users.Add(user);
@@ -291,14 +295,14 @@ namespace ExoticBackEnd
                     return Results.NotFound(new { message = "User not found." });
                 }
 
-                // Return the exact same structure as Login and Verify!
                 return Results.Ok(new
                 {
                     id = user.Id,
                     username = user.Username,
                     email = user.Email,
                     clearance = user.Clearance,
-                    is_verified = user.Is_Verified
+                    is_verified = user.Is_Verified,
+                    isDriver = user.isDriver // <--- ADD THIS LINE
                 });
             });
 
@@ -316,7 +320,7 @@ namespace ExoticBackEnd
                 {
                     fullName = user.FullName,
                     phoneNumber = user.PhoneNumber,
-                    licenseNumber = user.LicenseNumber 
+                    licenseNumber = user.LicenseNumber
                 });
             });
 
@@ -344,7 +348,8 @@ namespace ExoticBackEnd
                     username = user.Username,
                     email = user.Email,
                     clearance = user.Clearance,
-                    is_verified = user.Is_Verified
+                    is_verified = user.Is_Verified,
+                    isDriver = user.isDriver
                 });
             });
             app.MapGet("/api/user/{id}/orders", async (int id, ExoticDbContext db) =>
@@ -372,6 +377,7 @@ namespace ExoticBackEnd
 
                 return Results.Ok(orders);
             });
+
             // Pásztázd be ezt a POST végpontot a GET /api/user/{id}/orders fölé vagy alá!
             app.MapPost("/api/orders", async (CreateOrderDto dto, ExoticDbContext db) =>
             {
@@ -462,6 +468,202 @@ namespace ExoticBackEnd
 
                 return Results.Ok(new { message = "Rendelés sikeresen aktiválva és az autó lefoglalva!" });
             });
+
+
+            app.MapGet("/api/drivers", async (ExoticDbContext db) =>
+            {
+                var drivers = await db.Users
+                    .Where(u => u.isDriver == true) // Only get the drivers
+                    .Select(u => new
+                    {
+                        id = u.Id,
+                        // If they don't have a FullName, fallback to their Username
+                        name = string.IsNullOrEmpty(u.FullName) ? u.Username : u.FullName,
+                        email = u.Email,
+                        // We can pass some mock UI stats here since they aren't in your DB model yet
+                        rating = 4.8,
+                        experience = "Tapasztalt"
+                    })
+                    .ToListAsync();
+
+                return Results.Ok(drivers);
+            });
+
+
+
+            app.MapPost("/api/orders/taxi", async (CreateTaxiOrderDto dto, ExoticDbContext db) =>
+            {
+                // 1. Fetch the User and the Driver
+                var user = await db.Users.FindAsync(dto.UserId);
+                var driver = await db.Users.FindAsync(dto.DriverId);
+
+                if (user == null || driver == null)
+                    return Results.BadRequest("Felhasználó vagy sofőr nem található.");
+
+                // 2. Save the order as "Pending" (Status = 1)
+                var newTaxiOrder = new TaxiOrder
+                {
+                    UserId = dto.UserId,
+                    VehicleId = dto.VehicleId,
+                    DriverId = dto.DriverId,
+                    PickupLocation = dto.PickupLocation,
+                    DropoffLocation = dto.DropoffLocation,
+                    PickupDateTime = dto.PickupDateTime,
+                    TotalPrice = dto.TotalPrice,
+                    Status = 1, // Megerősítésre vár
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                db.TaxiOrders.Add(newTaxiOrder);
+                await db.SaveChangesAsync();
+
+                // 3. Email the DRIVER using inline SmtpClient
+                try
+                {
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("bravery.cs@gmail.com", "zrau wgzd vgin kljz"),
+                        EnableSsl = true,
+                    };
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals Taxi"),
+                        Subject = "ÚJ FUVAR: Jóváhagyás szükséges",
+                        Body = $@"
+                        <div style='font-family: Arial, sans-serif;'>
+                            <h2 style='color: #d9534f;'>Szia {driver.FullName ?? driver.Username}! Új fuvart kaptál.</h2>
+                            <p><strong>Utas:</strong> {user.FullName ?? user.Username} ({user.PhoneNumber})</p>
+                            <ul>
+                                <li><strong>Felvétel:</strong> {dto.PickupLocation}</li>
+                                <li><strong>Cél:</strong> {dto.DropoffLocation}</li>
+                                <li><strong>Időpont:</strong> {dto.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</li>
+                                <li><strong>Tarifa:</strong> {dto.TotalPrice} Ft</li>
+                            </ul>
+                            <p>Kérjük, lépj be a sofőr felületre a fuvar elfogadásához!</p>
+                        </div>",
+                        IsBodyHtml = true,
+                    };
+
+                    mailMessage.To.Add(driver.Email);
+                    smtpClient.Send(mailMessage);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Driver email failed: {ex.Message}");
+                }
+
+                return Results.Ok(new { message = "Foglalás elküldve a sofőrnek!" });
+            });
+
+
+            app.MapPost("/api/orders/taxi/{id}/accept", async (int id, ExoticDbContext db) =>
+            {
+                // 1. Find the order AND include the User data so we know who to email
+                var order = await db.TaxiOrders
+                    .Include(t => t.User)
+                    .FirstOrDefaultAsync(t => t.Id == id);
+
+                if (order == null) return Results.NotFound("A fuvar nem található.");
+                if (order.Status != 1) return Results.BadRequest("Ezt a fuvart már elfogadták vagy törölték.");
+
+                // 2. Change status to Active
+                order.Status = 2; // 2 = Folyamatban / Aktív
+                await db.SaveChangesAsync();
+
+                // 3. Email the USER using inline SmtpClient
+                if (order.User != null)
+                {
+                    try
+                    {
+                        var smtpClient = new SmtpClient("smtp.gmail.com")
+                        {
+                            Port = 587,
+                            Credentials = new NetworkCredential("bravery.cs@gmail.com", "zrau wgzd vgin kljz"),
+                            EnableSsl = true,
+                        };
+
+                        var mailMessage = new MailMessage
+                        {
+                            From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals Taxi"),
+                            Subject = "Exotic Rentals - Fuvar Megerősítve!",
+                            Body = $@"
+                            <div style='font-family: Arial, sans-serif;'>
+                                <h2 style='color: #28a745;'>Kedves {order.User.Username}!</h2>
+                                <p>Jó hírünk van! A sofőr megerősítette a fuvart.</p>
+                                <hr />
+                                <ul>
+                                    <li><strong>Útvonal:</strong> {order.PickupLocation} ➔ {order.DropoffLocation}</li>
+                                    <li><strong>Időpont:</strong> {order.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</li>
+                                </ul>
+                                <p>A sofőr a megadott időpontban várni fogja Önt.</p>
+                            </div>",
+                            IsBodyHtml = true,
+                        };
+
+                        mailMessage.To.Add(order.User.Email);
+                        smtpClient.Send(mailMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"User email failed: {ex.Message}");
+                    }
+                }
+
+                return Results.Ok(new { message = "Fuvar sikeresen elfogadva, utas értesítve." });
+            });
+
+            app.MapGet("/api/driver/{driverId}/taxi-orders", async (int driverId, ExoticDbContext db) =>
+            {
+                var orders = await db.TaxiOrders
+                    // ADD t.Status == 3 HERE
+                    .Where(t => t.DriverId == driverId && (t.Status == 1 || t.Status == 2 || t.Status == 3))
+                    .Select(t => new {
+                        id = t.Id,
+                        customerName = db.Users.Where(u => u.Id == t.UserId).Select(u => u.FullName != null && u.FullName != "" ? u.FullName : u.Username).FirstOrDefault(),
+                        customerPhone = db.Users.Where(u => u.Id == t.UserId).Select(u => u.PhoneNumber).FirstOrDefault(),
+                        pickupLocation = t.PickupLocation,
+                        dropoffLocation = t.DropoffLocation,
+                        pickupDateTime = t.PickupDateTime,
+                        totalPrice = t.TotalPrice,
+                        status = t.Status
+                    })
+                    .ToListAsync();
+
+                return Results.Ok(orders);
+            });
+
+            app.MapPost("/api/orders/taxi/{id}/finish", async (int id, ExoticDbContext db) =>
+            {
+                var order = await db.TaxiOrders.FindAsync(id);
+                if (order == null) return Results.NotFound("A fuvar nem található.");
+
+                order.Status = 3; // 3 = Befejezett
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "Fuvar sikeresen befejezve!" });
+            });
+
+            app.MapGet("/api/user/{userId}/taxi-orders", async (int userId, ExoticDbContext db) =>
+            {
+                var taxiOrders = await db.TaxiOrders
+                    .Where(t => t.UserId == userId)
+                    .OrderByDescending(t => t.PickupDateTime)
+                    .Select(t => new {
+                        t.Id,
+                        t.PickupLocation,
+                        t.DropoffLocation,
+                        t.PickupDateTime,
+                        t.TotalPrice,
+                        t.Status
+                    })
+                    .ToListAsync();
+
+                return Results.Ok(taxiOrders);
+            });
+
+
             app.MapPost("/api/orders/{id}/finish", async (int id, ExoticDbContext db) =>
             {
                 var order = await db.Orders

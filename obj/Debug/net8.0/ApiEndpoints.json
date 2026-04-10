@@ -45,6 +45,44 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_17",
+    "RelativePath": "api/driver/{driverId}/taxi-orders",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "driverId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_14",
+    "RelativePath": "api/drivers",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
     "Method": "\u003CMain\u003Eb__0_5",
     "RelativePath": "api/gallery",
     "HttpMethod": "GET",
@@ -105,8 +143,74 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_14",
+    "Method": "\u003CMain\u003Eb__0_20",
     "RelativePath": "api/orders/{id}/finish",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_15",
+    "RelativePath": "api/orders/taxi",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "CreateTaxiOrderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_16",
+    "RelativePath": "api/orders/taxi/{id}/accept",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_18",
+    "RelativePath": "api/orders/taxi/{id}/finish",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
@@ -233,7 +337,7 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_15",
+    "Method": "\u003CMain\u003Eb__0_21",
     "RelativePath": "api/user/{id}/profile",
     "HttpMethod": "PUT",
     "IsController": false,
@@ -260,7 +364,29 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_17",
+    "Method": "\u003CMain\u003Eb__0_19",
+    "RelativePath": "api/user/{userId}/taxi-orders",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_23",
     "RelativePath": "api/users/{id}/profile",
     "HttpMethod": "GET",
     "IsController": false,
@@ -282,7 +408,7 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_16",
+    "Method": "\u003CMain\u003Eb__0_22",
     "RelativePath": "api/users/{id}/upload-pfp",
     "HttpMethod": "POST",
     "IsController": false,
