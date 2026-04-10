@@ -85,6 +85,14 @@ export default function register() {
                     <div className="card shadow-lg" style={{ width: '100%', maxWidth: '500px', backgroundColor: '#1a1a1a', border: '1px solid #DAA520', borderRadius: '12px' }}>
                         <div className="card-body p-5 text-white">
 
+                            <div className="text-center mb-0">
+                                <img 
+                                    src="/Assets/Exotic_logo.webp" 
+                                    alt="Exotic Logo" 
+                                    style={{ width: '140px', opacity: '0.9', top: '-20px', position: 'relative' }} 
+                                />
+                            </div>
+
                             <h2 className="text-center mb-4" style={{ color: '#DAA520', fontFamily: "'Monsieur La Doulaise', cursive", fontSize: '3rem' }}>
                                 Regisztráció
                             </h2>
@@ -155,9 +163,8 @@ export default function register() {
 
                                 <button
                                     type="submit"
-                                    className="btn w-100 mb-3"
+                                    className="exotic-submit-btn mb-3"
                                     disabled={isLoading}
-                                    style={{ backgroundColor: '#DAA520', color: 'black', fontWeight: 'bold' }}
                                 >
                                     {isLoading ? 'Feldolgozás...' : 'Regisztráció'}
                                 </button>
