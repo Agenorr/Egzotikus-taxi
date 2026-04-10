@@ -8,8 +8,7 @@ import Footer from '../Components/footer';
 export default function Profile() {
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('main');
-  
-  // State to track which specific field to scroll to after switching tabs
+
   const [scrollTarget, setScrollTarget] = useState(null);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ export default function Profile() {
     { id: "stats", name: "Statisztikák", icon: "📊" },
   ];
 
-  // Helper to change tab and set a scroll target simultaneously
   const navigateAndScroll = (tab, targetId) => {
     setActiveTab(tab);
     setScrollTarget(targetId);
@@ -56,8 +54,8 @@ export default function Profile() {
                 key={item.id}
                 className={`nav-item-link ${activeTab === item.id ? 'active' : ''}`}
                 onClick={() => {
-                    setActiveTab(item.id);
-                    setScrollTarget(null); // Reset scroll on manual nav
+                  setActiveTab(item.id);
+                  setScrollTarget(null);
                 }}
                 style={{ cursor: 'pointer' }}
               >
@@ -77,12 +75,10 @@ export default function Profile() {
   );
 }
 
-// --- HOME TAB (With Search Palette & Avatar Upload) ---
 function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
-  
-  // Avatar states
+
   const fileInputRef = useRef(null);
   const [profileImg, setProfileImg] = useState(null);
 
@@ -95,7 +91,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
     { label: "Bérlési előzmények", tab: "stats", targetId: "field-history", keywords: ["autó", "pénz", "költség"] },
   ];
 
-  // 1. Fetch the user's profile picture when the component mounts
   useEffect(() => {
     if (user?.id) {
       axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
@@ -108,12 +103,10 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
     }
   }, [user]);
 
-  // 2. Trigger the hidden file input
   const handleAvatarClick = () => {
     fileInputRef.current.click();
   };
 
-  // 3. Handle the file upload process
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -130,12 +123,11 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
       await axios.post(`https://localhost:7065/api/users/${user.id}/upload-pfp`, formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      
-      // Optimistic Update: Show the image immediately
+
       const reader = new FileReader();
       reader.onloadend = () => setProfileImg(reader.result);
       reader.readAsDataURL(file);
-      
+
     } catch (err) {
       console.error(err);
       alert("Hiba történt a kép feltöltésekor.");
@@ -157,19 +149,17 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   return (
     <div>
       <header className="profile-header text-center">
-        {/* Hidden File Input */}
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          style={{ display: 'none' }} 
-          accept="image/*" 
-          onChange={handleFileChange} 
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          accept="image/*"
+          onChange={handleFileChange}
         />
 
-        {/* Clickable Avatar Wrapper */}
-        <div 
-          className="avatar-wrapper mx-auto" 
-          onClick={handleAvatarClick} 
+        <div
+          className="avatar-wrapper mx-auto"
+          onClick={handleAvatarClick}
           style={{ cursor: 'pointer', position: 'relative', overflow: 'hidden', borderRadius: '50%', width: '120px', height: '120px' }}
         >
           {profileImg ? (
@@ -179,7 +169,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
               {user?.username?.charAt(0).toUpperCase() || "U"}
             </div>
           )}
-          {/* Hover overlay hint (Requires the CSS provided earlier) */}
           <div className="avatar-overlay" style={{ position: 'absolute', bottom: 0, width: '100%', background: 'rgba(0,0,0,0.9)', color: '#fff', fontSize: '0.8rem', padding: '4px 0', textAlign: 'center' }}>
             Módosítás
           </div>
@@ -192,9 +181,9 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
       <div className="google-search-container">
         <div className="search-pill">
           <span className="search-icon">🔍</span>
-          <input 
-            type="text" 
-            placeholder="Keressen rá egy adatra (pl. 'jelszó')..." 
+          <input
+            type="text"
+            placeholder="Keressen rá egy adatra (pl. 'jelszó')..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className='search-bar'
@@ -220,7 +209,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   );
 }
 
-// --- PERSONAL TAB (With Edit & Scroll Logic) ---
 function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -241,7 +229,6 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
     }
   }, [user]);
 
-  // Handle auto-scroll and highlight
   useEffect(() => {
     if (!isLoading && scrollTarget) {
       const element = document.getElementById(scrollTarget);
@@ -249,8 +236,8 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         element.classList.add('highlight-flash');
         setTimeout(() => {
-            element.classList.remove('highlight-flash');
-            setScrollTarget(null);
+          element.classList.remove('highlight-flash');
+          setScrollTarget(null);
         }, 2000);
       }
     }
@@ -286,15 +273,15 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
         <div className="info-list">
           <div className="info-row" id="field-name">
             <div className="info-label">TELJES NÉV</div>
-            <div className="info-value">{isEditing ? <input name="name" value={formData.name} onChange={(e)=>setFormData({...formData, name: e.target.value})} className="edit-input"/> : formData.name || "Nincs megadva"}</div>
+            <div className="info-value">{isEditing ? <input name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="edit-input" /> : formData.name || "Nincs megadva"}</div>
           </div>
           <div className="info-row" id="field-phone">
             <div className="info-label">TELEFONSZÁM</div>
-            <div className="info-value">{isEditing ? <input name="phone" value={formData.phone} onChange={(e)=>setFormData({...formData, phone: e.target.value})} className="edit-input"/> : formData.phone || "Nincs megadva"}</div>
+            <div className="info-value">{isEditing ? <input name="phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="edit-input" /> : formData.phone || "Nincs megadva"}</div>
           </div>
           <div className="info-row" id="field-license">
             <div className="info-label">JOGOSÍTVÁNY</div>
-            <div className="info-value">{isEditing ? <input name="license" value={formData.license} onChange={(e)=>setFormData({...formData, license: e.target.value})} className="edit-input"/> : formData.license || "Nincs feltöltve"}</div>
+            <div className="info-value">{isEditing ? <input name="license" value={formData.license} onChange={(e) => setFormData({ ...formData, license: e.target.value })} className="edit-input" /> : formData.license || "Nincs feltöltve"}</div>
           </div>
           <div className="info-row" id="field-email">
             <div className="info-label">EMAIL</div>
@@ -306,39 +293,37 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   );
 }
 
-// --- SECURITY TAB ---
 function SecurityTab({ user, scrollTarget, setScrollTarget }) {
-    useEffect(() => {
-        if (scrollTarget) {
-          const element = document.getElementById(scrollTarget);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            element.classList.add('highlight-flash');
-            setTimeout(() => {
-                element.classList.remove('highlight-flash');
-                setScrollTarget(null);
-            }, 2000);
-          }
-        }
-    }, [scrollTarget, setScrollTarget]);
+  useEffect(() => {
+    if (scrollTarget) {
+      const element = document.getElementById(scrollTarget);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.classList.add('highlight-flash');
+        setTimeout(() => {
+          element.classList.remove('highlight-flash');
+          setScrollTarget(null);
+        }, 2000);
+      }
+    }
+  }, [scrollTarget, setScrollTarget]);
 
-    return (
-        <div className="personal-info-container">
-            <header className="tab-header"><h1>Biztonság</h1></header>
-            <section className="info-card shadow-sm">
-                <div className="info-list">
-                    <div className="info-row" id="field-password">
-                        <div className="info-label">JELSZÓ</div>
-                        <div className="info-value">••••••••</div>
-                        <button className="google-chip">Módosítás</button>
-                    </div>
-                </div>
-            </section>
+  return (
+    <div className="personal-info-container">
+      <header className="tab-header"><h1>Biztonság</h1></header>
+      <section className="info-card shadow-sm">
+        <div className="info-list">
+          <div className="info-row" id="field-password">
+            <div className="info-label">JELSZÓ</div>
+            <div className="info-value">••••••••</div>
+            <button className="google-chip">Módosítás</button>
+          </div>
         </div>
-    );
+      </section>
+    </div>
+  );
 }
 
-// --- STATISTICS TAB ---
 function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -366,12 +351,12 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
       <header className="tab-header"><h1>Bérléseim</h1></header>
       <div className="d-flex gap-3 mb-4">
         <div className="info-card flex-fill p-4 text-center">
-            <h2 style={{color: "#DAA520"}}>{orders.length}</h2>
-            <p className="m-0 text-muted">Összes bérlés</p>
+          <h2 style={{ color: "#DAA520" }}>{orders.length}</h2>
+          <p className="m-0 text-muted">Összes bérlés</p>
         </div>
         <div className="info-card flex-fill p-4 text-center">
-            <h2 style={{color: "#DAA520"}}>{totalSpent.toLocaleString()} Ft</h2>
-            <p className="m-0 text-muted">Összes költés</p>
+          <h2 style={{ color: "#DAA520" }}>{totalSpent.toLocaleString()} Ft</h2>
+          <p className="m-0 text-muted">Összes költés</p>
         </div>
       </div>
       <section className="info-card shadow-sm">
@@ -379,7 +364,7 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
           {orders.map(o => (
             <div key={o.id} className="rental-item d-flex justify-content-between align-items-center p-3">
               <div className="d-flex align-items-center gap-3">
-                <img src={o.imageUrl} alt="car" style={{width: "60px", borderRadius: "4px"}} />
+                <img src={o.imageUrl} alt="car" style={{ width: "60px", borderRadius: "4px" }} />
                 <div>
                   <div className="fw-bold">{o.brand} {o.model}</div>
                   <div className="small text-muted">{new Date(o.startDate).toLocaleDateString()} - {new Date(o.endDate).toLocaleDateString()}</div>
@@ -387,7 +372,7 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
               </div>
               <div className="d-flex align-items-center gap-2">
                 <span className={`badge ${o.status === 2 ? 'bg-success' : 'bg-secondary'}`}>
-                    {o.status === 2 ? 'Aktív' : o.status === 1 ? 'Megerősítésre vár' : 'Befejezett'}
+                  {o.status === 2 ? 'Aktív' : o.status === 1 ? 'Megerősítésre vár' : 'Befejezett'}
                 </span>
                 {o.status === 2 && <button className="google-chip text-danger" onClick={() => handleFinish(o.id)}>Visszavétel</button>}
               </div>
