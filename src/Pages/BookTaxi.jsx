@@ -15,7 +15,6 @@ const BookTaxi = () => {
     const [selectedDriverId, setSelectedDriverId] = useState('1');
     const [isLoading, setIsLoading] = useState(true);
 
-    // Fül szövegének beállítása
     useEffect(() => {
         document.title = "Exotic | Foglalás Véglegesítése";
     }, []);
