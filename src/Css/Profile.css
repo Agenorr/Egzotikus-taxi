@@ -1,13 +1,11 @@
-/* Layout Containers */
 .layout {
     display: flex;
-    background-color: #1f1f1f; /* Dark background from image */
+    background-color: #1f1f1f;
     color: #e3e3e3;
     min-height: 100vh;
     font-family: 'Roboto', Arial, sans-serif;
 }
 
-/* Sidebar Styling */
 .google-sidebar {
     width: 280px;
     height: 100vh;
@@ -36,7 +34,7 @@
     text-decoration: none;
     color: #e3e3e3;
     font-size: 14px;
-    border-radius: 0 25px 25px 0; /* Rounded right side like Google */
+    border-radius: 0 25px 25px 0;
     margin-right: 12px;
 }
 
@@ -45,37 +43,35 @@
 }
 
 .nav-item-link.active {
-    background-color: #DAA520; /* Light blue active background */
-    color: #001d35; /* Dark text for active item */
+    background-color: #DAA520;
+    color: #001d35;
 }
 
 .nav-icon { margin-right: 16px; font-size: 18px; }
 
-/* Main Content Styling */
 .google-main {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;    /* This centers children horizontally */
+    align-items: center;
     justify-content: flex-start;
-    padding: 48px 24px;     /* Give it some breathing room */
-    min-width: 0;           /* Prevents flex items from overflowing */
+    padding: 48px 24px;
+    min-width: 0;
 }
-/* Container to align the chips horizontally */
+
 .chip-container {
     display: flex;
     justify-content: center;
-    gap: 8px; /* Space between chips */
+    gap: 8px;
     margin-top: 24px;
-    flex-wrap: wrap; /* Allows them to wrap on small screens */
+    flex-wrap: wrap;
 }
 
-/* Individual Google-style Chip */
 .google-chip {
     background-color: transparent;
     color: #e3e3e3;
-    border: 1px solid #5f6368; /* Subtle grey border */
-    border-radius: 8px; /* Google uses slightly squared-off pills now */
+    border: 1px solid #5f6368;
+    border-radius: 8px;
     padding: 6px 16px;
     font-size: 14px;
     font-weight: 500;
@@ -84,8 +80,8 @@
 }
 
 .google-chip:hover {
-    background-color: #3c4043; /* Slightly lighter on hover */
-    border-color: #DAA520; /* Soft blue highlight on hover */
+    background-color: #3c4043;
+    border-color: #DAA520;
 }
 
 .google-chip:active {
@@ -93,15 +89,14 @@
 }
 .profile-header {
     width: 100%;
-    max-width: 800px;       /* Limits width so it doesn't stretch too far */
+    max-width: 800px;
     display: flex;
     flex-direction: column;
-    align-items: center;    /* Centers the avatar and text inside the header */
+    align-items: center;
     text-align: center;
     margin-bottom: 32px;
 }
 
-/* Avatar Decorations */
 .avatar-wrapper {
     position: relative;
     width: 100px;
@@ -111,8 +106,8 @@
 .avatar-main {
     width: 100%;
     height: 100%;
-    background-color: #e65100; /* Orange color from image */
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Organic shape */
+    background-color: #e65100;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,7 +125,6 @@
     font-size: 12px;
 }
 
-/* Settings Card */
 .settings-card {
     background-color: #2d2e31;
     border-radius: 28px;
@@ -150,7 +144,6 @@
     font-weight: 500;
 }
 
-/* Search Pill */
 .search-pill {
     background: #3c4043;
     border-radius: 24px;
@@ -169,7 +162,7 @@
     outline: none;
     width: 100%;
 }
-/* Personal Info Specific Styles */
+
 .personal-info-container {
     width: 100%;
     max-width: 840px;
@@ -196,9 +189,8 @@
     color: #9aa0a6;
 }
 
-/* Card Styling */
 .info-card {
-    background-color: #2d2e31; /* Matches your settings-card */
+    background-color: #2d2e31;
     border: 1px solid #3c4043;
     border-radius: 16px;
     margin-bottom: 24px;
@@ -220,7 +212,6 @@
     font-size: 14px;
 }
 
-/* Row Styling */
 .info-row {
     display: flex;
     align-items: center;
@@ -265,11 +256,10 @@
     margin-left: 10px;
 }
 
-/* Small Avatar within row */
 .avatar-small {
     width: 40px;
     height: 40px;
-    background-color: #DAA520; /* Gold theme color */
+    background-color: #DAA520;
     color: #001d35;
     border-radius: 50%;
     display: flex;
@@ -333,11 +323,8 @@
 .status-active { background-color: #34a853; color: #fff; }  /* Green */
 .status-completed { background-color: #5f6368; color: #fff; } /* Grey */
 
-/* ---- Új kódok a szerkesztéshez és a statisztikákhoz ---- */
-
-/* Szerkeszthető input mezők stílusa */
 .edit-input {
-    background-color: #202124; /* Még sötétebb háttér, hogy kiemelkedjen az input */
+    background-color: #202124;
     border: 1px solid #5f6368;
     color: #e3e3e3;
     padding: 10px 14px;
@@ -350,10 +337,9 @@
 }
 
 .edit-input:focus {
-    border-color: #DAA520; /* Arany fókusz szín */
+    border-color: #DAA520;
 }
 
-/* Bérlési listaelemek a statisztikákhoz */
 .rental-item {
     display: flex;
     justify-content: space-between;
@@ -393,7 +379,7 @@
 }
 
 .status-active {
-    background-color: rgba(218, 165, 32, 0.15); /* Arany átlátszó háttér */
+    background-color: rgba(218, 165, 32, 0.15);
     color: #DAA520;
     border: 1px solid rgba(218, 165, 32, 0.3);
 }
