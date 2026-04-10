@@ -88,19 +88,19 @@ const Taxi = () => {
       <div className="search-form-container">
         <form onSubmit={handleSearch} className="search-form">
           <div className="form-group">
-            <label>Felvétel Helye</label>
+            <label>Felvétel Helye:</label>
             <input type="text" className="date-input" value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
           </div>
           <div className="form-group">
-            <label>Leadás Helye</label>
+            <label>Úticél:</label>
             <input type="text" className="date-input" value={dropoffLocation} onChange={(e) => setDropoffLocation(e.target.value)} required />
           </div>
           <div className="form-group">
-            <label>Dátum</label>
+            <label>Dátum:</label>
             <input type="date" className="date-input" min={today} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
           </div>
           <div className="form-group">
-            <label>Időpont (24h)</label>
+            <label>Időpont: (24h)</label>
             <select className="date-input" value={pickupTime} onChange={(e) => setPickupTime(e.target.value)}>
               {generateTimeOptions().map(t => <option key={t} value={t}>{t}</option>)}
             </select>
@@ -112,6 +112,19 @@ const Taxi = () => {
           </div>
         </form>
       </div>
+
+      {/* --- ÚJ: VAGY elválasztó és Telefonos hívás szekció --- */}
+      <div className="or-divider">
+        <span>VAGY</span>
+      </div>
+
+      <div className="quick-call-container">
+        <p>Azonnali taxi rendeléshez hívjon minket most:</p>
+        <a href="tel:+36706286383" className="quick-call-number">
+          <i className="fa fa-phone"></i> +36 70 628 6383
+        </a>
+      </div>
+      {/* --- ÚJ RÉSZ VÉGE --- */}
 
       {availableCars.length > 0 && (
         <div className="filter-container">
