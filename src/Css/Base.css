@@ -1,6 +1,5 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap');
-/* Footer styling */
+
 footer {
     background-color: #1a1a1a;
     color: white;
@@ -37,33 +36,32 @@ footer p {
 
 .navbar-center {
     position: absolute;
-    inset: 0;                 /* top:0; right:0; bottom:0; left:0 */
+    inset: 0;
     display: flex;
-    align-items: center;      /* vertical centering */
-    justify-content: center;  /* horizontal centering */
-    pointer-events: none;     /* allows clicks through to buttons */
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
 }
 
 .navbar-title {
-    font-family: 'Modernline', sans-serif; /* Handwritten font */
-    font-size: 1.5rem; /* Larger font size for prominence */
-    color: #DAA520 !important; /* Luxurious gold color */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-    letter-spacing: 2px; /* Elegant letter spacing */
+    font-family: 'Modernline', sans-serif;
+    font-size: 1.5rem;
+    color: #DAA520 !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
     white-space: nowrap;
     line-height: 1;
     margin: auto;
     padding: auto;
 
 }
-/* Sidebar Exotic text */
+
 .sidebar .navbar-title {
     font-family: 'Monsieur La Doulaise', cursive;
-    font-size: 2.5rem; /* Adjust the size here */
+    font-size: 2.5rem;
     color: orange;
 }
 
-/* Navbar styling */
 .navbar-custom {
     background-color: #333;
     padding: 10px 20px;
@@ -77,18 +75,15 @@ footer p {
     color: white;
     margin-left: 20px;
     position: relative;
-    padding-bottom: 5px; /* Adds space for the line */
-    text-decoration: none; /* Removes underline */
+    padding-bottom: 5px;
+    text-decoration: none;
 }
 
-
-/* Hover effect: expand line to full width */
 .navbar-custom .navbar-nav .sidebar-item:hover::after,
 .sidebar .sidebar-item:hover::after {
-    width: 100%; /* Line expands to full width */
+    width: 100%;
 }
 
-/* Sidebar styles */
 .sidebar {
     height: 100%;
     width: 0;
@@ -105,35 +100,35 @@ footer p {
 .sidebar-item {
     color: white !important;
     text-decoration: none;
-    font-size: 0.8rem; /* Adjust this to match your desired size */
+    font-size: 0.8rem;
 
     display: block;
     transition: all 0.3s ease;
-    border-bottom: 2px solid transparent; /* The "hidden" line */
+    border-bottom: 2px solid transparent;
     background: none;
     border: none;
     text-align: left;
 }
 
 .sidebar .sidebar-item {
-    font-family: inherit;      /* Inherit the font from the body/sidebar */
-    font-size: 18px;           /* Match your .sidebar a size */
-    width: 100%;               /* Make it as wide as the sidebar */
-    text-align: left;          /* Align text to the left like Links */
-    background: none;          /* Remove button grey background */
-    border: none;              /* Remove button border */
-    display: flex;             /* Use flex to align text and potential icons */
-    flex-direction: column;    /* Keep the ::after line below the text */
-    padding: 5px 5px;        /* Match the padding of other links */
+    font-family: inherit;
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 5px;
     cursor: pointer;
 }
 
 .sidebar .sidebar-item:hover {
     background-color: #575757;
 }
-/* 2. Force the custom gold line to appear on the sidebar-item specifically */
+
 .sidebar .sidebar-item::after {
-    content: '' !important; /* Force content to exist */
+    content: '' !important;
     display: block !important;
     width: 50px; 
     height: 4px; 
@@ -170,7 +165,6 @@ footer p {
     width: 30%;
 }
 
-/* Sidebar dropdown styles */
 .sidebar .dropdown-menu{
     background-color: #333;
     color: white;
@@ -184,40 +178,36 @@ footer p {
     color: white;
  }
 
-
-/* Apply the gold line to dropdown items like sidebar-item */
 .sidebar .dropdown-menu .dropdown-item::after {
-    content: '';                /* Makes the pseudo-element exist */
-    display: block;             /* Behaves like a block under the text */
-    width: 50px;                /* Short line */
-    height: 4px;                /* Thickness of the line */
-    background-color: #DAA520;  /* Gold color */
-    margin-top: 5px;            /* Space below text */
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: #DAA520;
+    margin-top: 5px;
     transition: width 0.3s ease, background-color 0.3s ease;
 }
-/* Expand the line on hover */
+
 .sidebar .dropdown-menu .dropdown-item:hover::after {
-    width: 100%;                /* Expand to full width */
-    background-color: #DAA520;  /* Keep gold on hover */
+    width: 100%;
+    background-color: #DAA520;
 }
 
-/* Line effect for all navbar and sidebar links */
 .navbar-custom .navbar-nav .sidebar-item::after,
 .sidebar .sidebar-item::after {
     content: '';
     display: block;
-    width: 50px; /* Short line */
-    height: 4px; /* Thickness of the line */
-    background-color: #DAA520 !important; /* Set your desired color here */
+    width: 50px;
+    height: 4px;
+    background-color: #DAA520 !important;
     margin-top: 5px;
-    transition: width 0.3s ease, background-color 0.3s ease; /* Transition for width and color */
+    transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-/* Hover effect: expand line to full width */
 .navbar-custom .navbar-nav .sidebar-item:hover::after,
 .sidebar .sidebar-item:hover::after {
-    width: 100%; /* Line expands to full width */
-    background-color: #DAA520 !important; /* Ensure the color remains on hover */
+    width: 100%;
+    background-color: #DAA520 !important;
 }
 
 
@@ -229,7 +219,6 @@ footer p {
     content: none;
 } 
 
-/* Toggle indicator for dropdown */
 .dropdown-toggle {
     color: white;
     margin-left: 10px;
@@ -241,8 +230,6 @@ footer p {
     color: white;
 }
 
-
-/* Hamburger icon styling */
 .hamburger-icon {
     cursor: pointer;
     font-size: 30px;
@@ -253,23 +240,19 @@ footer p {
     color: white !important;
 }
 
-
 .dropdown-toggle::after {
     display: none !important;
 }
 
-
-/* Login Dropdown konténer stílus */
 .nav-item.dropdown .dropdown-menu.show {
-    background-color: #1a1a1a; /* Sötét háttér */
-    border: 1px solid #DAA520; /* Arany szegély */
+    background-color: #1a1a1a;
+    border: 1px solid #DAA520;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     color: white;
-    animation: exoticSlideDown 0.3s ease; /* Finom megjelenés */
+    animation: exoticSlideDown 0.3s ease;
 }
 
-/* Input mezők designja a dropdownon belül */
 .nav-item.dropdown .form-control {
     background-color: #333;
     border: 1px solid #444;
@@ -285,7 +268,6 @@ footer p {
     color: white;
 }
 
-/* A bejelentkezés gomb egyedi stílusa */
 .nav-item.dropdown form button[type="submit"] {
     background-color: #DAA520;
     color: black;
@@ -301,14 +283,11 @@ footer p {
     transform: scale(1.05);
 }
 
-
 .nav-item.dropdown .dropdown-item:hover {
     background: transparent !important;
     color: white !important;
 }
 
-/* Finom animáció */
-/* 1. Slide Down (Opening) */
 @keyframes exoticSlideDown {
     from {
         opacity: 0;
@@ -320,7 +299,6 @@ footer p {
     }
 }
 
-/* 2. Slide Up (Closing) */
 @keyframes exoticSlideUp {
     from {
         opacity: 1;
@@ -332,17 +310,15 @@ footer p {
     }
 }
 
-/* 3. The trigger classes */
 .dropdown-animate-in {
     animation: exoticSlideDown 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
     transform-origin: top;
 }
 
 .dropdown-animate-out {
-    /* 'forwards' is the most important part here! */
     animation: exoticSlideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
     transform-origin: top;
-    pointer-events: none; /* Stops the user from clicking buttons while it's leaving */
+    pointer-events: none;
 }
 
 .login-btn, .logout-btn, .profile-btn{
@@ -371,4 +347,3 @@ footer p {
     border-bottom: 2px solid #DAA520;
     margin-bottom: 10px;
 }
-
