@@ -13,14 +13,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer style={{ backgroundColor: '#1a1a1a', borderTop: '1px solid #333', padding: '60px 0 20px 0' }}>
+    <footer style={{ backgroundColor: '#1a1a1a', borderTop: '1px solid #333', padding: '30px 0 10px 0' }}>
       <div className="container">
 
         {/* Hozzáadtam az align-items-center osztályt, így a Logó függőlegesen is tökéletesen középre kerül */}
-        <div className="row mb-5 align-items-center">
+        <div className="row mb-4 align-items-center">
 
           {/* 1. Oszlop: Logó (Vízszintesen is középre igazítva) */}
-          <div className="col-md-4 mb-5 mb-md-0 d-flex justify-content-center">
+          <div className="col-md-4 mb-4 mb-md-0 d-flex justify-content-center">
             <img
               src="/Assets/Exotic_logo.webp"
               alt="Exotic Logo"
@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
 
           {/* 2. Oszlop: Navigáció (Középre igazított szöveg és kisebb sorköz) */}
-          <div className="col-md-4 mb-5 mb-md-0 d-flex flex-column align-items-center text-center">
+          <div className="col-md-4 mb-4 mb-md-0 d-flex flex-column align-items-center text-center">
             <h5 style={{ color: '#fff', marginBottom: '20px', fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px' }}>
               Navigáció
             </h5>
@@ -93,7 +93,7 @@ export default function Footer() {
         </div>
 
         {/* Alsó rész: Copyright és ÁSZF */}
-        <div className="row" style={{ borderTop: '1px solid #2a2a2a', paddingTop: '20px' }}>
+        <div className="row" style={{ borderTop: '1px solid #2a2a2a', paddingTop: '15px' }}>
           <div className="col-12 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
 
             <p style={{ fontSize: '13px', color: '#777', margin: 0 }}>
