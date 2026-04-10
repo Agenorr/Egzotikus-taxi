@@ -3,28 +3,26 @@ import Footer from "../Components/footer"
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import '../Css/Taxi.css'; 
+import '../Css/Taxi.css';
 
 const Taxi = () => {
-  const navigate = useNavigate(); 
-  
-  // Fül szövegének beállítása
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Exotic | Taxi Rendelés";
   }, []);
 
   const [pickupDate, setPickupDate] = useState('');
-  const [pickupTime, setPickupTime] = useState('12:00'); 
+  const [pickupTime, setPickupTime] = useState('12:00');
   const [pickupLocation, setPickupLocation] = useState('');
   const [dropoffLocation, setDropoffLocation] = useState('');
-  
+
   const [availableCars, setAvailableCars] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(''); 
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
   const today = new Date().toISOString().split('T')[0];
 
-  // Generates military time options (00:00 - 23:30)
   const generateTimeOptions = () => {
     const times = [];
     for (let hour = 0; hour < 24; hour++) {
@@ -53,7 +51,7 @@ const Taxi = () => {
         model: car.model,
         category: car.category || 'Egyéb',
         image_url: car.images && car.images.length > 0 ? car.images[0].imageUrl : '',
-        price_per_day: car.pricePerDay || 0, 
+        price_per_day: car.pricePerDay || 0,
         description: car.description || `${car.brand} ${car.model}`
       }));
 
@@ -66,95 +64,94 @@ const Taxi = () => {
   };
 
   const handleBookCar = (car) => {
-    navigate('/book-taxi', { 
-      state: { car, pickupDate, pickupTime, pickupLocation, dropoffLocation } 
+    navigate('/book-taxi', {
+      state: { car, pickupDate, pickupTime, pickupLocation, dropoffLocation }
     });
   };
 
   const uniqueCategories = [...new Set(availableCars.map(car => car.category).filter(Boolean))];
-  const filteredCars = selectedCategory 
+  const filteredCars = selectedCategory
     ? availableCars.filter(car => car.category === selectedCategory)
     : availableCars;
-  
-  return (
-    <div><Navbar/>
-    <div className="rentals-container">
-      
-      
-      <div className="rentals-header">
-        <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
-      </div>
 
-      <div className="search-form-container">
-        <form onSubmit={handleSearch} className="search-form">
-          <div className="form-group">
-            <label>Felvétel Helye:</label>
-            <input type="text" className="date-input" value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <label>Úticél:</label>
-            <input type="text" className="date-input" value={dropoffLocation} onChange={(e) => setDropoffLocation(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <label>Dátum:</label>
-            <input type="date" className="date-input" min={today} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <label>Időpont: (24h)</label>
-            <select className="date-input" value={pickupTime} onChange={(e) => setPickupTime(e.target.value)}>
-              {generateTimeOptions().map(t => <option key={t} value={t}>{t}</option>)}
+  return (
+    <div><Navbar />
+      <div className="rentals-container">
+
+
+        <div className="rentals-header">
+          <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
+        </div>
+
+        <div className="search-form-container">
+          <form onSubmit={handleSearch} className="search-form">
+            <div className="form-group">
+              <label>Felvétel Helye:</label>
+              <input type="text" className="date-input" value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label>Úticél:</label>
+              <input type="text" className="date-input" value={dropoffLocation} onChange={(e) => setDropoffLocation(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label>Dátum:</label>
+              <input type="date" className="date-input" min={today} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label>Időpont: (24h)</label>
+              <select className="date-input" value={pickupTime} onChange={(e) => setPickupTime(e.target.value)}>
+                {generateTimeOptions().map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div className="search-button-wrapper">
+              <button type="submit" className="search-submit-btn">
+                {isSearching ? 'Keresés...' : 'Elérhető Járművek Keresése'}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="or-divider">
+          <span>VAGY</span>
+        </div>
+
+        <div className="quick-call-container">
+          <p>Azonnali taxi rendeléshez hívjon minket most:</p>
+          <a href="tel:+36706286383" className="quick-call-number">
+            <i className="fa fa-phone"></i> +36 70 628 6383
+          </a>
+        </div>
+
+        {availableCars.length > 0 && (
+          <div className="filter-container">
+            <select className="category-filter" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+              <option value="">Minden Kategória</option>
+              {uniqueCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
             </select>
           </div>
-          <div className="search-button-wrapper">
-            <button type="submit" className="search-submit-btn">
-              {isSearching ? 'Keresés...' : 'Elérhető Járművek Keresése'}
-            </button>
-          </div>
-        </form>
-      </div>
+        )}
 
-      {/* --- ÚJ: VAGY elválasztó és Telefonos hívás szekció --- */}
-      <div className="or-divider">
-        <span>VAGY</span>
-      </div>
-
-      <div className="quick-call-container">
-        <p>Azonnali taxi rendeléshez hívjon minket most:</p>
-        <a href="tel:+36706286383" className="quick-call-number">
-          <i className="fa fa-phone"></i> +36 70 628 6383
-        </a>
-      </div>
-      {/* --- ÚJ RÉSZ VÉGE --- */}
-
-      {availableCars.length > 0 && (
-        <div className="filter-container">
-          <select className="category-filter" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            <option value="">Minden Kategória</option>
-            {uniqueCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-          </select>
-        </div>
-      )}
-
-      <div className="results-section">
-        <div className="results-grid">
-          {filteredCars.map((car) => (
-            <div key={car.id} className="car-card">
-              <div className="car-image-container">
-                <img src={car.image_url} alt={car.model} className="car-image" />
-              </div>
-              <div className="car-details">
-                <h3 className="car-title">{car.brand} {car.model}</h3>
-                <div className="car-footer">
-                  <span className="car-price">${car.price_per_day}<span>/út</span></span>
-                  <button onClick={() => handleBookCar(car)} className="book-now-btn">Foglalás Most</button>
+        <div className="results-section">
+          <div className="results-grid">
+            {filteredCars.map((car) => (
+              <div key={car.id} className="car-card">
+                <div className="car-image-container">
+                  <img src={car.image_url} alt={car.model} className="car-image" />
+                </div>
+                <div className="car-details">
+                  <h3 className="car-title">{car.brand} {car.model}</h3>
+                  <div className="car-footer">
+                    <span className="car-price">${car.price_per_day}<span>/út</span></span>
+                    <button onClick={() => handleBookCar(car)} className="book-now-btn">Foglalás Most</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
       </div>
-      <Footer/>
-    </div>
+      <Footer />
     </div>
   );
 };

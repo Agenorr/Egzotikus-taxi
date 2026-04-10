@@ -8,16 +8,12 @@ const VerificationWidget = () => {
 
     if (!isLoggedIn || !user) return null;
 
-    // Look for 'clearance' or 'Clearance' (depending on how C# formats the JSON)
     const currentLevel = user.clearance || user.Clearance || 1;
 
-    // If they are level 2 or 3 (like your admins), hide the widget!
     if (currentLevel >= 2) return null;
 
-    // Match your database columns for the task list
     const isEmailVerified = user.is_verified || user.isVerified || user.IsVerified || false;
     
-    // If they have a license number string in the DB, we consider it uploaded
     const licenseVal = user.license_number || user.licenseNumber || user.LicenseNumber;
     const isLicenseUploaded = licenseVal && licenseVal.trim() !== "" ? true : false;
 

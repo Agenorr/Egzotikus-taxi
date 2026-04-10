@@ -1,4 +1,3 @@
-/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -10,14 +9,12 @@ body {
   line-height: 1.6;
 }
 
-/* ===== CONTAINER (FIGYELEM: Bootstrap container-t felülírja) ===== */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: auto;
 }
 
-/* ===== HERO ===== */
 .hero {
   height: 500px;
   font-size: 1.2rem;
@@ -30,7 +27,6 @@ body {
   position: relative;
 }
 
-/* Sötét + narancsos overlay (kép marad!) */
 .hero::before {
   content: "";
   position: absolute;
@@ -55,7 +51,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* ===== HERO ACCENT ===== */
 .renting-hero-accent {
   width: 110px;
   height: 4px;
@@ -64,12 +59,10 @@ body {
   background: #ff8c00;
 }
 
-/* ===== BOOTSTRAP COLUMN SPACING ===== */
 .container .row .col-md-4 {
   padding: 20px;
 }
 
-/* ===== "Bérlési Szabályzat" középre + csík alá ===== */
 .renting-info-page .renting-section-title {
   display: table;
   margin: 0 auto 16px;
@@ -87,16 +80,15 @@ body {
   background: #ff8c00;
 }
 
-/* ===== POLICY KÁRTYÁK (hover + ikon közép + bal csík) ===== */
 .renting-info-page .renting-policy-card {
   background: #f4f4f4;
   padding: 20px;
   margin: 15px 0;
   border-radius: 8px;
   display: flex;
-  align-items: center;          /* ikon vertikálisan közép */
+  align-items: center;
   position: relative;
-  padding-left: 22px;           /* hely a csíknak */
+  padding-left: 22px;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
@@ -106,19 +98,16 @@ body {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
 }
 
-/* ikon ne legyen "mt-1" miatt feljebb */
 .renting-info-page .renting-policy-icon {
   margin-top: 0 !important;
   align-self: center;
   color: #ff8c00;
 }
 
-/* a JSX-ben lévő külön csík elem ne látszódjon */
 .renting-info-page .renting-policy-left {
   display: none;
 }
 
-/* bal csík a kártyán */
 .renting-info-page .renting-policy-card::before {
   content: "";
   position: absolute;
@@ -130,7 +119,6 @@ body {
   background: #ff8c00;
 }
 
-/* ===== FEATURE SECTION (alsó ikonok) ===== */
 .renting-feature-icon {
   color: #ff8c00;
 }
@@ -145,7 +133,6 @@ body {
   color: #555;
 }
 
-/* Jogi Dokumentumok */
 .renting-legal-card {
   background: white;
   border-radius: 10px;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../Context/AuthContext'; // <-- Make sure this path is correct!
+import { AuthContext } from '../Context/AuthContext';
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import '../Css/Base.css';
@@ -16,20 +16,16 @@ const CarDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
     
-    // Grab the logged-in user from AuthContext
     const { user } = useContext(AuthContext);
     
-    // Grab dates if they happen to come from a previous flow
     const { startDate, endDate } = location.state || {};
 
-    // Local state for the built-in calendar
     const [localStartDate, setLocalStartDate] = useState(startDate || '');
     const [localEndDate, setLocalEndDate] = useState(endDate || '');
     
     const [carDetails, setCarDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Date logic for the calendar (prevent past dates)
     const now = new Date();
     const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
@@ -48,7 +44,6 @@ const CarDetails = () => {
         fetchFullCarDetails();
     }, [id]);
 
-    // --- Pure Car Rental Calculations ---
     const hasValidDates = localStartDate && localEndDate;
     let diffDays = 1;
     let totalCost = 0;
@@ -64,16 +59,13 @@ const CarDetails = () => {
         totalCost = carDailyPrice * diffDays;
     }
 
-    // --- API POST Request Logic ---
     const handleBooking = async () => {
-        // 1. Check if user is logged in
         if (!user || !user.id) {
             alert("Kérjük, jelentkezzen be a bérléshez!");
-            navigate('/Register'); // Redirect to login/register if they aren't signed in
+            navigate('/Register');
             return;
         }
 
-        // 2. Format the data to match your C# CreateOrderDto
         const orderData = {
             userId: user.id,
             vehicleId: parseInt(id),
@@ -82,11 +74,10 @@ const CarDetails = () => {
             totalPrice: totalCost
         };
 
-        // 3. Send it to the backend!
         try {
             const response = await axios.post('https://localhost:7065/api/orders', orderData);
             alert("Bérlési kérelem sikeresen elküldve!");
-            navigate('/Profile'); // Send them to their profile to view the order
+            navigate('/Profile');
         } catch (error) {
             console.error("Hiba történt a foglalás során", error);
             alert("Hiba történt a foglalás során. Kérjük, próbálja újra.");
@@ -116,7 +107,6 @@ const CarDetails = () => {
                 </button>
 
                 <div className="row g-5">
-                    {/* LEFT SIDE: Image & Description */}
                     <div className="col-lg-7">
                         {primaryImage ? (
                             <img 
@@ -144,13 +134,11 @@ const CarDetails = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT SIDE: Booking & Specs */}
                     <div className="col-lg-5">
                         <div className="bg-white p-4 rounded shadow-sm mb-4">
                             <h1 className="mb-1">{carDetails.brand} {carDetails.model}</h1>
                             <h5 className="text-muted mb-4">{carDetails.category} • Évjárat: {carDetails.year || "N/A"}</h5>
                             
-                            {/* Built-in Calendar System */}
                             <div className="p-3 mb-4 rounded border" style={{ backgroundColor: "#fafafa" }}>
                                 <h5 className="mb-3">Bérlés időtartama</h5>
                                 <div className="row">
@@ -183,7 +171,6 @@ const CarDetails = () => {
                                 </div>
                             </div>
 
-                            {/* Dynamic Content based on date selection */}
                             {hasValidDates ? (
                                 <>
                                     <div className="d-flex justify-content-between mb-2">
@@ -195,7 +182,6 @@ const CarDetails = () => {
                                         {totalCost.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ végösszeg</span>
                                     </h2>
 
-                                    {/* POST REQUEST BUTTON */}
                                     <button 
                                         className="btn btn-primary btn-lg w-100 mb-4" 
                                         style={{ backgroundColor: "#e65100", borderColor: "#e65100", fontWeight: "bold" }}
@@ -205,7 +191,6 @@ const CarDetails = () => {
                                     </button>
                                 </>
                             ) : (
-                                /* What to show before they pick dates */
                                 <div className="text-center py-4">
                                     <h2 className="text-warning font-weight-bold mb-3">
                                         {carDailyPrice.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ nap</span>
@@ -224,7 +209,6 @@ const CarDetails = () => {
 
                             <hr />
 
-                            {/* Technical Specs Grid */}
                             <h4 className="mb-3 mt-3">Műszaki Adatok</h4>
                             <div className="row">
                                 <div className="col-6 mb-3">

@@ -28,17 +28,14 @@ const Home = ({ serverData }) => {
         <div>
             <Navbar />
             
-            {/* Carousel csúszka konténer */}
             <div id="carSlideshow" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 
-                {/* Az alsó fehér átmenet, ami fixen a csúszka alján marad */}
                 <div className="home-hero-fade"></div>
 
-                {/* Új, egységesített címsor dizájn narancs vonallal */}
                 <div className="greeting-text">
                     <h1 className="home-hero-title">Üdvözlünk az Exotic világában!</h1>
                     <div className="home-hero-accent" />
-                    <p className="home-hero-sub">Vezess álmaid autóját – Stílus, Sebesség, Szenvedély.</p>
+                    <p className="home-hero-sub">Vezess álmaid autóját - Stílus, Sebesség, Szenvedély.</p>
                 </div>
 
                 <div className="carousel-inner">

@@ -13,7 +13,6 @@ export default function register() {
         document.title = "Exotic | Regisztráció";
     }, []);
 
-    // Form State
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -22,12 +21,10 @@ export default function register() {
         confirmPassword: ''
     });
 
-    // UI State
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    // Handle input changes dynamically
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -37,7 +34,6 @@ export default function register() {
         setError('');
         setSuccessMessage('');
 
-        // 1. Frontend Validation
         if (formData.password !== formData.confirmPassword) {
             setError('A jelszavak nem egyeznek! (Passwords do not match)');
             return;
@@ -51,7 +47,6 @@ export default function register() {
         setIsLoading(true);
 
         try {
-            // 2. Send data to your C# Minimal API
             const response = await axios.post('https://localhost:7065/api/register', {
                 username: formData.username,
                 email: formData.email,
@@ -59,18 +54,14 @@ export default function register() {
                 password: formData.password
             });
 
-            // 3. Handle Success
             setSuccessMessage('Sikeres regisztráció! Átirányítás...');
 
-            // Wait 2 seconds so they can read the success message, then send to Home
             setTimeout(() => {
                 navigate('/');
             }, 2000);
 
         } catch (err) {
-            // 4. Handle Errors from the Backend
             if (err.response && err.response.status === 400) {
-                // This catches your "User with this email already exists." error
                 setError(err.response.data || 'Ez az email cím már foglalt!');
             } else {
                 setError('A szerver nem elérhető. Kérjük, próbálja újra később.');
@@ -93,6 +84,14 @@ export default function register() {
                 </div><div className="container flex-grow-1 d-flex justify-content-center align-items-center mt-5 mb-5">
                     <div className="card shadow-lg" style={{ width: '100%', maxWidth: '500px', backgroundColor: '#1a1a1a', border: '1px solid #DAA520', borderRadius: '12px' }}>
                         <div className="card-body p-5 text-white">
+
+                            <div className="text-center mb-0">
+                                <img 
+                                    src="/Assets/Exotic_logo.webp" 
+                                    alt="Exotic Logo" 
+                                    style={{ width: '140px', opacity: '0.9', top: '-20px', position: 'relative' }} 
+                                />
+                            </div>
 
                             <h2 className="text-center mb-4" style={{ color: '#DAA520', fontFamily: "'Monsieur La Doulaise', cursive", fontSize: '3rem' }}>
                                 Regisztráció
@@ -164,9 +163,8 @@ export default function register() {
 
                                 <button
                                     type="submit"
-                                    className="btn w-100 mb-3"
+                                    className="exotic-submit-btn mb-3"
                                     disabled={isLoading}
-                                    style={{ backgroundColor: '#DAA520', color: 'black', fontWeight: 'bold' }}
                                 >
                                     {isLoading ? 'Feldolgozás...' : 'Regisztráció'}
                                 </button>
