@@ -44,12 +44,10 @@ const RentingInfo = () => {
     <div className="renting-info-page">
       <Navbar />
 
-      {/* Hero Section */}
       <section 
         id="home" 
         className="hero renting-hero text-center py-5 text-white"
         style={{ 
-          // IDE ÍRD A BÉRLÉSI FELTÉTELEK HÁTTÉRKÉPÉNEK ÚTVONALÁT!
           background: `url(${require("../Img/berlesifeltetelek_kep.jpg")}) no-repeat center center / cover` 
         }}
       >
@@ -64,7 +62,6 @@ const RentingInfo = () => {
         </div>
       </section>
 
-      {/* Policies Section */}
       <section className="container my-5">
         <h2 className="text-center mb-4 renting-section-title">Bérlési Szabályzat</h2>
 
