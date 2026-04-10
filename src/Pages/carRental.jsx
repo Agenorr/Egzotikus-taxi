@@ -132,7 +132,7 @@ export default function CarRental() {
       selectedFuel.includes(car.fuel);
 
     return isAvailable && matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel;
-});
+  });
 
   const toggleFilter = (list, setList, value) => {
     setList(prev => prev.includes(value) ? prev.filter(i => i !== value) : [...prev, value]);
@@ -165,26 +165,36 @@ export default function CarRental() {
   };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#1a1a1a" }}>
       <Navbar />
 
       <div className={`black-fade-overlay ${isFading ? 'active' : ''}`} />
 
       <div className={`flex-grow-1 d-flex flex-column page-transition ${isFading ? 'page-hidden' : ''}`}>
 
+        <section className="carrental-hero w-100">
+          <div className="carrental-hero-content">
+            <h1 className="carrental-hero-title">Prémium Autóbérlés</h1>
+            <div className="carrental-hero-accent" />
+            <p className="carrental-hero-sub">
+              Találja meg az Ön számára tökéletes luxusautót kínálatunkban.
+            </p>
+          </div>
+        </section>
+
         {!selectedCategory && (
-          <div className="container mt-5 mb-5">
+          <div className="container mt-4 mb-5">
+            <h2 className="text-center mb-5" style={{ color: '#DAA520', fontWeight: 'bold', letterSpacing: '1px' }}>Válasszon Kategóriát</h2>
             <div className="row w-100 mx-0">
               {categories.map((cat, i) => (
                 <div
-                  className="car-card car-card-hover position-relative text-white col-md-4 mb-2 p-1"
+                  className="car-card car-card-hover position-relative text-white col-md-4 mb-3 p-1 mx-auto"
                   key={cat.name}
                   style={{
                     height: "250px",
                     borderRadius: "0.5rem",
                     cursor: "pointer",
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                    border: "none"
+                    border: "1px solid #333"
                   }}
                   onClick={() => handleCategoryClick(cat.name)}
                 >
@@ -198,16 +208,18 @@ export default function CarRental() {
                       style={{ backgroundImage: `url(${cat.images[(imageIndexes[i] + 1) % cat.images.length]})` }}
                     />
                   </div>
+                  
                   <div
                     style={{
                       position: "absolute",
                       inset: 0,
-                      backgroundColor: "rgba(0,0,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0.6)",
                       borderRadius: "0.5rem"
                     }}
                   />
-                  <div className="position-absolute top-50 start-50 translate-middle">
-                    <h2>{cat.label}</h2>
+                  
+                  <div className="position-absolute top-50 start-50 translate-middle w-100" style={{ zIndex: 2 }}>
+                    <h2 style={{ textShadow: "2px 2px 10px rgba(0,0,0,1), -1px -1px 4px rgba(0,0,0,0.8)", letterSpacing: "2px", fontWeight: "bold" }}>{cat.label}</h2>
                   </div>
                 </div>
               ))}
@@ -216,20 +228,20 @@ export default function CarRental() {
         )}
 
         {selectedCategory && (
-          <div className="container mt-5 mb-5">
+          <div className="container mt-4 mb-5">
             <div className="row w-100 mx-0">
 
               <div className="col-md-4 col-lg-3 px-2 mb-4">
                 <div style={{ position: "sticky", top: "20px" }}>
 
                   <button
-                    className="btn w-100 p-3 mb-4 no-focus-ring back-to-categories-btn"
+                    className="btn w-100 p-3 mb-4 no-focus-ring back-to-categories-btn shadow-sm"
                     onClick={handleBackClick}
                   >
-                    ← Vissza a kategóriákhoz
+                    <i className="fa fa-arrow-left me-2"></i> Vissza a kategóriákhoz
                   </button>
 
-                  <div className="filter-panel-custom p-4 shadow">
+                  <div className="filter-panel-custom p-4 shadow-lg">
 
                     <div className="d-flex justify-content-between align-items-center mb-4 border-bottom-gold pb-2">
                       <h4 className="filter-title m-0">SZŰRÉS</h4>
@@ -240,7 +252,7 @@ export default function CarRental() {
 
                     <div className="mb-4">
                       <label className="filter-section-title mb-2 d-block">GYORSKERESŐ</label>
-                      <input type="text" className="form-control filter-input shadow-none"
+                      <input type="text" className="form-control filter-input shadow-none p-2"
                         placeholder="Márka vagy típus..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     </div>
 
@@ -313,38 +325,42 @@ export default function CarRental() {
                 </div>
               </div>
 
-              <div className="col-md-8 col-lg-9 px-4 position-relative" style={{ borderLeft: "1px dashed #DAA520" }}>
+              <div className="col-md-8 col-lg-9 px-4 position-relative" style={{ borderLeft: "1px dashed #444" }}>
                 <div className="row g-4">
                   {filteredCars.length > 0 ? (
                     filteredCars.map(car => {
                       const primaryImage = car.images?.find(img => img.isPrimary) || car.images?.[0];
                       return (
                         <div className="col-12 col-md-6 col-xl-4" key={car.id}>
+
                           <div className="car-card car-card-hover position-relative text-white w-100"
                             style={{
                               height: "300px",
                               backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : 'none',
                               backgroundSize: "cover",
                               backgroundPosition: "center",
-                              borderRadius: "0.5rem",
+                              borderRadius: "8px",
                               overflow: "hidden"
                             }}
                           >
-                            <div style={{ position: "absolute", inset: "5%", backgroundColor: "rgba(0,0,0,0.5)", borderRadius: "0.5rem" }} />
-                            <div className="card-content position-absolute bottom-0 start-50 translate-middle-x p-3 w-100 text-center" style={{ zIndex: 2 }}>
-                              <h4 className="mb-5" style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}>{car.brand} {car.model}</h4>
-                              <Link to={`/CarRental/${car.id}`} className="btn btn-primary no-focus-ring" style={{ backgroundColor: "#e65100", borderColor: "#e65100" }}>
-                                Részletek
-                              </Link>
+                            <div className="card-fade-bottom"></div>
+                            
+                            <div className="card-content position-absolute bottom-0 start-50 translate-middle-x w-100 text-center pb-5" style={{ zIndex: 2 }}>
+                              <h4 className="mb-4" style={{ textShadow: "2px 2px 10px rgba(0,0,0,1), -1px -1px 4px rgba(0,0,0,0.8)", fontWeight: "bold" }}>{car.brand} {car.model}</h4>
                             </div>
+                            
+                            <Link to={`/CarRental/${car.id}`} className="btn no-focus-ring">
+                              Részletek
+                            </Link>
                           </div>
                         </div>
                       );
                     })
                   ) : (
-                    <div className="col-12 text-center mt-5">
-                      <h4 className="text-muted">Nincs a szűrésnek megfelelő autó.</h4>
-                      <button className="btn btn-link no-focus-ring" style={{ color: "#DAA520" }} onClick={handleClearFilters}>Összes autó megjelenítése</button>
+                    <div className="col-12 text-center mt-5 p-5" style={{ backgroundColor: "#222", borderRadius: "8px", border: "1px solid #333" }}>
+                      <i className="fa fa-car fa-3x mb-3" style={{ color: "#777" }}></i>
+                      <h4 style={{ color: "#fff", textShadow: "1px 1px 2px rgba(0,0,0,0.8)" }}>Nincs a szűrésnek megfelelő autó.</h4>
+                      <button className="btn btn-link no-focus-ring mt-2" style={{ color: "#DAA520", fontWeight: "bold" }} onClick={handleClearFilters}>Összes autó megjelenítése</button>
                     </div>
                   )}
                 </div>
