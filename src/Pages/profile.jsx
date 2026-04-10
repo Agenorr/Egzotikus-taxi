@@ -16,12 +16,18 @@ export default function Profile() {
     document.title = "Exotic | Profil";
   }, []);
 
+  // 1. Conditionally build the navigation menu
   const navItems = [
     { id: "main", name: "Kezdőlap", icon: "🏠" },
     { id: "personal", name: "Személyes adatok", icon: "👤" },
     { id: "security", name: "Biztonság", icon: "🔒" },
     { id: "stats", name: "Statisztikák", icon: "📊" },
   ];
+
+  // If the user is a driver, add the Driver Dashboard to the sidebar
+  if (user?.isDriver) {
+    navItems.push({ id: "driver", name: "Sofőr Pult", icon: "🚕" });
+  }
 
   // Helper to change tab and set a scroll target simultaneously
   const navigateAndScroll = (tab, targetId) => {
@@ -39,6 +45,8 @@ export default function Profile() {
         return <SecurityTab user={user} scrollTarget={scrollTarget} setScrollTarget={setScrollTarget} />;
       case 'stats':
         return <StatisticsTab user={user} scrollTarget={scrollTarget} setScrollTarget={setScrollTarget} />;
+      case 'driver':
+        return <DriverTab user={user} />; // 2. Add the Driver Tab to the switch statement
       default:
         return <HomeTab user={user} navigateAndScroll={navigateAndScroll} setActiveTab={setActiveTab} />;
     }
@@ -77,7 +85,7 @@ export default function Profile() {
   );
 }
 
-// --- HOME TAB (With Search Palette & Avatar Upload) ---
+// --- HOME TAB ---
 function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
@@ -95,7 +103,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
     { label: "Bérlési előzmények", tab: "stats", targetId: "field-history", keywords: ["autó", "pénz", "költség"] },
   ];
 
-  // 1. Fetch the user's profile picture when the component mounts
   useEffect(() => {
     if (user?.id) {
       axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
@@ -108,12 +115,10 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
     }
   }, [user]);
 
-  // 2. Trigger the hidden file input
   const handleAvatarClick = () => {
     fileInputRef.current.click();
   };
 
-  // 3. Handle the file upload process
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -131,7 +136,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
         headers: { "Content-Type": "multipart/form-data" }
       });
       
-      // Optimistic Update: Show the image immediately
       const reader = new FileReader();
       reader.onloadend = () => setProfileImg(reader.result);
       reader.readAsDataURL(file);
@@ -157,7 +161,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   return (
     <div>
       <header className="profile-header text-center">
-        {/* Hidden File Input */}
         <input 
           type="file" 
           ref={fileInputRef} 
@@ -166,7 +169,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
           onChange={handleFileChange} 
         />
 
-        {/* Clickable Avatar Wrapper */}
         <div 
           className="avatar-wrapper mx-auto" 
           onClick={handleAvatarClick} 
@@ -179,7 +181,6 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
               {user?.username?.charAt(0).toUpperCase() || "U"}
             </div>
           )}
-          {/* Hover overlay hint (Requires the CSS provided earlier) */}
           <div className="avatar-overlay" style={{ position: 'absolute', bottom: 0, width: '100%', background: 'rgba(0,0,0,0.9)', color: '#fff', fontSize: '0.8rem', padding: '4px 0', textAlign: 'center' }}>
             Módosítás
           </div>
@@ -220,7 +221,7 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   );
 }
 
-// --- PERSONAL TAB (With Edit & Scroll Logic) ---
+// --- PERSONAL TAB ---
 function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -241,7 +242,6 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
     }
   }, [user]);
 
-  // Handle auto-scroll and highlight
   useEffect(() => {
     if (!isLoading && scrollTarget) {
       const element = document.getElementById(scrollTarget);
@@ -341,13 +341,21 @@ function SecurityTab({ user, scrollTarget, setScrollTarget }) {
 // --- STATISTICS TAB ---
 function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
   const [orders, setOrders] = useState([]);
+  const [taxiOrders, setTaxiOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (user?.id) {
-      axios.get(`https://localhost:7065/api/user/${user.id}/orders`)
-        .then(res => { setOrders(res.data); setIsLoading(false); })
-        .catch(() => setIsLoading(false));
+      Promise.all([
+        axios.get(`https://localhost:7065/api/user/${user.id}/orders`).catch(() => ({ data: [] })),
+        axios.get(`https://localhost:7065/api/user/${user.id}/taxi-orders`).catch(() => ({ data: [] }))
+      ])
+      .then(([ordersRes, taxiRes]) => {
+        setOrders(ordersRes.data);
+        setTaxiOrders(taxiRes.data);
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
     }
   }, [user]);
 
@@ -359,30 +367,42 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
     } catch (e) { alert("Hiba történt."); }
   };
 
-  const totalSpent = orders.reduce((sum, o) => sum + o.totalPrice, 0);
+  const totalSpentOrders = orders.reduce((sum, o) => sum + o.totalPrice, 0);
+  const totalSpentTaxi = taxiOrders.reduce((sum, o) => sum + o.totalPrice, 0);
+  const totalSpent = totalSpentOrders + totalSpentTaxi;
+
+  if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
 
   return (
     <div className="personal-info-container" id="field-history">
-      <header className="tab-header"><h1>Bérléseim</h1></header>
+      <header className="tab-header"><h1>Bérléseim és Utazásaim</h1></header>
+      
       <div className="d-flex gap-3 mb-4">
         <div className="info-card flex-fill p-4 text-center">
             <h2 style={{color: "#DAA520"}}>{orders.length}</h2>
-            <p className="m-0 text-muted">Összes bérlés</p>
+            <p className="m-0">Autóbérlés</p>
+        </div>
+        <div className="info-card flex-fill p-4 text-center">
+            <h2 style={{color: "#DAA520"}}>{taxiOrders.length}</h2>
+            <p className="m-0">Taxi Utazás</p>
         </div>
         <div className="info-card flex-fill p-4 text-center">
             <h2 style={{color: "#DAA520"}}>{totalSpent.toLocaleString()} Ft</h2>
-            <p className="m-0 text-muted">Összes költés</p>
+            <p className="m-0">Összes költés</p>
         </div>
       </div>
-      <section className="info-card shadow-sm">
+
+      <h3 className="mb-3" style={{color: "white", fontSize: "1.2rem"}}>Klasszikus Autóbérlés</h3>
+      <section className="info-card shadow-sm mb-5">
         <div className="info-list">
+          {orders.length === 0 ? <div className="p-3">Nincsenek autóbérlési előzmények.</div> : null}
           {orders.map(o => (
-            <div key={o.id} className="rental-item d-flex justify-content-between align-items-center p-3">
+            <div key={o.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom">
               <div className="d-flex align-items-center gap-3">
                 <img src={o.imageUrl} alt="car" style={{width: "60px", borderRadius: "4px"}} />
                 <div>
                   <div className="fw-bold">{o.brand} {o.model}</div>
-                  <div className="small text-muted">{new Date(o.startDate).toLocaleDateString()} - {new Date(o.endDate).toLocaleDateString()}</div>
+                  <div className="small">{new Date(o.startDate).toLocaleDateString()} - {new Date(o.endDate).toLocaleDateString()}</div>
                 </div>
               </div>
               <div className="d-flex align-items-center gap-2">
@@ -393,6 +413,198 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <h3 className="mb-3" style={{color: "white", fontSize: "1.2rem"}}>Taxi & Sofőrszolgálat</h3>
+      <section className="info-card shadow-sm">
+        <div className="info-list">
+          {taxiOrders.length === 0 ? <div className="p-3">Nincsenek taxi előzmények.</div> : null}
+          {taxiOrders.map(t => (
+            <div key={t.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom">
+              <div className="d-flex align-items-center gap-3">
+                <div style={{ fontSize: "2rem" }}>🚕</div>
+                <div>
+                  <div className="fw-bold">{t.pickupLocation} ➔ {t.dropoffLocation}</div>
+                  <div className="small">
+                    {new Date(t.pickupDateTime).toLocaleDateString()} | {new Date(t.pickupDateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex flex-column align-items-end gap-1">
+                <span className="fw-bold" style={{color: "#DAA520"}}>{t.totalPrice.toLocaleString()} Ft</span>
+                <span className={`badge ${t.status === 2 ? 'bg-success' : 'bg-secondary'}`}>
+                    {t.status === 2 ? 'Folyamatban' : t.status === 1 ? 'Megerősítésre vár' : 'Befejezett'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+// --- 3. NEW DRIVER TAB COMPONENT ---
+function DriverTab({ user }) {
+  const [driverOrders, setDriverOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user?.id && user?.isDriver) {
+      axios.get(`https://localhost:7065/api/driver/${user.id}/taxi-orders`)
+        .then(res => {
+          setDriverOrders(res.data);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error("Hiba a sofőr fuvarok lekérésekor:", err);
+          setIsLoading(false);
+        });
+    }
+  }, [user]);
+
+  const handleAcceptRide = async (rideId) => {
+    try {
+      await axios.post(`https://localhost:7065/api/orders/taxi/${rideId}/accept`);
+      alert("Fuvar elfogadva! Az utas megkapta a megerősítő emailt.");
+      setDriverOrders(prev => prev.map(ride => ride.id === rideId ? { ...ride, status: 2 } : ride));
+    } catch (error) {
+      console.error(error);
+      alert("Hiba történt a fuvar elfogadásakor.");
+    }
+  };
+
+  const handleFinishRide = async (rideId) => {
+    if (!window.confirm("Biztosan befejezed a fuvart?")) return;
+    try {
+      await axios.post(`https://localhost:7065/api/orders/taxi/${rideId}/finish`);
+      // Update status to 3 instead of deleting it, so it instantly pops into the finished list!
+      setDriverOrders(prev => prev.map(ride => ride.id === rideId ? { ...ride, status: 3 } : ride));
+    } catch (error) {
+      alert("Hiba történt a befejezéskor.");
+    }
+  };
+
+  if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
+
+  // 1. Split the data based on status
+  const pendingRides = driverOrders.filter(r => r.status === 1);
+  const activeRides = driverOrders.filter(r => r.status === 2);
+  
+  // 2. Filter finished rides, sort them newest to oldest, and grab only the first 5
+  const finishedRides = driverOrders
+    .filter(r => r.status === 3)
+    .sort((a, b) => new Date(b.pickupDateTime) - new Date(a.pickupDateTime))
+    .slice(0, 5);
+
+  return (
+    <div className="personal-info-container">
+      <header className="tab-header">
+        <h1>Sofőr Pult</h1>
+        <p>Kiosztott és folyamatban lévő fuvarok áttekintése.</p>
+      </header>
+
+      {/* --- PENDING RIDES --- */}
+      <section className="info-card shadow-sm mb-5">
+        <div className="card-header bg-light">
+          <h2 className="m-0 text-dark">Új Fuvarigénylések ({pendingRides.length})</h2>
+        </div>
+        <div className="info-list">
+          {pendingRides.length === 0 ? (
+            <div className="p-3">Jelenleg nincs új fuvarigénylésed.</div>
+          ) : (
+            pendingRides.map(ride => (
+              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-4 border-bottom">
+                <div className="d-flex flex-column gap-1">
+                  <h5 className="mb-2" style={{color: '#DAA520', fontWeight: 'bold'}}>
+                    {new Date(ride.pickupDateTime).toLocaleString()}
+                  </h5>
+                  <div><strong>Utas:</strong> {ride.customerName} ({ride.customerPhone || 'Nincs megadva'})</div>
+                  <div><strong>Felvétel:</strong> {ride.pickupLocation}</div>
+                  <div><strong>Cél:</strong> {ride.dropoffLocation}</div>
+                  <div className="mt-2" style={{ fontSize: '1.1rem' }}>
+                    <strong>Tarifa:</strong> <span style={{color: '#DAA520', fontWeight: 'bold'}}>{ride.totalPrice.toLocaleString()} Ft</span>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center">
+                  <button 
+                    className="btn btn-success fw-bold px-4 py-2"
+                    style={{ borderRadius: '8px' }}
+                    onClick={() => handleAcceptRide(ride.id)}
+                  >
+                    ✅ Elfogad
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+
+      {/* --- ACTIVE RIDES --- */}
+      <section className="info-card shadow-sm mb-5 border-success">
+        <div className="card-header bg-success text-white">
+          <h2 className="m-0" style={{color: 'white'}}>Folyamatban lévő fuvarok ({activeRides.length})</h2>
+        </div>
+        <div className="info-list">
+          {activeRides.length === 0 ? (
+            <div className="p-3">Nincs aktív fuvarod.</div>
+          ) : (
+            activeRides.map(ride => (
+              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-4 border-bottom">
+                <div className="d-flex flex-column gap-1">
+                  <h5 className="mb-2 text-success" style={{fontWeight: 'bold'}}>
+                    {new Date(ride.pickupDateTime).toLocaleString()}
+                  </h5>
+                  <div><strong>Utas:</strong> {ride.customerName} ({ride.customerPhone || 'Nincs megadva'})</div>
+                  <div><strong>Felvétel:</strong> {ride.pickupLocation}</div>
+                  <div><strong>Cél:</strong> {ride.dropoffLocation}</div>
+                  <div className="mt-2" style={{ fontSize: '1.1rem' }}>
+                    <strong>Tarifa:</strong> <span className="text-success fw-bold">{ride.totalPrice.toLocaleString()} Ft</span>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center">
+                  <button 
+                    className="btn btn-outline-danger fw-bold px-4 py-2"
+                    style={{ borderRadius: '8px', borderWidth: '2px' }}
+                    onClick={() => handleFinishRide(ride.id)}
+                  >
+                    🏁 Fuvar Befejezése
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+
+      {/* --- FINISHED RIDES (LAST 5) --- */}
+      <section className="info-card shadow-sm border-secondary">
+        <div className="card-header bg-secondary text-white">
+          <h2 className="m-0" style={{color: 'white'}}>Legutóbbi befejezett fuvarok</h2>
+        </div>
+        <div className="info-list">
+          {finishedRides.length === 0 ? (
+            <div className="p-3">Még nincs befejezett fuvarod.</div>
+          ) : (
+            finishedRides.map(ride => (
+              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom" style={{ opacity: 0.8 }}>
+                <div className="d-flex flex-column gap-1">
+                  <div style={{color: '#6c757d', fontWeight: 'bold'}}>
+                    {new Date(ride.pickupDateTime).toLocaleString()}
+                  </div>
+                  <div><small><strong>Utas:</strong> {ride.customerName}</small></div>
+                  <div><small><strong>Útvonal:</strong> {ride.pickupLocation} ➔ {ride.dropoffLocation}</small></div>
+                </div>
+                <div className="d-flex flex-column align-items-end">
+                  <span className="text-secondary fw-bold">{ride.totalPrice.toLocaleString()} Ft</span>
+                  <span className="badge bg-secondary mt-1">Befejezve</span>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </section>
     </div>

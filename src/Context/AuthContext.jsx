@@ -4,7 +4,11 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+    // When the app starts, check localStorage immediately!
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {

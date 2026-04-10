@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../Context/AuthContext'; 
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import '../Css/BookTaxi.css'; 
@@ -9,38 +10,90 @@ import '../Css/Base.css';
 const BookTaxi = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext); 
+
     const { car, pickupDate, pickupTime, pickupLocation, dropoffLocation } = location.state || {};
 
     const [carDetails, setCarDetails] = useState(null);
-    const [selectedDriverId, setSelectedDriverId] = useState('1');
+    const [drivers, setDrivers] = useState([]); // 1. New State for real drivers
+    const [selectedDriverId, setSelectedDriverId] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false); 
 
-    // Fül szövegének beállítása
     useEffect(() => {
         document.title = "Exotic | Foglalás Véglegesítése";
     }, []);
 
-    const mockDrivers = [
-        { id: 1, name: 'Kovács Péter', experience: '5 év', rating: 4.9 },
-        { id: 2, name: 'Nagy Anna', experience: '3 év', rating: 4.7 },
-        { id: 3, name: 'Tóth Gábor', experience: '7 év', rating: 5.0 }
-    ];
-
+    // 2. Fetch Car Details AND Real Drivers simultaneously
     useEffect(() => {
         if (!car) { navigate('/taxi'); return; }
-        const fetchDetails = async () => {
+
+        const fetchData = async () => {
             try {
-                const response = await axios.get(`https://localhost:7065/api/vehicles/${car.id}`);
-                setCarDetails(response.data);
-            } catch { setCarDetails(car); }
-            finally { setIsLoading(false); }
+                const [carRes, driversRes] = await Promise.all([
+                    axios.get(`https://localhost:7065/api/vehicles/${car.id}`),
+                    axios.get(`https://localhost:7065/api/drivers`)
+                ]);
+                
+                setCarDetails(carRes.data);
+                setDrivers(driversRes.data);
+                
+                // Set the default dropdown value to the first driver in the database
+                if (driversRes.data.length > 0) {
+                    setSelectedDriverId(driversRes.data[0].id.toString());
+                }
+            } catch (error) {
+                console.error("Adatlekérési hiba:", error);
+                setCarDetails(car); // Fallback just in case
+            } finally {
+                setIsLoading(false);
+            }
         };
-        fetchDetails();
+
+        fetchData();
     }, [car, navigate]);
 
     if (isLoading) return <div className="loading-screen">Betöltés...</div>;
 
-    const carCost = carDetails.pricePerDay || carDetails.price_per_day || car.price_per_day;
+    const carCost = carDetails?.pricePerDay || carDetails?.price_per_day || car?.price_per_day;
+
+    const handleConfirmBooking = async () => {
+        if (!user) {
+            alert("Kérjük, jelentkezzen be a foglaláshoz!");
+            navigate('/login');
+            return;
+        }
+
+        if (!selectedDriverId) {
+            alert("Kérjük, válasszon sofőrt!");
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        const pickupDateTime = `${pickupDate}T${pickupTime}:00`;
+
+        const bookingPayload = {
+            userId: user.id,
+            vehicleId: carDetails.id,
+            driverId: parseInt(selectedDriverId),
+            pickupLocation: pickupLocation,
+            dropoffLocation: dropoffLocation,
+            pickupDateTime: pickupDateTime,
+            totalPrice: parseFloat(carCost)
+        };
+
+        try {
+            await axios.post('https://localhost:7065/api/orders/taxi', bookingPayload);
+            alert("Foglalás sikeresen elküldve!");
+            navigate('/profile'); 
+        } catch (error) {
+            console.error("Hiba a foglalás során:", error);
+            alert("Hiba történt a foglalás során. Kérjük próbálja újra.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <div className="booking-page-container">
@@ -52,10 +105,10 @@ const BookTaxi = () => {
                 <h1 className="booking-title">Foglalás Véglegesítése</h1>
                 <div className="booking-grid">
                     <div className="booking-left">
-                        <img src={carDetails.images ? carDetails.images[0].imageUrl : car.image_url} alt={carDetails.model} className="booking-main-image" />
+                        <img src={carDetails?.images ? carDetails.images[0].imageUrl : car?.image_url} alt={carDetails?.model} className="booking-main-image" />
                         <div className="booking-car-info">
-                            <h2>{carDetails.brand} {carDetails.model}</h2>
-                            <p className="booking-description">{carDetails.description}</p>
+                            <h2>{carDetails?.brand} {carDetails?.model}</h2>
+                            <p className="booking-description">{carDetails?.description}</p>
                         </div>
                     </div>
 
@@ -67,17 +120,37 @@ const BookTaxi = () => {
                             <hr />
                             <div className="driver-selection">
                                 <label>Válasszon sofőrt (Benne van az árban)</label>
-                                <select value={selectedDriverId} onChange={(e) => setSelectedDriverId(e.target.value)} className="driver-select">
-                                    {mockDrivers.map(d => <option key={d.id} value={d.id}>{d.name} ({d.experience})</option>)}
+                                {/* 3. Map over the REAL drivers */}
+                                <select 
+                                    value={selectedDriverId} 
+                                    onChange={(e) => setSelectedDriverId(e.target.value)} 
+                                    className="driver-select" 
+                                    disabled={isSubmitting || drivers.length === 0}
+                                >
+                                    {drivers.length === 0 ? (
+                                        <option value="">Nincs elérhető sofőr...</option>
+                                    ) : (
+                                        drivers.map(d => (
+                                            <option key={d.id} value={d.id}>
+                                                {d.name} ({d.rating} ⭐)
+                                            </option>
+                                        ))
+                                    )}
                                 </select>
                             </div>
                             <hr />
                             <div className="summary-row total-row">
                                 <span>Végösszeg:</span>
-                                <span>${parseFloat(carCost).toFixed(2)}</span>
+                                <span>{parseFloat(carCost).toLocaleString()} Ft</span>
                             </div>
-                            <button className="confirm-booking-btn" onClick={() => alert("Foglalás elküldve!")}>
-                                Foglalás Megerősítése
+                            
+                            <button 
+                                className="confirm-booking-btn" 
+                                onClick={handleConfirmBooking}
+                                disabled={isSubmitting || drivers.length === 0}
+                                style={{ opacity: (isSubmitting || drivers.length === 0) ? 0.7 : 1 }}
+                            >
+                                {isSubmitting ? "Feldolgozás..." : "Foglalás Megerősítése"}
                             </button>
                         </div>
                     </div>
