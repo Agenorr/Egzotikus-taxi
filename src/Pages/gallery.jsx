@@ -50,7 +50,6 @@ export default function Gallery() {
 
       <div className="container my-5">
         
-        {/* === ITT VAN A TÖKÉLETESÍTETT CÍMSOR === */}
         <h2 className="text-center mb-4 gallery-section-title">
           Élményképek
         </h2>
