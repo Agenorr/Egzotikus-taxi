@@ -113,3 +113,23 @@
         radial-gradient(circle at 80% 70%, rgba(218,165,32,0.06), transparent 40%),
         linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
 }
+
+.exotic-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #DAA520 !important;
+    color: #1a1a1a !important;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2);
+}
+
+.exotic-submit-btn:hover {
+    background-color: #b8860b !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
+}
