@@ -161,3 +161,69 @@
 .car-price { font-weight: bold; font-size: 1.2rem; }
 .book-now-btn { background: none; border: 1px solid #DAA520; color: #DAA520; padding: 5px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
 .book-now-btn:hover { background: #DAA520; color: black; }
+
+/* --- VAGY elválasztó --- */
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 40px auto;
+    max-width: 700px;
+    color: #DAA520;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #444;
+}
+
+.or-divider::before {
+    margin-right: 15px;
+}
+
+.or-divider::after {
+    margin-left: 15px;
+}
+
+/* --- Azonnali hívás szekció --- */
+.quick-call-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.quick-call-container p {
+    color: #bbb;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.quick-call-number {
+    display: inline-flex;
+    align-items: center;
+    background-color: #DAA520;
+    color: #1a1a1a;
+    padding: 12px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2);
+}
+
+.quick-call-number:hover {
+    background-color: #b8860b;
+    color: #1a1a1a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
+}
+
+.quick-call-number i {
+    margin-right: 12px;
+    font-size: 1.3rem;
+}
