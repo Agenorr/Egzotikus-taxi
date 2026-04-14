@@ -84,7 +84,7 @@ const Home = ({ serverData }) => {
             </div>
 
             <div className="container mb-5">
-                <h2 className="text-center mb-5" style={{ color: '#DAA520', fontWeight: 'bold', letterSpacing: '1px' }}>Kiemelt Ajánlataink</h2>
+                <h2 className="text-center mb-5" style={{ color: '#DAA520', fontWeight: 'bold', letterSpacing: '1px' }}>Legnépszerűbb autóink</h2>
                 <div className="row justify-content-center g-4">
                     {vehicles.map((car) => {
                         const primaryImage = car.images?.find(img => img.isPrimary)?.imageUrl
