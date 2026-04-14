@@ -20,6 +20,14 @@
     border-color: #DAA520;
 }
 
+/* --- Záróképernyő Kártya (Overlay) --- */
+.details-locked-card {
+    background-color: #222;
+    border: 1px solid #DAA520;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
+}
+
 /* --- Kép formázása --- */
 .details-img {
     border: 1px solid #333;
@@ -102,7 +110,7 @@
     color: white !important;
 }
 
-/* Naptár ikon láthatóvá tétele sötét módban */
+/* Naptár ikon láthatóvá tétele sötét beviteli mezőn */
 .details-input::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
