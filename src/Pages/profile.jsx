@@ -18,10 +18,10 @@ export default function Profile() {
   // GUARD: Wait for AuthContext to load so the Driver tab doesn't disappear on refresh
   if (user === undefined || user === null) {
     return (
-      <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+      <div style={{ backgroundColor: "#1a1a1a", minHeight: "100vh" }}>
         <Navbar />
         <div className="d-flex justify-content-center align-items-center" style={{ height: "60vh" }}>
-          <div className="spinner-border text-warning" role="status">
+          <div className="spinner-border" style={{ color: "#DAA520" }} role="status">
             <span className="visually-hidden">Betöltés...</span>
           </div>
         </div>
@@ -32,15 +32,15 @@ export default function Profile() {
 
   // 1. Conditionally build the navigation menu
   const navItems = [
-    { id: "main", name: "Kezdőlap", icon: "🏠" },
-    { id: "personal", name: "Személyes adatok", icon: "👤" },
-    { id: "security", name: "Biztonság", icon: "🔒" },
-    { id: "stats", name: "Statisztikák", icon: "📊" },
+    { id: "main", name: "Kezdőlap", icon: <i className="fa fa-home"></i> },
+    { id: "personal", name: "Személyes adatok", icon: <i className="fa fa-user"></i> },
+    { id: "security", name: "Biztonság", icon: <i className="fa fa-lock"></i> },
+    { id: "stats", name: "Statisztikák", icon: <i className="fa fa-bar-chart"></i> },
   ];
 
   // If the user is a driver, add the Driver Dashboard to the sidebar
   if (user?.isDriver) {
-    navItems.push({ id: "driver", name: "Sofőr Pult", icon: "🚕" });
+    navItems.push({ id: "driver", name: "Sofőr Pult", icon: <i className="fa fa-taxi"></i> });
   }
 
   const navigateAndScroll = (tab, targetId) => {
@@ -66,7 +66,7 @@ export default function Profile() {
   };
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#1a1a1a", minHeight: "100vh", color: "#fff" }}>
       <Navbar />
       <div className="layout">
         <aside className="google-sidebar">
@@ -181,9 +181,9 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
         />
 
         <div 
-          className="avatar-wrapper mx-auto" 
+          className="avatar-wrapper mx-auto shadow-lg" 
           onClick={handleAvatarClick} 
-          style={{ cursor: 'pointer', position: 'relative', overflow: 'hidden', borderRadius: '50%', width: '120px', height: '120px' }}
+          style={{ cursor: 'pointer', position: 'relative', overflow: 'hidden', borderRadius: '50%', width: '120px', height: '120px', border: '3px solid #DAA520' }}
         >
           {profileImg ? (
             <img src={profileImg} alt="Profil" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -192,18 +192,18 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
               {user?.username?.charAt(0).toUpperCase() || "U"}
             </div>
           )}
-          <div className="avatar-overlay" style={{ position: 'absolute', bottom: 0, width: '100%', background: 'rgba(0,0,0,0.9)', color: '#fff', fontSize: '0.8rem', padding: '4px 0', textAlign: 'center' }}>
-            Módosítás
+          <div className="avatar-overlay" style={{ position: 'absolute', bottom: 0, width: '100%', background: 'rgba(0,0,0,0.8)', color: '#DAA520', fontSize: '0.8rem', padding: '4px 0', textAlign: 'center', fontWeight: 'bold' }}>
+            <i className="fa fa-camera"></i>
           </div>
         </div>
 
-        <h1 className="profile-name mt-3">{user?.username}</h1>
-        <p className="profile-email">{user?.email}</p>
+        <h1 className="profile-name mt-3 text-white">{user?.username}</h1>
+        <p className="profile-email" style={{ color: "#bbb" }}>{user?.email}</p>
       </header>
 
       <div className="google-search-container">
         <div className="search-pill">
-          <span className="search-icon">🔍</span>
+          <span className="search-icon"><i className="fa fa-search"></i></span>
           <input
             type="text"
             placeholder="Keressen rá egy adatra (pl. 'jelszó')..."
@@ -216,7 +216,7 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
           <div className="search-results-dropdown">
             {results.map((res, i) => (
               <div key={i} className="search-result-item" onClick={() => navigateAndScroll(res.tab, res.targetId)}>
-                <span className="result-icon">↳</span> {res.label}
+                <span className="result-icon"><i className="fa fa-angle-right"></i></span> {res.label}
               </div>
             ))}
           </div>
@@ -224,9 +224,15 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
       </div>
 
       <div className="chip-container justify-content-center mt-4">
-        <button className="google-chip" onClick={() => setActiveTab('personal')}>Adataim</button>
-        <button className="google-chip" onClick={() => setActiveTab('security')}>Biztonság</button>
-        <button className="google-chip" onClick={() => setActiveTab('stats')}>Bérléseim</button>
+        <button className="google-chip" onClick={() => setActiveTab('personal')}>
+          <i className="fa fa-user me-2"></i>Adataim
+        </button>
+        <button className="google-chip" onClick={() => setActiveTab('security')}>
+          <i className="fa fa-lock me-2"></i>Biztonság
+        </button>
+        <button className="google-chip" onClick={() => setActiveTab('stats')}>
+          <i className="fa fa-car me-2"></i>Bérléseim
+        </button>
       </div>
     </div>
   );
@@ -300,7 +306,6 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
     // --- KÖTELEZŐ TELEFONSZÁM ELLENŐRZÉS ---
     if (!formData.phone || formData.phone.trim() === "") {
         alert("A telefonszám megadása kötelező a profil mentéséhez!");
-        // Opcionális: fókuszálhatjuk a mezőt, vagy pirosra színezhetjük, de az alert is megteszi.
         return; 
     }
 
@@ -355,19 +360,19 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
     }, 2500);
   };
 
-  if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
+  if (isLoading) return <div className="text-center p-5 text-white">Betöltés...</div>;
 
   return (
     <div className="personal-info-container">
       <header className="tab-header">
         <h1>Személyes adatok</h1>
-        <p>A fiókodban tárolt alapvető információk.</p>
+        <p style={{color: "#bbb"}}>A fiókodban tárolt alapvető információk.</p>
       </header>
       <section className="info-card shadow-sm">
-        <div className="card-header d-flex justify-content-between align-items-center">
-          <h2 className="m-0">Profil információk</h2>
+        <div className="card-header d-flex justify-content-between align-items-center border-bottom border-dark">
+          <h2 className="m-0 text-white">Profil információk</h2>
           <button className="google-chip" onClick={isEditing ? handleSave : () => setIsEditing(true)}>
-            {isEditing ? "Mentés" : "Szerkesztés"}
+            {isEditing ? <><i className="fa fa-save me-1"></i>Mentés</> : <><i className="fa fa-edit me-1"></i>Szerkesztés</>}
           </button>
         </div>
         <div className="info-list">
@@ -380,7 +385,7 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
             </div>
           </div>
           
-          {/* --- ÚJ: TELEFONSZÁM SZEKCIÓ ORSZÁGKÓDDAL --- */}
+          {/* --- TELEFONSZÁM SZEKCIÓ ORSZÁGKÓDDAL --- */}
           <div className="info-row" id="field-phone">
             <div className="info-label">TELEFONSZÁM <span className="text-danger">*</span></div>
             <div className="info-value">
@@ -433,24 +438,30 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
               
               {!isEditing && formData.license && user?.clearance < 2 && (
                 <button 
-                  className="btn btn-sm btn-warning fw-bold mt-1" 
-                  style={{ width: "fit-content" }}
+                  className="google-chip fw-bold mt-1 text-center" 
+                  style={{ width: "fit-content", borderColor: "#ffc107", color: "#ffc107" }}
+                  onMouseOver={(e) => { e.target.style.backgroundColor = '#ffc107'; e.target.style.color = '#1a1a1a'; }}
+                  onMouseOut={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#ffc107'; }}
                   onClick={handleVerifyLicense}
                   disabled={isVerifying}
                 >
+                  <i className={`fa ${isVerifying ? 'fa-spinner fa-spin' : 'fa-exclamation-triangle'} me-2`}></i>
                   {isVerifying ? "Hitelesítés folyamatban..." : "Hitelesítés szükséges!"}
                 </button>
               )}
               
               {!isEditing && user?.clearance >= 2 && (
-                <span className="badge bg-success" style={{ width: "fit-content", fontSize: "0.85rem", padding: "6px 10px" }}>✅ Hitelesítve</span>
+                <span className="rental-status status-active" style={{ width: "fit-content" }}><i className="fa fa-check me-2"></i>Hitelesítve</span>
               )}
             </div>
           </div>
 
           <div className="info-row" id="field-email">
             <div className="info-label">EMAIL</div>
-            <div className="info-value">{user?.email} {user?.is_verified ? "✅" : "❌"}</div>
+            <div className="info-value">
+                {user?.email} 
+                {user?.is_verified ? <i className="fa fa-check-circle text-success ms-2" title="Megerősítve"></i> : <i className="fa fa-times-circle text-danger ms-2" title="Nincs megerősítve"></i>}
+            </div>
           </div>
         </div>
       </section>
@@ -481,7 +492,7 @@ function SecurityTab({ user, scrollTarget, setScrollTarget }) {
           <div className="info-row" id="field-password">
             <div className="info-label">JELSZÓ</div>
             <div className="info-value">••••••••</div>
-            <button className="google-chip">Módosítás</button>
+            <button className="google-chip"><i className="fa fa-pencil me-1"></i>Módosítás</button>
           </div>
         </div>
       </section>
@@ -521,69 +532,69 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
   const totalSpentTaxi = taxiOrders.reduce((sum, o) => sum + o.totalPrice, 0);
   const totalSpent = totalSpentOrders + totalSpentTaxi;
 
-  if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
+  if (isLoading) return <div className="text-center p-5 text-white">Betöltés...</div>;
 
   return (
     <div className="personal-info-container" id="field-history">
       <header className="tab-header"><h1>Bérléseim és Utazásaim</h1></header>
       
-      <div className="d-flex gap-3 mb-4">
-        <div className="info-card flex-fill p-4 text-center">
-            <h2 style={{color: "#DAA520"}}>{orders.length}</h2>
-            <p className="m-0">Autóbérlés</p>
+      <div className="d-flex gap-3 mb-4 flex-wrap">
+        <div className="info-card flex-fill p-4 text-center mb-0">
+            <h2 style={{color: "#DAA520", fontWeight: 'bold'}}>{orders.length}</h2>
+            <p className="m-0" style={{color: "#bbb"}}>Autóbérlés</p>
         </div>
-        <div className="info-card flex-fill p-4 text-center">
-            <h2 style={{color: "#DAA520"}}>{taxiOrders.length}</h2>
-            <p className="m-0">Taxi Utazás</p>
+        <div className="info-card flex-fill p-4 text-center mb-0">
+            <h2 style={{color: "#DAA520", fontWeight: 'bold'}}>{taxiOrders.length}</h2>
+            <p className="m-0" style={{color: "#bbb"}}>Taxi Utazás</p>
         </div>
-        <div className="info-card flex-fill p-4 text-center">
-            <h2 style={{color: "#DAA520"}}>{totalSpent.toLocaleString()} Ft</h2>
-            <p className="m-0">Összes költés</p>
+        <div className="info-card flex-fill p-4 text-center mb-0">
+            <h2 style={{color: "#DAA520", fontWeight: 'bold'}}>{totalSpent.toLocaleString()} Ft</h2>
+            <p className="m-0" style={{color: "#bbb"}}>Összes költés</p>
         </div>
       </div>
 
-      <h3 className="mb-3" style={{color: "white", fontSize: "1.2rem"}}>Klasszikus Autóbérlés</h3>
+      <h3 className="mb-3 mt-4" style={{color: "#DAA520", fontSize: "1.2rem", letterSpacing: "1px"}}><i className="fa fa-car me-2"></i>Klasszikus Autóbérlés</h3>
       <section className="info-card shadow-sm mb-5">
         <div className="info-list">
-          {orders.length === 0 ? <div className="p-3">Nincsenek autóbérlési előzmények.</div> : null}
+          {orders.length === 0 ? <div className="p-3 text-muted">Nincsenek autóbérlési előzmények.</div> : null}
           {orders.map(o => (
-            <div key={o.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom">
+            <div key={o.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom border-dark">
               <div className="d-flex align-items-center gap-3">
-                <img src={o.imageUrl} alt="car" style={{ width: "60px", borderRadius: "4px" }} />
+                <img src={o.imageUrl} alt="car" style={{ width: "80px", borderRadius: "6px", border: "1px solid #444" }} />
                 <div>
-                  <div className="fw-bold">{o.brand} {o.model}</div>
-                  <div className="small">{new Date(o.startDate).toLocaleDateString()} - {new Date(o.endDate).toLocaleDateString()}</div>
+                  <div className="fw-bold text-white">{o.brand} {o.model}</div>
+                  <div style={{ color: "#bbb", fontSize: "0.9rem" }}>{new Date(o.startDate).toLocaleDateString()} - {new Date(o.endDate).toLocaleDateString()}</div>
                 </div>
               </div>
               <div className="d-flex align-items-center gap-2">
-                <span className={`badge ${o.status === 2 ? 'bg-success' : 'bg-secondary'}`}>
+                <span className={`rental-status ${o.status === 2 ? 'status-active' : o.status === 1 ? 'status-pending' : 'status-completed'}`}>
                   {o.status === 2 ? 'Aktív' : o.status === 1 ? 'Megerősítésre vár' : 'Befejezett'}
                 </span>
-                {o.status === 2 && <button className="google-chip text-danger" onClick={() => handleFinish(o.id)}>Visszavétel</button>}
+                {o.status === 2 && <button className="google-chip text-danger border-danger" style={{boxShadow: 'none'}} onClick={() => handleFinish(o.id)}>Visszavétel</button>}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <h3 className="mb-3" style={{color: "white", fontSize: "1.2rem"}}>Taxi & Sofőrszolgálat</h3>
+      <h3 className="mb-3 mt-4" style={{color: "#DAA520", fontSize: "1.2rem", letterSpacing: "1px"}}><i className="fa fa-taxi me-2"></i>Taxi & Sofőrszolgálat</h3>
       <section className="info-card shadow-sm">
         <div className="info-list">
-          {taxiOrders.length === 0 ? <div className="p-3">Nincsenek taxi előzmények.</div> : null}
+          {taxiOrders.length === 0 ? <div className="p-3 text-muted">Nincsenek taxi előzmények.</div> : null}
           {taxiOrders.map(t => (
-            <div key={t.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom">
+            <div key={t.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom border-dark">
               <div className="d-flex align-items-center gap-3">
-                <div style={{ fontSize: "2rem" }}>🚕</div>
+                <div style={{ fontSize: "2rem", color: "#DAA520" }}><i className="fa fa-map-marker"></i></div>
                 <div>
-                  <div className="fw-bold">{t.pickupLocation} ➔ {t.dropoffLocation}</div>
-                  <div className="small">
+                  <div className="fw-bold text-white">{t.pickupLocation} ➔ {t.dropoffLocation}</div>
+                  <div style={{ color: "#bbb", fontSize: "0.9rem" }}>
                     {new Date(t.pickupDateTime).toLocaleDateString()} | {new Date(t.pickupDateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </div>
                 </div>
               </div>
-              <div className="d-flex flex-column align-items-end gap-1">
+              <div className="d-flex flex-column align-items-end gap-2">
                 <span className="fw-bold" style={{color: "#DAA520"}}>{t.totalPrice.toLocaleString()} Ft</span>
-                <span className={`badge ${t.status === 2 ? 'bg-success' : 'bg-secondary'}`}>
+                <span className={`rental-status ${t.status === 2 ? 'status-active' : t.status === 1 ? 'status-pending' : 'status-completed'}`}>
                     {t.status === 2 ? 'Folyamatban' : t.status === 1 ? 'Megerősítésre vár' : 'Befejezett'}
                 </span>
               </div>
@@ -591,6 +602,7 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
           ))}
         </div>
       </section>
+
     </div>
   );
 }
@@ -634,11 +646,10 @@ function DriverTab({ user }) {
     }
   };
 
-  if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
+  if (isLoading) return <div className="text-center p-5 text-white">Betöltés...</div>;
 
   const pendingRides = driverOrders.filter(r => r.status === 1);
   const activeRides = driverOrders.filter(r => r.status === 2);
-  
   const finishedRides = driverOrders
     .filter(r => r.status === 3)
     .sort((a, b) => new Date(b.pickupDateTime) - new Date(a.pickupDateTime))
@@ -648,38 +659,37 @@ function DriverTab({ user }) {
     <div className="personal-info-container">
       <header className="tab-header">
         <h1>Sofőr Pult</h1>
-        <p>Kiosztott és folyamatban lévő fuvarok áttekintése.</p>
+        <p style={{color: "#bbb"}}>Kiosztott és folyamatban lévő fuvarok áttekintése.</p>
       </header>
 
       {/* --- PENDING RIDES --- */}
       <section className="info-card shadow-sm mb-5">
-        <div className="card-header bg-light">
-          <h2 className="m-0 text-dark">Új Fuvarigénylések ({pendingRides.length})</h2>
+        <div className="card-header border-bottom border-dark">
+          <h2 className="m-0 text-white"><i className="fa fa-bell text-warning me-2"></i>Új Fuvarigénylések ({pendingRides.length})</h2>
         </div>
         <div className="info-list">
           {pendingRides.length === 0 ? (
-            <div className="p-3">Jelenleg nincs új fuvarigénylésed.</div>
+            <div className="p-3 text-muted">Jelenleg nincs új fuvarigénylésed.</div>
           ) : (
             pendingRides.map(ride => (
-              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-4 border-bottom">
-                <div className="d-flex flex-column gap-1">
+              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-4 border-bottom border-dark">
+                <div className="d-flex flex-column gap-1 text-white">
                   <h5 className="mb-2" style={{color: '#DAA520', fontWeight: 'bold'}}>
                     {new Date(ride.pickupDateTime).toLocaleString()}
                   </h5>
-                  <div><strong>Utas:</strong> {ride.customerName} ({ride.customerPhone || 'Nincs megadva'})</div>
-                  <div><strong>Felvétel:</strong> {ride.pickupLocation}</div>
-                  <div><strong>Cél:</strong> {ride.dropoffLocation}</div>
+                  <div><strong style={{color: "#bbb"}}>Utas:</strong> {ride.customerName} ({ride.customerPhone || 'Nincs megadva'})</div>
+                  <div><strong style={{color: "#bbb"}}>Felvétel:</strong> {ride.pickupLocation}</div>
+                  <div><strong style={{color: "#bbb"}}>Cél:</strong> {ride.dropoffLocation}</div>
                   <div className="mt-2" style={{ fontSize: '1.1rem' }}>
-                    <strong>Tarifa:</strong> <span style={{color: '#DAA520', fontWeight: 'bold'}}>{ride.totalPrice.toLocaleString()} Ft</span>
+                    <strong style={{color: "#bbb"}}>Tarifa:</strong> <span style={{color: '#DAA520', fontWeight: 'bold'}}>{ride.totalPrice.toLocaleString()} Ft</span>
                   </div>
                 </div>
                 <div className="d-flex align-items-center">
                   <button 
-                    className="btn btn-success fw-bold px-4 py-2"
-                    style={{ borderRadius: '8px' }}
+                    className="google-chip fw-bold px-4 py-2"
                     onClick={() => handleAcceptRide(ride.id)}
                   >
-                    ✅ Elfogad
+                    <i className="fa fa-check me-2"></i>Elfogad
                   </button>
                 </div>
               </div>
@@ -689,34 +699,36 @@ function DriverTab({ user }) {
       </section>
 
       {/* --- ACTIVE RIDES --- */}
-      <section className="info-card shadow-sm mb-5 border-success">
-        <div className="card-header bg-success text-white">
-          <h2 className="m-0" style={{color: 'white'}}>Folyamatban lévő fuvarok ({activeRides.length})</h2>
+      <section className="info-card shadow-sm mb-5" style={{borderColor: '#DAA520'}}>
+        <div className="card-header border-bottom" style={{borderColor: '#DAA520'}}>
+          <h2 className="m-0 text-white"><i className="fa fa-spinner fa-spin text-warning me-2"></i>Folyamatban lévő fuvarok ({activeRides.length})</h2>
         </div>
         <div className="info-list">
           {activeRides.length === 0 ? (
-            <div className="p-3">Nincs aktív fuvarod.</div>
+            <div className="p-3 text-muted">Nincs aktív fuvarod.</div>
           ) : (
             activeRides.map(ride => (
-              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-4 border-bottom">
-                <div className="d-flex flex-column gap-1">
-                  <h5 className="mb-2 text-success" style={{fontWeight: 'bold'}}>
+              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-4 border-bottom border-dark">
+                <div className="d-flex flex-column gap-1 text-white">
+                  <h5 className="mb-2" style={{color: '#DAA520', fontWeight: 'bold'}}>
                     {new Date(ride.pickupDateTime).toLocaleString()}
                   </h5>
-                  <div><strong>Utas:</strong> {ride.customerName} ({ride.customerPhone || 'Nincs megadva'})</div>
-                  <div><strong>Felvétel:</strong> {ride.pickupLocation}</div>
-                  <div><strong>Cél:</strong> {ride.dropoffLocation}</div>
+                  <div><strong style={{color: "#bbb"}}>Utas:</strong> {ride.customerName} ({ride.customerPhone || 'Nincs megadva'})</div>
+                  <div><strong style={{color: "#bbb"}}>Felvétel:</strong> {ride.pickupLocation}</div>
+                  <div><strong style={{color: "#bbb"}}>Cél:</strong> {ride.dropoffLocation}</div>
                   <div className="mt-2" style={{ fontSize: '1.1rem' }}>
-                    <strong>Tarifa:</strong> <span className="text-success fw-bold">{ride.totalPrice.toLocaleString()} Ft</span>
+                    <strong style={{color: "#bbb"}}>Tarifa:</strong> <span style={{color: '#DAA520', fontWeight: 'bold'}}>{ride.totalPrice.toLocaleString()} Ft</span>
                   </div>
                 </div>
                 <div className="d-flex align-items-center">
                   <button 
-                    className="btn btn-outline-danger fw-bold px-4 py-2"
-                    style={{ borderRadius: '8px', borderWidth: '2px' }}
+                    className="google-chip fw-bold px-4 py-2"
+                    style={{ color: '#ff4d4d', borderColor: '#ff4d4d' }}
+                    onMouseOver={(e) => { e.target.style.backgroundColor = '#ff4d4d'; e.target.style.color = '#fff'; }}
+                    onMouseOut={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#ff4d4d'; }}
                     onClick={() => handleFinishRide(ride.id)}
                   >
-                    🏁 Fuvar Befejezése
+                    <i className="fa fa-flag-checkered me-2"></i>Fuvar Befejezése
                   </button>
                 </div>
               </div>
@@ -725,27 +737,27 @@ function DriverTab({ user }) {
         </div>
       </section>
 
-      {/* --- FINISHED RIDES (LAST 5) --- */}
-      <section className="info-card shadow-sm border-secondary">
-        <div className="card-header bg-secondary text-white">
-          <h2 className="m-0" style={{color: 'white'}}>Legutóbbi befejezett fuvarok</h2>
+      {/* --- FINISHED RIDES --- */}
+      <section className="info-card shadow-sm border-dark">
+        <div className="card-header border-bottom border-dark">
+          <h2 className="m-0" style={{color: '#bbb'}}><i className="fa fa-history me-2"></i>Legutóbbi befejezett fuvarok</h2>
         </div>
         <div className="info-list">
           {finishedRides.length === 0 ? (
-            <div className="p-3">Még nincs befejezett fuvarod.</div>
+            <div className="p-3 text-muted">Még nincs befejezett fuvarod.</div>
           ) : (
             finishedRides.map(ride => (
-              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom" style={{ opacity: 0.8 }}>
+              <div key={ride.id} className="rental-item d-flex justify-content-between align-items-center p-3 border-bottom border-dark" style={{ opacity: 0.7 }}>
                 <div className="d-flex flex-column gap-1">
-                  <div style={{color: '#6c757d', fontWeight: 'bold'}}>
+                  <div style={{color: '#DAA520', fontWeight: 'bold'}}>
                     {new Date(ride.pickupDateTime).toLocaleString()}
                   </div>
-                  <div><small><strong>Utas:</strong> {ride.customerName}</small></div>
-                  <div><small><strong>Útvonal:</strong> {ride.pickupLocation} ➔ {ride.dropoffLocation}</small></div>
+                  <div className="text-white"><small><strong style={{color: "#bbb"}}>Utas:</strong> {ride.customerName}</small></div>
+                  <div className="text-white"><small><strong style={{color: "#bbb"}}>Útvonal:</strong> {ride.pickupLocation} ➔ {ride.dropoffLocation}</small></div>
                 </div>
                 <div className="d-flex flex-column align-items-end">
-                  <span className="text-secondary fw-bold">{ride.totalPrice.toLocaleString()} Ft</span>
-                  <span className="badge bg-secondary mt-1">Befejezve</span>
+                  <span className="fw-bold" style={{color: '#DAA520'}}>{ride.totalPrice.toLocaleString()} Ft</span>
+                  <span className="rental-status status-completed mt-1">Befejezve</span>
                 </div>
               </div>
             ))
