@@ -15,7 +15,7 @@ export default function AboutUs() {
   }, []);
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#1a1a1a", color: "#fff" }}>
       <Navbar />
 
       <section 
@@ -29,13 +29,13 @@ export default function AboutUs() {
         <div className="about-hero-content">
           <h1 className="about-hero-title">Rólunk</h1>
           <div className="about-hero-accent" />
-          <p className="lead about-hero-sub mt-3">
+          <p className="about-hero-sub">
             Nem csupán autókat adunk bérbe. Élményt teremtünk minden egyes kilométeren.
           </p>
         </div>
       </section>
 
-      <div className="about-page">
+      <div className="about-page flex-grow-1">
 
         <section className="section-card">
           <h2 className="section-title text-center">Alapítók</h2>
@@ -62,7 +62,7 @@ export default function AboutUs() {
         </section>
 
         <section className="section-card text-center">
-          <h2 className="section-title">Rólunk</h2>
+          <h2 className="section-title text-center">Rólunk</h2>
           <p className="about-text">
             Az Exoticot 2025-ben alapította három szenvedélyes autórajongó.
             Küldetésünk egy prémium, mégis elérhető autókölcsönzési élmény
@@ -71,7 +71,7 @@ export default function AboutUs() {
         </section>
 
         <section className="section-card text-center">
-          <h2 className="section-title">Jövőkép</h2>
+          <h2 className="section-title text-center">Jövőkép</h2>
           <p className="about-text">
             Folyamatos terjeszkedés, teljesen elektromos flotta és egy modern
             mobilalkalmazás fejlesztése, amely egyszerűvé és átláthatóvá teszi
@@ -79,27 +79,27 @@ export default function AboutUs() {
           </p>
         </section>
 
-        <div className="container mt-5 mb-5">
-          <div className="row text-center">
-            <div className="col-md-4 mb-4 renting-feature">
-              <i className="fa fa-car fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-              <h5 className="renting-feature-title">Különleges flotta</h5>
-              <p className="renting-feature-text">Magas minőségű kabrióktól a hyperautókig</p>
+        <div className="container mt-5 mb-5 text-white">
+          <div className="row text-center g-4">
+            <div className="col-md-4">
+              <i className="fa fa-car fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+              <h5 style={{ fontWeight: 'bold' }}>Különleges flotta</h5>
+              <p style={{ color: "#bbb" }}>Magas minőségű kabrióktól a hyperautókig</p>
             </div>
-            <div className="col-md-4 mb-4 renting-feature">
-              <i className="fa fa-phone fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-              <h5 className="renting-feature-title">Rugalmas ügyfélszolgálat</h5>
-              <p className="renting-feature-text">7-24 rendelkezésére állunk legyen bármilyen problémája vagy kérdése</p>
+            <div className="col-md-4">
+              <i className="fa fa-phone fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+              <h5 style={{ fontWeight: 'bold' }}>Rugalmas ügyfélszolgálat</h5>
+              <p style={{ color: "#bbb" }}>7-24 rendelkezésére állunk, legyen bármilyen problémája vagy kérdése</p>
             </div>
-            <div className="col-md-4 mb-4 renting-feature">
-              <i className="fa fa-heart fa-3x mb-3 renting-feature-icon" aria-hidden="true"></i>
-              <h5 className="renting-feature-title">Kivételes szolgáltatás</h5>
-              <p className="renting-feature-text">Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+            <div className="col-md-4">
+              <i className="fa fa-heart fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+              <h5 style={{ fontWeight: 'bold' }}>Kivételes szolgáltatás</h5>
+              <p style={{ color: "#bbb" }}>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
             </div>
           </div>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
