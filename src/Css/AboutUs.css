@@ -1,121 +1,105 @@
-:root {
-  --primary: #ff8c00;
-  --dark: #1f1f1f;
-  --text: #444;
-  --muted: #777;
-  --bg: #f8f9fa;
-  --card-bg: #ffffff;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-}
-
+/* --- Hero Szekció --- */
 .about-hero {
   height: 500px;
-  font-size: 1.2rem;
-  color: white;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-weight: bold;
-  position: relative;
   overflow: hidden;
-}
-
-.about-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55));
-  z-index: 1;
-}
-
-.about-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 25%, rgba(255, 140, 0, 0.18), transparent 55%);
-  z-index: 2;
+  margin-bottom: 40px;
 }
 
 .about-hero-fade {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(26,26,26,0.8) 70%, rgba(26,26,26,1) 100%);
+  z-index: 1;
   pointer-events: none;
-  z-index: 3;
 }
 
 .about-hero-content {
   position: relative;
-  z-index: 4;
+  z-index: 2;
+  color: white;
 }
 
-.about-hero-content h1 {
-  font-size: 2.7rem;
-  margin-bottom: 10px;
+.about-hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 10px;
 }
 
 .about-hero-accent {
-  width: 110px;
+  width: 120px;
   height: 4px;
-  margin: 14px auto 18px;
+  background-color: #DAA520;
+  margin: 15px auto 20px;
   border-radius: 999px;
-  background: var(--primary);
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 }
 
 .about-hero-sub {
   font-size: 1.2rem;
   max-width: 600px;
   margin: 0 auto;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
-  font-weight: 300;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+  color: #ddd;
 }
 
-.about-wrapper {
-  background: var(--card-bg);
-  margin: 4rem auto;
-  padding: 4rem 3rem;
-  border-radius: 24px;
+/* --- Oldal és Kártya Tartalom --- */
+.about-page {
   max-width: 1100px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
+}
+
+.section-card {
+  background-color: #252525;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 3.5rem 3rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: 3rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(218, 165, 32, 0.2);
+  border-color: #DAA520;
+}
+
+.section-card:last-child {
+  margin-bottom: 0;
 }
 
 .section-title {
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 2.5rem;
   position: relative;
+  color: #DAA520;
+  letter-spacing: 1px;
 }
 
 .section-title::after {
   content: "";
-  width: 60px;
-  height: 3px;
-  background: var(--primary);
+  width: 90px;
+  height: 4px;
+  background: #DAA520;
   display: block;
-  margin: 10px auto 0;
-  border-radius: 2px;
+  margin: 12px auto 0;
+  border-radius: 999px;
 }
 
-.founders-section {
-  text-align: center;
-}
-
+/* --- Alapítók Grid --- */
 .founders-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   justify-items: center;
-  align-items: center;
+  align-items: start;
   gap: 2.5rem;
   width: 100%;
 }
@@ -137,48 +121,46 @@ body {
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 1.2rem;
-  border: 4px solid white;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 3px solid #DAA520;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+.founder-card:hover img {
+  box-shadow: 0 10px 25px rgba(218, 165, 32, 0.4);
 }
 
 .founder-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: bold;
   margin-bottom: 0.3rem;
+  color: white;
 }
 
 .founder-card p {
-  font-size: 0.9rem;
-  color: var(--muted);
+  font-size: 0.95rem;
+  color: #bbb;
   margin: 0;
 }
 
-.about-section {
-  margin-top: 5rem;
-}
-
+/* --- Szöveges Részletek --- */
 .about-text {
   max-width: 750px;
-  margin: 0 auto 2rem;
+  margin: 0 auto;
   line-height: 1.7;
-  font-size: 1rem;
-  color: var(--text);
+  font-size: 1.1rem;
+  color: #bbb;
 }
 
-.about-page {
-  max-width: 1100px;
-  margin: 4rem auto;
-  padding: 0 1rem;
-}
-
-.section-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 3.5rem 3rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-  margin-bottom: 3rem;
-}
-
-.section-card:last-child {
-  margin-bottom: 0;
+/* Responsive Design (mobilhoz igazítás) */
+@media (max-width: 768px) {
+  .about-hero-title {
+    font-size: 2rem;
+  }
+  .about-hero-sub {
+    font-size: 1rem;
+  }
+  .section-card {
+    padding: 2rem 1.5rem;
+  }
 }
