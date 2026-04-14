@@ -29,37 +29,37 @@ export default function Gallery() {
   }, []);
 
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#1a1a1a", color: "#fff" }}>
       <Navbar />
 
-      <section 
-        id="home" 
-        className="hero renting-hero text-center py-5 text-white" 
+      <section
+        id="home"
+        className="gallery-hero text-center text-white"
         style={{ background: `url(${require("../Img/galeria_kep.jpg")}) no-repeat center center / cover` }}
       >
-        <div className="hero-fade"></div>
+        <div className="gallery-hero-fade"></div>
 
         <div className="hero-content">
-          <h1 className="renting-hero-title">Galéria</h1>
-          <div className="renting-hero-accent" />
-          <p className="lead renting-hero-sub">
+          <h1 className="gallery-hero-title">Galéria</h1>
+          <div className="gallery-hero-accent" />
+          <p className="gallery-hero-sub">
             Utazások és élmények, amelyeket ügyfeleink velünk éltek át.
           </p>
         </div>
       </section>
 
-      <div className="container my-5">
-        
-        <h2 className="text-center mb-4 gallery-section-title">
+      <div className="container my-5 flex-grow-1">
+
+        <h2 className="text-center mb-5 gallery-section-title">
           Élményképek
         </h2>
 
         {loading ? (
           <div className="d-flex flex-column align-items-center justify-content-center py-5" style={{ minHeight: '300px' }}>
-            <div className="spinner-border text-warning" role="status" style={{ width: '3rem', height: '3rem' }}>
+            <div className="spinner-border" role="status" style={{ width: '3rem', height: '3rem', color: '#DAA520' }}>
               <span className="visually-hidden">Betöltés...</span>
             </div>
-            <p className="mt-3 text-muted">Képek betöltése...</p>
+            <p className="mt-3" style={{ color: '#bbb' }}>Képek betöltése...</p>
           </div>
         ) : (
           <div className="gallery-container">
@@ -83,7 +83,7 @@ export default function Gallery() {
               ))
             ) : (
               <div className="text-center w-100 py-5">
-                <p className="text-muted">Nincsenek elérhető képek a galériában.</p>
+                <p style={{ color: '#bbb' }}>Nincsenek elérhető képek a galériában.</p>
               </div>
             )}
           </div>
@@ -97,31 +97,32 @@ export default function Gallery() {
       </div>
 
       <div className="modal fade" id="galleryModal" tabIndex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content">
-            <div className="modal-body">
-              <img src={modalImg} alt="Nagyított Galéria Kép" id="modalImage" style={{ width: "100%" }} />
+            <div className="modal-body position-relative">
+              <button type="button" className="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style={{ zIndex: 10 }}></button>
+              <img src={modalImg} alt="Nagyított Galéria Kép" id="modalImage" style={{ width: "100%", borderRadius: "8px" }} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mt-5 mb-5">
-        <div className="row text-center">
+      <div className="container mt-5 mb-5 text-white">
+        <div className="row text-center g-4">
           <div className="col-md-4">
-            <i className="fa fa-car fa-3x mb-3" />
-            <h5>Különleges flotta</h5>
-            <p>Magas minőségű kabrióktól a hyperautókig</p>
+            <i className="fa fa-globe fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+            <h5 style={{ fontWeight: 'bold' }}>Globális elérhetőség</h5>
+            <p style={{ color: "#bbb" }}>Több mint 1 000 Exotic állomás több mint 40 országban</p>
           </div>
           <div className="col-md-4">
-            <i className="fa fa-phone fa-3x mb-3" />
-            <h5>Rugalmas ügyfélszolgálat</h5>
-            <p>7-24 rendelkezésére állunk</p>
+            <i className="fa fa-car fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+            <h5 style={{ fontWeight: 'bold' }}>Különleges flotta</h5>
+            <p style={{ color: "#bbb" }}>Magas minőségű kabrióktól a hyperautókig</p>
           </div>
           <div className="col-md-4">
-            <i className="fa fa-heart fa-3x mb-3" />
-            <h5>Kivételes szolgáltatás</h5>
-            <p>Nincsenek rejtett költségek</p>
+            <i className="fa fa-heart fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+            <h5 style={{ fontWeight: 'bold' }}>Kivételes szolgáltatás</h5>
+            <p style={{ color: "#bbb" }}>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
           </div>
         </div>
       </div>
