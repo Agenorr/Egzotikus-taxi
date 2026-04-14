@@ -1,9 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap');
 
-footer {
+/* GLOBÁLIS ALAPSTÍLUSOK (Minden oldalra érvényes) */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0 !important;
+    padding: 0 !important;
     background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* ----------------------------------------------- */
+
+/* --- FOOTER --- */
+footer {
+    background-color: #0d0d0d !important; 
     color: white;
     width: 100%;
+    border-top: 1px solid #222 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
 }
 
 footer .col-md-4 {
@@ -30,8 +44,12 @@ footer p {
     color: white !important;
 }
 
-.navbar{
-    background-color: #1a1a1a;
+/* --- NAVBAR ALAPOK --- */
+.navbar {
+    background-color: #0d0d0d !important; 
+    border-bottom: 1px solid #222;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    padding: 12px 0; 
 }
 
 .navbar-center {
@@ -45,63 +63,84 @@ footer p {
 
 .navbar-title {
     font-family: 'Modernline', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #DAA520 !important;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 8px rgba(218, 165, 32, 0.2);
     letter-spacing: 2px;
     white-space: nowrap;
     line-height: 1;
     margin: auto;
     padding: auto;
-
+    transition: text-shadow 0.3s ease;
 }
 
-.sidebar .navbar-title {
-    font-family: 'Monsieur La Doulaise', cursive;
-    font-size: 2.5rem;
-    color: orange;
+.navbar-title:hover {
+    text-shadow: 2px 2px 15px rgba(218, 165, 32, 0.6);
 }
 
-.navbar-custom {
-    background-color: #333;
-    padding: 10px 20px;
-}
-
-.navbar-custom .navbar-brand img {
-    height: 40px;
-}
-
-.navbar-custom .navbar-nav .sidebar-item {
+.hamburger-icon {
+    cursor: pointer;
+    font-size: 26px;
     color: white;
-    margin-left: 20px;
-    position: relative;
-    padding-bottom: 5px;
-    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.navbar-custom .navbar-nav .sidebar-item:hover::after,
-.sidebar .sidebar-item:hover::after {
-    width: 100%;
+.hamburger-icon:hover {
+    color: #DAA520 !important;
+    transform: scale(1.1);
 }
 
+/* --- DROPDOWN GOMB (Profil / Bejelentkezés) --- */
+.dropdown-toggle {
+    color: #DAA520 !important;
+    border: 1px solid #DAA520 !important;
+    background-color: transparent !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: #DAA520 !important;
+    color: #0d0d0d !important;
+    box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+/* --- OLDALSÁV (SIDEBAR) --- */
 .sidebar {
     height: 100%;
     width: 0;
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #333;
+    background-color: #0d0d0d !important; 
+    border-right: 1px solid #222;
     overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 20px;
+    transition: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding-top: 10px; 
     z-index: 9999;
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8);
+}
+
+.sidebar-close-icon {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-close-icon:hover {
+    color: #DAA520 !important;
+    transform: scale(1.1) rotate(90deg);
 }
 
 .sidebar-item {
     color: white !important;
     text-decoration: none;
     font-size: 0.8rem;
-
     display: block;
     transition: all 0.3s ease;
     border-bottom: 2px solid transparent;
@@ -119,179 +158,153 @@ footer p {
     border: none;
     display: flex;
     flex-direction: column;
-    padding: 5px 5px;
+    padding: 5px 12px; 
     cursor: pointer;
+    border-radius: 6px;
 }
 
 .sidebar .sidebar-item:hover {
-    background-color: #575757;
+    background-color: #222; 
+    color: #DAA520 !important;
 }
 
 .sidebar .sidebar-item::after {
     content: '' !important;
     display: block !important;
     width: 50px; 
-    height: 4px; 
+    height: 3px; 
     background-color: #DAA520 !important; 
-    margin-top: 5px;
+    margin-top: 4px; 
     transition: width 0.3s ease;
 }
 
-.sidebar-close {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
+.sidebar .sidebar-item:hover::after {
+    width: 100%; 
 }
 
-.sidebar-close i {
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-    margin-left: 15px;
-}
-
-.sidebar-logo {
-    height: 100px;
-    margin-right: 15px;
-}
-
-.sidebar-close span {
-    font-size: 24px;
-    color: white;
-}
-
-.open-sidebar {
-    width: 30%;
-}
-
-.sidebar .dropdown-menu{
-    background-color: #333;
+/* --- SIDEBAR DROPDOWN MENÜ --- */
+.sidebar .dropdown-menu {
+    background-color: #0d0d0d;
     color: white;
     border: none;
     padding: 0;
-}
- .dropdown-item{
-    color: white;
- }
- .dropdown-item:hover{
-    color: white;
- }
-
-.sidebar .dropdown-menu .dropdown-item::after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 4px;
-    background-color: #DAA520;
-    margin-top: 5px;
-    transition: width 0.3s ease, background-color 0.3s ease;
+    margin-left: 10px;
 }
 
-.sidebar .dropdown-menu .dropdown-item:hover::after {
-    width: 100%;
-    background-color: #DAA520;
+.sidebar .dropdown-menu .dropdown-item {
+    color: #bbb;
+    transition: color 0.3s ease, padding-left 0.3s ease;
 }
-
-.navbar-custom .navbar-nav .sidebar-item::after,
-.sidebar .sidebar-item::after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 4px;
-    background-color: #DAA520 !important;
-    margin-top: 5px;
-    transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.navbar-custom .navbar-nav .sidebar-item:hover::after,
-.sidebar .sidebar-item:hover::after {
-    width: 100%;
-    background-color: #DAA520 !important;
-}
-
 
 .sidebar .dropdown-menu .dropdown-item:hover {
-    background-color: #575757;
+    background-color: transparent;
+    color: #DAA520;
+    padding-left: 20px;
 }
 
-.sidebar .dropdown-toggle::after {
-    content: none;
-} 
-
-.dropdown-toggle {
-    color: white;
-    margin-left: 10px;
-    font-size: 14px;
-    border: 1px solid white;;
-}
-.dropdown-toggle:hover{
-    border: 1px solid #ffc107;
-    color: white;
-}
-
-.hamburger-icon {
-    cursor: pointer;
-    font-size: 30px;
-    color: white;
-}
-
-.navbar-custom .nav-item a {
-    color: white !important;
-}
-
-.dropdown-toggle::after {
+.sidebar .dropdown-menu .dropdown-item::after {
     display: none !important;
 }
 
+/* --- NAVBAR DROPDOWN MENÜ (Fiók/Login) --- */
 .nav-item.dropdown .dropdown-menu.show {
-    background-color: #1a1a1a;
-    border: 1px solid #DAA520;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background-color: #0d0d0d; 
+    border: 1px solid #333;
+    border-top: 3px solid #DAA520;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     color: white;
     animation: exoticSlideDown 0.3s ease;
+    margin-top: 15px;
 }
 
 .nav-item.dropdown .form-control {
-    background-color: #333;
+    background-color: #222;
     border: 1px solid #444;
     color: white;
     border-radius: 6px;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .nav-item.dropdown .form-control:focus {
     border-color: #DAA520;
-    background-color: #444;
-    box-shadow: none;
+    background-color: #2a2a2a;
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.2);
     color: white;
 }
 
-.nav-item.dropdown form button[type="submit"] {
-    background-color: #DAA520;
-    color: black;
+/* Itt kaptak a gombok új hover effektet */
+.btn-gold {
+    background-color: #DAA520 !important;
+    color: #0d0d0d !important;
     border: none;
     padding: 10px;
     border-radius: 6px;
     font-weight: bold;
-    transition: transform 0.2s, background-color 0.2s;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2);
 }
 
-.nav-item.dropdown form button[type="submit"]:hover {
-    background-color: #b8860b;
-    transform: scale(1.05);
+.btn-gold:hover {
+    background-color: #b8860b !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
 }
 
 .nav-item.dropdown .dropdown-item:hover {
     background: transparent !important;
+    color: #DAA520 !important;
+}
+
+.loginDrowpdownHeader {
+    border-bottom: 1px dashed #444;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    color: #DAA520;
+}
+
+.profile-btn {
+    color: #bbb;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.profile-btn:hover {
+    color: #DAA520;
+}
+
+.logout-btn {
+    background-color: transparent !important;
+    color: #ff4d4d !important;
+    border: 1px solid #ff4d4d !important;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ff4d4d !important;
     color: white !important;
+}
+
+.login-btn {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    border-color: #DAA520 !important;
+    color: #DAA520 !important;
 }
 
 @keyframes exoticSlideDown {
     from {
         opacity: 0;
-        transform: translateY(-30px) scaleY(0.9);
+        transform: translateY(-20px) scaleY(0.95);
     }
     to {
         opacity: 1;
@@ -306,12 +319,12 @@ footer p {
     }
     to {
         opacity: 0;
-        transform: translateY(-30px) scaleY(0.9);
+        transform: translateY(-20px) scaleY(0.95);
     }
 }
 
 .dropdown-animate-in {
-    animation: exoticSlideDown 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
+    animation: exoticSlideDown 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
     transform-origin: top;
 }
 
@@ -319,31 +332,4 @@ footer p {
     animation: exoticSlideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards !important;
     transform-origin: top;
     pointer-events: none;
-}
-
-.login-btn, .logout-btn, .profile-btn{
-    color: white;
-    text-align: center;
-    text-decoration: none;
-}
-.login-btn:hover{
-    color: #DAA520;
-}
-.logout-btn:hover{
-    color: red;
-}
-.baselogin-btn{
-    background-color: #DAA520;
-    color: black;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: transform 0.2s, background-color 0.2s;
-    margin-top: 10px;
-}
-
-.loginDrowpdownHeader{
-    border-bottom: 2px solid #DAA520;
-    margin-bottom: 10px;
 }
