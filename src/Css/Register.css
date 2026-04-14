@@ -1,39 +1,83 @@
-.card-body{
-    border: solid #DAA520 2px;
-    border-radius: 10px;
+/* --- Kártya stílus --- */
+.register-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.register-card:hover {
+    box-shadow: 0 12px 30px rgba(218, 165, 32, 0.15) !important;
+    border-color: #DAA520 !important;
+}
+
+.card-body {
     z-index: 1;
 }
 
-
+/* --- Input Mezok (Textboxok) --- */
 .exotic-input {
-    background-color: #000000 !important;
+    background-color: #222 !important;
+    border: 1px solid #444 !important;
     color: white !important;
+    border-radius: 6px !important;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s !important;
 }
-
 
 .exotic-input:focus {
     border-color: #DAA520 !important;
-    box-shadow: 0 0 0 0.25rem rgba(218, 165, 32, 0.25) !important;
-    background-color: #000000 !important;
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.3) !important;
+    background-color: #2a2a2a !important;
     color: white !important;
 }
 
-
 .exotic-input::placeholder {
-    color: #888 !important;
+    color: #777 !important;
 }
 
+/* Chrome/Edge autofill sárga/fehér hátterének felülírása sötétre */
 .exotic-input:-webkit-autofill,
 .exotic-input:-webkit-autofill:hover, 
 .exotic-input:-webkit-autofill:focus, 
 .exotic-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #000000 inset !important;
+    -webkit-box-shadow: 0 0 0 30px #222 inset !important;
     -webkit-text-fill-color: white !important;
     transition: background-color 5000s ease-in-out 0s;
 }
 
+/* --- Gomb --- */
+.exotic-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #DAA520 !important;
+    color: #0d0d0d !important;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none; /* Az alapértelmezett árnyék eltávolítva */
+}
 
+.exotic-submit-btn:hover {
+    background-color: #b8860b !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4); /* Csak hover esetén jelenik meg */
+}
 
+/* --- Fő Wrapper --- */
+.register-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(218,165,32,0.05), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(218,165,32,0.05), transparent 40%),
+        #1a1a1a;
+}
+
+/* --- Arany Részecskék --- */
 .gold-particles {
     position: absolute;
     inset: 0;
@@ -65,26 +109,17 @@
     opacity: 0.18;
 }
 
-
 @keyframes floatDown {
-    0% {
-        transform: translateY(-10vh) translateX(0);
-    }
-    50% {
-        transform: translateY(50vh) translateX(20px);
-    }
-    100% {
-        transform: translateY(110vh) translateX(-20px);
-    }
+    0% { transform: translateY(-10vh) translateX(0); }
+    50% { transform: translateY(50vh) translateX(20px); }
+    100% { transform: translateY(110vh) translateX(-20px); }
 }
-
 
 .gold-particles span {
     top: -10vh;
     left: calc(100% * var(--random-x));
     animation-duration: calc(10s + 10s * var(--random-speed));
 }
-
 
 .gold-particles span:nth-child(1) { --random-x: 0.05; --random-speed: 0.2; }
 .gold-particles span:nth-child(2) { --random-x: 0.15; --random-speed: 0.6; }
@@ -96,40 +131,13 @@
 .gold-particles span:nth-child(8) { --random-x: 0.75; --random-speed: 0.9; }
 .gold-particles span:nth-child(9) { --random-x: 0.85; --random-speed: 0.3; }
 .gold-particles span:nth-child(10) { --random-x: 0.95; --random-speed: 0.6; }
-
-
-
-.register-wrapper {
-    min-height: 100vh;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    overflow: hidden;
-
-    background:
-        radial-gradient(circle at 20% 30%, rgba(218,165,32,0.08), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(218,165,32,0.06), transparent 40%),
-        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
-}
-
-.exotic-submit-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #DAA520 !important;
-    color: #1a1a1a !important;
-    border: none;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2);
-}
-
-.exotic-submit-btn:hover {
-    background-color: #b8860b !important;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
-}
+.gold-particles span:nth-child(11) { --random-x: 0.10; --random-speed: 0.5; }
+.gold-particles span:nth-child(12) { --random-x: 0.20; --random-speed: 0.8; }
+.gold-particles span:nth-child(13) { --random-x: 0.30; --random-speed: 0.2; }
+.gold-particles span:nth-child(14) { --random-x: 0.40; --random-speed: 0.9; }
+.gold-particles span:nth-child(15) { --random-x: 0.50; --random-speed: 0.3; }
+.gold-particles span:nth-child(16) { --random-x: 0.60; --random-speed: 0.6; }
+.gold-particles span:nth-child(17) { --random-x: 0.70; --random-speed: 0.4; }
+.gold-particles span:nth-child(18) { --random-x: 0.80; --random-speed: 0.7; }
+.gold-particles span:nth-child(19) { --random-x: 0.90; --random-speed: 0.5; }
+.gold-particles span:nth-child(20) { --random-x: 1.00; --random-speed: 0.8; }
