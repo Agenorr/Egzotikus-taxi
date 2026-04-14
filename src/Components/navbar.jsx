@@ -19,6 +19,7 @@ export default function Navbar() {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+    
     const closeAccountMenu = () => {
         setIsExiting(true);
         setTimeout(() => {
@@ -26,6 +27,7 @@ export default function Navbar() {
             setIsExiting(false);
         }, 300);
     };
+    
     const toggleAccountMenu = () => {
         if (isAccountOpen) {
             closeAccountMenu();
@@ -36,7 +38,6 @@ export default function Navbar() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
 
         try {
             const response = await axios.post('https://localhost:7065/api/login', { email: email, password: password });
@@ -53,21 +54,18 @@ export default function Navbar() {
 
         } catch (error) {
             if (error.response && error.response.status === 401) {
-                alert("Hibás email vagy felszó!")
+                alert("Hibás email vagy jelszó!")
             } else {
                 console.error("Network error:", error);
                 alert("A szerver nem elérhető.");
             }
-
         }
     };
+    
     const handleLogoutClick = () => {
-
         setIsExiting(true);
-
         setTimeout(() => {
             logout();
-
             setIsAccountOpen(false);
             setIsExiting(false);
         }, 300);
@@ -76,8 +74,8 @@ export default function Navbar() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg">
-                <div className="container-fluid d-flex justify-content-between align-items-center">
-                    <span className="hamburger-icon text-white" style={{ cursor: 'pointer', fontSize: '24px' }} onClick={toggleSidebar}>&#9776;</span>
+                <div className="container-fluid d-flex justify-content-between align-items-center px-3">
+                    <span className="hamburger-icon" onClick={toggleSidebar}>&#9776;</span>
 
                     <div className="navbar-center mx-auto">
                         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -89,6 +87,7 @@ export default function Navbar() {
                         <button className="btn dropdown-toggle" onClick={toggleAccountMenu}>
                             {isLoggedIn ? "Profil" : "Bejelentkezés"}
                         </button>
+                        
                         {isAccountOpen && (
                             <div
                                 onClick={closeAccountMenu}
@@ -109,21 +108,21 @@ export default function Navbar() {
                                 {!isLoggedIn ? (
                                     <form onSubmit={handleLogin}>
                                         <div className="mb-3">
-                                            <label className="form-label">Email</label>
+                                            <label className="form-label text-white">Email</label>
                                             <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
                                         </div>
-                                        <div className="mb-3">
-                                            <label className="form-label">Jelszó</label>
+                                        <div className="mb-4">
+                                            <label className="form-label text-white">Jelszó</label>
                                             <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
                                         </div>
-                                        <button type="submit" className="w-100 btn">Bejelentkezés</button>
-                                        <div className="dropdown-divider"></div>
+                                        <button type="submit" className="w-100 btn btn-gold">Bejelentkezés</button>
+                                        <div className="dropdown-divider my-3" style={{ borderColor: '#333' }}></div>
                                         <Link className="dropdown-item text-center p-0 mt-2 profile-btn" to="/Register" onClick={() => setIsAccountOpen(false)}>Nincsen fiókod? Regisztrálj!</Link>
                                     </form>
                                 ) : (
                                     <div>
                                         <div className="loginDrowpdownHeader">
-                                            <p className="text-center">Üdv, {(user?.username)?.toUpperCase()}!</p>
+                                            <p className="text-center m-0">Üdv, {(user?.username)?.toUpperCase()}!</p>
                                         </div>
                                         <Link to="/Profile" className="btn w-100 login-btn" onClick={() => setIsAccountOpen(false)}>Profilom</Link>
                                         <button className="btn w-100 logout-btn" onClick={handleLogoutClick}>Kijelentkezés</button>
@@ -136,54 +135,46 @@ export default function Navbar() {
             </nav>
 
             <div
-                className="sidebar shadow"
+                className="sidebar"
                 style={{
-                    width: isSidebarOpen ? '250px' : '0',
-                    transition: '0.3s ease-in-out',
-                    position: 'fixed',
-                    zIndex: 1050,
-                    top: 0,
-                    left: 0,
-                    height: '100%',
-                    backgroundColor: '#333',
-                    overflowX: 'hidden',
-                    paddingTop: '60px',
-                    display: 'flex',
-                    flexDirection: 'column'
+                    width: isSidebarOpen ? '280px' : '0',
+                    transition: '0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
                 }}
             >
                 <div style={{
-                    minWidth: '250px',
+                    minWidth: '280px',
                     opacity: isSidebarOpen ? 1 : 0,
                     visibility: isSidebarOpen ? 'visible' : 'hidden',
                     transition: isSidebarOpen ? 'opacity 0.4s ease-in' : 'opacity 0.1s ease-out'
                 }}>
                     
-                    <img
-                        src="/Assets/Exotic_logo.webp"
-                        alt="Exotic Logo"
-                        className="position-absolute start-0 ms-3"
-                        style={{ width: '75px', opacity: '0.9', top: '6px' }}
-                    />
+                    {/* Kevesebb térköz (pt-2) felül */}
+                    <div className="d-flex justify-content-between align-items-center px-4 pt-2">
+                        <img
+                            src="/Assets/Exotic_logo.webp"
+                            alt="Exotic Logo"
+                            style={{ width: '75px', opacity: '0.9' }}
+                        />
+                        <span
+                            className="text-white sidebar-close-icon"
+                            style={{ cursor: 'pointer', fontSize: '32px', lineHeight: '1' }}
+                            onClick={toggleSidebar}
+                        >
+                            &times;
+                        </span>
+                    </div>
 
-                    <span
-                        className="text-white position-absolute top-0 end-0 m-3"
-                        style={{ cursor: 'pointer', fontSize: '30px' }}
-                        onClick={toggleSidebar}
-                    >
-                        &times;
-                    </span>
-
-                    <div className="p-3 d-flex flex-column gap-1">
+                    {/* Kisebb margó a gombok és a logó között (15px) */}
+                    <div className="px-4 pb-4 d-flex flex-column gap-1" style={{ marginTop: '15px' }}>
                         <Link to="/" className="sidebar-item" onClick={toggleSidebar}>Kezdőlap</Link>
 
-                        <div className="dropdown">
+                        <div className="dropdown w-100">
                             <button
-                                className="sidebar-item" type="button"
+                                className="sidebar-item w-100" type="button"
                                 id="rentalDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Autóbérlés
                             </button>
-                            <ul className="dropdown-menu shadow" aria-labelledby="rentalDropdown">
+                            <ul className="dropdown-menu shadow w-100" aria-labelledby="rentalDropdown">
                                 <li><Link className="dropdown-item" to="/CarRental" onClick={toggleSidebar}>Tovább a bérléshez</Link></li>
                                 <li><Link className="dropdown-item" to="/RentingInfo" onClick={toggleSidebar}>Bérlési feltételek</Link></li>
                             </ul>
@@ -205,7 +196,8 @@ export default function Navbar() {
                         left: 0,
                         width: '100vw',
                         height: '100vh',
-                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        backdropFilter: 'blur(2px)',
                         zIndex: 1040
                     }}
                 />
