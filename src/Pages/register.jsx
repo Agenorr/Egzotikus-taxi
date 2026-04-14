@@ -72,18 +72,19 @@ export default function register() {
     };
 
     return (
-        <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
+        <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#1a1a1a", color: "#fff" }}>
             <Navbar />
-            <div className="register-wrapper">
+            <div className="register-wrapper flex-grow-1">
 
                 <div className="gold-particles">
                     {Array.from({ length: 20 }).map((_, i) => (
                         <span key={i}></span>
                     ))}
-
-                </div><div className="container flex-grow-1 d-flex justify-content-center align-items-center mt-5 mb-5">
-                    <div className="card shadow-lg" style={{ width: '100%', maxWidth: '500px', backgroundColor: '#1a1a1a', border: '1px solid #DAA520', borderRadius: '12px' }}>
-                        <div className="card-body p-5 text-white">
+                </div>
+                
+                <div className="container d-flex justify-content-center align-items-center mt-5 mb-5" style={{ zIndex: 1 }}>
+                    <div className="card register-card shadow-lg" style={{ width: '100%', maxWidth: '500px', backgroundColor: '#252525', border: '1px solid #333', borderRadius: '12px' }}>
+                        <div className="card-body p-5 text-white" style={{ border: 'none' }}>
 
                             <div className="text-center mb-0">
                                 <img 
@@ -102,10 +103,10 @@ export default function register() {
 
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label className="form-label">Felhasználónév</label>
+                                    <label className="form-label text-white">Felhasználónév</label>
                                     <input
                                         type="text"
-                                        className="form-control bg-dark text-white border-secondary exotic-input"
+                                        className="form-control exotic-input"
                                         name="username"
                                         value={formData.username}
                                         onChange={handleChange}
@@ -114,10 +115,10 @@ export default function register() {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label className="form-label">Email</label>
+                                    <label className="form-label text-white">Email</label>
                                     <input
                                         type="email"
-                                        className="form-control bg-dark text-white border-secondary exotic-input"
+                                        className="form-control exotic-input"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
@@ -126,10 +127,10 @@ export default function register() {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label className="form-label">Telefonszám</label>
+                                    <label className="form-label text-white">Telefonszám</label>
                                     <input
                                         type="tel"
-                                        className="form-control bg-dark text-white border-secondary exotic-input"
+                                        className="form-control exotic-input"
                                         name="phoneNumber"
                                         value={formData.phoneNumber}
                                         onChange={handleChange}
@@ -138,10 +139,10 @@ export default function register() {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label className="form-label">Jelszó</label>
+                                    <label className="form-label text-white">Jelszó</label>
                                     <input
                                         type="password"
-                                        className="form-control bg-dark text-white border-secondary exotic-input"
+                                        className="form-control exotic-input"
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
@@ -150,10 +151,10 @@ export default function register() {
                                 </div>
 
                                 <div className="mb-4">
-                                    <label className="form-label">Jelszó Megerősítése</label>
+                                    <label className="form-label text-white">Jelszó Megerősítése</label>
                                     <input
                                         type="password"
-                                        className="form-control bg-dark text-white border-secondary exotic-input"
+                                        className="form-control exotic-input"
                                         name="confirmPassword"
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
@@ -170,8 +171,8 @@ export default function register() {
                                 </button>
 
                                 <div className="text-center">
-                                    <span className="">Van már fiókod? </span>
-                                    <Link to="/" className="text-decoration-none" style={{ color: '#DAA520' }}>
+                                    <span style={{ color: '#bbb' }}>Van már fiókod? </span>
+                                    <Link to="/" className="text-decoration-none" style={{ color: '#DAA520', fontWeight: 'bold' }}>
                                         Jelentkezz be!
                                     </Link>
                                 </div>
