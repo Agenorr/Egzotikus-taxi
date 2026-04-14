@@ -1,0 +1,109 @@
+/* --- Oldal alap --- */
+.car-details-page {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* --- Kártyák --- */
+.details-card {
+    background-color: #252525;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.details-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(218, 165, 32, 0.15);
+    border-color: #DAA520;
+}
+
+/* --- Kép formázása --- */
+.details-img {
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* --- Gombok --- */
+.details-back-btn {
+    background-color: transparent;
+    color: #DAA520;
+    border: 1px solid #DAA520;
+    border-radius: 6px;
+    padding: 8px 20px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.details-back-btn:hover {
+    background-color: #DAA520;
+    color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
+}
+
+.details-submit-btn {
+    background-color: #DAA520;
+    color: #0d0d0d;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 12px;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none;
+}
+
+.details-submit-btn:hover:not(:disabled) {
+    background-color: #b8860b;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
+    color: #0d0d0d;
+}
+
+.details-submit-btn:disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    border: 1px solid #555;
+}
+
+/* --- Szöveg színek --- */
+.details-text-muted {
+    color: #bbb !important;
+}
+
+.text-gold {
+    color: #DAA520 !important;
+}
+
+/* --- Bérlés Időtartam Doboz & Inputok --- */
+.details-booking-box {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.details-input {
+    background-color: #222 !important;
+    border: 1px solid #444 !important;
+    color: white !important;
+    border-radius: 6px !important;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s !important;
+}
+
+.details-input:focus {
+    border-color: #DAA520 !important;
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.3) !important;
+    background-color: #2a2a2a !important;
+    color: white !important;
+}
+
+/* Naptár ikon láthatóvá tétele sötét módban */
+.details-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
