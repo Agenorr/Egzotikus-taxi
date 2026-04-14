@@ -41,29 +41,29 @@ const RentingInfo = () => {
   ];
 
   return (
-    <div className="renting-info-page">
+    <div className="d-flex flex-column min-vh-100 renting-info-page" style={{ backgroundColor: "#1a1a1a", color: "#fff" }}>
       <Navbar />
 
       <section 
         id="home" 
-        className="hero renting-hero text-center py-5 text-white"
+        className="renting-hero text-center text-white"
         style={{ 
           background: `url(${require("../Img/berlesifeltetelek_kep.jpg")}) no-repeat center center / cover` 
         }}
       >
-        <div className="hero-fade"></div>
+        <div className="renting-hero-fade"></div>
 
         <div className="hero-content">
           <h1 className="renting-hero-title">Bérlési Feltételek</h1>
           <div className="renting-hero-accent" />
-          <p className="lead renting-hero-sub">
+          <p className="renting-hero-sub">
             Rugalmas és megbízható autóbérlési lehetőségek az Ön igényeire szabva.
           </p>
         </div>
       </section>
 
       <section className="container my-5">
-        <h2 className="text-center mb-4 renting-section-title">Bérlési Szabályzat</h2>
+        <h2 className="text-center mb-5 renting-section-title">Bérlési Szabályzat</h2>
 
         <div className="renting-cards">
           {policies.map((item, index) => (
@@ -72,7 +72,7 @@ const RentingInfo = () => {
               <i className={`fa ${item.icon} fa-2x me-3 mt-1 renting-policy-icon`} aria-hidden="true" />
               <div>
                 <h5 className="fw-bold mb-1">{item.title}</h5>
-                <p className="mb-0">{item.text}</p>
+                <p className="mb-0 text-muted-custom">{item.text}</p>
               </div>
             </div>
           ))}
@@ -80,27 +80,27 @@ const RentingInfo = () => {
       </section>
 
       <section className="container py-5">
-        <h2 className="text-center mb-4 renting-section-title">
+        <h2 className="text-center mb-5 renting-section-title">
           Jogi dokumentumok
         </h2>
 
         <div className="renting-legal-card text-center p-4">
           <i className="fa fa-file-pdf-o fa-3x mb-3 renting-legal-icon"></i>
 
-          <h5 className="fw-bold mb-2">
+          <h5 className="fw-bold mb-2 text-white">
             Autóbérlési szerződés és általános feltételek
           </h5>
 
-          <p className="mb-4">
+          <p className="mb-4 text-muted-custom">
             A bérlés megkezdése előtt kérjük tekintse meg a hivatalos
             bérlési szerződést és az általános szerződési feltételeket.
           </p>
 
-          <div className="renting-legal-buttons">
+          <div className="renting-legal-buttons mt-4">
             <a
               href="/documents/exotic_autoberlesi_szerzodes_es_aszf.pdf"
               target="_blank"
-              className="btn btn-dark me-3"
+              className="btn outline-gold-btn me-3"
             >
               Megtekintés
             </a>
@@ -108,7 +108,7 @@ const RentingInfo = () => {
             <a
               href="/documents/exotic_autoberlesi_szerzodes_es_aszf.pdf"
               download
-              className="btn btn-warning"
+              className="btn solid-gold-btn"
             >
               Letöltés
             </a>
@@ -116,22 +116,22 @@ const RentingInfo = () => {
         </div>
       </section>
 
-      <div className="container mt-5 mb-5">
-        <div className="row text-center">
+      <div className="container mt-5 mb-5 text-white">
+        <div className="row text-center g-4">
           <div className="col-md-4">
-            <i className="fa fa-globe fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Globális elérhetőség</h5>
-            <p>Több mint 1 000 Exotic állomás több mint 40 országban</p>
+            <i className="fa fa-globe fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+            <h5 style={{ fontWeight: 'bold' }}>Globális elérhetőség</h5>
+            <p style={{ color: "#bbb" }}>Több mint 1 000 Exotic állomás több mint 40 országban</p>
           </div>
           <div className="col-md-4">
-            <i className="fa fa-car fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Különleges flotta</h5>
-            <p>Magas minőségű kabrióktól a hyperautókig</p>
+            <i className="fa fa-car fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+            <h5 style={{ fontWeight: 'bold' }}>Különleges flotta</h5>
+            <p style={{ color: "#bbb" }}>Magas minőségű kabrióktól a hyperautókig</p>
           </div>
           <div className="col-md-4">
-            <i className="fa fa-heart fa-3x mb-3" aria-hidden="true"></i>
-            <h5>Kivételes szolgáltatás</h5>
-            <p>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
+            <i className="fa fa-heart fa-3x mb-3" style={{ color: "#DAA520" }} aria-hidden="true"></i>
+            <h5 style={{ fontWeight: 'bold' }}>Kivételes szolgáltatás</h5>
+            <p style={{ color: "#bbb" }}>Stresszmentes, megbízható, nincsenek rejtett költségek</p>
           </div>
         </div>
       </div>
