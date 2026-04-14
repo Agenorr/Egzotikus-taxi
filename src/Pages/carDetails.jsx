@@ -60,9 +60,17 @@ const CarDetails = () => {
     }
 
     const handleBooking = async () => {
+        // Guard 1: Not logged in
         if (!user || !user.id) {
             alert("Kérjük, jelentkezzen be a bérléshez!");
             navigate('/Register');
+            return;
+        }
+
+        // Guard 2: Clearance level too low
+        if (user.clearance < 2) {
+            alert("A bérléshez legalább 2-es szintű jogosultság (megerősített e-mail cím) szükséges!");
+            navigate('/Profile');
             return;
         }
 
@@ -96,6 +104,12 @@ const CarDetails = () => {
     );
 
     const primaryImage = carDetails.images?.find(img => img.isPrimary)?.imageUrl || carDetails.images?.[0]?.imageUrl;
+    
+    // --- SECURITY LOGIC ---
+    const isGuest = !user || !user.id;
+    const isLowClearance = user && user.clearance < 2;
+    // The screen is blurred/locked if they are a guest OR if they lack clearance
+    const isLocked = isGuest || isLowClearance;
 
     return (
         <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
@@ -139,73 +153,130 @@ const CarDetails = () => {
                             <h1 className="mb-1">{carDetails.brand} {carDetails.model}</h1>
                             <h5 className="text-muted mb-4">{carDetails.category} • Évjárat: {carDetails.year || "N/A"}</h5>
                             
-                            <div className="p-3 mb-4 rounded border" style={{ backgroundColor: "#fafafa" }}>
-                                <h5 className="mb-3">Bérlés időtartama</h5>
-                                <div className="row">
-                                    <div className="col-sm-6 mb-3 mb-sm-0">
-                                        <label className="form-label small text-muted fw-bold">Átvétel Dátuma</label>
-                                        <input 
-                                            type="date" 
-                                            className="form-control" 
-                                            value={localStartDate} 
-                                            min={today}
-                                            onChange={(e) => {
-                                                const newStart = e.target.value;
-                                                setLocalStartDate(newStart);
-                                                if (localEndDate && newStart > localEndDate) {
-                                                    setLocalEndDate(newStart);
-                                                }
-                                            }} 
-                                        />
+                            {/* --- BLUR WRAPPER START --- */}
+                            <div style={{ position: "relative" }}>
+                                
+                                {/* Blurred Content if Locked */}
+                                <div style={{
+                                    filter: isLocked ? 'blur(6px)' : 'none',
+                                    pointerEvents: isLocked ? 'none' : 'auto',
+                                    userSelect: isLocked ? 'none' : 'auto',
+                                    opacity: isLocked ? 0.6 : 1,
+                                    transition: 'all 0.3s ease'
+                                }}>
+                                    <div className="p-3 mb-4 rounded border" style={{ backgroundColor: "#fafafa" }}>
+                                        <h5 className="mb-3">Bérlés időtartama</h5>
+                                        <div className="row">
+                                            <div className="col-sm-6 mb-3 mb-sm-0">
+                                                <label className="form-label small text-muted fw-bold">Átvétel Dátuma</label>
+                                                <input 
+                                                    type="date" 
+                                                    className="form-control" 
+                                                    value={localStartDate} 
+                                                    min={today}
+                                                    onChange={(e) => {
+                                                        const newStart = e.target.value;
+                                                        setLocalStartDate(newStart);
+                                                        if (localEndDate && newStart > localEndDate) {
+                                                            setLocalEndDate(newStart);
+                                                        }
+                                                    }} 
+                                                />
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <label className="form-label small text-muted fw-bold">Visszavétel Dátuma</label>
+                                                <input 
+                                                    type="date" 
+                                                    className="form-control" 
+                                                    value={localEndDate} 
+                                                    min={localStartDate || today} 
+                                                    onChange={(e) => setLocalEndDate(e.target.value)} 
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="col-sm-6">
-                                        <label className="form-label small text-muted fw-bold">Visszavétel Dátuma</label>
-                                        <input 
-                                            type="date" 
-                                            className="form-control" 
-                                            value={localEndDate} 
-                                            min={localStartDate || today} 
-                                            onChange={(e) => setLocalEndDate(e.target.value)} 
-                                        />
-                                    </div>
+
+                                    {hasValidDates ? (
+                                        <>
+                                            <div className="d-flex justify-content-between mb-2">
+                                                <span className="text-muted">Autó bérleti díj ({diffDays} nap):</span>
+                                                <span>{totalCost.toLocaleString('hu-HU')} Ft</span>
+                                            </div>
+
+                                            <h2 className="text-warning font-weight-bold mb-4 mt-3 text-end">
+                                                {totalCost.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ végösszeg</span>
+                                            </h2>
+
+                                            <button 
+                                                className="btn btn-primary btn-lg w-100 mb-4" 
+                                                style={{ backgroundColor: "#e65100", borderColor: "#e65100", fontWeight: "bold" }}
+                                                onClick={handleBooking}
+                                            >
+                                                Bérlés Megerősítése
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <div className="text-center py-4">
+                                            <h2 className="text-warning font-weight-bold mb-3">
+                                                {carDailyPrice.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ nap</span>
+                                            </h2>
+                                            <div className="alert alert-secondary small">
+                                                Kérjük, válassza ki a bérlés dátumait a folytatáshoz!
+                                            </div>
+                                            <button 
+                                                className="btn btn-secondary btn-lg w-100 mb-4" 
+                                                disabled
+                                            >
+                                                Válasszon dátumot
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
+
+                                {/* Dynamic Overlay (Visible if Guest OR Low Clearance) */}
+                                {isLocked && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: 0, left: 0, right: 0, bottom: 0,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        zIndex: 10,
+                                        paddingBottom: '20px'
+                                    }}>
+                                        <div className="text-center p-4 bg-white shadow-lg rounded border" style={{ maxWidth: '90%' }}>
+                                            {isGuest ? (
+                                                <>
+                                                    <div style={{ fontSize: "2rem", marginBottom: "10px" }}>🔒</div>
+                                                    <h5 className="mb-3 text-dark fw-bold">Jelentkezz be a bérléshez!</h5>
+                                                    <p className="text-muted small mb-4">Az árak és a foglalási naptár eléréséhez kérjük, lépj be a fiókodba.</p>
+                                                    <button 
+                                                        className="btn btn-warning w-100 fw-bold shadow-sm" 
+                                                        onClick={() => navigate('/Register')}
+                                                    >
+                                                        Bejelentkezés / Regisztráció
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div style={{ fontSize: "2rem", marginBottom: "10px" }}>✉️</div>
+                                                    <h5 className="mb-3 text-dark fw-bold">Fiók megerősítése szükséges!</h5>
+                                                    <p className="text-muted small mb-4">A bérléshez a fiók megerősítése szükséges. Irány a profilod!</p>
+                                                    <button 
+                                                        className="btn btn-primary w-100 fw-bold shadow-sm" 
+                                                        style={{backgroundColor: "#e65100", border: "none"}}
+                                                        onClick={() => navigate('/Profile')}
+                                                    >
+                                                        Tovább a Profilhoz
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-
-                            {hasValidDates ? (
-                                <>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <span className="text-muted">Autó bérleti díj ({diffDays} nap):</span>
-                                        <span>{totalCost.toLocaleString('hu-HU')} Ft</span>
-                                    </div>
-
-                                    <h2 className="text-warning font-weight-bold mb-4 mt-3 text-end">
-                                        {totalCost.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ végösszeg</span>
-                                    </h2>
-
-                                    <button 
-                                        className="btn btn-primary btn-lg w-100 mb-4" 
-                                        style={{ backgroundColor: "#e65100", borderColor: "#e65100", fontWeight: "bold" }}
-                                        onClick={handleBooking}
-                                    >
-                                        Bérlés Megerősítése
-                                    </button>
-                                </>
-                            ) : (
-                                <div className="text-center py-4">
-                                    <h2 className="text-warning font-weight-bold mb-3">
-                                        {carDailyPrice.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ nap</span>
-                                    </h2>
-                                    <div className="alert alert-secondary small">
-                                        Kérjük, válassza ki a bérlés dátumait a folytatáshoz!
-                                    </div>
-                                    <button 
-                                        className="btn btn-secondary btn-lg w-100 mb-4" 
-                                        disabled
-                                    >
-                                        Válasszon dátumot
-                                    </button>
-                                </div>
-                            )}
+                            {/* --- BLUR WRAPPER END --- */}
 
                             <hr />
 

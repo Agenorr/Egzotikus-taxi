@@ -15,6 +15,21 @@ export default function Profile() {
     document.title = "Exotic | Profil";
   }, []);
 
+  // GUARD: Wait for AuthContext to load so the Driver tab doesn't disappear on refresh
+  if (user === undefined || user === null) {
+    return (
+      <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+        <Navbar />
+        <div className="d-flex justify-content-center align-items-center" style={{ height: "60vh" }}>
+          <div className="spinner-border text-warning" role="status">
+            <span className="visually-hidden">Betöltés...</span>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   // 1. Conditionally build the navigation menu
   const navItems = [
     { id: "main", name: "Kezdőlap", icon: "🏠" },
@@ -44,7 +59,7 @@ export default function Profile() {
       case 'stats':
         return <StatisticsTab user={user} scrollTarget={scrollTarget} setScrollTarget={setScrollTarget} />;
       case 'driver':
-        return <DriverTab user={user} />; // 2. Add the Driver Tab to the switch statement
+        return <DriverTab user={user} />;
       default:
         return <HomeTab user={user} navigateAndScroll={navigateAndScroll} setActiveTab={setActiveTab} />;
     }
@@ -217,19 +232,48 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   );
 }
 
-// --- PERSONAL TAB (With Edit & Scroll Logic) ---
+// --- PERSONAL TAB (With Country Code & Validation Logic) ---
 function PersonalTab({ user, scrollTarget, setScrollTarget }) {
+  const { updateUser } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState({ name: "", phone: "", license: "" });
+  const [isVerifying, setIsVerifying] = useState(false);
+  
+  // Szétválasztottuk az országkódot és a telefonszámot
+  const [formData, setFormData] = useState({ 
+    name: "", 
+    phoneCode: "+36", 
+    phone: "", 
+    license: "" 
+  });
 
   useEffect(() => {
     if (user?.id) {
       axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
         .then(res => {
+          // --- TELEFONSZÁM PARSOLÁS ---
+          let fetchedPhone = res.data.phoneNumber || "";
+          let code = "+36";
+          let number = fetchedPhone;
+
+          const commonCodes = ["+36", "+40", "+421", "+43", "+44", "+49", "+1"];
+          for (let c of commonCodes) {
+            if (fetchedPhone.startsWith(c)) {
+              code = c;
+              number = fetchedPhone.slice(c.length).trim();
+              break;
+            }
+          }
+          // Kezeljük, ha valaki "06"-tal írta be az adatbázisba régebben
+          if (fetchedPhone.startsWith("06")) {
+            code = "+36";
+            number = fetchedPhone.slice(2).trim();
+          }
+
           setFormData({
             name: res.data.fullName || "",
-            phone: res.data.phoneNumber || "",
+            phoneCode: code,
+            phone: number,
             license: res.data.licenseNumber || "",
           });
           setIsLoading(false);
@@ -253,15 +297,62 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   }, [scrollTarget, isLoading, setScrollTarget]);
 
   const handleSave = async () => {
+    // --- KÖTELEZŐ TELEFONSZÁM ELLENŐRZÉS ---
+    if (!formData.phone || formData.phone.trim() === "") {
+        alert("A telefonszám megadása kötelező a profil mentéséhez!");
+        // Opcionális: fókuszálhatjuk a mezőt, vagy pirosra színezhetjük, de az alert is megteszi.
+        return; 
+    }
+
     try {
       await axios.put(`https://localhost:7065/api/user/${user.id}/profile`, {
         fullName: formData.name,
-        phoneNumber: formData.phone,
+        // Összefűzzük az országkódot és a számot a mentéshez
+        phoneNumber: `${formData.phoneCode} ${formData.phone.trim()}`,
         licenseNumber: formData.license
       });
       alert("Sikeres mentés!");
       setIsEditing(false);
-    } catch (err) { alert("Hiba a mentés során."); }
+    } catch (err) { 
+        alert("Hiba a mentés során."); 
+    }
+  };
+
+  const handleVerifyLicense = async () => {
+    if (!formData.license) {
+      alert("Kérjük, először mentsd el a jogosítvány számát a Szerkesztés gombbal!");
+      return;
+    }
+
+    const licenseRegex = /^[A-Za-z]{2}\d{6}$/;
+    if (!licenseRegex.test(formData.license)) {
+      alert("Érvénytelen formátum! Egy magyar jogosítvány általában 2 betűből és 6 számból áll (pl. AB123456).");
+      return;
+    }
+
+    setIsVerifying(true);
+
+    setTimeout(async () => {
+      try {
+        const res = await axios.post(`https://localhost:7065/api/user/${user.id}/verify-license`, {
+          licenseNumber: formData.license
+        });
+
+        alert(res.data.message);
+        
+        if (updateUser) {
+           updateUser({ ...user, clearance: res.data.clearance, licenseNumber: res.data.licenseNumber });
+        } else {
+           if (res.data.clearance === 2) {
+               alert("A változások érvényesítéséhez kérlek jelentkezz ki, majd jelentkezz be újra!");
+           }
+        }
+      } catch (err) {
+        alert("Hiba történt a jogosítvány hitelesítésekor.");
+      } finally {
+        setIsVerifying(false);
+      }
+    }, 2500);
   };
 
   if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
@@ -282,16 +373,81 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
         <div className="info-list">
           <div className="info-row" id="field-name">
             <div className="info-label">TELJES NÉV</div>
-            <div className="info-value">{isEditing ? <input name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="edit-input" /> : formData.name || "Nincs megadva"}</div>
+            <div className="info-value">
+              {isEditing ? 
+                <input name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="edit-input" /> 
+                : formData.name || "Nincs megadva"}
+            </div>
           </div>
+          
+          {/* --- ÚJ: TELEFONSZÁM SZEKCIÓ ORSZÁGKÓDDAL --- */}
           <div className="info-row" id="field-phone">
-            <div className="info-label">TELEFONSZÁM</div>
-            <div className="info-value">{isEditing ? <input name="phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="edit-input" /> : formData.phone || "Nincs megadva"}</div>
+            <div className="info-label">TELEFONSZÁM <span className="text-danger">*</span></div>
+            <div className="info-value">
+              {isEditing ? (
+                <div className="d-flex gap-2 w-100">
+                  <select 
+                    className="edit-input" 
+                    style={{ width: "110px", padding: "8px 4px", cursor: "pointer" }}
+                    value={formData.phoneCode}
+                    onChange={(e) => setFormData({ ...formData, phoneCode: e.target.value })}
+                  >
+                    <option value="+36">🇭🇺 +36</option>
+                    <option value="+40">🇷🇴 +40</option>
+                    <option value="+421">🇸🇰 +421</option>
+                    <option value="+43">🇦🇹 +43</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+1">🇺🇸 +1</option>
+                  </select>
+                  <input 
+                    type="tel"
+                    name="phone" 
+                    value={formData.phone} 
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/[^0-9]/g, '') })} // Csak számokat enged
+                    className="edit-input flex-grow-1" 
+                    placeholder="pl. 301234567"
+                    required
+                  />
+                </div>
+              ) : (
+                formData.phone ? `${formData.phoneCode} ${formData.phone}` : "Nincs megadva"
+              )}
+            </div>
           </div>
-          <div className="info-row" id="field-license">
+
+          <div className="info-row" id="field-license" style={{ alignItems: 'center' }}>
             <div className="info-label">JOGOSÍTVÁNY</div>
-            <div className="info-value">{isEditing ? <input name="license" value={formData.license} onChange={(e) => setFormData({ ...formData, license: e.target.value })} className="edit-input" /> : formData.license || "Nincs feltöltve"}</div>
+            <div className="info-value d-flex flex-column gap-2">
+              {isEditing ? (
+                 <input 
+                   name="license" 
+                   value={formData.license} 
+                   onChange={(e) => setFormData({ ...formData, license: e.target.value })} 
+                   className="edit-input" 
+                   placeholder="pl. AB123456"
+                 /> 
+              ) : (
+                <span>{formData.license || "Nincs feltöltve"}</span>
+              )}
+              
+              {!isEditing && formData.license && user?.clearance < 2 && (
+                <button 
+                  className="btn btn-sm btn-warning fw-bold mt-1" 
+                  style={{ width: "fit-content" }}
+                  onClick={handleVerifyLicense}
+                  disabled={isVerifying}
+                >
+                  {isVerifying ? "Hitelesítés folyamatban..." : "Hitelesítés szükséges!"}
+                </button>
+              )}
+              
+              {!isEditing && user?.clearance >= 2 && (
+                <span className="badge bg-success" style={{ width: "fit-content", fontSize: "0.85rem", padding: "6px 10px" }}>✅ Hitelesítve</span>
+              )}
+            </div>
           </div>
+
           <div className="info-row" id="field-email">
             <div className="info-label">EMAIL</div>
             <div className="info-value">{user?.email} {user?.is_verified ? "✅" : "❌"}</div>
@@ -435,12 +591,10 @@ function StatisticsTab({ user, scrollTarget, setScrollTarget }) {
           ))}
         </div>
       </section>
-
     </div>
   );
 }
 
-// --- 3. NEW DRIVER TAB COMPONENT ---
 function DriverTab({ user }) {
   const [driverOrders, setDriverOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -474,7 +628,6 @@ function DriverTab({ user }) {
     if (!window.confirm("Biztosan befejezed a fuvart?")) return;
     try {
       await axios.post(`https://localhost:7065/api/orders/taxi/${rideId}/finish`);
-      // Update status to 3 instead of deleting it, so it instantly pops into the finished list!
       setDriverOrders(prev => prev.map(ride => ride.id === rideId ? { ...ride, status: 3 } : ride));
     } catch (error) {
       alert("Hiba történt a befejezéskor.");
@@ -483,11 +636,9 @@ function DriverTab({ user }) {
 
   if (isLoading) return <div className="text-center p-5">Betöltés...</div>;
 
-  // 1. Split the data based on status
   const pendingRides = driverOrders.filter(r => r.status === 1);
   const activeRides = driverOrders.filter(r => r.status === 2);
   
-  // 2. Filter finished rides, sort them newest to oldest, and grab only the first 5
   const finishedRides = driverOrders
     .filter(r => r.status === 3)
     .sort((a, b) => new Date(b.pickupDateTime) - new Date(a.pickupDateTime))
