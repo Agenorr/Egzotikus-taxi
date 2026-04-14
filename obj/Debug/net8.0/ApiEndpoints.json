@@ -364,6 +364,33 @@
   },
   {
     "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_24",
+    "RelativePath": "api/user/{id}/verify-license",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ExoticBackend.DTOs.UploadLicenseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ExoticBackEnd.Program\u002B\u003C\u003Ec",
     "Method": "\u003CMain\u003Eb__0_19",
     "RelativePath": "api/user/{userId}/taxi-orders",
     "HttpMethod": "GET",

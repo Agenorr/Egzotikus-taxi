@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExoticBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b72939fa8730f74d6dc9596b8e73f27fdf483dcf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+789637c80546b6b143581ec956c34d7f2252ff56")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExoticBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExoticBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

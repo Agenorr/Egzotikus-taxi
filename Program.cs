@@ -224,13 +224,11 @@ namespace ExoticBackEnd
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
 
-                // 5. SEND THE EMAIL (This was missing)
+                // 5. SEND THE EMAIL
                 try
                 {
-                    // This is the link to your React app
                     string verificationLink = $"http://localhost:3000/verify-email?token={token}";
 
-                    // *** YOU MUST CHANGE THESE CREDENTIALS TO A REAL EMAIL ***
                     var smtpClient = new SmtpClient("smtp.gmail.com")
                     {
                         Port = 587,
@@ -238,11 +236,33 @@ namespace ExoticBackEnd
                         EnableSsl = true,
                     };
 
+                    string emailBody = $@"
+                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+                        <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
+                            <h1 style='color: #e65100; margin: 0; font-size: 28px; letter-spacing: 2px;'>EXOTIC RENTALS</h1>
+                        </div>
+                        <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
+                            <h2 style='color: #1a1a1a; margin-top: 0;'>Üdvözlünk a klubban, {user.Username}!</h2>
+                            <p style='font-size: 16px; line-height: 1.6;'>Köszönjük, hogy csatlakoztál az Exotic Rentals közösségéhez. Már csak egyetlen lépés választ el attól, hogy hozzáférj exkluzív járműparkunkhoz.</p>
+                            <p style='font-size: 16px; line-height: 1.6;'>A <strong>2-es szintű jogosultság (bérlés)</strong> aktiválásához kérjük, erősítsd meg az e-mail címedet az alábbi gombra kattintva:</p>
+                            
+                            <div style='text-align: center; margin: 35px 0;'>
+                                <a href='{verificationLink}' style='background-color: #e65100; color: #ffffff; padding: 16px 32px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>E-mail cím megerősítése</a>
+                            </div>
+                            
+                            <p style='font-size: 14px; color: #777777; border-top: 1px solid #eeeeee; padding-top: 20px;'>Ha a fenti gomb nem működik, másold be a következő hivatkozást a böngésződbe:<br>
+                            <a href='{verificationLink}' style='color: #e65100; word-break: break-all;'>{verificationLink}</a></p>
+                        </div>
+                        <div style='background-color: #f8f9fa; padding: 15px; text-align: center; color: #888888; font-size: 12px;'>
+                            &copy; {DateTime.Now.Year} Exotic Rentals. Minden jog fenntartva.
+                        </div>
+                    </div>";
+
                     var mailMessage = new MailMessage
                     {
                         From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals"),
-                        Subject = "Verify your Exotic Rentals Account",
-                        Body = $"Welcome! <br><br> Please click the link to verify your email and unlock Level 2 Clearance: <br><br> <a href='{verificationLink}'>{verificationLink}</a>",
+                        Subject = "Exotic Rentals - Erősítsd meg a fiókodat!",
+                        Body = emailBody,
                         IsBodyHtml = true,
                     };
 
@@ -267,14 +287,18 @@ namespace ExoticBackEnd
                     return Results.BadRequest(new { message = "Invalid or expired verification token." });
                 }
 
-                // Update status to 1 (Verified)
+                // 1. E-mail megerősítése
                 user.Is_Verified = 1;
                 user.VerificationToken = null;
 
+                // 2. SZINTLÉPÉS ELLENŐRZÉSE: Ha már van jogosítványa, azonnal kapja meg a 2-es szintet!
+                if (!string.IsNullOrEmpty(user.LicenseNumber))
+                {
+                    user.Clearance = 2;
+                }
+
                 await db.SaveChangesAsync();
 
-                // === CHANGED THIS RETURN STATEMENT ===
-                // We now return the updated user data in the EXACT same format as the login endpoint!
                 return Results.Ok(new
                 {
                     message = "Email verified successfully!",
@@ -418,11 +442,36 @@ namespace ExoticBackEnd
                             EnableSsl = true,
                         };
 
+                        string emailBody = $@"
+                        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+                            <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
+                                <h1 style='color: #e65100; margin: 0; font-size: 28px; letter-spacing: 2px;'>EXOTIC RENTALS</h1>
+                            </div>
+                            <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
+                                <h2 style='color: #1a1a1a; margin-top: 0;'>Foglalásod megerősítésre vár!</h2>
+                                <p style='font-size: 16px; line-height: 1.6;'>Kedves {user.Username}!</p>
+                                <p style='font-size: 16px; line-height: 1.6;'>Rendszerünk rögzítette a bérlési szándékodat. A kiválasztott autó lefoglalásához és a bérlés véglegesítéséhez kérjük, erősítsd meg a tranzakciót:</p>
+                                
+                                <div style='background-color: #f8f9fa; padding: 20px; border-left: 4px solid #e65100; margin: 25px 0;'>
+                                    <h3 style='margin-top: 0; color: #333;'>Foglalás részletei:</h3>
+                                    <ul style='list-style-type: none; padding: 0; margin: 0; font-size: 15px;'>
+                                        <li style='margin-bottom: 8px;'><strong>Kezdés:</strong> {dto.StartDate.ToString("yyyy. MM. dd.")}</li>
+                                        <li style='margin-bottom: 8px;'><strong>Visszaadás:</strong> {dto.EndDate.ToString("yyyy. MM. dd.")}</li>
+                                        <li><strong>Végösszeg:</strong> <span style='color: #e65100; font-weight: bold;'>{dto.TotalPrice.ToString("N0")} Ft</span></li>
+                                    </ul>
+                                </div>
+                                
+                                <div style='text-align: center; margin: 35px 0;'>
+                                    <a href='{verificationLink}' style='background-color: #e65100; color: #ffffff; padding: 16px 32px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>Foglalás Véglegesítése</a>
+                                </div>
+                            </div>
+                        </div>";
+
                         var mailMessage = new MailMessage
                         {
                             From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals"),
-                            Subject = "Erősítse meg autóbérlését (Verify Order)",
-                            Body = $"Köszönjük a foglalást! <br><br> Kérjük, kattintson az alábbi linkre a bérlés megerősítéséhez és aktiválásához: <br><br> <a href='{verificationLink}'>{verificationLink}</a>",
+                            Subject = "Exotic Rentals - Autóbérlés megerősítése",
+                            Body = emailBody,
                             IsBodyHtml = true,
                         };
 
@@ -527,22 +576,58 @@ namespace ExoticBackEnd
                         EnableSsl = true,
                     };
 
+                    string driverName = driver.FullName ?? driver.Username;
+                    string customerName = user.FullName ?? user.Username;
+
+                    string emailBody = $@"
+                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;'>
+                        <div style='background-color: #1a1a1a; padding: 25px; text-align: center; border-bottom: 4px solid #DAA520;'>
+                            <h1 style='color: #DAA520; margin: 0; font-size: 24px; letter-spacing: 1px;'>SOFŐR PULT - ÚJ FUVARIGÉNY</h1>
+                        </div>
+                        <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
+                            <h2 style='color: #1a1a1a; margin-top: 0;'>Szia {driverName}!</h2>
+                            <p style='font-size: 16px; line-height: 1.6;'>Egy utas téged választott! Egy új fuvarigény vár jóváhagyásra a rendszerben.</p>
+                            
+                            <table style='width: 100%; border-collapse: collapse; margin: 25px 0;'>
+                                <tr>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee; width: 30%; color: #666;'><strong>Utas neve:</strong></td>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{customerName}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Telefonszám:</strong></td>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{user.PhoneNumber ?? "Nincs megadva"}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Felvétel helye:</strong></td>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{dto.PickupLocation}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Célállomás:</strong></td>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{dto.DropoffLocation}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Időpont:</strong></td>
+                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'><strong>{dto.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 12px; border-bottom: 2px solid #DAA520; color: #666;'><strong>Várható tarifa:</strong></td>
+                                    <td style='padding: 12px; border-bottom: 2px solid #DAA520; color: #DAA520; font-weight: bold; font-size: 18px;'>{dto.TotalPrice.ToString("N0")} Ft</td>
+                                </tr>
+                            </table>
+                            
+                            <p style='font-size: 16px; line-height: 1.6; text-align: center;'>Kérjük, lépj be a sofőr felületre a fuvar elfogadásához vagy elutasításához!</p>
+                            
+                            <div style='text-align: center; margin: 30px 0;'>
+                                <a href='http://localhost:3000/Profile' style='background-color: #1a1a1a; color: #DAA520; padding: 14px 28px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block; border: 1px solid #DAA520;'>Ugrás a Sofőr Pultra</a>
+                            </div>
+                        </div>
+                    </div>";
+
                     var mailMessage = new MailMessage
                     {
                         From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals Taxi"),
-                        Subject = "ÚJ FUVAR: Jóváhagyás szükséges",
-                        Body = $@"
-                        <div style='font-family: Arial, sans-serif;'>
-                            <h2 style='color: #d9534f;'>Szia {driver.FullName ?? driver.Username}! Új fuvart kaptál.</h2>
-                            <p><strong>Utas:</strong> {user.FullName ?? user.Username} ({user.PhoneNumber})</p>
-                            <ul>
-                                <li><strong>Felvétel:</strong> {dto.PickupLocation}</li>
-                                <li><strong>Cél:</strong> {dto.DropoffLocation}</li>
-                                <li><strong>Időpont:</strong> {dto.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</li>
-                                <li><strong>Tarifa:</strong> {dto.TotalPrice} Ft</li>
-                            </ul>
-                            <p>Kérjük, lépj be a sofőr felületre a fuvar elfogadásához!</p>
-                        </div>",
+                        Subject = "ÚJ FUVAR - Jóváhagyás szükséges",
+                        Body = emailBody,
                         IsBodyHtml = true,
                     };
 
@@ -584,21 +669,36 @@ namespace ExoticBackEnd
                             EnableSsl = true,
                         };
 
+                        string customerName = order.User.FullName ?? order.User.Username;
+
+                        string emailBody = $@"
+                        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+                            <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
+                                <h1 style='color: #28a745; margin: 0; font-size: 26px; letter-spacing: 1px;'>FUVAR MEGERŐSÍTVE!</h1>
+                            </div>
+                            <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
+                                <h2 style='color: #1a1a1a; margin-top: 0;'>Kedves {customerName}!</h2>
+                                <p style='font-size: 16px; line-height: 1.6;'>Jó hírünk van! A sofőröd sikeresen elfogadta a fuvarkérelmedet, és a megadott időpontban várni fog rád.</p>
+                                
+                                <div style='background-color: #f4fbf5; padding: 20px; border-left: 4px solid #28a745; margin: 25px 0; border-radius: 0 6px 6px 0;'>
+                                    <h3 style='margin-top: 0; color: #155724;'>Utazásod részletei:</h3>
+                                    <ul style='list-style-type: none; padding: 0; margin: 0; font-size: 15px;'>
+                                        <li style='margin-bottom: 10px;'>📍 <strong>Felvétel:</strong> {order.PickupLocation}</li>
+                                        <li style='margin-bottom: 10px;'>🏁 <strong>Cél:</strong> {order.DropoffLocation}</li>
+                                        <li style='margin-bottom: 10px;'>🕒 <strong>Időpont:</strong> {order.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</li>
+                                        <li>💳 <strong>Várható végösszeg:</strong> <span style='font-weight: bold;'>{order.TotalPrice.ToString("N0")} Ft</span></li>
+                                    </ul>
+                                </div>
+                                
+                                <p style='font-size: 16px; line-height: 1.6;'>Kérjük, légy a megadott helyszínen az indulás időpontjában. Jó utat kíván az Exotic Rentals csapata!</p>
+                            </div>
+                        </div>";
+
                         var mailMessage = new MailMessage
                         {
                             From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals Taxi"),
-                            Subject = "Exotic Rentals - Fuvar Megerősítve!",
-                            Body = $@"
-                            <div style='font-family: Arial, sans-serif;'>
-                                <h2 style='color: #28a745;'>Kedves {order.User.Username}!</h2>
-                                <p>Jó hírünk van! A sofőr megerősítette a fuvart.</p>
-                                <hr />
-                                <ul>
-                                    <li><strong>Útvonal:</strong> {order.PickupLocation} ➔ {order.DropoffLocation}</li>
-                                    <li><strong>Időpont:</strong> {order.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</li>
-                                </ul>
-                                <p>A sofőr a megadott időpontban várni fogja Önt.</p>
-                            </div>",
+                            Subject = "Exotic Rentals - A sofőröd úton van!",
+                            Body = emailBody,
                             IsBodyHtml = true,
                         };
 
@@ -745,6 +845,33 @@ namespace ExoticBackEnd
 
                 return user is not null ? Results.Ok(user) : Results.NotFound();
             });
+
+            app.MapPost("/api/user/{id}/verify-license", async (int id, UploadLicenseDto dto, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FindAsync(id);
+                if (user == null) return Results.NotFound(new { message = "Felhasználó nem található." });
+
+                if (string.IsNullOrWhiteSpace(dto.LicenseNumber))
+                    return Results.BadRequest(new { message = "A jogosítvány száma nem lehet üres!" });
+
+                user.LicenseNumber = dto.LicenseNumber;
+
+
+                if (user.Is_Verified == 1)
+                {
+                    user.Clearance = 2;
+                }
+
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new
+                {
+                    message = user.Clearance == 2 ? "Sikeres hitelesítés! Most már bérelhetsz." : "Jogosítvány rögzítve, de kérjük erősítsd meg az e-mail címedet is!",
+                    clearance = user.Clearance,
+                    isVerified = user.Is_Verified
+                });
+            });
+
 
             app.Run();
         }
