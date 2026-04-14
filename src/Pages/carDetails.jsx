@@ -5,7 +5,7 @@ import { AuthContext } from '../Context/AuthContext';
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import '../Css/Base.css';
-import '../Css/CarDetails.css';
+import '../Css/carDetails.css';
 
 const CarDetails = () => {
 
