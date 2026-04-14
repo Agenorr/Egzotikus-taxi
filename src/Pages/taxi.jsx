@@ -75,13 +75,28 @@ const Taxi = () => {
     : availableCars;
 
   return (
-    <div><Navbar />
-      <div className="rentals-container">
+    <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#1a1a1a", color: "#fff" }}>
+      <Navbar />
+      
+      <section 
+        id="home" 
+        className="taxi-hero text-center text-white"
+        style={{ 
+          background: `url(${require("../Img/taxi_kep.jpg")}) no-repeat center center / cover` 
+        }}
+      >
+        <div className="taxi-hero-fade"></div>
 
-
-        <div className="rentals-header">
-          <h1 className="navbar-title rentals-title">Foglalja le Egzotikus Autóját</h1>
+        <div className="hero-content">
+          <h1 className="taxi-hero-title">Foglalja le Egzotikus Autóját</h1>
+          <div className="taxi-hero-accent" />
+          <p className="taxi-hero-sub">
+            Azonnali és megbízható transzfer szolgáltatás luxuskivitelben.
+          </p>
         </div>
+      </section>
+
+      <div className="rentals-container flex-grow-1" style={{ paddingTop: '20px' }}>
 
         <div className="search-form-container">
           <form onSubmit={handleSearch} className="search-form">
