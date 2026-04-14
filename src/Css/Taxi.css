@@ -1,20 +1,56 @@
-.rentals-container {
-    background-color: #1a1a1a;
-    min-height: 100vh;
-    padding: 60px 20px;
-    color: white;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
+/* --- Hero Szekció --- */
+.taxi-hero {
+    height: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 40px;
 }
 
-.rentals-title {
-    font-size: 3.2rem;
+.taxi-hero-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(26,26,26,0.8) 70%, rgba(26,26,26,1) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.taxi-hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    text-align: center;
-    color: #DAA520;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-    margin-bottom: 40px;
-    letter-spacing: -0.5px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+    margin-bottom: 10px;
+}
+
+.taxi-hero-accent {
+    width: 120px;
+    height: 4px;
+    background-color: #DAA520;
+    margin: 15px auto 20px;
+    border-radius: 999px;
+}
+
+.taxi-hero-sub {
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+    color: #ddd;
+}
+
+/* --- Container & Form Szekciók --- */
+.rentals-container {
+    background-color: #1a1a1a;
+    padding: 20px 20px 60px 20px;
+    color: white;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 .search-form-container { 
@@ -52,6 +88,7 @@
 }
 
 .search-button-wrapper { grid-column: span 2; margin-top: 10px; }
+
 .search-submit-btn { 
     width: 100%; 
     padding: 12px; 
@@ -171,8 +208,21 @@
 }
 
 .car-price { font-weight: bold; font-size: 1.2rem; }
-.book-now-btn { background: none; border: 1px solid #DAA520; color: #DAA520; padding: 5px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
-.book-now-btn:hover { background: #DAA520; color: black; }
+
+.book-now-btn { 
+    background: none; 
+    border: 1px solid #DAA520; 
+    color: #DAA520; 
+    padding: 5px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: 0.3s; 
+}
+
+.book-now-btn:hover { 
+    background: #DAA520; 
+    color: black; 
+}
 
 .or-divider {
     display: flex;
@@ -236,4 +286,14 @@
 .quick-call-number i {
     margin-right: 12px;
     font-size: 1.3rem; 
+}
+
+/* Responsive Design (mobilhoz igazítás) */
+@media (max-width: 768px) {
+  .taxi-hero-title {
+    font-size: 2rem;
+  }
+  .taxi-hero-sub {
+    font-size: 1rem;
+  }
 }
