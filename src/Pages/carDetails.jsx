@@ -5,6 +5,7 @@ import { AuthContext } from '../Context/AuthContext';
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import '../Css/Base.css';
+import '../Css/CarDetails.css';
 
 const CarDetails = () => {
 
@@ -92,12 +93,12 @@ const CarDetails = () => {
         }
     };
 
-    if (isLoading) return <h2 className="text-center mt-5">Betöltés...</h2>;
+    if (isLoading) return <h2 className="text-center mt-5 text-white">Betöltés...</h2>;
     
     if (!carDetails) return (
-        <div className="text-center mt-5">
+        <div className="text-center mt-5 text-white">
             <h2>Az autó nem található.</h2>
-            <button onClick={() => navigate(-1)} className="btn btn-outline-secondary mt-3">
+            <button onClick={() => navigate(-1)} className="btn details-back-btn mt-3">
                 ← Vissza
             </button>
         </div>
@@ -112,11 +113,11 @@ const CarDetails = () => {
     const isLocked = isGuest || isLowClearance;
 
     return (
-        <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+        <div className="d-flex flex-column min-vh-100 car-details-page">
             <Navbar />
             
-            <div className="container mt-5 mb-5">
-                <button onClick={() => navigate('/CarRental')} className="btn btn-outline-secondary mb-4 font-weight-bold">
+            <div className="container mt-5 mb-5 flex-grow-1">
+                <button onClick={() => navigate('/CarRental')} className="btn details-back-btn mb-4 fw-bold">
                     ← Vissza a kínálathoz
                 </button>
 
@@ -126,32 +127,32 @@ const CarDetails = () => {
                             <img 
                                 src={primaryImage} 
                                 alt={`${carDetails.brand} ${carDetails.model}`} 
-                                className="img-fluid rounded shadow mb-4"
+                                className="img-fluid rounded mb-4 details-img"
                                 style={{ width: "100%", maxHeight: "500px", objectFit: "cover" }}
                             />
                         ) : (
-                            <div className="bg-secondary rounded mb-4" style={{ height: "400px" }}></div>
+                            <div className="rounded mb-4 details-img" style={{ height: "400px", backgroundColor: "#252525" }}></div>
                         )}
                         
-                        <div className="bg-white p-4 rounded shadow-sm">
-                            <h4 className="mb-3">Leírás</h4>
-                            <p className="lead" style={{ fontSize: "1.1rem", color: "#555" }}>
+                        <div className="details-card">
+                            <h4 className="mb-3 text-gold">Leírás</h4>
+                            <p className="lead" style={{ fontSize: "1.1rem", color: "#bbb" }}>
                                 {carDetails.description || "Nincs elérhető leírás ehhez a járműhöz."}
                             </p>
                             
                             {carDetails.extras && (
                                 <>
-                                    <h5 className="mt-4 mb-2">Extrák:</h5>
-                                    <p className="text-muted">{carDetails.extras}</p>
+                                    <h5 className="mt-4 mb-2 text-white">Extrák:</h5>
+                                    <p className="details-text-muted">{carDetails.extras}</p>
                                 </>
                             )}
                         </div>
                     </div>
 
                     <div className="col-lg-5">
-                        <div className="bg-white p-4 rounded shadow-sm mb-4">
-                            <h1 className="mb-1">{carDetails.brand} {carDetails.model}</h1>
-                            <h5 className="text-muted mb-4">{carDetails.category} • Évjárat: {carDetails.year || "N/A"}</h5>
+                        <div className="details-card mb-4">
+                            <h1 className="mb-1 text-white">{carDetails.brand} {carDetails.model}</h1>
+                            <h5 className="details-text-muted mb-4">{carDetails.category} • Évjárat: {carDetails.year || "N/A"}</h5>
                             
                             {/* --- BLUR WRAPPER START --- */}
                             <div style={{ position: "relative" }}>
@@ -164,14 +165,14 @@ const CarDetails = () => {
                                     opacity: isLocked ? 0.6 : 1,
                                     transition: 'all 0.3s ease'
                                 }}>
-                                    <div className="p-3 mb-4 rounded border" style={{ backgroundColor: "#fafafa" }}>
-                                        <h5 className="mb-3">Bérlés időtartama</h5>
+                                    <div className="details-booking-box mb-4">
+                                        <h5 className="mb-3 text-white">Bérlés időtartama</h5>
                                         <div className="row">
                                             <div className="col-sm-6 mb-3 mb-sm-0">
-                                                <label className="form-label small text-muted fw-bold">Átvétel Dátuma</label>
+                                                <label className="form-label small details-text-muted fw-bold">Átvétel Dátuma</label>
                                                 <input 
                                                     type="date" 
-                                                    className="form-control" 
+                                                    className="form-control details-input" 
                                                     value={localStartDate} 
                                                     min={today}
                                                     onChange={(e) => {
@@ -184,10 +185,10 @@ const CarDetails = () => {
                                                 />
                                             </div>
                                             <div className="col-sm-6">
-                                                <label className="form-label small text-muted fw-bold">Visszavétel Dátuma</label>
+                                                <label className="form-label small details-text-muted fw-bold">Visszavétel Dátuma</label>
                                                 <input 
                                                     type="date" 
-                                                    className="form-control" 
+                                                    className="form-control details-input" 
                                                     value={localEndDate} 
                                                     min={localStartDate || today} 
                                                     onChange={(e) => setLocalEndDate(e.target.value)} 
@@ -199,17 +200,16 @@ const CarDetails = () => {
                                     {hasValidDates ? (
                                         <>
                                             <div className="d-flex justify-content-between mb-2">
-                                                <span className="text-muted">Autó bérleti díj ({diffDays} nap):</span>
-                                                <span>{totalCost.toLocaleString('hu-HU')} Ft</span>
+                                                <span className="details-text-muted">Autó bérleti díj ({diffDays} nap):</span>
+                                                <span className="text-white">{totalCost.toLocaleString('hu-HU')} Ft</span>
                                             </div>
 
-                                            <h2 className="text-warning font-weight-bold mb-4 mt-3 text-end">
-                                                {totalCost.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ végösszeg</span>
+                                            <h2 className="text-gold fw-bold mb-4 mt-3 text-end">
+                                                {totalCost.toLocaleString('hu-HU')} Ft <span className="details-text-muted" style={{ fontSize: "1rem" }}>/ végösszeg</span>
                                             </h2>
 
                                             <button 
-                                                className="btn btn-primary btn-lg w-100 mb-4" 
-                                                style={{ backgroundColor: "#e65100", borderColor: "#e65100", fontWeight: "bold" }}
+                                                className="btn details-submit-btn btn-lg w-100 mb-4" 
                                                 onClick={handleBooking}
                                             >
                                                 Bérlés Megerősítése
@@ -217,14 +217,14 @@ const CarDetails = () => {
                                         </>
                                     ) : (
                                         <div className="text-center py-4">
-                                            <h2 className="text-warning font-weight-bold mb-3">
-                                                {carDailyPrice.toLocaleString('hu-HU')} Ft <span className="text-muted" style={{ fontSize: "1rem" }}>/ nap</span>
+                                            <h2 className="text-gold fw-bold mb-3">
+                                                {carDailyPrice.toLocaleString('hu-HU')} Ft <span className="details-text-muted" style={{ fontSize: "1rem" }}>/ nap</span>
                                             </h2>
-                                            <div className="alert alert-secondary small">
+                                            <div className="alert alert-dark small" style={{ backgroundColor: "#333", color: "#bbb", borderColor: "#444" }}>
                                                 Kérjük, válassza ki a bérlés dátumait a folytatáshoz!
                                             </div>
                                             <button 
-                                                className="btn btn-secondary btn-lg w-100 mb-4" 
+                                                className="btn details-submit-btn btn-lg w-100 mb-4" 
                                                 disabled
                                             >
                                                 Válasszon dátumot
@@ -245,14 +245,14 @@ const CarDetails = () => {
                                         zIndex: 10,
                                         paddingBottom: '20px'
                                     }}>
-                                        <div className="text-center p-4 bg-white shadow-lg rounded border" style={{ maxWidth: '90%' }}>
+                                        <div className="text-center p-4 details-locked-card shadow-lg" style={{ maxWidth: '95%' }}>
                                             {isGuest ? (
                                                 <>
-                                                    <div style={{ fontSize: "2rem", marginBottom: "10px" }}>🔒</div>
-                                                    <h5 className="mb-3 text-dark fw-bold">Jelentkezz be a bérléshez!</h5>
-                                                    <p className="text-muted small mb-4">Az árak és a foglalási naptár eléréséhez kérjük, lépj be a fiókodba.</p>
+                                                    <div style={{ fontSize: "2.5rem", marginBottom: "10px" }}>🔒</div>
+                                                    <h5 className="mb-3 text-white fw-bold">Jelentkezz be a bérléshez!</h5>
+                                                    <p className="details-text-muted small mb-4">Az árak és a foglalási naptár eléréséhez kérjük, lépj be a fiókodba.</p>
                                                     <button 
-                                                        className="btn btn-warning w-100 fw-bold shadow-sm" 
+                                                        className="btn details-submit-btn w-100" 
                                                         onClick={() => navigate('/Register')}
                                                     >
                                                         Bejelentkezés / Regisztráció
@@ -260,12 +260,11 @@ const CarDetails = () => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div style={{ fontSize: "2rem", marginBottom: "10px" }}>✉️</div>
-                                                    <h5 className="mb-3 text-dark fw-bold">Fiók megerősítése szükséges!</h5>
-                                                    <p className="text-muted small mb-4">A bérléshez a fiók megerősítése szükséges. Irány a profilod!</p>
+                                                    <div style={{ fontSize: "2.5rem", marginBottom: "10px" }}>✉️</div>
+                                                    <h5 className="mb-3 text-white fw-bold">Fiók megerősítése szükséges!</h5>
+                                                    <p className="details-text-muted small mb-4">A bérléshez a fiók megerősítése szükséges. Irány a profilod!</p>
                                                     <button 
-                                                        className="btn btn-primary w-100 fw-bold shadow-sm" 
-                                                        style={{backgroundColor: "#e65100", border: "none"}}
+                                                        className="btn details-submit-btn w-100" 
                                                         onClick={() => navigate('/Profile')}
                                                     >
                                                         Tovább a Profilhoz
@@ -278,33 +277,33 @@ const CarDetails = () => {
                             </div>
                             {/* --- BLUR WRAPPER END --- */}
 
-                            <hr />
+                            <hr style={{ borderColor: '#444' }} />
 
-                            <h4 className="mb-3 mt-3">Műszaki Adatok</h4>
+                            <h4 className="mb-3 mt-3 text-gold">Műszaki Adatok</h4>
                             <div className="row">
                                 <div className="col-6 mb-3">
-                                    <small className="text-muted d-block">Teljesítmény</small>
-                                    <strong>{carDetails.hp ? `${carDetails.hp} LE` : "N/A"}</strong>
+                                    <small className="details-text-muted d-block">Teljesítmény</small>
+                                    <strong className="text-white">{carDetails.hp ? `${carDetails.hp} LE` : "N/A"}</strong>
                                 </div>
                                 <div className="col-6 mb-3">
-                                    <small className="text-muted d-block">Végsebesség</small>
-                                    <strong>{carDetails.topSpeed ? `${carDetails.topSpeed} km/h` : "N/A"}</strong>
+                                    <small className="details-text-muted d-block">Végsebesség</small>
+                                    <strong className="text-white">{carDetails.topSpeed ? `${carDetails.topSpeed} km/h` : "N/A"}</strong>
                                 </div>
                                 <div className="col-6 mb-3">
-                                    <small className="text-muted d-block">Gyorsulás (0-100)</small>
-                                    <strong>{carDetails.acceleration ? `${carDetails.acceleration} mp` : "N/A"}</strong>
+                                    <small className="details-text-muted d-block">Gyorsulás (0-100)</small>
+                                    <strong className="text-white">{carDetails.acceleration ? `${carDetails.acceleration} mp` : "N/A"}</strong>
                                 </div>
                                 <div className="col-6 mb-3">
-                                    <small className="text-muted d-block">Váltó</small>
-                                    <strong>{carDetails.transmission || "N/A"}</strong>
+                                    <small className="details-text-muted d-block">Váltó</small>
+                                    <strong className="text-white">{carDetails.transmission || "N/A"}</strong>
                                 </div>
                                 <div className="col-6 mb-3">
-                                    <small className="text-muted d-block">Külső Szín</small>
-                                    <strong>{carDetails.exteriorColor || "N/A"}</strong>
+                                    <small className="details-text-muted d-block">Külső Szín</small>
+                                    <strong className="text-white">{carDetails.exteriorColor || "N/A"}</strong>
                                 </div>
                                 <div className="col-6 mb-3">
-                                    <small className="text-muted d-block">Hajtás</small>
-                                    <strong>{carDetails.drive || "N/A"}</strong>
+                                    <small className="details-text-muted d-block">Hajtás</small>
+                                    <strong className="text-white">{carDetails.drive || "N/A"}</strong>
                                 </div>
                             </div>
                         </div>
