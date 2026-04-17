@@ -27,6 +27,9 @@ const CarDetails = () => {
     const [carDetails, setCarDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    // --- ÚJ GALÉRIA ÁLLAPOT ---
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
     const now = new Date();
     const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
@@ -35,6 +38,12 @@ const CarDetails = () => {
             try {
                 const response = await axios.get(`https://localhost:7065/api/vehicles/${id}`);
                 setCarDetails(response.data);
+                
+                // Kezdő kép beállítása (elsődleges keresése)
+                if (response.data.images && response.data.images.length > 0) {
+                    const primaryIdx = response.data.images.findIndex(img => img.isPrimary);
+                    setCurrentImageIndex(primaryIdx !== -1 ? primaryIdx : 0);
+                }
             } catch (error) {
                 console.error("Hiba az autó részleteinek betöltésekor", error);
             } finally {
@@ -54,15 +63,22 @@ const CarDetails = () => {
     if (hasValidDates) {
         const start = new Date(localStartDate);
         const end = new Date(localEndDate);
-        
-        const diffTime = end.getTime() - start.getTime();
-        
-        diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
-        
-        if (diffDays < 1) diffDays = 1;
+        const diffTime = Math.abs(end - start);
+        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
         
         totalCost = carDailyPrice * diffDays;
     }
+
+    // --- GALÉRIA NAVIGÁCIÓ FUNKCIÓK ---
+    const nextImage = () => {
+        if (!carDetails?.images) return;
+        setCurrentImageIndex((prev) => (prev === carDetails.images.length - 1 ? 0 : prev + 1));
+    };
+
+    const prevImage = () => {
+        if (!carDetails?.images) return;
+        setCurrentImageIndex((prev) => (prev === 0 ? carDetails.images.length - 1 : prev - 1));
+    };
 
     const handleBooking = async () => {
         if (!user || !user.id) {
@@ -106,7 +122,8 @@ const CarDetails = () => {
         </div>
     );
 
-    const primaryImage = carDetails.images?.find(img => img.isPrimary)?.imageUrl || carDetails.images?.[0]?.imageUrl;
+    // Az aktuális kép az index alapján
+    const currentImageUrl = carDetails.images?.[currentImageIndex]?.imageUrl;
     
     const isGuest = !user || !user.id;
     const isLowClearance = user && user.clearance < 2;
@@ -123,16 +140,45 @@ const CarDetails = () => {
 
                 <div className="row g-5">
                     <div className="col-lg-7">
-                        {primaryImage ? (
-                            <img 
-                                src={primaryImage} 
-                                alt={`${carDetails.brand} ${carDetails.model}`} 
-                                className="img-fluid rounded mb-4 details-img"
-                                style={{ width: "100%", maxHeight: "500px", objectFit: "cover" }}
-                            />
-                        ) : (
-                            <div className="rounded mb-4 details-img" style={{ height: "400px", backgroundColor: "#252525" }}></div>
-                        )}
+                        {/* --- ÚJ GALÉRIA SZERKEZET --- */}
+                        <div className="gallery-slider-section mb-4">
+                            <div className="main-image-slider-wrapper position-relative">
+                                {currentImageUrl ? (
+                                    <img 
+                                        key={currentImageIndex} // Az átmenet miatt fontos a key
+                                        src={currentImageUrl} 
+                                        alt={`${carDetails.brand} ${carDetails.model}`} 
+                                        className="img-fluid rounded main-details-img-slider shadow-lg fade-in-image" 
+                                    />
+                                ) : (
+                                    <div className="rounded main-details-img-slider-placeholder"></div>
+                                )}
+
+                                {/* Nyilak csak ha több kép van */}
+                                {carDetails.images?.length > 1 && (
+                                    <>
+                                        <button className="slider-arrow prev-arrow" onClick={prevImage}>
+                                            <i className="fa fa-chevron-left"></i>
+                                        </button>
+                                        <button className="slider-arrow next-arrow" onClick={nextImage}>
+                                            <i className="fa fa-chevron-right"></i>
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Vonal indikátorok (pont annyi, amennyi kép van) */}
+                            <div className="slider-indicators-row d-flex justify-content-center gap-2 mt-3">
+                                {carDetails.images?.map((_, idx) => (
+                                    <div 
+                                        key={idx} 
+                                        className={`indicator-line-item ${currentImageIndex === idx ? 'active' : ''}`}
+                                        onClick={() => setCurrentImageIndex(idx)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        {/* --- GALÉRIA VÉGE --- */}
                         
                         <div className="details-card">
                             <h4 className="mb-3 text-gold">Leírás</h4>
@@ -170,7 +216,7 @@ const CarDetails = () => {
                                                 <label className="form-label small details-text-muted fw-bold">Átvétel Dátuma</label>
                                                 <input 
                                                     type="date" 
-                                                    className="form-control details-input date-input" 
+                                                    className="form-control details-input" 
                                                     value={localStartDate} 
                                                     min={today}
                                                     onChange={(e) => {
@@ -186,7 +232,7 @@ const CarDetails = () => {
                                                 <label className="form-label small details-text-muted fw-bold">Visszavétel Dátuma</label>
                                                 <input 
                                                     type="date" 
-                                                    className="form-control details-input date-input" 
+                                                    className="form-control details-input" 
                                                     value={localEndDate} 
                                                     min={localStartDate || today} 
                                                     onChange={(e) => setLocalEndDate(e.target.value)} 
@@ -232,16 +278,7 @@ const CarDetails = () => {
                                 </div>
 
                                 {isLocked && (
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: 0, left: 0, right: 0, bottom: 0,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        zIndex: 10,
-                                        paddingBottom: '20px'
-                                    }}>
+                                    <div className="lock-overlay">
                                         <div className="text-center p-4 details-locked-card shadow-lg" style={{ maxWidth: '95%' }}>
                                             {isGuest ? (
                                                 <>

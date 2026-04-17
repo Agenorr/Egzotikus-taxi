@@ -96,16 +96,50 @@ export default function Gallery() {
         </div>
       </div>
 
-      <div className="modal fade" id="galleryModal" tabIndex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered modal-xl">
-          <div className="modal-content">
-            <div className="modal-body position-relative">
-              <button type="button" className="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style={{ zIndex: 10 }}></button>
-              <img src={modalImg} alt="Nagyított Galéria Kép" id="modalImage" style={{ width: "100%", borderRadius: "8px" }} />
-            </div>
-          </div>
-        </div>
+      <div className="modal fade" id="galleryModal" tabIndex="-1" aria-hidden="true">
+  <div className="modal-dialog modal-dialog-centered modal-xl">
+    <div 
+      className="modal-content mx-auto" 
+      style={{ 
+        backgroundColor: "transparent", 
+        border: "none", 
+        // EZ A KULCS: a tároló csak akkora lesz, mint a kép
+        width: "fit-content", 
+        boxShadow: "none" 
+      }}
+    >
+      <div className="modal-body p-0 position-relative">
+        
+        {/* Bezáró gomb (X) */}
+        <button 
+          type="button" 
+          className="btn-close btn-close-white position-absolute top-0 end-0 m-3" 
+          data-bs-dismiss="modal" 
+          aria-label="Close" 
+          style={{ 
+            zIndex: 11, 
+            filter: "drop-shadow(0 0 5px black)",
+            opacity: 0.8 
+          }}
+        ></button>
+        
+        {/* A KÉP */}
+        <img 
+          src={modalImg} 
+          alt="Nagyított kép" 
+          style={{ 
+            maxWidth: "95vw",    // Ne lógjon ki széltében
+            maxHeight: "90vh",   // Ne lógjon ki magasságban
+            display: "block",    // Eltünteti az alsó extra helyet
+            borderRadius: "8px",
+            boxShadow: "0 0 40px rgba(0,0,0,0.9)",
+            objectFit: "contain"
+          }} 
+        />
       </div>
+    </div>
+  </div>
+</div>
 
       <div className="container mt-5 mb-5 text-white">
         <div className="row text-center g-4">

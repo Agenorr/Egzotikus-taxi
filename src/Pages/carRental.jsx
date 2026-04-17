@@ -37,7 +37,6 @@ export default function CarRental() {
     document.title = "Exotic | Autóbérlés";
   }, []);
 
-  // Kategória képek animációja
   useEffect(() => {
     const interval = setInterval(() => {
       document.querySelectorAll(".bg-img.current").forEach(el => el.classList.add("fade-out"));
@@ -50,15 +49,26 @@ export default function CarRental() {
     return () => clearInterval(interval);
   }, []);
 
-  // Szűrés logika
+  // JAVÍTOTT SZŰRÉS LOGIKA
   const filteredCars = cars.filter(car => {
     const isAvailable = car.status === 1;
     const matchesSearch =
       (car.brand && car.brand.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (car.model && car.model.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesTransmission = selectedTransmissions.length === 0 || selectedTransmissions.includes(car.transmission);
-    const matchesDrivetrain = selectedDrivetrains.length === 0 || selectedDrivetrains.includes(car.drive || car.drivetrain);
-    const matchesFuel = selectedFuel.length === 0 || selectedFuel.includes(car.fuel);
+
+    // Itt a javítás: megnézzük, hogy a kiválasztott szűrő szava szerepel-e az autó váltó-leírásában
+    const matchesTransmission =
+      selectedTransmissions.length === 0 ||
+      selectedTransmissions.some(t => car.transmission?.toLowerCase().includes(t.toLowerCase()));
+
+    const matchesDrivetrain =
+      selectedDrivetrains.length === 0 ||
+      selectedDrivetrains.includes(car.drive || car.drivetrain);
+
+    const matchesFuel =
+      selectedFuel.length === 0 ||
+      selectedFuel.includes(car.fuel);
+
     return isAvailable && matchesSearch && matchesTransmission && matchesDrivetrain && matchesFuel;
   });
 
@@ -149,15 +159,14 @@ export default function CarRental() {
           <div className="container mt-4 mb-5">
             <div className="row w-100 mx-0">
 
-              {/* Szűrő panel belső görgetéssel */}
               <div className="col-md-4 col-lg-3 px-2 mb-4">
                 <div style={{
                   position: "sticky",
                   top: "20px",
                   maxHeight: "calc(100vh - 40px)",
                   overflowY: "auto",
-                  msOverflowStyle: "none",  /* Internet Explorer és Edge */
-                  scrollbarWidth: "none"    /* Firefox */
+                  msOverflowStyle: "none", 
+                  scrollbarWidth: "none" 
                 }}>
                   <button className="btn w-100 p-3 mb-4 no-focus-ring back-to-categories-btn shadow-sm" onClick={handleBackClick}>
                     <i className="fa fa-arrow-left me-2"></i> Vissza a kategóriákhoz
@@ -192,7 +201,8 @@ export default function CarRental() {
                       <hr className="filter-divider" />
                       <div className="mb-4">
                         <label className="filter-section-title mb-2 d-block">VÁLTÓ</label>
-                        {['8-Fokozatú Automata', '9-Fokozatú Automata', '7-Fokozatú DSG', '8-Fokozatú DCT', '6-Fokozatú Manuális', 'Egysebességes'].map(type => (
+                        {/* Itt érdemesebb általánosabb neveket használni, hogy a szűrés biztosabb legyen */}
+                        {['Automata', 'Manuális', 'Egysebességes', 'DSG', 'DCT'].map(type => (
                           <div className="form-check d-flex align-items-center mb-2" key={type}>
                             <input className="form-check-input white-checkbox me-2" type="checkbox" id={`trans-${type}`}
                               checked={selectedTransmissions.includes(type)} onChange={() => toggleFilter(selectedTransmissions, setSelectedTransmissions, type)} />
@@ -225,7 +235,6 @@ export default function CarRental() {
                 </div>
               </div>
 
-              {/* Autó kártyák listája */}
               <div className="col-md-8 col-lg-9 px-4 position-relative" style={{ borderLeft: "1px dashed #444" }}>
                 <div className="row g-4">
                   {filteredCars.length > 0 ? (
@@ -245,7 +254,6 @@ export default function CarRental() {
                           >
                             <div className="card-fade-bottom"></div>
 
-                            {/* Új kártya tartalom stílus: Márka középen, Modell alatta */}
                             <div className="card-content position-absolute bottom-0 start-50 translate-middle-x w-100 text-center pb-4" style={{ zIndex: 2 }}>
                               <h3 className="mb-1" style={{ textShadow: "2px 2px 10px rgba(0,0,0,1), -1px -1px 4px rgba(0,0,0,0.8)", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px" }}>
                                 {car.brand}
@@ -255,10 +263,9 @@ export default function CarRental() {
                               </h5>
                             </div>
 
-                            {/* Részletek gomb villogás elleni védelemmel */}
                             <Link
                               to={`/CarRental/${car.id}`}
-                              className="btn no-focus-ring"
+                              className="btn car-details-btn no-focus-ring"
                               onMouseDown={(e) => e.preventDefault()}
                             >
                               Részletek

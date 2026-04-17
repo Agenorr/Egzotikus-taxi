@@ -5,10 +5,13 @@ import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
 
 const verifyOrder = () => {
+    useEffect(() => {
+        document.title = "Exotic | Rendelés Megerősítés";
+    }, []);
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const token = searchParams.get('token');
-    
+
     const [status, setStatus] = useState('loading');
     const [message, setMessage] = useState('Rendelés megerősítése folyamatban...');
 
@@ -27,8 +30,8 @@ const verifyOrder = () => {
             .then(response => {
                 setStatus('success');
                 setMessage('A bérlést sikeresen megerősítette! A rendelés most már aktív.');
-                
-                setTimeout(() => navigate('/Profile'), 3000);
+
+                setTimeout(() => navigate('/'), 5000);
             })
             .catch(error => {
                 console.error('Verification error:', error);
@@ -38,41 +41,43 @@ const verifyOrder = () => {
     }, [token, navigate]);
 
     return (
-        <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+        <div className="d-flex flex-column min-vh-100 verify-page">
             <Navbar />
-            <div className="container mt-5 d-flex justify-content-center">
-                <div className="card shadow border-0 text-center p-5" style={{ maxWidth: "600px" }}>
+
+            <div className="flex-grow-1 d-flex align-items-center justify-content-center">
+                <div className="verify-card text-center shadow-lg">
                     {status === 'loading' && (
-                        <div>
-                            <div className="spinner-border text-primary mb-3" role="status"></div>
-                            <h4>{message}</h4>
-                        </div>
+                        <>
+                            <div className="spinner-gold mb-4"></div>
+                            <h2 className="text-white fw-bold">Ellenőrzés folyamatban...</h2>
+                            <p className="text-muted">Kérjük várjon, amíg megerősítjük a rendelését.</p>
+                        </>
                     )}
-                    
+
                     {status === 'success' && (
-                        <div>
-                            <h1 className="text-success mb-3"><i className="fa fa-check-circle"></i></h1>
-                            <h3 className="text-success mb-3">Sikeres Megerősítés!</h3>
-                            <p className="lead">{message}</p>
-                            <p className="text-muted small">Átirányítás a profiljára...</p>
-                            <button className="btn btn-primary mt-3" onClick={() => navigate('/Profile')}>
-                                Tovább a Profilomra
+                        <div className="fade-in">
+                            <div className="success-icon mb-4">✔</div>
+                            <h2 className="text-gold fw-bold">Sikeres megerősítés!</h2>
+                            <p className="text-white">Rendelését a profiljában megtekintheti.<br/> Hamarosan átirányítjuk...</p>
+                            <button className="btn btn-gold-outline mt-3" onClick={() => window.location.href = "/"}>
+                                Tovább a főoldalra
                             </button>
                         </div>
                     )}
 
                     {status === 'error' && (
-                        <div>
-                            <h1 className="text-danger mb-3"><i className="fa fa-times-circle"></i></h1>
-                            <h3 className="text-danger mb-3">Sikertelen Megerősítés</h3>
-                            <p className="lead">{message}</p>
-                            <button className="btn btn-outline-secondary mt-3" onClick={() => navigate('/')}>
-                                Vissza a Főoldalra
+                        <div className="fade-in">
+                            <div className="error-icon mb-4">✖</div>
+                            <h2 className="text-danger fw-bold">Hiba történt</h2>
+                            <p className="text-white">A link érvénytelen vagy már lejárt.</p>
+                            <button className="btn btn-gold-outline mt-3" onClick={() => navigate('/')}>
+                                Vissza a főoldalra
                             </button>
                         </div>
                     )}
                 </div>
             </div>
+
             <Footer />
         </div>
     );

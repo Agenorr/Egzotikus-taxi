@@ -1,0 +1,84 @@
+.verify-page {
+    background-color: #1a1a1a;
+}
+
+.verify-card {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    background-color: #252525;
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 90%;
+    border-top: 4px solid #DAA520; /* Arany csík felül */
+}
+
+.text-gold {
+    color: #DAA520;
+}
+
+/* Spinner animáció */
+.spinner-gold {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(218, 165, 32, 0.2);
+    border-top: 5px solid #DAA520;
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Siker/Hiba ikonok */
+.success-icon {
+    font-size: 4rem;
+    color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.error-icon {
+    font-size: 4rem;
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+/* Gomb stílusa */
+.btn-gold-outline {
+    color: #DAA520;
+    border: 1px solid #DAA520;
+    background: transparent;
+    padding: 10px 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-gold-outline:hover {
+    background-color: #DAA520;
+    color: #1a1a1a;
+    box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+}
+
+/* Egyszerű megjelenési effekt */
+.fade-in {
+    animation: fadeIn 0.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

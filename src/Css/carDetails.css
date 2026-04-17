@@ -4,7 +4,93 @@
     color: white;
 }
 
-/* --- Kártyák --- */
+/* --- ÚJ SLIDER GALÉRIA (Nyilakkal és vonalakkal) --- */
+.gallery-slider-section {
+    position: relative;
+    width: 100%;
+}
+
+.main-image-slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.main-details-img-slider {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.main-details-img-slider-placeholder {
+    width: 100%;
+    height: 500px;
+    background-color: #252525;
+}
+
+/* Navigációs Nyilak */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #DAA520; /* Arany nyilak */
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.slider-arrow:hover {
+    background-color: #DAA520;
+    color: #1a1a1a;
+    box-shadow: 0 0 15px rgba(218, 165, 32, 0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-arrow { left: 20px; }
+.next-arrow { right: 20px; }
+
+/* Vonal Indikátorok (a kép alatt) */
+.slider-indicators-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.indicator-line-item {
+    height: 4px;
+    background-color: #444;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    flex-grow: 1; /* Ez teszi lehetővé, hogy kitöltsék a szélességet arányosan */
+    max-width: 60px;
+}
+
+.indicator-line-item:hover {
+    background-color: #666;
+}
+
+.indicator-line-item.active {
+    background-color: #DAA520;
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.4);
+}
+
+/* --- Kártyák és Konténerek --- */
 .details-card {
     background-color: #252525;
     border: 1px solid #333;
@@ -20,18 +106,57 @@
     border-color: #DAA520;
 }
 
-/* --- Záróképernyő Kártya (Overlay) --- */
+/* --- Zárolás (Lock) & Blur --- */
+.booking-wrapper { 
+    position: relative; 
+}
+
+.locked-blur { 
+    filter: blur(8px); 
+    pointer-events: none; 
+    opacity: 0.5; 
+}
+
+.lock-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    z-index: 5;
+}
+
 .details-locked-card {
     background-color: #222;
     border: 1px solid #DAA520;
     border-radius: 12px;
+    padding: 2rem;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* --- Kép formázása --- */
-.details-img {
-    border: 1px solid #333;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+/* --- Specifikáció rács --- */
+.specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.spec-item {
+    border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+}
+
+.spec-item span { 
+    display: block; 
+    font-size: 0.8rem; 
+    color: #777; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.spec-item strong { 
+    color: #fff; 
+    font-size: 1rem; 
 }
 
 /* --- Gombok --- */
@@ -41,7 +166,7 @@
     border: 1px solid #DAA520;
     border-radius: 6px;
     padding: 8px 20px;
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .details-back-btn:hover {
@@ -58,41 +183,48 @@
     font-weight: bold;
     border-radius: 6px;
     padding: 12px;
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: none;
+    transition: all 0.3s ease;
 }
 
 .details-submit-btn:hover:not(:disabled) {
     background-color: #b8860b;
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
-    color: #0d0d0d;
 }
 
 .details-submit-btn:disabled {
     background-color: #444;
     color: #888;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
     border: 1px solid #555;
 }
 
-/* --- Szöveg színek --- */
-.details-text-muted {
-    color: #bbb !important;
+.btn-outline-gold {
+    color: #DAA520;
+    border: 1px solid #DAA520;
+    background: transparent;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
 
-.text-gold {
-    color: #DAA520 !important;
+.btn-outline-gold:hover {
+    background: #DAA520;
+    color: #000;
 }
 
-/* --- Bérlés Időtartam Doboz & Inputok --- */
+/* --- Szöveg stílusok --- */
+.details-text-muted { color: #bbb !important; }
+.text-gold { color: #DAA520 !important; }
+.underline { border-bottom: 2px solid #DAA520; display: inline-block; padding-bottom: 4px; }
+
+/* --- Bérlés Box & Inputok --- */
 .details-booking-box {
     background-color: #1a1a1a;
     border: 1px solid #333;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 1.2rem;
 }
 
 .details-input {
@@ -100,18 +232,50 @@
     border: 1px solid #444 !important;
     color: white !important;
     border-radius: 6px !important;
-    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s !important;
 }
 
 .details-input:focus {
     border-color: #DAA520 !important;
     box-shadow: 0 0 8px rgba(218, 165, 32, 0.3) !important;
     background-color: #2a2a2a !important;
-    color: white !important;
 }
 
-/* Naptár ikon láthatóvá tétele sötét beviteli mezőn */
 .details-input::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
+}
+
+/* Görgetősáv elrejtése a slider indikátoroknál, ha sok lenne */
+.no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+/* Átmenet animáció definíciója */
+@keyframes imageFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(1.02); /* Egy nagyon pici közelítés, hűha-effektnek */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.fade-in-image {
+    animation: imageFadeIn 0.5s ease-in-out forwards;
+    /* Biztosítjuk, hogy a váltás ne rántsa meg az oldalt */
+    backface-visibility: hidden;
+}
+
+/* A slider tárolóján érdemes fix háttérszínt hagyni, hogy ne villanjon be a fehér */
+.main-image-slider-wrapper {
+    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #333;
 }
