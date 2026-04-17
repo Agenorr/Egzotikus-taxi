@@ -25,6 +25,10 @@ namespace ExoticBackend.Models
         public string PhoneNumber { get; set; } = string.Empty;
         public byte[]? ProfilePicture { get; set; }
 
+        //Reset token
+        public string? ResetPasswordToken { get; set; }
+        public DateTime? ResetPasswordExpiry { get; set; }
+
         // --- Rental Specific Data ---
 
         public string? FullName { get; set; } = string.Empty;

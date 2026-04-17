@@ -274,7 +274,17 @@ namespace ExoticBackEnd
                     Console.WriteLine($"Failed to send email: {ex.Message}");
                 }
 
-                return Results.Ok(new { message = "User registered successfully! Please check your email to verify." });
+                // ITT TÖRTÉNT A VÁLTOZÁS: Visszaküldjük a user adatait, ahogy a login végpontnál!
+                return Results.Ok(new
+                {
+                    message = "Sikeres regisztráció! Kérjük, ellenőrizd az e-mailedet a fiók megerősítéséhez.",
+                    id = user.Id,
+                    username = user.Username,
+                    email = user.Email,
+                    clearance = user.Clearance,
+                    is_verified = user.Is_Verified,
+                    isDriver = user.isDriver
+                });
             });
 
 
@@ -871,7 +881,128 @@ namespace ExoticBackEnd
                     isVerified = user.Is_Verified
                 });
             });
+            //Password Reset
 
+            // --- ELFELEJTETT JELSZÓ KÉRÉSE ---
+            app.MapPost("/api/auth/forgot-password", async (ForgotPasswordDto dto, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+                // Biztonsági okokból (hogy ne lehessen letapogatni, kik vannak beregisztrálva) 
+                // akkor is sikert jelzünk, ha nincs ilyen e-mail.
+                if (user == null)
+                {
+                    return Results.Ok(new { message = "Ha a megadott e-mail cím létezik a rendszerünkben, elküldtük a visszaállítási linket." });
+                }
+
+                // Generálunk egy egyedi tokent, ami 1 óra múlva lejár
+                string token = Guid.NewGuid().ToString();
+                user.ResetPasswordToken = token;
+                user.ResetPasswordExpiry = DateTime.UtcNow.AddHours(1);
+                await db.SaveChangesAsync();
+
+                // E-mail küldése
+                try
+                {
+                    string resetLink = $"http://localhost:3000/reset-password?token={token}";
+
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("bravery.cs@gmail.com", "zrau wgzd vgin kljz"),
+                        EnableSsl = true,
+                    };
+
+                    string emailBody = $@"
+        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+            <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
+                <h1 style='color: #e65100; margin: 0; font-size: 28px; letter-spacing: 2px;'>EXOTIC RENTALS</h1>
+            </div>
+            <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
+                <h2 style='color: #1a1a1a; margin-top: 0;'>Jelszó visszaállítása</h2>
+                <p style='font-size: 16px; line-height: 1.6;'>Kedves {user.Username}!</p>
+                <p style='font-size: 16px; line-height: 1.6;'>Kérést kaptunk a fiókodhoz tartozó jelszó visszaállítására. Ha te indítottad a kérést, kattints az alábbi gombra az új jelszó megadásához. (A link biztonsági okokból 1 órán belül lejár!)</p>
+                
+                <div style='text-align: center; margin: 35px 0;'>
+                    <a href='{resetLink}' style='background-color: #e65100; color: #ffffff; padding: 16px 32px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>Új jelszó beállítása</a>
+                </div>
+                
+                <p style='font-size: 14px; color: #777777; border-top: 1px solid #eeeeee; padding-top: 20px;'>Ha nem te kérted a jelszó visszaállítását, kérjük, hagyd figyelmen kívül ezt az e-mailt. A fiókod továbbra is biztonságban van.</p>
+            </div>
+            <div style='background-color: #f8f9fa; padding: 15px; text-align: center; color: #888888; font-size: 12px;'>
+                &copy; {DateTime.Now.Year} Exotic Rentals. Minden jog fenntartva.
+            </div>
+        </div>";
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("bravery.cs@gmail.com", "Exotic Rentals"),
+                        Subject = "Exotic Rentals - Jelszó visszaállítása",
+                        Body = emailBody,
+                        IsBodyHtml = true,
+                    };
+
+                    mailMessage.To.Add(user.Email);
+                    smtpClient.Send(mailMessage);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to send reset email: {ex.Message}");
+                }
+
+                return Results.Ok(new { message = "Ha a megadott e-mail cím létezik a rendszerünkben, elküldtük a visszaállítási linket." });
+            });
+
+
+            // --- ÚJ JELSZÓ BEÁLLÍTÁSA ---
+            app.MapPost("/api/auth/reset-password", async (ResetPasswordDto dto, ExoticDbContext db) =>
+            {
+                // Keressük meg a usert a token alapján
+                var user = await db.Users.FirstOrDefaultAsync(u => u.ResetPasswordToken == dto.Token);
+
+                // Ellenőrizzük, hogy létezik-e, és nem járt-e még le az idő (1 óra)
+                if (user == null || user.ResetPasswordExpiry == null || user.ResetPasswordExpiry < DateTime.UtcNow)
+                {
+                    return Results.BadRequest(new { message = "A visszaállító link érvénytelen vagy már lejárt." });
+                }
+
+                // Új jelszó hashelése és mentése
+                string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword, salt);
+
+                // Töröljük a tokent (hogy ne lehessen újra felhasználni)
+                user.ResetPasswordToken = null;
+                user.ResetPasswordExpiry = null;
+
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "A jelszavad sikeresen megváltozott! Most már bejelentkezhetsz." });
+            });
+
+            // --- BEJELENTKEZETT FELHASZNÁLÓ JELSZÓMÓDOSÍTÁSA ---
+            app.MapPost("/api/user/{id}/change-password", async (int id, ChangePasswordDto dto, ExoticDbContext db) =>
+            {
+                var user = await db.Users.FindAsync(id);
+                if (user == null)
+                {
+                    return Results.NotFound(new { message = "Felhasználó nem található." });
+                }
+
+                // 1. Ellenőrizzük, hogy a megadott JELENLEGI jelszó helyes-e
+                if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.Password))
+                {
+                    return Results.BadRequest(new { message = "A megadott jelenlegi jelszó helytelen!" });
+                }
+
+                // 2. Ha helyes, hasheljük az ÚJ jelszót
+                string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword, salt);
+
+                // 3. Mentés az adatbázisba
+                await db.SaveChangesAsync();
+
+                return Results.Ok(new { message = "A jelszavad sikeresen frissítve lett!" });
+            });
 
             app.Run();
         }
