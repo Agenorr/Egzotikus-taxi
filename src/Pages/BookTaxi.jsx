@@ -15,7 +15,7 @@ const BookTaxi = () => {
     const { car, pickupDate, pickupTime, pickupLocation, dropoffLocation } = location.state || {};
 
     const [carDetails, setCarDetails] = useState(null);
-    const [drivers, setDrivers] = useState([]); // 1. New State for real drivers
+    const [drivers, setDrivers] = useState([]);
     const [selectedDriverId, setSelectedDriverId] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false); 
@@ -24,7 +24,6 @@ const BookTaxi = () => {
         document.title = "Exotic | Foglalás Véglegesítése";
     }, []);
 
-    // 2. Fetch Car Details AND Real Drivers simultaneously
     useEffect(() => {
         if (!car) { navigate('/taxi'); return; }
 
@@ -38,13 +37,12 @@ const BookTaxi = () => {
                 setCarDetails(carRes.data);
                 setDrivers(driversRes.data);
                 
-                // Set the default dropdown value to the first driver in the database
                 if (driversRes.data.length > 0) {
                     setSelectedDriverId(driversRes.data[0].id.toString());
                 }
             } catch (error) {
                 console.error("Adatlekérési hiba:", error);
-                setCarDetails(car); // Fallback just in case
+                setCarDetails(car);
             } finally {
                 setIsLoading(false);
             }

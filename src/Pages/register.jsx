@@ -1,16 +1,14 @@
-import { useState, useEffect, useContext } from 'react'; // <-- useContext hozzáadva
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
-import { AuthContext } from '../Context/AuthContext'; // <-- AuthContext beimportálása (Ellenőrizd, hogy jó-e az útvonal!)
+import { AuthContext } from '../Context/AuthContext';
 
 import '../Css/Register.css';
 
 export default function Register() {
     const navigate = useNavigate();
-    
-    // AuthContextből kivesszük a login függvényt
     const { login } = useContext(AuthContext); 
 
     useEffect(() => {
@@ -60,11 +58,7 @@ export default function Register() {
 
             setSuccessMessage(response.data.message || 'Sikeres regisztráció! Automatikus bejelentkezés...');
 
-            // AZONNALI BEJELENTKEZTETÉS
-            // A backend most már visszaküldi az id-t, username-t, emailt, clearance-t
             login(response.data);
-
-            // Késleltetett átirányítás a profil oldalra (nem a loginra!)
             setTimeout(() => {
                 navigate('/Profile'); 
             }, 2000);

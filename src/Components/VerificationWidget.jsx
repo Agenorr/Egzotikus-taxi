@@ -6,23 +6,18 @@ const VerificationWidget = () => {
     const { user, isLoggedIn } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(true);
 
-    // Ha nincs bejelentkezve, vagy nincs user adat, nem mutatunk semmit
     if (!isLoggedIn || !user) return null;
 
-    // A clearance szint lekérése (figyelve minden lehetséges elnevezésre)
     const currentLevel = user.clearance ?? user.Clearance ?? 1;
 
-    // Ha már 2-es szintű (vagy nagyobb), a widgetnek el kell tűnnie
     if (currentLevel >= 2) return null;
 
-    // Email ellenőrzése (0/1 vagy false/true kezelése)
     const isEmailVerified = 
         user.is_verified === 1 || 
         user.is_verified === true || 
         user.isVerified === true || 
         user.IsVerified === true;
     
-    // Jogosítvány ellenőrzése
     const licenseVal = user.license_number || user.licenseNumber || user.LicenseNumber;
     const isLicenseUploaded = licenseVal && licenseVal.trim() !== "";
 

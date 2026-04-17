@@ -5,14 +5,12 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
-    // When the app starts, check localStorage immediately!
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
 });
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        // 1. Immediately load the user from Local Storage for a fast UI
         const savedUser = localStorage.getItem('user');
         
         if (savedUser) {
@@ -20,26 +18,22 @@ export const AuthProvider = ({ children }) => {
             setUser(parsedUser);
             setIsLoggedIn(true);
 
-            // 2. SILENT BACKGROUND SYNC: 
-            // Ask the backend for the absolute latest data for this user ID
             if (parsedUser && parsedUser.id) {
                 axios.get(`https://localhost:7065/api/auth/me/${parsedUser.id}`)
                     .then(res => {
                         const freshUser = res.data;
-                        // Overwrite React memory and Local Storage with the fresh DB data!
                         setUser(freshUser);
                         localStorage.setItem('user', JSON.stringify(freshUser));
                     })
                     .catch(err => {
                         console.error("Could not sync latest user data:", err);
-                        // Optional: If the backend returns 404 (user deleted), log them out automatically
                         if (err.response && err.response.status === 404) {
                             logout();
                         }
                     });
             }
         }
-    }, []); // Empty array means this runs once every time the website is opened/refreshed
+    }, []);
 
     const login = (userData) => {
         localStorage.setItem('user', JSON.stringify(userData));

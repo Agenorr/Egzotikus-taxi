@@ -174,7 +174,6 @@ export default function Navbar() {
                         </span>
                     </div>
 
-                    {/* Kisebb margó a gombok és a logó között (15px) */}
                     <div className="px-4 pb-4 d-flex flex-column gap-1" style={{ marginTop: '15px' }}>
                         <Link to="/" className="sidebar-item" onClick={toggleSidebar}>Kezdőlap</Link>
 

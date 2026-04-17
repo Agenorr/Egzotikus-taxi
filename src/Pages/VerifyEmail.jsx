@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
-import '../Css/verifyEmail.css'; // Új CSS fájl
+import '../Css/verifyEmail.css'; 
 
 const VerifyEmail = () => {
     useEffect(() => {
@@ -13,17 +13,15 @@ const VerifyEmail = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
     
-    const [status, setStatus] = useState('loading'); // loading, success, error
+    const [status, setStatus] = useState('loading');
 
     useEffect(() => {
         const confirmEmail = async () => {
             try {
-                // Backend hívás
                 await axios.post(`https://localhost:7065/api/auth/confirm?token=${token}`);
                 
                 setStatus('success');
 
-                // 3 másodperc múlva bedobjuk a főoldalra
                 setTimeout(() => {
                     navigate('/Profile');
                 }, 5000);

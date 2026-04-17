@@ -27,7 +27,6 @@ const CarDetails = () => {
     const [carDetails, setCarDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // --- ÚJ GALÉRIA ÁLLAPOT ---
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const now = new Date();
@@ -63,13 +62,16 @@ const CarDetails = () => {
     if (hasValidDates) {
         const start = new Date(localStartDate);
         const end = new Date(localEndDate);
-        const diffTime = Math.abs(end - start);
-        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+        start.setHours(0,0,0,0);
+        end.setHours(0,0,0,0);
+
+        const diffTime = end - start;
+        const dayCount = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
         
+        diffDays = dayCount > 0 ? dayCount : 1;
         totalCost = carDailyPrice * diffDays;
     }
 
-    // --- GALÉRIA NAVIGÁCIÓ FUNKCIÓK ---
     const nextImage = () => {
         if (!carDetails?.images) return;
         setCurrentImageIndex((prev) => (prev === carDetails.images.length - 1 ? 0 : prev + 1));
@@ -122,7 +124,6 @@ const CarDetails = () => {
         </div>
     );
 
-    // Az aktuális kép az index alapján
     const currentImageUrl = carDetails.images?.[currentImageIndex]?.imageUrl;
     
     const isGuest = !user || !user.id;
@@ -140,12 +141,12 @@ const CarDetails = () => {
 
                 <div className="row g-5">
                     <div className="col-lg-7">
-                        {/* --- ÚJ GALÉRIA SZERKEZET --- */}
+                        
                         <div className="gallery-slider-section mb-4">
                             <div className="main-image-slider-wrapper position-relative">
                                 {currentImageUrl ? (
                                     <img 
-                                        key={currentImageIndex} // Az átmenet miatt fontos a key
+                                        key={currentImageIndex}
                                         src={currentImageUrl} 
                                         alt={`${carDetails.brand} ${carDetails.model}`} 
                                         className="img-fluid rounded main-details-img-slider shadow-lg fade-in-image" 
@@ -154,7 +155,7 @@ const CarDetails = () => {
                                     <div className="rounded main-details-img-slider-placeholder"></div>
                                 )}
 
-                                {/* Nyilak csak ha több kép van */}
+                                
                                 {carDetails.images?.length > 1 && (
                                     <>
                                         <button className="slider-arrow prev-arrow" onClick={prevImage}>
@@ -167,7 +168,7 @@ const CarDetails = () => {
                                 )}
                             </div>
 
-                            {/* Vonal indikátorok (pont annyi, amennyi kép van) */}
+                            
                             <div className="slider-indicators-row d-flex justify-content-center gap-2 mt-3">
                                 {carDetails.images?.map((_, idx) => (
                                     <div 
@@ -178,7 +179,7 @@ const CarDetails = () => {
                                 ))}
                             </div>
                         </div>
-                        {/* --- GALÉRIA VÉGE --- */}
+                        
                         
                         <div className="details-card">
                             <h4 className="mb-3 text-gold">Leírás</h4>

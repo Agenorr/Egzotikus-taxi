@@ -49,14 +49,13 @@ export default function CarRental() {
     return () => clearInterval(interval);
   }, []);
 
-  // JAVÍTOTT SZŰRÉS LOGIKA
+ 
   const filteredCars = cars.filter(car => {
     const isAvailable = car.status === 1;
     const matchesSearch =
       (car.brand && car.brand.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (car.model && car.model.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    // Itt a javítás: megnézzük, hogy a kiválasztott szűrő szava szerepel-e az autó váltó-leírásában
     const matchesTransmission =
       selectedTransmissions.length === 0 ||
       selectedTransmissions.some(t => car.transmission?.toLowerCase().includes(t.toLowerCase()));
@@ -201,7 +200,6 @@ export default function CarRental() {
                       <hr className="filter-divider" />
                       <div className="mb-4">
                         <label className="filter-section-title mb-2 d-block">VÁLTÓ</label>
-                        {/* Itt érdemesebb általánosabb neveket használni, hogy a szűrés biztosabb legyen */}
                         {['Automata', 'Manuális', 'Egysebességes', 'DSG', 'DCT'].map(type => (
                           <div className="form-check d-flex align-items-center mb-2" key={type}>
                             <input className="form-check-input white-checkbox me-2" type="checkbox" id={`trans-${type}`}

@@ -3,8 +3,6 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
-
-// Használjuk ugyanazt a CSS-t, amit a Register oldalhoz is, hogy egységes legyen a dizájn
 import '../Css/Register.css'; 
 
 export default function ResetPassword() {
@@ -22,7 +20,6 @@ export default function ResetPassword() {
 
     useEffect(() => {
         document.title = "Exotic | Új Jelszó";
-        // Ha valaki csak úgy betölti az oldalt token nélkül:
         if (!token) {
             setError("Hibás vagy hiányzó visszaállítási kulcs (token). Kérjük, használd az e-mailben kapott linket!");
         }
@@ -33,7 +30,6 @@ export default function ResetPassword() {
         setError("");
         setSuccessMessage("");
 
-        // Frontend validáció
         if (newPassword !== confirmPassword) {
             setError("A jelszavak nem egyeznek!");
             return;
@@ -53,8 +49,7 @@ export default function ResetPassword() {
             });
             
             setSuccessMessage(res.data.message || "A jelszavad sikeresen megváltozott! Átirányítás...");
-            
-            // Késleltetett átirányítás a bejelentkezéshez (Kezdőlap)
+
             setTimeout(() => {
                 navigate("/"); 
             }, 3000);

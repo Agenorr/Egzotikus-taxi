@@ -4,7 +4,6 @@ import axios from 'axios';
 import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
 
-// Itt is a meglévő CSS-t használjuk az egységes dizájnhoz
 import '../Css/Register.css';
 
 export default function ForgotPassword() {
@@ -34,12 +33,10 @@ export default function ForgotPassword() {
                 email: email 
             });
             
-            // Siker esetén kiírjuk a backend által küldött üzenetet
             setMessage(res.data.message || "Az e-mailt elküldtük!");
-            setEmail(""); // Kiürítjük a mezőt
+            setEmail("");
 
         } catch (err) {
-            // Hiba kezelése (pl. ha nincs internet, vagy leállt a szerver)
             setError(err.response?.data?.message || "Hiba történt a kérés feldolgozása során. Kérjük, próbáld újra később.");
         } finally {
             setIsLoading(false);
@@ -51,7 +48,6 @@ export default function ForgotPassword() {
             <Navbar />
             <div className="register-wrapper flex-grow-1">
 
-                {/* Arany részecske effektek a háttérben */}
                 <div className="gold-particles">
                     {Array.from({ length: 20 }).map((_, i) => (
                         <span key={i}></span>
@@ -78,7 +74,6 @@ export default function ForgotPassword() {
                                 Add meg a fiókodhoz tartozó e-mail címet, és küldünk egy linket az új jelszó beállításához.
                             </p>
 
-                            {/* Értesítések (Hiba vagy Siker) */}
                             {error && <div className="alert alert-danger text-center py-2">{error}</div>}
                             {message && <div className="alert alert-success text-center bg-transparent border-success text-success py-2">{message}</div>}
 

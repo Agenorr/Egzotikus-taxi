@@ -15,7 +15,6 @@ export default function Profile() {
     document.title = "Exotic | Profil";
   }, []);
 
-  // GUARD: Wait for AuthContext to load so the Driver tab doesn't disappear on refresh
   if (user === undefined || user === null) {
     return (
       <div style={{ backgroundColor: "#1a1a1a", minHeight: "100vh" }}>
@@ -30,7 +29,7 @@ export default function Profile() {
     );
   }
 
-  // 1. Conditionally build the navigation menu
+
   const navItems = [
     { id: "main", name: "Kezdőlap", icon: <i className="fa fa-home"></i> },
     { id: "personal", name: "Személyes adatok", icon: <i className="fa fa-user"></i> },
@@ -38,7 +37,7 @@ export default function Profile() {
     { id: "stats", name: "Statisztikák", icon: <i className="fa fa-bar-chart"></i> },
   ];
 
-  // If the user is a driver, add the Driver Dashboard to the sidebar
+
   if (user?.isDriver) {
     navItems.push({ id: "driver", name: "Sofőr Pult", icon: <i className="fa fa-taxi"></i> });
   }
@@ -238,14 +237,14 @@ function HomeTab({ user, navigateAndScroll, setActiveTab }) {
   );
 }
 
-// --- PERSONAL TAB (With Country Code & Validation Logic) ---
+
 function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   const { updateUser } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isVerifying, setIsVerifying] = useState(false);
   
-  // Szétválasztottuk az országkódot és a telefonszámot
+ 
   const [formData, setFormData] = useState({ 
     name: "", 
     phoneCode: "+36", 
@@ -257,7 +256,7 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
     if (user?.id) {
       axios.get(`https://localhost:7065/api/user/${user.id}/profile`)
         .then(res => {
-          // --- TELEFONSZÁM PARSOLÁS ---
+        
           let fetchedPhone = res.data.phoneNumber || "";
           let code = "+36";
           let number = fetchedPhone;
@@ -270,7 +269,7 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
               break;
             }
           }
-          // Kezeljük, ha valaki "06"-tal írta be az adatbázisba régebben
+          
           if (fetchedPhone.startsWith("06")) {
             code = "+36";
             number = fetchedPhone.slice(2).trim();
@@ -303,7 +302,7 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   }, [scrollTarget, isLoading, setScrollTarget]);
 
   const handleSave = async () => {
-    // --- KÖTELEZŐ TELEFONSZÁM ELLENŐRZÉS ---
+   
     if (!formData.phone || formData.phone.trim() === "") {
         alert("A telefonszám megadása kötelező a profil mentéséhez!");
         return; 
@@ -312,7 +311,7 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
     try {
       await axios.put(`https://localhost:7065/api/user/${user.id}/profile`, {
         fullName: formData.name,
-        // Összefűzzük az országkódot és a számot a mentéshez
+        
         phoneNumber: `${formData.phoneCode} ${formData.phone.trim()}`,
         licenseNumber: formData.license
       });
@@ -385,7 +384,6 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
             </div>
           </div>
           
-          {/* --- TELEFONSZÁM SZEKCIÓ ORSZÁGKÓDDAL --- */}
           <div className="info-row" id="field-phone">
             <div className="info-label">TELEFONSZÁM <span className="text-danger">*</span></div>
             <div className="info-value">
@@ -469,7 +467,6 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   );
 }
 
-// --- SECURITY TAB (ÚJ JELSZÓ VÁLTOZTATÓ LOGIKÁVAL) ---
 function SecurityTab({ user, scrollTarget, setScrollTarget }) {
   const [isEditing, setIsEditing] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
@@ -524,7 +521,6 @@ function SecurityTab({ user, scrollTarget, setScrollTarget }) {
       setNewPassword('');
       setConfirmNewPassword('');
       
-      // Sikeres módosítás után összecsukjuk a formot kis késleltetéssel
       setTimeout(() => {
         setIsEditing(false);
         setMessage('');
@@ -829,7 +825,6 @@ function DriverTab({ user }) {
         </div>
       </section>
 
-      {/* --- ACTIVE RIDES --- */}
       <section className="info-card shadow-sm mb-5" style={{borderColor: '#DAA520'}}>
         <div className="card-header border-bottom" style={{borderColor: '#DAA520'}}>
           <h2 className="m-0 text-white"><i className="fa fa-spinner fa-spin text-warning me-2"></i>Folyamatban lévő fuvarok ({activeRides.length})</h2>
@@ -868,7 +863,6 @@ function DriverTab({ user }) {
         </div>
       </section>
 
-      {/* --- FINISHED RIDES --- */}
       <section className="info-card shadow-sm border-dark">
         <div className="card-header border-bottom border-dark">
           <h2 className="m-0" style={{color: '#bbb'}}><i className="fa fa-history me-2"></i>Legutóbbi befejezett fuvarok</h2>

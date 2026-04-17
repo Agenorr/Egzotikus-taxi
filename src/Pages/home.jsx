@@ -2,11 +2,13 @@ import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import '../Css/Home.css'
+import '../Css/Home.css';
+import '../Css/carRental.css'; 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from "axios";
 
-const Home = ({ serverData }) => {
+const Home = ({ serverData }) => { 
 
     const [vehicles, setVehicles] = useState([]);
 
@@ -18,7 +20,6 @@ const Home = ({ serverData }) => {
         axios.get("https://localhost:7065/api/vehicles")
             .then(res =>{
                 const firstThree = res.data.slice(0,3);
-                console.log(firstThree)
                 setVehicles(firstThree);
             })
             .catch(err => console.error(err));
@@ -27,10 +28,8 @@ const Home = ({ serverData }) => {
     return (
         <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: "#1a1a1a" }}>
             <Navbar />
-            
+
             <div id="carSlideshow" className="carousel slide home-hero-section" data-bs-ride="carousel" data-bs-interval="3000">
-                
-                {/* Képek */}
                 <div className="carousel-inner h-100">
                     <div className="carousel-item active h-100">
                         <img src="/Assets/mclaren1.jpg" className="d-block w-100 h-100 object-fit-cover" alt="Car 1" />
@@ -43,16 +42,15 @@ const Home = ({ serverData }) => {
                     </div>
                 </div>
 
-                {/* Fade effekt a képek felett, hogy beleolvadjon az oldalba */}
                 <div className="home-hero-fade"></div>
 
-                {/* Szöveg a fade felett */}
                 <div className="greeting-text">
                     <h1 className="home-hero-title">Üdvözlünk az Exotic világában!</h1>
                     <div className="home-hero-accent" />
                     <p className="home-hero-sub">Vezess álmaid autóját - Stílus, Sebesség, Szenvedély.</p>
                 </div>
                 
+                {/* Carousel Vezérlők */}
                 <button className="carousel-control-prev" style={{ zIndex: 3 }} type="button" data-bs-target="#carSlideshow" data-bs-slide="prev">
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span className="visually-hidden">Previous</span>
@@ -87,22 +85,46 @@ const Home = ({ serverData }) => {
                 <h2 className="text-center mb-5" style={{ color: '#DAA520', fontWeight: 'bold', letterSpacing: '1px' }}>Legnépszerűbb autóink</h2>
                 <div className="row justify-content-center g-4">
                     {vehicles.map((car) => {
-                        const primaryImage = car.images?.find(img => img.isPrimary)?.imageUrl
-                            || car.images?.[0]?.imageUrl
-                            || 'https://via.placeholder.com/300';
+                        const primaryImage = car.images?.find(img => img.isPrimary) || car.images?.[0];
 
                         return (
                             <div key={car.id} className="col-12 col-md-6 col-lg-4">
-                                <div className="home-car-card">
-                                    <img src={primaryImage.trim()} alt={`${car.brand} ${car.model}`} className='home-image'/>
-                                    
+                                <div className="car-card car-card-hover position-relative text-white w-100"
+                                    style={{
+                                        height: "300px",
+                                        backgroundImage: primaryImage ? `url(${primaryImage.imageUrl})` : 'none',
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                        borderRadius: "8px",
+                                        overflow: "hidden"
+                                    }}
+                                >
                                     <div className="card-fade-bottom"></div>
-                                    
-                                    <div className="card-content position-absolute bottom-0 start-50 translate-middle-x w-100 text-center pb-5" style={{ zIndex: 2 }}>
-                                        <h4 className="mb-4 text-white" style={{ textShadow: "2px 2px 10px rgba(0,0,0,1), -1px -1px 4px rgba(0,0,0,0.8)", fontWeight: "bold" }}>{car.brand} {car.model}</h4>
+
+                                    <div className="card-content position-absolute bottom-0 start-50 translate-middle-x w-100 text-center pb-4" style={{ zIndex: 2 }}>
+                                        <h3 className="mb-1" style={{ 
+                                            textShadow: "2px 2px 10px rgba(0,0,0,1), -1px -1px 4px rgba(0,0,0,0.8)", 
+                                            fontWeight: "bold", 
+                                            textTransform: "uppercase", 
+                                            letterSpacing: "1px" 
+                                        }}>
+                                            {car.brand}
+                                        </h3>
+                                        <h5 className="mb-4" style={{ 
+                                            textShadow: "2px 2px 10px rgba(0,0,0,1), -1px -1px 4px rgba(0,0,0,0.8)", 
+                                            fontWeight: "300", 
+                                            color: "#e0e0e0" 
+                                        }}>
+                                            {car.model}
+                                        </h5>
                                     </div>
 
-                                    <button className="image-button">Béreld ki!</button>
+                                    <Link
+                                        to={`/CarRental/${car.id}`}
+                                        className="btn car-details-btn no-focus-ring"
+                                    >
+                                        Béreld ki!
+                                    </Link>
                                 </div>
                             </div>
                         );
@@ -114,4 +136,5 @@ const Home = ({ serverData }) => {
         </div>
     );
 };
+
 export default Home;

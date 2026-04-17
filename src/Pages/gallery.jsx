@@ -62,7 +62,7 @@ export default function Gallery() {
             <p className="mt-3" style={{ color: '#bbb' }}>Képek betöltése...</p>
           </div>
         ) : images.length > 0 ? (
-          // Ha vannak képek, akkor betesszük a Grid containerbe
+         
           <div className="gallery-container">
             {images.map((img) => (
               <div
@@ -83,7 +83,6 @@ export default function Gallery() {
             ))}
           </div>
         ) : (
-          // Ha nincsenek képek, a Gird-en KÍVÜL jelenítjük meg, így tökéletesen középen lesz
           <div className="d-flex justify-content-center align-items-center w-100 py-5" style={{ minHeight: '200px' }}>
             <p style={{ color: '#bbb', fontSize: '1.1rem' }}>Nincsenek elérhető képek a galériában.</p>
           </div>
@@ -103,7 +102,6 @@ export default function Gallery() {
       style={{ 
         backgroundColor: "transparent", 
         border: "none", 
-        // EZ A KULCS: a tároló csak akkora lesz, mint a kép
         width: "fit-content", 
         boxShadow: "none" 
       }}
@@ -128,9 +126,9 @@ export default function Gallery() {
           src={modalImg} 
           alt="Nagyított kép" 
           style={{ 
-            maxWidth: "95vw",    // Ne lógjon ki széltében
-            maxHeight: "90vh",   // Ne lógjon ki magasságban
-            display: "block",    // Eltünteti az alsó extra helyet
+            maxWidth: "95vw",
+            maxHeight: "90vh",
+            display: "block",
             borderRadius: "8px",
             boxShadow: "0 0 40px rgba(0,0,0,0.9)",
             objectFit: "contain"
