@@ -18,9 +18,12 @@ const Home = ({ serverData }) => {
 
     useEffect(() => {
         axios.get("https://localhost:7065/api/vehicles")
-            .then(res =>{
-                const firstThree = res.data.slice(0,3);
-                setVehicles(firstThree);
+            .then(res => {
+                const topThree = res.data
+                    .sort((a, b) => (b.times_Rented || 0) - (a.times_Rented || 0))
+                    .slice(0, 3);
+                
+                setVehicles(topThree);
             })
             .catch(err => console.error(err));
     }, []);
