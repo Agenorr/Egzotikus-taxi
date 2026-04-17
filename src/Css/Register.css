@@ -1,4 +1,3 @@
-
 .register-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
@@ -40,7 +39,6 @@
     transition: background-color 5000s ease-in-out 0s;
 }
 
-/* --- Gomb --- */
 .exotic-submit-btn {
     width: 100%;
     padding: 12px;
@@ -52,16 +50,15 @@
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: none; /* Az alapértelmezett árnyék eltávolítva */
+    box-shadow: none;
 }
 
 .exotic-submit-btn:hover {
     background-color: #b8860b !important;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4); /* Csak hover esetén jelenik meg */
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
 }
 
-/* --- Fő Wrapper --- */
 .register-wrapper {
     position: relative;
     display: flex;
@@ -75,7 +72,6 @@
         #1a1a1a;
 }
 
-/* --- Arany Részecskék --- */
 .gold-particles {
     position: absolute;
     inset: 0;

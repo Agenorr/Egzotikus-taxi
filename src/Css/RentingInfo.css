@@ -10,7 +10,6 @@
   margin: auto;
 }
 
-/* --- Hero Szekció --- */
 .renting-hero {
   height: 500px;
   display: flex;
@@ -56,7 +55,6 @@
   text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
 }
 
-/* --- Általános Szekció Stílusok --- */
 .container .row .col-md-4 {
   padding: 20px;
 }
@@ -81,7 +79,6 @@
   background: #DAA520;
 }
 
-/* --- Bérlési Szabályzat Kártyák --- */
 .renting-policy-card {
   background-color: #252525;
   border: 1px solid #333;
@@ -127,7 +124,6 @@
   color: #bbb !important;
 }
 
-/* --- Jogi Dokumentum Kártya --- */
 .renting-legal-card {
   background-color: #252525;
   border: 1px solid #333;
@@ -180,7 +176,6 @@
   transform: translateY(-2px);
 }
 
-/* Responsive Design (mobilhoz igazítás) */
 @media (max-width: 768px) {
   .renting-hero-title {
     font-size: 2rem;
