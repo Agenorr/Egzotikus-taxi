@@ -1,10 +1,8 @@
-/* --- Oldal alap --- */
 .car-details-page {
     background-color: #1a1a1a;
     color: white;
 }
 
-/* --- ÚJ SLIDER GALÉRIA (Nyilakkal és vonalakkal) --- */
 .gallery-slider-section {
     position: relative;
     width: 100%;
@@ -32,13 +30,12 @@
     background-color: #252525;
 }
 
-/* Navigációs Nyilak */
 .slider-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.6);
-    color: #DAA520; /* Arany nyilak */
+    color: #DAA520;
     border: 1px solid rgba(218, 165, 32, 0.3);
     border-radius: 50%;
     width: 45px;
@@ -62,7 +59,6 @@
 .prev-arrow { left: 20px; }
 .next-arrow { right: 20px; }
 
-/* Vonal Indikátorok (a kép alatt) */
 .slider-indicators-row {
     width: 100%;
     display: flex;
@@ -77,7 +73,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 2px;
-    flex-grow: 1; /* Ez teszi lehetővé, hogy kitöltsék a szélességet arányosan */
+    flex-grow: 1;
     max-width: 60px;
 }
 
@@ -90,7 +86,6 @@
     box-shadow: 0 0 8px rgba(218, 165, 32, 0.4);
 }
 
-/* --- Kártyák és Konténerek --- */
 .details-card {
     background-color: #252525;
     border: 1px solid #333;
@@ -106,7 +101,6 @@
     border-color: #DAA520;
 }
 
-/* --- Zárolás (Lock) & Blur --- */
 .booking-wrapper { 
     position: relative; 
 }
@@ -134,7 +128,6 @@
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* --- Specifikáció rács --- */
 .specs-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -159,7 +152,6 @@
     font-size: 1rem; 
 }
 
-/* --- Gombok --- */
 .details-back-btn {
     background-color: transparent;
     color: #DAA520;
@@ -214,12 +206,10 @@
     color: #000;
 }
 
-/* --- Szöveg stílusok --- */
 .details-text-muted { color: #bbb !important; }
 .text-gold { color: #DAA520 !important; }
 .underline { border-bottom: 2px solid #DAA520; display: inline-block; padding-bottom: 4px; }
 
-/* --- Bérlés Box & Inputok --- */
 .details-booking-box {
     background-color: #1a1a1a;
     border: 1px solid #333;
@@ -245,7 +235,6 @@
     cursor: pointer;
 }
 
-/* Görgetősáv elrejtése a slider indikátoroknál, ha sok lenne */
 .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -253,11 +242,11 @@
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
-/* Átmenet animáció definíciója */
+
 @keyframes imageFadeIn {
     from {
         opacity: 0;
-        transform: scale(1.02); /* Egy nagyon pici közelítés, hűha-effektnek */
+        transform: scale(1.02);
     }
     to {
         opacity: 1;
@@ -267,11 +256,9 @@
 
 .fade-in-image {
     animation: imageFadeIn 0.5s ease-in-out forwards;
-    /* Biztosítjuk, hogy a váltás ne rántsa meg az oldalt */
     backface-visibility: hidden;
 }
 
-/* A slider tárolóján érdemes fix háttérszínt hagyni, hogy ne villanjon be a fehér */
 .main-image-slider-wrapper {
     background-color: #1a1a1a;
     position: relative;
