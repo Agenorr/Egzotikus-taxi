@@ -16,7 +16,7 @@ body {
   color: #fff;
 }
 
-/* --- Hero Szekció --- */
+
 .carrental-hero {
   height: 500px;
   display: flex;
@@ -57,14 +57,13 @@ body {
   background: #DAA520;
 }
 
-/* Megakadályozza a kék/fehér villanást mobilon és asztali gépen kattintáskor */
 .car-card a, 
 .car-card a:active, 
 .car-card a:focus {
     -webkit-tap-highlight-color: transparent;
     outline: none !important;
     text-decoration: none !important;
-    color: black !important; /* Megtartja az eredeti színt */
+    color: black !important;
 }
 
 div[style*="sticky"] { 
@@ -81,7 +80,6 @@ div[style*="sticky"]::-webkit-scrollbar {
   color: #ddd;
   text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
 }
-/* --------------------------------------------- */
 
 .container {
   width: 90%;
@@ -121,7 +119,6 @@ div[style*="sticky"]::-webkit-scrollbar {
   margin-bottom: 10%;
 }
 
-/* --- Kártya stílusok --- */
 .car-card {
   width: 100%;
   height: 300px;
@@ -201,7 +198,6 @@ div[style*="sticky"]::-webkit-scrollbar {
   z-index: 1;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .car-container {
       justify-content: space-around;
