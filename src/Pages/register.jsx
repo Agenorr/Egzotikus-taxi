@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react'; // <-- useContext hozzáadva
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Components/navbar';
 import Footer from '../Components/footer';
+import { AuthContext } from '../Context/AuthContext'; // <-- AuthContext beimportálása (Ellenőrizd, hogy jó-e az útvonal!)
 
 import '../Css/Register.css';
 
-export default function register() {
+export default function Register() {
     const navigate = useNavigate();
+    
+    // AuthContextből kivesszük a login függvényt
+    const { login } = useContext(AuthContext); 
 
     useEffect(() => {
         document.title = "Exotic | Regisztráció";
@@ -54,10 +58,15 @@ export default function register() {
                 password: formData.password
             });
 
-            setSuccessMessage('Sikeres regisztráció! Átirányítás...');
+            setSuccessMessage(response.data.message || 'Sikeres regisztráció! Automatikus bejelentkezés...');
 
+            // AZONNALI BEJELENTKEZTETÉS
+            // A backend most már visszaküldi az id-t, username-t, emailt, clearance-t
+            login(response.data);
+
+            // Késleltetett átirányítás a profil oldalra (nem a loginra!)
             setTimeout(() => {
-                navigate('/');
+                navigate('/Profile'); 
             }, 2000);
 
         } catch (err) {
