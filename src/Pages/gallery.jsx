@@ -61,31 +61,31 @@ export default function Gallery() {
             </div>
             <p className="mt-3" style={{ color: '#bbb' }}>Képek betöltése...</p>
           </div>
-        ) : (
+        ) : images.length > 0 ? (
+          // Ha vannak képek, akkor betesszük a Grid containerbe
           <div className="gallery-container">
-            {images.length > 0 ? (
-              images.map((img) => (
-                <div
-                  key={img.id}
-                  className="gallery-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#galleryModal"
-                  onClick={() => setModalImg(img.imageUrl)}
-                >
-                  <img src={img.imageUrl} alt={img.title || "Galéria Kép"} />
-                  {img.title && (
-                    <div className="gallery-title-overlay">
-                      {img.title}
-                    </div>
-                  )}
-                  <div className="gallery-overlay">Kép megnézése</div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center w-100 py-5">
-                <p style={{ color: '#bbb' }}>Nincsenek elérhető képek a galériában.</p>
+            {images.map((img) => (
+              <div
+                key={img.id}
+                className="gallery-item"
+                data-bs-toggle="modal"
+                data-bs-target="#galleryModal"
+                onClick={() => setModalImg(img.imageUrl)}
+              >
+                <img src={img.imageUrl} alt={img.title || "Galéria Kép"} />
+                {img.title && (
+                  <div className="gallery-title-overlay">
+                    {img.title}
+                  </div>
+                )}
+                <div className="gallery-overlay">Kép megnézése</div>
               </div>
-            )}
+            ))}
+          </div>
+        ) : (
+          // Ha nincsenek képek, a Gird-en KÍVÜL jelenítjük meg, így tökéletesen középen lesz
+          <div className="d-flex justify-content-center align-items-center w-100 py-5" style={{ minHeight: '200px' }}>
+            <p style={{ color: '#bbb', fontSize: '1.1rem' }}>Nincsenek elérhető képek a galériában.</p>
           </div>
         )}
 
