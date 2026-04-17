@@ -1,4 +1,4 @@
-﻿using ExoticBackend.Data;
+using ExoticBackend.Data;
 using ExoticBackend.DTOs;
 using ExoticBackend.Models;
 using Microsoft.AspNetCore.Builder;
@@ -237,23 +237,23 @@ namespace ExoticBackEnd
                     };
 
                     string emailBody = $@"
-                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
-                        <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
-                            <h1 style='color: #e65100; margin: 0; font-size: 28px; letter-spacing: 2px;'>EXOTIC RENTALS</h1>
+                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #252525; border: 1px solid #333333; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);'>
+                        <div style='background-color: #0d0d0d; padding: 30px 20px; text-align: center; border-bottom: 2px solid #DAA520;'>
+                            <h1 style='color: #DAA520; margin: 0; font-size: 26px; letter-spacing: 4px;'>EXOTIC RENTALS</h1>
                         </div>
-                        <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
-                            <h2 style='color: #1a1a1a; margin-top: 0;'>Üdvözlünk a klubban, {user.Username}!</h2>
+                        <div style='padding: 40px 30px; color: #bbbbbb;'>
+                            <h2 style='color: #DAA520; margin-top: 0;'>Üdvözlünk a klubban, {user.Username}!</h2>
                             <p style='font-size: 16px; line-height: 1.6;'>Köszönjük, hogy csatlakoztál az Exotic Rentals közösségéhez. Már csak egyetlen lépés választ el attól, hogy hozzáférj exkluzív járműparkunkhoz.</p>
                             <p style='font-size: 16px; line-height: 1.6;'>A <strong>2-es szintű jogosultság (bérlés)</strong> aktiválásához kérjük, erősítsd meg az e-mail címedet az alábbi gombra kattintva:</p>
                             
-                            <div style='text-align: center; margin: 35px 0;'>
-                                <a href='{verificationLink}' style='background-color: #e65100; color: #ffffff; padding: 16px 32px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>E-mail cím megerősítése</a>
+                            <div style='text-align: center; margin: 40px 0;'>
+                                <a href='{verificationLink}' style='background-color: #DAA520; color: #0d0d0d; padding: 16px 35px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>E-mail cím megerősítése</a>
                             </div>
                             
-                            <p style='font-size: 14px; color: #777777; border-top: 1px solid #eeeeee; padding-top: 20px;'>Ha a fenti gomb nem működik, másold be a következő hivatkozást a böngésződbe:<br>
-                            <a href='{verificationLink}' style='color: #e65100; word-break: break-all;'>{verificationLink}</a></p>
+                            <p style='font-size: 14px; color: #777777; border-top: 1px solid #444444; padding-top: 20px;'>Ha a fenti gomb nem működik, másold be a következő hivatkozást a böngésződbe:<br>
+                            <a href='{verificationLink}' style='color: #DAA520; word-break: break-all; text-decoration: none;'>{verificationLink}</a></p>
                         </div>
-                        <div style='background-color: #f8f9fa; padding: 15px; text-align: center; color: #888888; font-size: 12px;'>
+                        <div style='background-color: #0d0d0d; padding: 20px; text-align: center; color: #777777; font-size: 12px; border-top: 1px solid #333333;'>
                             &copy; {DateTime.Now.Year} Exotic Rentals. Minden jog fenntartva.
                         </div>
                     </div>";
@@ -274,7 +274,6 @@ namespace ExoticBackEnd
                     Console.WriteLine($"Failed to send email: {ex.Message}");
                 }
 
-                // ITT TÖRTÉNT A VÁLTOZÁS: Visszaküldjük a user adatait, ahogy a login végpontnál!
                 return Results.Ok(new
                 {
                     message = "Sikeres regisztráció! Kérjük, ellenőrizd az e-mailedet a fiók megerősítéséhez.",
@@ -336,7 +335,7 @@ namespace ExoticBackEnd
                     email = user.Email,
                     clearance = user.Clearance,
                     is_verified = user.Is_Verified,
-                    isDriver = user.isDriver // <--- ADD THIS LINE
+                    isDriver = user.isDriver
                 });
             });
 
@@ -349,7 +348,6 @@ namespace ExoticBackEnd
                     return Results.NotFound(new { message = "User not found." });
                 }
 
-                // Return ONLY the data needed for the Personal Info tab
                 return Results.Ok(new
                 {
                     fullName = user.FullName,
@@ -386,19 +384,19 @@ namespace ExoticBackEnd
                     isDriver = user.isDriver
                 });
             });
+
             app.MapGet("/api/user/{id}/orders", async (int id, ExoticDbContext db) =>
             {
                 var orders = await db.Orders
                     .Include(o => o.Vehicle)
                         .ThenInclude(v => v.VehicleImages)
                     .Where(o => o.UserId == id)
-                    .OrderByDescending(o => o.CreatedAt) // Legújabb rendelések legelöl
+                    .OrderByDescending(o => o.CreatedAt)
                     .Select(o => new OrderHistoryDto
                     {
                         Id = o.Id,
                         Brand = o.Vehicle.Brand,
                         Model = o.Vehicle.Model,
-                        // Próbáljuk az elsődleges képet lekérni, ha nincs, akkor az elsőt
                         ImageUrl = o.Vehicle.VehicleImages.FirstOrDefault(i => i.Is_Primary).Image_Url
                                    ?? o.Vehicle.VehicleImages.FirstOrDefault().Image_Url,
                         StartDate = o.StartDate,
@@ -412,7 +410,6 @@ namespace ExoticBackEnd
                 return Results.Ok(orders);
             });
 
-            // Pásztázd be ezt a POST végpontot a GET /api/user/{id}/orders fölé vagy alá!
             app.MapPost("/api/orders", async (CreateOrderDto dto, ExoticDbContext db) =>
             {
                 try
@@ -453,27 +450,30 @@ namespace ExoticBackEnd
                         };
 
                         string emailBody = $@"
-                        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
-                            <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
-                                <h1 style='color: #e65100; margin: 0; font-size: 28px; letter-spacing: 2px;'>EXOTIC RENTALS</h1>
+                        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #252525; border: 1px solid #333333; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);'>
+                            <div style='background-color: #0d0d0d; padding: 30px 20px; text-align: center; border-bottom: 2px solid #DAA520;'>
+                                <h1 style='color: #DAA520; margin: 0; font-size: 26px; letter-spacing: 4px;'>EXOTIC RENTALS</h1>
                             </div>
-                            <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
-                                <h2 style='color: #1a1a1a; margin-top: 0;'>Foglalásod megerősítésre vár!</h2>
+                            <div style='padding: 40px 30px; color: #bbbbbb;'>
+                                <h2 style='color: #DAA520; margin-top: 0;'>Foglalásod megerősítésre vár!</h2>
                                 <p style='font-size: 16px; line-height: 1.6;'>Kedves {user.Username}!</p>
                                 <p style='font-size: 16px; line-height: 1.6;'>Rendszerünk rögzítette a bérlési szándékodat. A kiválasztott autó lefoglalásához és a bérlés véglegesítéséhez kérjük, erősítsd meg a tranzakciót:</p>
                                 
-                                <div style='background-color: #f8f9fa; padding: 20px; border-left: 4px solid #e65100; margin: 25px 0;'>
-                                    <h3 style='margin-top: 0; color: #333;'>Foglalás részletei:</h3>
+                                <div style='background-color: #1a1a1a; padding: 25px; border-left: 4px solid #DAA520; margin: 30px 0; border-radius: 4px;'>
+                                    <h3 style='margin-top: 0; color: #ffffff;'>Foglalás részletei:</h3>
                                     <ul style='list-style-type: none; padding: 0; margin: 0; font-size: 15px;'>
-                                        <li style='margin-bottom: 8px;'><strong>Kezdés:</strong> {dto.StartDate.ToString("yyyy. MM. dd.")}</li>
-                                        <li style='margin-bottom: 8px;'><strong>Visszaadás:</strong> {dto.EndDate.ToString("yyyy. MM. dd.")}</li>
-                                        <li><strong>Végösszeg:</strong> <span style='color: #e65100; font-weight: bold;'>{dto.TotalPrice.ToString("N0")} Ft</span></li>
+                                        <li style='margin-bottom: 10px;'><strong>Kezdés:</strong> {dto.StartDate.ToString("yyyy. MM. dd.")}</li>
+                                        <li style='margin-bottom: 10px;'><strong>Visszaadás:</strong> {dto.EndDate.ToString("yyyy. MM. dd.")}</li>
+                                        <li><strong>Végösszeg:</strong> <span style='color: #DAA520; font-weight: bold; font-size: 18px;'>{dto.TotalPrice.ToString("N0")} Ft</span></li>
                                     </ul>
                                 </div>
                                 
-                                <div style='text-align: center; margin: 35px 0;'>
-                                    <a href='{verificationLink}' style='background-color: #e65100; color: #ffffff; padding: 16px 32px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>Foglalás Véglegesítése</a>
+                                <div style='text-align: center; margin: 40px 0;'>
+                                    <a href='{verificationLink}' style='background-color: #DAA520; color: #0d0d0d; padding: 16px 35px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>Foglalás Véglegesítése</a>
                                 </div>
+                            </div>
+                            <div style='background-color: #0d0d0d; padding: 20px; text-align: center; color: #777777; font-size: 12px; border-top: 1px solid #333333;'>
+                                &copy; {DateTime.Now.Year} Exotic Rentals. Minden jog fenntartva.
                             </div>
                         </div>";
 
@@ -500,11 +500,11 @@ namespace ExoticBackEnd
                     return Results.Problem($"Failed to create order: {ex.Message}");
                 }
             });
+
             app.MapPost("/api/orders/verify", async (string token, ExoticDbContext db) =>
             {
-                // 1. Keresd meg a rendelést, és INCLUDÁLD hozzá az autót is!
                 var order = await db.Orders
-                    .Include(o => o.Vehicle) // <-- Ez nagyon fontos, hogy módosíthassuk az autót!
+                    .Include(o => o.Vehicle)
                     .FirstOrDefaultAsync(o => o.VerificationToken == token);
 
                 if (order == null)
@@ -512,17 +512,14 @@ namespace ExoticBackEnd
                     return Results.BadRequest(new { message = "Érvénytelen vagy lejárt megerősítő link." });
                 }
 
-                // 2. Frissítsd a rendelés státuszát 2-re (Aktív)
                 order.Status = 2;
                 order.VerificationToken = null;
 
-                // 3. Frissítsd az Autó státuszát is 2-re (Kifoglalt/Nem elérhető)
                 if (order.Vehicle != null)
                 {
                     order.Vehicle.Status = 2;
                 }
 
-                // 4. Mentsd el mindkét változást az adatbázisba egyszerre
                 await db.SaveChangesAsync();
 
                 return Results.Ok(new { message = "Rendelés sikeresen aktiválva és az autó lefoglalva!" });
@@ -532,14 +529,12 @@ namespace ExoticBackEnd
             app.MapGet("/api/drivers", async (ExoticDbContext db) =>
             {
                 var drivers = await db.Users
-                    .Where(u => u.isDriver == true) // Only get the drivers
+                    .Where(u => u.isDriver == true)
                     .Select(u => new
                     {
                         id = u.Id,
-                        // If they don't have a FullName, fallback to their Username
                         name = string.IsNullOrEmpty(u.FullName) ? u.Username : u.FullName,
                         email = u.Email,
-                        // We can pass some mock UI stats here since they aren't in your DB model yet
                         rating = 4.8,
                         experience = "Tapasztalt"
                     })
@@ -552,14 +547,12 @@ namespace ExoticBackEnd
 
             app.MapPost("/api/orders/taxi", async (CreateTaxiOrderDto dto, ExoticDbContext db) =>
             {
-                // 1. Fetch the User and the Driver
                 var user = await db.Users.FindAsync(dto.UserId);
                 var driver = await db.Users.FindAsync(dto.DriverId);
 
                 if (user == null || driver == null)
                     return Results.BadRequest("Felhasználó vagy sofőr nem található.");
 
-                // 2. Save the order as "Pending" (Status = 1)
                 var newTaxiOrder = new TaxiOrder
                 {
                     UserId = dto.UserId,
@@ -569,14 +562,13 @@ namespace ExoticBackEnd
                     DropoffLocation = dto.DropoffLocation,
                     PickupDateTime = dto.PickupDateTime,
                     TotalPrice = dto.TotalPrice,
-                    Status = 1, // Megerősítésre vár
+                    Status = 1,
                     CreatedAt = DateTime.UtcNow
                 };
 
                 db.TaxiOrders.Add(newTaxiOrder);
                 await db.SaveChangesAsync();
 
-                // 3. Email the DRIVER using inline SmtpClient
                 try
                 {
                     var smtpClient = new SmtpClient("smtp.gmail.com")
@@ -590,46 +582,51 @@ namespace ExoticBackEnd
                     string customerName = user.FullName ?? user.Username;
 
                     string emailBody = $@"
-                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;'>
-                        <div style='background-color: #1a1a1a; padding: 25px; text-align: center; border-bottom: 4px solid #DAA520;'>
-                            <h1 style='color: #DAA520; margin: 0; font-size: 24px; letter-spacing: 1px;'>SOFŐR PULT - ÚJ FUVARIGÉNY</h1>
+                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #252525; border: 1px solid #333333; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);'>
+                        <div style='background-color: #0d0d0d; padding: 25px; text-align: center; border-bottom: 2px solid #DAA520;'>
+                            <h1 style='color: #DAA520; margin: 0; font-size: 24px; letter-spacing: 2px;'>SOFŐR PULT - ÚJ FUVARIGÉNY</h1>
                         </div>
-                        <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
-                            <h2 style='color: #1a1a1a; margin-top: 0;'>Szia {driverName}!</h2>
+                        <div style='padding: 40px 30px; color: #bbbbbb;'>
+                            <h2 style='color: #DAA520; margin-top: 0;'>Szia {driverName}!</h2>
                             <p style='font-size: 16px; line-height: 1.6;'>Egy utas téged választott! Egy új fuvarigény vár jóváhagyásra a rendszerben.</p>
                             
-                            <table style='width: 100%; border-collapse: collapse; margin: 25px 0;'>
-                                <tr>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee; width: 30%; color: #666;'><strong>Utas neve:</strong></td>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{customerName}</td>
-                                </tr>
-                                <tr>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Telefonszám:</strong></td>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{user.PhoneNumber ?? "Nincs megadva"}</td>
-                                </tr>
-                                <tr>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Felvétel helye:</strong></td>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{dto.PickupLocation}</td>
-                                </tr>
-                                <tr>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Célállomás:</strong></td>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>{dto.DropoffLocation}</td>
-                                </tr>
-                                <tr>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #666;'><strong>Időpont:</strong></td>
-                                    <td style='padding: 12px; border-bottom: 1px solid #eee;'><strong>{dto.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style='padding: 12px; border-bottom: 2px solid #DAA520; color: #666;'><strong>Várható tarifa:</strong></td>
-                                    <td style='padding: 12px; border-bottom: 2px solid #DAA520; color: #DAA520; font-weight: bold; font-size: 18px;'>{dto.TotalPrice.ToString("N0")} Ft</td>
-                                </tr>
-                            </table>
+                            <div style='background-color: #1a1a1a; border-radius: 6px; padding: 20px; margin: 30px 0;'>
+                                <table style='width: 100%; border-collapse: collapse;'>
+                                    <tr>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; width: 35%; color: #888;'><strong>Utas neve:</strong></td>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #fff;'>{customerName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #888;'><strong>Telefonszám:</strong></td>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #fff;'>{user.PhoneNumber ?? "Nincs megadva"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #888;'><strong>Felvétel helye:</strong></td>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #fff;'>{dto.PickupLocation}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #888;'><strong>Célállomás:</strong></td>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #fff;'>{dto.DropoffLocation}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #888;'><strong>Időpont:</strong></td>
+                                        <td style='padding: 12px 0; border-bottom: 1px solid #333; color: #fff;'><strong>{dto.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 15px 0 0 0; color: #888;'><strong>Várható tarifa:</strong></td>
+                                        <td style='padding: 15px 0 0 0; color: #DAA520; font-weight: bold; font-size: 18px;'>{dto.TotalPrice.ToString("N0")} Ft</td>
+                                    </tr>
+                                </table>
+                            </div>
                             
                             <p style='font-size: 16px; line-height: 1.6; text-align: center;'>Kérjük, lépj be a sofőr felületre a fuvar elfogadásához vagy elutasításához!</p>
                             
-                            <div style='text-align: center; margin: 30px 0;'>
-                                <a href='http://localhost:3000/Profile' style='background-color: #1a1a1a; color: #DAA520; padding: 14px 28px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block; border: 1px solid #DAA520;'>Ugrás a Sofőr Pultra</a>
+                            <div style='text-align: center; margin: 35px 0;'>
+                                <a href='http://localhost:3000/Profile' style='background-color: transparent; color: #DAA520; padding: 14px 28px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block; border: 2px solid #DAA520;'>Ugrás a Sofőr Pultra</a>
                             </div>
+                        </div>
+                        <div style='background-color: #0d0d0d; padding: 20px; text-align: center; color: #777777; font-size: 12px; border-top: 1px solid #333333;'>
+                            &copy; {DateTime.Now.Year} Exotic Rentals Taxi.
                         </div>
                     </div>";
 
@@ -655,7 +652,6 @@ namespace ExoticBackEnd
 
             app.MapPost("/api/orders/taxi/{id}/accept", async (int id, ExoticDbContext db) =>
             {
-                // 1. Find the order AND include the User data so we know who to email
                 var order = await db.TaxiOrders
                     .Include(t => t.User)
                     .FirstOrDefaultAsync(t => t.Id == id);
@@ -663,11 +659,9 @@ namespace ExoticBackEnd
                 if (order == null) return Results.NotFound("A fuvar nem található.");
                 if (order.Status != 1) return Results.BadRequest("Ezt a fuvart már elfogadták vagy törölték.");
 
-                // 2. Change status to Active
-                order.Status = 2; // 2 = Folyamatban / Aktív
+                order.Status = 2;
                 await db.SaveChangesAsync();
 
-                // 3. Email the USER using inline SmtpClient
                 if (order.User != null)
                 {
                     try
@@ -682,25 +676,28 @@ namespace ExoticBackEnd
                         string customerName = order.User.FullName ?? order.User.Username;
 
                         string emailBody = $@"
-                        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
-                            <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
-                                <h1 style='color: #28a745; margin: 0; font-size: 26px; letter-spacing: 1px;'>FUVAR MEGERŐSÍTVE!</h1>
+                        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #252525; border: 1px solid #333333; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);'>
+                            <div style='background-color: #0d0d0d; padding: 30px 20px; text-align: center; border-bottom: 2px solid #DAA520;'>
+                                <h1 style='color: #DAA520; margin: 0; font-size: 24px; letter-spacing: 2px;'>FUVAR MEGERŐSÍTVE!</h1>
                             </div>
-                            <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
-                                <h2 style='color: #1a1a1a; margin-top: 0;'>Kedves {customerName}!</h2>
+                            <div style='padding: 40px 30px; color: #bbbbbb;'>
+                                <h2 style='color: #DAA520; margin-top: 0;'>Kedves {customerName}!</h2>
                                 <p style='font-size: 16px; line-height: 1.6;'>Jó hírünk van! A sofőröd sikeresen elfogadta a fuvarkérelmedet, és a megadott időpontban várni fog rád.</p>
                                 
-                                <div style='background-color: #f4fbf5; padding: 20px; border-left: 4px solid #28a745; margin: 25px 0; border-radius: 0 6px 6px 0;'>
-                                    <h3 style='margin-top: 0; color: #155724;'>Utazásod részletei:</h3>
+                                <div style='background-color: #1a1a1a; padding: 25px; border-left: 4px solid #DAA520; margin: 30px 0; border-radius: 4px;'>
+                                    <h3 style='margin-top: 0; color: #ffffff;'>Utazásod részletei:</h3>
                                     <ul style='list-style-type: none; padding: 0; margin: 0; font-size: 15px;'>
-                                        <li style='margin-bottom: 10px;'>📍 <strong>Felvétel:</strong> {order.PickupLocation}</li>
-                                        <li style='margin-bottom: 10px;'>🏁 <strong>Cél:</strong> {order.DropoffLocation}</li>
-                                        <li style='margin-bottom: 10px;'>🕒 <strong>Időpont:</strong> {order.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</li>
-                                        <li>💳 <strong>Várható végösszeg:</strong> <span style='font-weight: bold;'>{order.TotalPrice.ToString("N0")} Ft</span></li>
+                                        <li style='margin-bottom: 12px;'><strong style='color:#888;'>Felvétel:</strong> <span style='color:#fff;'>{order.PickupLocation}</span></li>
+                                        <li style='margin-bottom: 12px;'><strong style='color:#888;'>Cél:</strong> <span style='color:#fff;'>{order.DropoffLocation}</span></li>
+                                        <li style='margin-bottom: 12px;'><strong style='color:#888;'>Időpont:</strong> <span style='color:#fff;'>{order.PickupDateTime.ToString("yyyy. MM. dd. HH:mm")}</span></li>
+                                        <li><strong style='color:#888;'>Várható végösszeg:</strong> <span style='color: #DAA520; font-weight: bold;'>{order.TotalPrice.ToString("N0")} Ft</span></li>
                                     </ul>
                                 </div>
                                 
                                 <p style='font-size: 16px; line-height: 1.6;'>Kérjük, légy a megadott helyszínen az indulás időpontjában. Jó utat kíván az Exotic Rentals csapata!</p>
+                            </div>
+                            <div style='background-color: #0d0d0d; padding: 20px; text-align: center; color: #777777; font-size: 12px; border-top: 1px solid #333333;'>
+                                &copy; {DateTime.Now.Year} Exotic Rentals Taxi.
                             </div>
                         </div>";
 
@@ -727,7 +724,6 @@ namespace ExoticBackEnd
             app.MapGet("/api/driver/{driverId}/taxi-orders", async (int driverId, ExoticDbContext db) =>
             {
                 var orders = await db.TaxiOrders
-                    // ADD t.Status == 3 HERE
                     .Where(t => t.DriverId == driverId && (t.Status == 1 || t.Status == 2 || t.Status == 3))
                     .Select(t => new {
                         id = t.Id,
@@ -881,6 +877,7 @@ namespace ExoticBackEnd
                     isVerified = user.Is_Verified
                 });
             });
+
             //Password Reset
 
             // --- ELFELEJTETT JELSZÓ KÉRÉSE ---
@@ -888,20 +885,16 @@ namespace ExoticBackEnd
             {
                 var user = await db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-                // Biztonsági okokból (hogy ne lehessen letapogatni, kik vannak beregisztrálva) 
-                // akkor is sikert jelzünk, ha nincs ilyen e-mail.
                 if (user == null)
                 {
                     return Results.Ok(new { message = "Ha a megadott e-mail cím létezik a rendszerünkben, elküldtük a visszaállítási linket." });
                 }
 
-                // Generálunk egy egyedi tokent, ami 1 óra múlva lejár
                 string token = Guid.NewGuid().ToString();
                 user.ResetPasswordToken = token;
                 user.ResetPasswordExpiry = DateTime.UtcNow.AddHours(1);
                 await db.SaveChangesAsync();
 
-                // E-mail küldése
                 try
                 {
                     string resetLink = $"http://localhost:3000/reset-password?token={token}";
@@ -914,25 +907,25 @@ namespace ExoticBackEnd
                     };
 
                     string emailBody = $@"
-        <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
-            <div style='background-color: #1a1a1a; padding: 25px; text-align: center;'>
-                <h1 style='color: #e65100; margin: 0; font-size: 28px; letter-spacing: 2px;'>EXOTIC RENTALS</h1>
-            </div>
-            <div style='padding: 30px; background-color: #ffffff; color: #333333;'>
-                <h2 style='color: #1a1a1a; margin-top: 0;'>Jelszó visszaállítása</h2>
-                <p style='font-size: 16px; line-height: 1.6;'>Kedves {user.Username}!</p>
-                <p style='font-size: 16px; line-height: 1.6;'>Kérést kaptunk a fiókodhoz tartozó jelszó visszaállítására. Ha te indítottad a kérést, kattints az alábbi gombra az új jelszó megadásához. (A link biztonsági okokból 1 órán belül lejár!)</p>
-                
-                <div style='text-align: center; margin: 35px 0;'>
-                    <a href='{resetLink}' style='background-color: #e65100; color: #ffffff; padding: 16px 32px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>Új jelszó beállítása</a>
-                </div>
-                
-                <p style='font-size: 14px; color: #777777; border-top: 1px solid #eeeeee; padding-top: 20px;'>Ha nem te kérted a jelszó visszaállítását, kérjük, hagyd figyelmen kívül ezt az e-mailt. A fiókod továbbra is biztonságban van.</p>
-            </div>
-            <div style='background-color: #f8f9fa; padding: 15px; text-align: center; color: #888888; font-size: 12px;'>
-                &copy; {DateTime.Now.Year} Exotic Rentals. Minden jog fenntartva.
-            </div>
-        </div>";
+                    <div style='font-family: ""Segoe UI"", Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #252525; border: 1px solid #333333; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);'>
+                        <div style='background-color: #0d0d0d; padding: 30px 20px; text-align: center; border-bottom: 2px solid #DAA520;'>
+                            <h1 style='color: #DAA520; margin: 0; font-size: 26px; letter-spacing: 4px;'>EXOTIC RENTALS</h1>
+                        </div>
+                        <div style='padding: 40px 30px; color: #bbbbbb;'>
+                            <h2 style='color: #DAA520; margin-top: 0;'>Jelszó visszaállítása</h2>
+                            <p style='font-size: 16px; line-height: 1.6;'>Kedves {user.Username}!</p>
+                            <p style='font-size: 16px; line-height: 1.6;'>Kérést kaptunk a fiókodhoz tartozó jelszó visszaállítására. Ha te indítottad a kérést, kattints az alábbi gombra az új jelszó megadásához. <br><small style='color: #888;'>(A link biztonsági okokból 1 órán belül lejár!)</small></p>
+                            
+                            <div style='text-align: center; margin: 40px 0;'>
+                                <a href='{resetLink}' style='background-color: #DAA520; color: #0d0d0d; padding: 16px 35px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;'>Új jelszó beállítása</a>
+                            </div>
+                            
+                            <p style='font-size: 14px; color: #777777; border-top: 1px solid #444444; padding-top: 20px;'>Ha nem te kérted a jelszó visszaállítását, kérjük, hagyd figyelmen kívül ezt az e-mailt. A fiókod továbbra is biztonságban van.</p>
+                        </div>
+                        <div style='background-color: #0d0d0d; padding: 20px; text-align: center; color: #777777; font-size: 12px; border-top: 1px solid #333333;'>
+                            &copy; {DateTime.Now.Year} Exotic Rentals. Minden jog fenntartva.
+                        </div>
+                    </div>";
 
                     var mailMessage = new MailMessage
                     {
@@ -957,20 +950,16 @@ namespace ExoticBackEnd
             // --- ÚJ JELSZÓ BEÁLLÍTÁSA ---
             app.MapPost("/api/auth/reset-password", async (ResetPasswordDto dto, ExoticDbContext db) =>
             {
-                // Keressük meg a usert a token alapján
                 var user = await db.Users.FirstOrDefaultAsync(u => u.ResetPasswordToken == dto.Token);
 
-                // Ellenőrizzük, hogy létezik-e, és nem járt-e még le az idő (1 óra)
                 if (user == null || user.ResetPasswordExpiry == null || user.ResetPasswordExpiry < DateTime.UtcNow)
                 {
                     return Results.BadRequest(new { message = "A visszaállító link érvénytelen vagy már lejárt." });
                 }
 
-                // Új jelszó hashelése és mentése
                 string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                 user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword, salt);
 
-                // Töröljük a tokent (hogy ne lehessen újra felhasználni)
                 user.ResetPasswordToken = null;
                 user.ResetPasswordExpiry = null;
 
@@ -988,17 +977,14 @@ namespace ExoticBackEnd
                     return Results.NotFound(new { message = "Felhasználó nem található." });
                 }
 
-                // 1. Ellenőrizzük, hogy a megadott JELENLEGI jelszó helyes-e
                 if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.Password))
                 {
                     return Results.BadRequest(new { message = "A megadott jelenlegi jelszó helytelen!" });
                 }
 
-                // 2. Ha helyes, hasheljük az ÚJ jelszót
                 string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                 user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword, salt);
 
-                // 3. Mentés az adatbázisba
                 await db.SaveChangesAsync();
 
                 return Results.Ok(new { message = "A jelszavad sikeresen frissítve lett!" });
