@@ -17,6 +17,8 @@ import VerifyEmail from './Pages/VerifyEmail';
 import VerificationWidget from './Components/VerificationWidget';
 import BookTaxi from './Pages/BookTaxi'; 
 import VerifyOrder from './Pages/verifyOrder';
+import ForgotPassword from './Components/ForgotPassword';
+import ResetPassword from './Pages/resetPassword';
 
 function AnimatedRoutes({ data }) {
   const location = useLocation();
@@ -54,6 +56,8 @@ function AnimatedRoutes({ data }) {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/verify-order" element={<VerifyOrder />} />
         <Route path="/book-taxi" element={<BookTaxi />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
     </>
   );

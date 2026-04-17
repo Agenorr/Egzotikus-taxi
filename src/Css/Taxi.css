@@ -85,7 +85,18 @@
     box-sizing: border-box; 
     font-size: 1rem;
     display: block;
+    /* Finom átmenet, amikor rákattintasz */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
 }
+
+/* Ez aktiválódik, amikor a felhasználó rákattint / beletyépel */
+.date-input:focus {
+    border-color: #DAA520; /* Az arany szín */
+    outline: none; /* Eltávolítja a böngésző alapértelmezett kék keretét */
+    /* Opcionális: egy kis arany ragyogás a széleken, mint a profi oldalakon */
+    box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.25); 
+}
+
 
 .search-button-wrapper { grid-column: span 2; margin-top: 10px; }
 

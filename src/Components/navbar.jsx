@@ -116,8 +116,18 @@ export default function Navbar() {
                                             <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
                                         </div>
                                         <button type="submit" className="w-100 btn btn-gold">Bejelentkezés</button>
+                                        
                                         <div className="dropdown-divider my-3" style={{ borderColor: '#333' }}></div>
-                                        <Link className="dropdown-item text-center p-0 mt-2 profile-btn" to="/Register" onClick={() => setIsAccountOpen(false)}>Nincsen fiókod? Regisztrálj!</Link>
+                                        
+                                        <Link className="dropdown-item text-center p-0 mt-2 profile-btn" to="/Register" onClick={() => setIsAccountOpen(false)}>
+                                            Nincsen fiókod? Regisztrálj!
+                                        </Link>
+                                        
+                                        {/* ITT VAN AZ ÚJ GOMB */}
+                                        <Link className="dropdown-item text-center p-0 mt-3" style={{ fontSize: '0.85rem', color: '#aaaaaa' }} to="/ForgotPassword" onClick={() => setIsAccountOpen(false)}>
+                                            Elfelejtett jelszó?
+                                        </Link>
+
                                     </form>
                                 ) : (
                                     <div>

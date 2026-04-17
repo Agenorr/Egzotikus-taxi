@@ -57,6 +57,25 @@ body {
   background: #DAA520;
 }
 
+/* Megakadályozza a kék/fehér villanást mobilon és asztali gépen kattintáskor */
+.car-card a, 
+.car-card a:active, 
+.car-card a:focus {
+    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+    text-decoration: none !important;
+    color: black !important; /* Megtartja az eredeti színt */
+}
+
+div[style*="sticky"] { 
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+div[style*="sticky"]::-webkit-scrollbar { 
+    display: none; 
+}
+
+
 .carrental-hero-sub {
   font-size: 1.2rem;
   color: #ddd;

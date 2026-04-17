@@ -469,7 +469,16 @@ function PersonalTab({ user, scrollTarget, setScrollTarget }) {
   );
 }
 
+// --- SECURITY TAB (ÚJ JELSZÓ VÁLTOZTATÓ LOGIKÁVAL) ---
 function SecurityTab({ user, scrollTarget, setScrollTarget }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (scrollTarget) {
       const element = document.getElementById(scrollTarget);
@@ -484,15 +493,137 @@ function SecurityTab({ user, scrollTarget, setScrollTarget }) {
     }
   }, [scrollTarget, setScrollTarget]);
 
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    setError('');
+    setMessage('');
+
+    if (newPassword !== confirmNewPassword) {
+      setError('Az új jelszavak nem egyeznek!');
+      return;
+    }
+    if (newPassword.length < 6) {
+      setError('Az új jelszónak legalább 6 karakternek kell lennie!');
+      return;
+    }
+    if (currentPassword === newPassword) {
+      setError('Az új jelszó nem lehet ugyanaz, mint a jelenlegi!');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post(`https://localhost:7065/api/user/${user.id}/change-password`, {
+        currentPassword: currentPassword,
+        newPassword: newPassword
+      });
+
+      setMessage(res.data.message);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+      
+      // Sikeres módosítás után összecsukjuk a formot kis késleltetéssel
+      setTimeout(() => {
+        setIsEditing(false);
+        setMessage('');
+      }, 3000);
+
+    } catch (err) {
+      setError(err.response?.data?.message || 'Hiba történt a jelszó módosítása során.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="personal-info-container">
-      <header className="tab-header"><h1>Biztonság</h1></header>
+      <header className="tab-header">
+        <h1>Biztonság</h1>
+        <p style={{color: "#bbb"}}>Kezeld a fiókod biztonsági beállításait és jelszavát.</p>
+      </header>
       <section className="info-card shadow-sm">
+        <div className="card-header d-flex justify-content-between align-items-center border-bottom border-dark">
+          <h2 className="m-0 text-white">Bejelentkezés</h2>
+        </div>
         <div className="info-list">
-          <div className="info-row" id="field-password">
-            <div className="info-label">JELSZÓ</div>
-            <div className="info-value">••••••••</div>
-            <button className="google-chip"><i className="fa fa-pencil me-1"></i>Módosítás</button>
+          <div className="info-row" id="field-password" style={{ flexDirection: isEditing ? 'column' : 'row', alignItems: isEditing ? 'stretch' : 'center' }}>
+            
+            {!isEditing ? (
+              <>
+                <div className="info-label">JELSZÓ</div>
+                <div className="info-value">••••••••</div>
+                <button className="google-chip" onClick={() => setIsEditing(true)}>
+                  <i className="fa fa-pencil me-1"></i>Módosítás
+                </button>
+              </>
+            ) : (
+              <div className="w-100 p-2">
+                <h5 style={{ color: '#DAA520', marginBottom: '15px' }}>Jelszó Megváltoztatása</h5>
+                {error && <div className="alert alert-danger py-2">{error}</div>}
+                {message && <div className="alert alert-success bg-transparent border-success text-success py-2">{message}</div>}
+
+                <form onSubmit={handleChangePassword}>
+                  <div className="mb-3">
+                    <label className="info-label mb-1">JELENLEGI JELSZÓ</label>
+                    <input
+                      type="password"
+                      className="edit-input w-100"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Írd be a jelenlegi jelszavad"
+                      required
+                    />
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label className="info-label mb-1">ÚJ JELSZÓ</label>
+                      <input
+                        type="password"
+                        className="edit-input w-100"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Legalább 6 karakter"
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="info-label mb-1">ÚJ JELSZÓ MEGERŐSÍTÉSE</label>
+                      <input
+                        type="password"
+                        className="edit-input w-100"
+                        value={confirmNewPassword}
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        placeholder="Írd be újra az új jelszót"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="d-flex gap-3 justify-content-end mt-3">
+                    <button 
+                      type="button" 
+                      className="btn" 
+                      style={{ color: '#bbb' }} 
+                      onClick={() => { setIsEditing(false); setError(''); setMessage(''); }}
+                    >
+                      Mégse
+                    </button>
+                    <button 
+                      type="submit" 
+                      className="google-chip" 
+                      style={{ margin: 0 }} 
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Mentés...' : 'Jelszó frissítése'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+            
           </div>
         </div>
       </section>

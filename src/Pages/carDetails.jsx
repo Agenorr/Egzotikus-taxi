@@ -54,21 +54,23 @@ const CarDetails = () => {
     if (hasValidDates) {
         const start = new Date(localStartDate);
         const end = new Date(localEndDate);
-        const diffTime = Math.abs(end - start);
-        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+        
+        const diffTime = end.getTime() - start.getTime();
+        
+        diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        
+        if (diffDays < 1) diffDays = 1;
         
         totalCost = carDailyPrice * diffDays;
     }
 
     const handleBooking = async () => {
-        // Guard 1: Not logged in
         if (!user || !user.id) {
             alert("Kérjük, jelentkezzen be a bérléshez!");
             navigate('/Register');
             return;
         }
 
-        // Guard 2: Clearance level too low
         if (user.clearance < 2) {
             alert("A bérléshez legalább 2-es szintű jogosultság (megerősített e-mail cím) szükséges!");
             navigate('/Profile');
@@ -106,10 +108,8 @@ const CarDetails = () => {
 
     const primaryImage = carDetails.images?.find(img => img.isPrimary)?.imageUrl || carDetails.images?.[0]?.imageUrl;
     
-    // --- SECURITY LOGIC ---
     const isGuest = !user || !user.id;
     const isLowClearance = user && user.clearance < 2;
-    // The screen is blurred/locked if they are a guest OR if they lack clearance
     const isLocked = isGuest || isLowClearance;
 
     return (
@@ -154,10 +154,8 @@ const CarDetails = () => {
                             <h1 className="mb-1 text-white">{carDetails.brand} {carDetails.model}</h1>
                             <h5 className="details-text-muted mb-4">{carDetails.category} • Évjárat: {carDetails.year || "N/A"}</h5>
                             
-                            {/* --- BLUR WRAPPER START --- */}
                             <div style={{ position: "relative" }}>
                                 
-                                {/* Blurred Content if Locked */}
                                 <div style={{
                                     filter: isLocked ? 'blur(6px)' : 'none',
                                     pointerEvents: isLocked ? 'none' : 'auto',
@@ -172,7 +170,7 @@ const CarDetails = () => {
                                                 <label className="form-label small details-text-muted fw-bold">Átvétel Dátuma</label>
                                                 <input 
                                                     type="date" 
-                                                    className="form-control details-input" 
+                                                    className="form-control details-input date-input" 
                                                     value={localStartDate} 
                                                     min={today}
                                                     onChange={(e) => {
@@ -188,7 +186,7 @@ const CarDetails = () => {
                                                 <label className="form-label small details-text-muted fw-bold">Visszavétel Dátuma</label>
                                                 <input 
                                                     type="date" 
-                                                    className="form-control details-input" 
+                                                    className="form-control details-input date-input" 
                                                     value={localEndDate} 
                                                     min={localStartDate || today} 
                                                     onChange={(e) => setLocalEndDate(e.target.value)} 
@@ -233,7 +231,6 @@ const CarDetails = () => {
                                     )}
                                 </div>
 
-                                {/* Dynamic Overlay (Visible if Guest OR Low Clearance) */}
                                 {isLocked && (
                                     <div style={{
                                         position: 'absolute',
@@ -275,7 +272,6 @@ const CarDetails = () => {
                                     </div>
                                 )}
                             </div>
-                            {/* --- BLUR WRAPPER END --- */}
 
                             <hr style={{ borderColor: '#444' }} />
 
